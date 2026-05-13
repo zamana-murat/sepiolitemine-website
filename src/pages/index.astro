@@ -1,0 +1,101 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+---
+
+<Layout
+  title={BRAND.tagline}
+  description={BRAND.description}
+  alternates={{ en: '/', tr: '/tr/' }}
+  locale="en"
+  noSuffix={true}
+>
+  <section class="hero section--dark">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <span class="section-tag">Industrial Sepiolite · Türkiye</span>
+        <h1>{BRAND.tagline}</h1>
+        <p class="lead">
+          Raw and processed sepiolite for agriculture, oil &amp; gas drilling, construction,
+          cat litter, and industrial markets worldwide. B2B supply since 1995.
+        </p>
+        <div class="hero-actions">
+          <a href="/contact/" class="btn btn-primary">Request Quote</a>
+          <a href="/products/" class="btn btn-outline">View Products</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="phase-notice">
+        <h2>🚧 Site Migration in Progress</h2>
+        <p>
+          This is the Astro scaffold smoke-test build. Content migration from the
+          legacy static HTML site (<code>Oldwebsite/</code>) is scheduled for Phase 3.
+        </p>
+        <p>
+          Current scaffold validates: brand config (B5 — rentable tenant model), self-host
+          fonts (C5), Layout + Header + Footer, Astro i18n routing, schema.org JSON-LD,
+          robots.txt with AI bot disallow (B3), site.webmanifest, humans.txt.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--c-earth);
+    background-image: linear-gradient(135deg, rgba(28, 20, 16, 0.85), rgba(46, 33, 24, 0.75));
+  }
+
+  .hero-inner {
+    padding-block: var(--s-7);
+  }
+
+  .hero-content {
+    max-width: 720px;
+  }
+
+  .hero-content h1 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    color: var(--c-text-light);
+    margin-bottom: var(--s-5);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  .phase-notice {
+    background: var(--c-cream);
+    border-left: 4px solid var(--c-gold);
+    padding: var(--s-5);
+    border-radius: var(--r-card);
+  }
+
+  .phase-notice h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+
+  .phase-notice code {
+    background: var(--c-cream-dark);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+</style>

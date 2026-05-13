@@ -1,0 +1,185 @@
+---
+/**
+ * Layout.astro — Site genelinde tek shell
+ *
+ * Tüm sayfa metadata, OG, schema, manifest, font preload, header/footer buradan.
+ * brand.ts (B5) ile sync.
+ */
+import { BRAND } from '@config/brand';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/global.css';
+
+export interface Props {
+  /** Sayfa title (suffix ile " | Sepiolite Mine" otomatik eklenir; eklenmesin istersen `noSuffix: true`) */
+  title: string;
+  /** Meta description (120-160 char önerilir, S7) */
+  description: string;
+  /** Canonical override (default: Astro.url) */
+  canonical?: string;
+  /** OG image slug — `/og/<slug>.png` (Phase 2.6'da generate-og.mjs üretecek). Yoksa hero fallback. */
+  ogImage?: string;
+  /** Sayfa locale ('en' | 'tr'). Astro context'tan default alınır. */
+  locale?: 'en' | 'tr';
+  /** Hreflang alternates — { en: '/products/...', tr: '/tr/products/...' } */
+  alternates?: Partial<Record<'en' | 'tr', string>>;
+  /** Sayfa-özel ek JSON-LD schema (BlogPosting, Product, vb.) */
+  schemaJson?: object[];
+  /** Suffix kontrolü — false ile " | Sepiolite Mine" eklenir, true ile eklenmez */
+  noSuffix?: boolean;
+  /** Robots meta override */
+  robots?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  locale: localeProp,
+  alternates,
+  schemaJson = [],
+  noSuffix = false,
+  robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+} = Astro.props;
+
+const locale = localeProp ?? (Astro.url.pathname.startsWith('/tr/') || Astro.url.pathname === '/tr' ? 'tr' : 'en');
+const htmlLang = locale === 'tr' ? 'tr' : 'en';
+const ogLocale = locale === 'tr' ? 'tr_TR' : 'en_US';
+
+const fullTitle = noSuffix ? title : `${title} | ${BRAND.name}`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = ogImage
+  ? new URL(`/og/${ogImage}.png`, Astro.site).toString()
+  : new URL('/og/default.png', Astro.site).toString();
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+// Default Organization + WebSite schema (her sayfada) — brand.ts'ten
+const baseSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': BRAND.schema.organizationType,
+    '@id': `${siteUrl}/#org`,
+    name: BRAND.name,
+    legalName: BRAND.legalName,
+    url: siteUrl,
+    description: BRAND.description,
+    telephone: BRAND.contact.phone,
+    foundingDate: String(BRAND.schema.foundingYear),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: BRAND.address.city,
+      addressCountry: BRAND.address.countryCode,
+    },
+    sameAs: BRAND.schema.sameAs,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    url: siteUrl,
+    name: BRAND.name,
+    description: BRAND.description,
+    publisher: { '@id': `${siteUrl}/#org` },
+    inLanguage: locale === 'tr' ? 'tr-TR' : 'en-US',
+  },
+  ...schemaJson,
+];
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={BRAND.name} />
+    <meta name="robots" content={robots} />
+
+    <link rel="canonical" href={canonicalUrl} />
+
+    {/* Hreflang alternates */}
+    {alternates?.en && (
+      <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site).toString()} />
+    )}
+    {alternates?.tr && (
+      <link rel="alternate" hreflang="tr" href={new URL(alternates.tr, Astro.site).toString()} />
+    )}
+    {alternates?.en && (
+      <link rel="alternate" hreflang="x-default" href={new URL(alternates.en, Astro.site).toString()} />
+    )}
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content={BRAND.name} />
+
+    {/* Twitter Card */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    {/* Favicons + PWA */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="author" href="/humans.txt" />
+    <meta name="theme-color" content={BRAND.colors.primary} />
+
+    {/* Font preload (C5 — self-host) */}
+    <link
+      rel="preload"
+      href="/fonts/Inter-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/PlayfairDisplay-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    {/* RSS (Plan C) */}
+    {BRAND.blog.enabled && (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={`${BRAND.name} Blog`}
+        href="/rss.xml"
+      />
+    )}
+
+    {/* Cloudflare Web Analytics — Phase 4'te token CF Pages env'inden enjekte */}
+    {/* <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"..."}'></script> */}
+
+    {/* JSON-LD schema */}
+    {baseSchema.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

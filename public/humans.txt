@@ -1,0 +1,20 @@
+/* TEAM */
+Owner: Murat Özsaygılı
+Site: Sepiolite Mine — premium Turkish sepiolite supplier
+Location: Ankara, Türkiye
+
+/* SITE */
+Last update: 2026-05-13
+Languages: English (primary), Türkçe
+Doctype: HTML5
+Stack: Astro 4, Cloudflare Pages, Cloudflare Pages Functions, Resend
+Fonts: Inter Variable + Playfair Display Variable (self-hosted woff2)
+Analytics: Cloudflare Web Analytics (cookieless, GDPR-compliant)
+
+/* CONTACT */
+Phone: +90 530 490 4740
+Contact form: /contact/
+
+/* NOTE */
+Built for B2B sepiolite buyers worldwide — wholesalers and industrial manufacturers.
+Site can be operated under tenant brand profiles via centralized config.

@@ -1,0 +1,210 @@
+---
+/**
+ * Footer.astro — Site geneli footer
+ *
+ * brand.ts (B5) ile sync. mailto: YASAK (C4) — form linki kullanılır.
+ */
+import { BRAND } from '@config/brand';
+
+export interface Props {
+  locale: 'en' | 'tr';
+}
+
+const { locale } = Astro.props;
+const isTr = locale === 'tr';
+
+const labels = isTr
+  ? {
+      products: 'Ürünler',
+      applications: 'Uygulamalar',
+      markets: 'Pazarlar',
+      sustainability: 'Sürdürülebilirlik',
+      contact: 'İletişim',
+      blog: 'Blog',
+      privacy: 'Gizlilik Politikası',
+      terms: 'Hizmet Şartları',
+      navTitle: 'Site',
+      contactTitle: 'İletişim',
+      legalTitle: 'Hukuki',
+      rights: 'Tüm hakları saklıdır',
+      cta: 'Teklif İste',
+      tagline: BRAND.tagline,
+    }
+  : {
+      products: 'Products',
+      applications: 'Applications',
+      markets: 'Markets',
+      sustainability: 'Sustainability',
+      contact: 'Contact',
+      blog: 'Blog',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Use',
+      navTitle: 'Site',
+      contactTitle: 'Contact',
+      legalTitle: 'Legal',
+      rights: 'All rights reserved',
+      cta: 'Request Quote',
+      tagline: BRAND.tagline,
+    };
+
+const prefix = isTr ? '/tr' : '';
+const year = new Date().getFullYear();
+const phoneHref = `tel:${BRAND.contact.phone.replace(/\s/g, '')}`;
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <h3 class="footer-brand-name">{BRAND.name}</h3>
+      <p class="footer-tagline">{labels.tagline}</p>
+      <a href={`${prefix}/contact/`} class="btn btn-primary footer-cta">{labels.cta}</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>{labels.navTitle}</h4>
+      <ul>
+        <li><a href={`${prefix}/products/`}>{labels.products}</a></li>
+        <li><a href={`${prefix}/applications/`}>{labels.applications}</a></li>
+        <li><a href={`${prefix}/markets/`}>{labels.markets}</a></li>
+        <li><a href={`${prefix}/sustainability/`}>{labels.sustainability}</a></li>
+        {BRAND.blog.enabled && <li><a href={`${prefix}/blog/`}>{labels.blog}</a></li>}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>{labels.contactTitle}</h4>
+      <ul class="footer-contact">
+        <li>
+          <a href={phoneHref} class="footer-phone">{BRAND.contact.phone}</a>
+        </li>
+        <li>
+          {/* C4 — mailto: YASAK. "Contact form" linki */}
+          <a href={`${prefix}/contact/`}>
+            {isTr ? 'İletişim formuna git →' : 'Go to contact form →'}
+          </a>
+        </li>
+        <li class="footer-address">
+          {BRAND.address.city}, {BRAND.address.country}
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>{labels.legalTitle}</h4>
+      <ul>
+        <li><a href={isTr ? '/tr/privacy/' : '/privacy/'}>{labels.privacy}</a></li>
+        <li><a href={isTr ? '/tr/terms/' : '/terms/'}>{labels.terms}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>&copy; {year} {BRAND.legalName}. {labels.rights}.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-earth);
+    color: var(--c-text-light);
+    padding-top: var(--s-7);
+    margin-top: var(--s-7);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--s-5);
+    padding-bottom: var(--s-7);
+  }
+
+  .footer-brand-name {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--c-white);
+    margin: 0 0 var(--s-2) 0;
+  }
+
+  .footer-tagline {
+    color: var(--c-text-light);
+    margin-bottom: var(--s-4);
+    font-size: 0.95rem;
+  }
+
+  .footer-cta {
+    display: inline-flex;
+  }
+
+  .footer-col h4 {
+    color: var(--c-gold);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 var(--s-3) 0;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .footer-col a {
+    color: var(--c-text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color var(--t-fast);
+  }
+
+  .footer-col a:hover {
+    color: var(--c-gold);
+    text-decoration: none;
+  }
+
+  .footer-phone {
+    font-weight: 600;
+  }
+
+  .footer-address {
+    color: var(--c-text-light);
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--c-earth-mid);
+    padding-block: var(--s-4);
+    font-size: 0.85rem;
+    color: var(--c-text-light);
+    opacity: 0.65;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-5);
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

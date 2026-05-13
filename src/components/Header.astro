@@ -1,0 +1,307 @@
+---
+/**
+ * Header.astro — Site geneli navigasyon
+ *
+ * Locale'e göre nav linkleri ve dil değiştirici. brand.ts (B5) ile sync.
+ */
+import { BRAND } from '@config/brand';
+
+export interface Props {
+  locale: 'en' | 'tr';
+}
+
+const { locale } = Astro.props;
+
+const isTr = locale === 'tr';
+const prefix = isTr ? '/tr' : '';
+
+const nav = isTr
+  ? [
+      { label: 'Anasayfa', href: '/tr/' },
+      { label: 'Ürünler', href: '/tr/products/' },
+      { label: 'Uygulamalar', href: '/tr/applications/' },
+      { label: 'Pazarlar', href: '/tr/markets/' },
+      { label: 'Sürdürülebilirlik', href: '/tr/sustainability/' },
+      { label: 'Blog', href: '/tr/blog/' },
+      { label: 'İletişim', href: '/tr/contact/' },
+    ]
+  : [
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products/' },
+      { label: 'Applications', href: '/applications/' },
+      { label: 'Markets', href: '/markets/' },
+      { label: 'Sustainability', href: '/sustainability/' },
+      { label: 'Blog', href: '/blog/' },
+      { label: 'Contact', href: '/contact/' },
+    ];
+
+const ctaLabel = isTr ? 'Teklif İste' : 'Request Quote';
+const ctaHref = isTr ? '/tr/contact/' : '/contact/';
+
+// Dil değiştirici — basit toggle (sayfa-özel alternates Layout'tan props ile gelir, header'da generic)
+const langSwitch = isTr
+  ? { label: 'EN', href: '/' }
+  : { label: 'TR', href: '/tr/' };
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header" data-locale={locale}>
+  <div class="container header-inner">
+    <a href={isTr ? '/tr/' : '/'} class="site-logo" aria-label={BRAND.name}>
+      <span class="logo-text">{BRAND.name}</span>
+    </a>
+
+    <nav class="site-nav" aria-label={isTr ? 'Ana navigasyon' : 'Primary navigation'}>
+      <ul class="nav-list">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={['nav-link', { active: currentPath === item.href }]}
+              aria-current={currentPath === item.href ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href={langSwitch.href} class="lang-switch" aria-label={`Switch to ${langSwitch.label}`}>
+        {langSwitch.label}
+      </a>
+      <a href={`tel:${BRAND.contact.phone.replace(/\s/g, '')}`} class="header-phone" aria-label={isTr ? 'Telefon' : 'Phone'}>
+        {BRAND.contact.phone}
+      </a>
+      <a href={ctaHref} class="btn btn-primary header-cta">{ctaLabel}</a>
+    </div>
+
+    <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <nav aria-label={isTr ? 'Mobil navigasyon' : 'Mobile navigation'}>
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} class:list={['mobile-nav-link', { active: currentPath === item.href }]}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href={ctaHref} class="btn btn-primary mobile-cta">{ctaLabel}</a>
+        </li>
+        <li>
+          <a href={langSwitch.href} class="mobile-lang">{langSwitch.label}</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--c-white);
+    border-bottom: 1px solid var(--c-border);
+    backdrop-filter: saturate(180%) blur(8px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    padding-block: var(--s-3);
+  }
+
+  .site-logo {
+    font-family: var(--font-serif);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--c-earth);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .site-logo:hover {
+    text-decoration: none;
+    color: var(--c-gold-dark);
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--s-4);
+  }
+
+  .nav-link {
+    color: var(--c-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding-block: var(--s-2);
+    border-bottom: 2px solid transparent;
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--c-gold-dark);
+    text-decoration: none;
+    border-bottom-color: var(--c-gold);
+  }
+
+  .nav-link.active {
+    color: var(--c-gold-dark);
+    border-bottom-color: var(--c-gold);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+  }
+
+  .lang-switch {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-stone);
+    padding: var(--s-1) var(--s-2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-btn);
+    text-decoration: none;
+  }
+
+  .lang-switch:hover {
+    color: var(--c-earth);
+    border-color: var(--c-gold);
+    text-decoration: none;
+  }
+
+  .header-phone {
+    color: var(--c-text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .header-phone:hover {
+    color: var(--c-gold-dark);
+    text-decoration: none;
+  }
+
+  .header-cta {
+    padding: var(--s-2) var(--s-4);
+    font-size: 0.9rem;
+  }
+
+  .mobile-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0;
+  }
+
+  .mobile-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--c-earth);
+    transition: transform var(--t), opacity var(--t);
+  }
+
+  .mobile-menu {
+    background: var(--c-white);
+    border-top: 1px solid var(--c-border);
+    padding-block: var(--s-4);
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: var(--s-3) var(--s-4);
+    color: var(--c-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .mobile-nav-link.active,
+  .mobile-nav-link:hover {
+    color: var(--c-gold-dark);
+    background: var(--c-cream);
+    text-decoration: none;
+  }
+
+  .mobile-cta,
+  .mobile-lang {
+    margin: var(--s-2) var(--s-4) 0;
+    text-align: center;
+  }
+
+  /* Tablet / mobile */
+  @media (max-width: 1024px) {
+    .site-nav {
+      display: none;
+    }
+
+    .header-phone,
+    .lang-switch {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header-cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const toggle = document.querySelector<HTMLButtonElement>('.mobile-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    if (menu) {
+      menu.hidden = expanded;
+    }
+  });
+</script>

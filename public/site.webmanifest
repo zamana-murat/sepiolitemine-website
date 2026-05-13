@@ -1,0 +1,31 @@
+{
+  "name": "Sepiolite Mine",
+  "short_name": "SepioMine",
+  "description": "Premium Turkish sepiolite supplier — raw and processed sepiolite for global B2B industrial markets.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F3EE",
+  "theme_color": "#C9922A",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/images/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

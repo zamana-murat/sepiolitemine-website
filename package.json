@@ -1,0 +1,29 @@
+{
+  "name": "sepiolitemine-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "sepiolitemine.com — Astro 4 + Cloudflare Pages. Rentable B2B sepiolite supplier site.",
+  "scripts": {
+    "preimages": "node scripts/optimize-images.mjs",
+    "preog": "npm run preimages",
+    "prebuild": "node scripts/generate-og.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^5.0.0",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

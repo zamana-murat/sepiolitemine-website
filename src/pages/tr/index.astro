@@ -1,0 +1,99 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const description =
+  "Premium Türk sepiyolit üreticisi. Tarım, petrol ve gaz sondajı, inşaat, kedi kumu ve global endüstriyel pazarlar için ham ve işlenmiş sepiyolit. 1995'ten beri B2B tedarik.";
+---
+
+<Layout
+  title="Premium Türk Sepiyolit Tedarikçisi"
+  description={description}
+  alternates={{ en: '/', tr: '/tr/' }}
+  locale="tr"
+  noSuffix={true}
+>
+  <section class="hero section--dark">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <span class="section-tag">Endüstriyel Sepiyolit · Türkiye</span>
+        <h1>Premium Türk Sepiyolit Tedarikçisi</h1>
+        <p class="lead">
+          Tarım, petrol ve gaz sondajı, inşaat, kedi kumu ve global endüstriyel pazarlar
+          için ham ve işlenmiş sepiyolit. 1995'ten beri B2B tedarik.
+        </p>
+        <div class="hero-actions">
+          <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
+          <a href="/tr/products/" class="btn btn-outline">Ürünleri İncele</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="phase-notice">
+        <h2>🚧 Site Migrasyonu Devam Ediyor</h2>
+        <p>
+          Bu Astro scaffold smoke-test build'idir. Eski static HTML sitesinden
+          (<code>Oldwebsite/</code>) içerik aktarımı Phase 3'te yapılacak.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--c-earth);
+    background-image: linear-gradient(135deg, rgba(28, 20, 16, 0.85), rgba(46, 33, 24, 0.75));
+  }
+
+  .hero-inner {
+    padding-block: var(--s-7);
+  }
+
+  .hero-content {
+    max-width: 720px;
+  }
+
+  .hero-content h1 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+  }
+
+  .lead {
+    font-size: 1.15rem;
+    color: var(--c-text-light);
+    margin-bottom: var(--s-5);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  .phase-notice {
+    background: var(--c-cream);
+    border-left: 4px solid var(--c-gold);
+    padding: var(--s-5);
+    border-radius: var(--r-card);
+  }
+
+  .phase-notice h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+
+  .phase-notice code {
+    background: var(--c-cream-dark);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+</style>
