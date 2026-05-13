@@ -1,0 +1,478 @@
+---
+/**
+ * ProductSections.astro — Tech specs, usage, advantages, FAQ, related
+ *
+ * Hero altındaki tüm yapılandırılmış content sections.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  product: CollectionEntry<'products'>['data'];
+  locale: 'en' | 'tr';
+  related: Array<{ slug: string; title: string; description: string; heroImage: string; href: string }>;
+}
+
+const { product, locale, related } = Astro.props;
+const isTr = locale === 'tr';
+
+const labels = isTr
+  ? {
+      overview: 'Ürün Genel Bakış',
+      specs: 'Teknik Özellikler',
+      usage: 'Uygulamalar',
+      usageHead: 'Nerede Kullanılır',
+      advantages: 'Neden Bu Ürün',
+      advantagesHead: 'Türk Sepiyolit Avantajları',
+      faq: 'Sıkça Sorulanlar',
+      faqHead: 'Sıkça Sorulan Sorular',
+      related: 'Diğer Ürünler',
+      relatedHead: 'Diğer Kalitelerimizi İnceleyin',
+      viewProduct: 'Ürünü İncele',
+    }
+  : {
+      overview: 'Product Overview',
+      specs: 'Technical Specifications',
+      usage: 'Applications',
+      usageHead: 'Where It Is Used',
+      advantages: 'Why This Grade',
+      advantagesHead: 'Advantages of Turkish Sepiolite',
+      faq: 'Common Questions',
+      faqHead: 'Frequently Asked Questions',
+      related: 'More Products',
+      relatedHead: 'Explore Our Other Grades',
+      viewProduct: 'View Product',
+    };
+---
+
+{/* ── Description + Tech Specs ────────────────────────────── */}
+<section class="desc-section section">
+  <div class="container">
+    <div class="desc-grid">
+      <article class="desc-body">
+        <span class="section-tag">{labels.overview}</span>
+        <div class="divider"></div>
+        <div class="prose">
+          <slot name="body" />
+        </div>
+      </article>
+
+      {product.techSpecs.length > 0 && (
+        <aside class="tech-specs-card" aria-label={labels.specs}>
+          <h3>{labels.specs}</h3>
+          <dl class="spec-list">
+            {product.techSpecs.map((s) => (
+              <div class="spec-row">
+                <dt>{s.label}</dt>
+                <dd set:html={s.value}></dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
+      )}
+    </div>
+  </div>
+</section>
+
+{/* ── Usage Areas (dark section) ─────────────────────────── */}
+{product.usageAreas.length > 0 && (
+  <section class="usage-section section section--dark">
+    <div class="container">
+      <header class="centered-header">
+        <span class="section-tag">{labels.usage}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.usageHead}</h2>
+      </header>
+      <div class="usage-grid">
+        {product.usageAreas.map((u) => (
+          <div class="usage-card">
+            <div class="usage-icon" aria-hidden="true">{u.icon}</div>
+            <h3>{u.title}</h3>
+            <p>{u.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ── Advantages ─────────────────────────────────────────── */}
+{product.advantages.length > 0 && (
+  <section class="advantages-section section">
+    <div class="container">
+      <div class="advantages-grid">
+        <div>
+          <span class="section-tag">{labels.advantages}</span>
+          <div class="divider"></div>
+          <h2>{labels.advantagesHead}</h2>
+          <ol class="advantages-list">
+            {product.advantages.map((a, i) => (
+              <li>
+                <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <strong>{a.title}</strong>
+                  <p>{a.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        {product.advantageImage && (
+          <div class="advantage-image">
+            <img
+              src={product.advantageImage}
+              alt={product.advantageImageAlt ?? ''}
+              width="640"
+              height="480"
+              loading="lazy"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ── FAQ ───────────────────────────────────────────────── */}
+{product.faqs.length > 0 && (
+  <section class="faq-section section">
+    <div class="container container-narrow">
+      <header class="centered-header">
+        <span class="section-tag">{labels.faq}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.faqHead}</h2>
+      </header>
+      <div class="faq-list">
+        {product.faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.question}</summary>
+            <div class="faq-answer">{f.answer}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ── Related Products ─────────────────────────────────── */}
+{related.length > 0 && (
+  <section class="related-section section">
+    <div class="container">
+      <header class="centered-header">
+        <span class="section-tag">{labels.related}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.relatedHead}</h2>
+      </header>
+      <div class="related-grid">
+        {related.map((r) => (
+          <a href={r.href} class="related-card">
+            <div class="related-img">
+              <img src={r.heroImage} alt={r.title} width="400" height="300" loading="lazy" />
+            </div>
+            <div class="related-body">
+              <h3>{r.title}</h3>
+              <p>{r.description}</p>
+              <span class="related-link">{labels.viewProduct} →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .desc-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--s-6);
+    align-items: start;
+  }
+
+  .prose :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--c-text);
+    margin-bottom: var(--s-3);
+  }
+
+  .tech-specs-card {
+    background: var(--c-cream);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    padding: var(--s-5);
+    position: sticky;
+    top: 5rem;
+  }
+
+  .tech-specs-card h3 {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-gold-dark);
+    margin: 0 0 var(--s-3) 0;
+  }
+
+  .spec-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block: var(--s-2);
+    border-bottom: 1px solid var(--c-cream-dark);
+    gap: var(--s-3);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+
+  .spec-row dt {
+    font-size: 0.9rem;
+    color: var(--c-stone);
+    font-weight: 500;
+  }
+
+  .spec-row dd {
+    margin: 0;
+    font-weight: 600;
+    color: var(--c-earth);
+    text-align: right;
+    font-size: 0.95rem;
+  }
+
+  /* Usage section */
+  .centered-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto var(--s-6);
+  }
+
+  .divider--center {
+    margin-inline: auto;
+  }
+
+  .usage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .usage-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--r-card);
+    padding: var(--s-5);
+    transition: transform var(--t), border-color var(--t);
+  }
+
+  .usage-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+  }
+
+  .usage-icon {
+    font-size: 2rem;
+    margin-bottom: var(--s-3);
+  }
+
+  .usage-card h3 {
+    color: var(--c-white);
+    font-size: 1.15rem;
+    margin-bottom: var(--s-2);
+  }
+
+  .usage-card p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+  }
+
+  /* Advantages */
+  .advantages-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .advantages-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--s-4) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .advantages-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+  }
+
+  .advantages-list .num {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--c-gold);
+    line-height: 1;
+  }
+
+  .advantages-list strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: var(--s-2);
+    color: var(--c-earth);
+  }
+
+  .advantages-list p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--c-text-muted);
+    line-height: 1.7;
+  }
+
+  .advantage-image img {
+    border-radius: var(--r-card);
+    box-shadow: var(--sh-mid);
+    width: 100%;
+    height: auto;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .faq-item {
+    background: var(--c-cream);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-input);
+    padding: var(--s-3) var(--s-4);
+    transition: border-color var(--t-fast);
+  }
+
+  .faq-item[open] {
+    border-color: var(--c-gold);
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    color: var(--c-earth);
+    padding-block: var(--s-1);
+    position: relative;
+    padding-right: var(--s-5);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--c-gold);
+    transition: transform var(--t-fast);
+  }
+
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .faq-answer {
+    margin-top: var(--s-3);
+    color: var(--c-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  /* Related */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .related-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--c-text);
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  }
+
+  .related-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+    box-shadow: var(--sh-mid);
+    text-decoration: none;
+  }
+
+  .related-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .related-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .related-body {
+    padding: var(--s-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .related-body h3 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+
+  .related-body p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+    line-height: 1.6;
+  }
+
+  .related-link {
+    color: var(--c-gold-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: var(--s-2);
+  }
+
+  @media (max-width: 900px) {
+    .desc-grid,
+    .advantages-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tech-specs-card {
+      position: relative;
+      top: 0;
+    }
+  }
+</style>

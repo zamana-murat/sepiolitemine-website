@@ -1,0 +1,458 @@
+---
+import Layout from '@layouts/Layout.astro';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Sustainability', item: `${siteUrl}/sustainability/` },
+  ],
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Sepiolite Mine – Akmin Mining',
+  url: siteUrl,
+  description:
+    "Turkey's premier sepiolite producer committed to responsible mining, zero lost-time incidents, and carbon neutrality by 2035.",
+  areaServed: [
+    { '@type': 'Continent', name: 'Europe' },
+    { '@type': 'Continent', name: 'Asia' },
+    { '@type': 'Continent', name: 'Africa' },
+    { '@type': 'Continent', name: 'North America' },
+    { '@type': 'Continent', name: 'South America' },
+  ],
+  certifications: [
+    'ISO 9001:2015',
+    'ISO 14001:2015',
+    'ISO 45001:2018',
+    'REACH Compliance',
+    'Mining License & EIA',
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is sepiolite mining environmentally harmful?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Not when done responsibly. Sepiolite deposits are relatively shallow (50–150m), and unlike deep mining, our operations don't create subsidence or damage water tables. We practise progressive restoration: each extraction zone is immediately rehabilitated with native vegetation, soil amendment, and long-term monitoring. Our zero-discharge water systems ensure no environmental leakage. Mining is land-use intensive, but with proper closure planning, extracted land becomes productive again in 5–7 years.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What happens to the land after mining is complete?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Our binding closure plans mandate full site restoration. Post-extraction zones are backfilled with approved materials, native flora is replanted according to regional biodiversity studies, soil is amended, and we maintain a 5-year post-closure monitoring program. Restored land is suitable for agriculture, reforestation, or habitat recreation depending on regional land-use planning. We've successfully rehabilitated 15 hectares to date and track all restoration progress publicly in our annual sustainability report.",
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you have ISO environmental certifications?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. We hold ISO 14001:2015 Environmental Management System certification, ISO 9001:2015 Quality Management, and ISO 45001:2018 Occupational Health & Safety. We also comply with REACH (EU chemical regulation), maintain FDA-listed product grades, and hold a valid Mining License with approved Environmental Impact Assessment. All certifications are independently audited annually.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do you manage water usage in mining operations?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our operations employ a zero-discharge closed-loop water circuit. All process water is recycled through settling and filtration systems — we achieve 100% recycling with no mineral waste discharged to waterways. Stormwater is managed via retention ponds and infiltration systems. We conduct quarterly third-party water quality audits and publish results in our annual sustainability report. Freshwater extraction from local aquifers is strictly regulated and approved by regional water authorities.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is your carbon neutrality timeline?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our roadmap targets carbon neutrality by 2035. Current progress: 30% of energy now comes from on-site solar (Phase 2 completed 2023). Phase 3 (2026–2028) will add wind and grid renewable power. Fleet electrification pilots begin in 2026. By 2035, we aim for Scope 1 & 2 net-zero through a combination of renewables, energy efficiency, and verified carbon offsets. Annual progress reports are published on our sustainability hub.',
+      },
+    },
+  ],
+};
+
+const pillars = [
+  {
+    icon: '🌱',
+    title: 'Land Restoration',
+    lead: 'From extraction to ecosystem recovery',
+    items: [
+      'Binding closure plans filed before mining begins',
+      'Native vegetation replanting tailored to regional biodiversity',
+      'Soil amendment and topsoil salvage protocols',
+      '5-year post-extraction monitoring programme',
+      'Progressive rehabilitation during active mining',
+      '15 hectares successfully rehabilitated to date',
+    ],
+  },
+  {
+    icon: '💧',
+    title: 'Water Stewardship',
+    lead: '100% process water recycled, zero discharge',
+    items: [
+      'Zero-discharge closed-loop water circuits',
+      'Full process water recycling through settling/filtration',
+      'Quarterly third-party water quality audits',
+      'No mineral waste in local water bodies',
+      'Stormwater management via retention and infiltration',
+      'Aquifer extraction strictly regulated and monitored',
+    ],
+  },
+  {
+    icon: '⚡',
+    title: 'Energy & Climate',
+    lead: 'Carbon neutral by 2035',
+    items: [
+      '30% on-site solar capacity (Phases 1–2 complete)',
+      'Energy efficiency upgrades in processing',
+      'Fleet electrification pilot programme (2026)',
+      'Annual carbon roadmap publications',
+      'Scope 1 & 2 net-zero via renewables + offsets',
+      'Supply chain emissions monitoring in progress',
+    ],
+  },
+  {
+    icon: '👥',
+    title: 'Community & Safety',
+    lead: 'Zero Lost Time Incidents, local prosperity',
+    items: [
+      '4+ year zero LTI safety record',
+      'Local employment priority (92% local workforce)',
+      'Vocational training and skills development programmes',
+      'School infrastructure investment in mining regions',
+      'Annual health screenings for all workers',
+      'Community Development Fund established (2024)',
+    ],
+  },
+];
+
+const timeline = [
+  { year: '2018', event: 'First Environmental Management Plan Certified', desc: 'ISO 14001 foundation established; baseline environmental monitoring begins' },
+  { year: '2019', event: 'Zero-Discharge Water System Installed', desc: 'Closed-loop process water recycling eliminates mining discharge' },
+  { year: '2020', event: 'Solar Panel Farm Commissioned (Phase 1)', desc: '12% renewable energy target achieved; first on-site generation begins' },
+  { year: '2021', event: 'Zero Lost Time Incident Milestone', desc: 'Achieved 12-month zero-LTI record; safety culture strengthened company-wide' },
+  { year: '2022', event: 'ISO 14001 & ISO 45001 Certification', desc: 'Environmental and occupational health & safety management systems independently verified' },
+  { year: '2023', event: 'Solar Phase 2 — 30% Renewable Energy Achieved', desc: 'Expanded solar capacity; fleet hybrid conversion begins; 30% electricity target reached' },
+  { year: '2024', event: 'Community Development Fund Established', desc: 'Formal fund launched for local education, health, and infrastructure projects in mining regions' },
+  { year: '2025', event: 'Carbon Neutral Roadmap Published', desc: 'Detailed pathway to 2035 net-zero; interim targets set for 2028 and 2031' },
+  { year: '2026', event: 'Fleet Electrification Pilot Begins', desc: 'Electric vehicles introduced to site transport; evaluation phase for full fleet transition' },
+];
+
+const certifications = [
+  { icon: '✔', title: 'ISO 9001:2015', desc: 'Quality Management System — ensures consistent product quality and customer satisfaction' },
+  { icon: '🌍', title: 'ISO 14001:2015', desc: 'Environmental Management System — governs all waste, emissions, and resource use' },
+  { icon: '⚖', title: 'REACH Compliance (EU)', desc: 'Chemical regulation compliance — all export grades meet European safety standards' },
+  { icon: '👷', title: 'ISO 45001:2018', desc: 'Occupational Health & Safety — certified safety management and incident prevention' },
+  { icon: '📄', title: 'Mining License & EIA', desc: 'Turkish government approval with approved Environmental Impact Assessment' },
+  { icon: '💊', title: 'FDA Listed Grades', desc: 'Food-contact and pharmaceutical-grade sepiolite for regulated industries' },
+];
+
+const metrics = [
+  { num: '0', label: 'Tonnes Hazardous Waste to Landfill', desc: '100% of waste streams recovered or safely processed' },
+  { num: '100%', label: 'Water Recycling Rate', desc: 'Closed-loop circuits; zero discharge to environment' },
+  { num: '30%', label: 'Renewable Energy Share', desc: 'On-site solar; path to 100% by 2035' },
+  { num: '92%', label: 'Local Workforce Employment', desc: 'Jobs, skills, and economic benefit to regional communities' },
+  { num: '15', label: 'Hectares Rehabilitated Land', desc: 'Restored to productive use; ongoing monitoring through 2029' },
+  { num: '4+', label: 'Years Zero Safety Incidents', desc: 'Sustained zero Lost Time Incidents record; culture of prevention' },
+];
+
+const faqs = [
+  {
+    q: 'Is sepiolite mining environmentally harmful?',
+    a: "Not when done responsibly. Sepiolite deposits are relatively shallow (50–150m), and unlike deep mining, our operations don't create subsidence or damage water tables. We practise progressive restoration: each extraction zone is immediately rehabilitated with native vegetation, soil amendment, and long-term monitoring. Our zero-discharge water systems ensure no environmental leakage. Mining is land-use intensive, but with proper closure planning, extracted land becomes productive again in 5–7 years.",
+  },
+  {
+    q: 'What happens to the land after mining is complete?',
+    a: "Our binding closure plans mandate full site restoration. Post-extraction zones are backfilled with approved materials, native flora is replanted according to regional biodiversity studies, soil is amended, and we maintain a 5-year post-closure monitoring programme. Restored land is suitable for agriculture, reforestation, or habitat recreation depending on regional land-use planning. We've successfully rehabilitated 15 hectares to date and track all restoration progress publicly in our annual sustainability report.",
+  },
+  {
+    q: 'Do you have ISO environmental certifications?',
+    a: 'Yes. We hold ISO 14001:2015 Environmental Management System certification, ISO 9001:2015 Quality Management, and ISO 45001:2018 Occupational Health & Safety. We also comply with REACH (EU chemical regulation), maintain FDA-listed product grades, and hold a valid Mining License with approved Environmental Impact Assessment. All certifications are independently audited annually.',
+  },
+  {
+    q: 'How do you manage water usage in mining operations?',
+    a: 'Our operations employ a zero-discharge closed-loop water circuit. All process water is recycled through settling and filtration systems — we achieve 100% recycling with no mineral waste discharged to waterways. Stormwater is managed via retention ponds and infiltration systems. We conduct quarterly third-party water quality audits and publish results in our annual sustainability report. Freshwater extraction from local aquifers is strictly regulated and approved by regional water authorities.',
+  },
+  {
+    q: 'What is your carbon neutrality timeline?',
+    a: 'Our roadmap targets carbon neutrality by 2035. Current progress: 30% of energy now comes from on-site solar (Phase 2 completed 2023). Phase 3 (2026–2028) will add wind and grid renewable power. Fleet electrification pilots begin in 2026. By 2035, we aim for Scope 1 & 2 net-zero through a combination of renewables, energy efficiency, and verified carbon offsets. Annual progress reports are published on our sustainability hub.',
+  },
+];
+---
+
+<Layout
+  title="Sustainability — Responsible Mining Practices"
+  description="Sepiolite Mine is committed to responsible mining with zero lost-time incidents, 30% renewable energy, water recycling, and a 2035 carbon-neutral target. Explore our sustainability milestones, ESG practices, and environmental certifications."
+  locale="en"
+  alternates={{ en: '/sustainability/', tr: '/tr/sustainability/' }}
+  schemaJson={[breadcrumbSchema, organizationSchema, faqSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Sustainability</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="hub-hero section section--dark">
+    <div class="container container-narrow">
+      <span class="section-tag">ESG Leadership</span>
+      <h1>Mining the Earth, <span class="accent">Protecting It Too</span></h1>
+      <p class="lead">
+        Responsible mining is embedded in every operation. From zero-incident safety records to
+        water recycling systems and carbon neutrality targets, we prove that extraction and
+        stewardship go hand in hand.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">0</div><div class="label">Lost Time Incidents (4+ years)</div></div>
+        <div class="hero-stat"><div class="num">30%</div><div class="label">Solar Energy</div></div>
+        <div class="hero-stat"><div class="num">2035</div><div class="label">Carbon Neutral Target</div></div>
+        <div class="hero-stat"><div class="num">100%</div><div class="label">Water Recycled</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section commitment-section">
+    <div class="container container-narrow">
+      <div class="commitment-text">
+        <span class="section-tag">Our Philosophy</span>
+        <h2>Sustainability as <span class="accent">Operations</span>, Not Marketing</h2>
+        <p>Akmin Mining operates under a simple principle: sustainable practice is the cost of doing business responsibly. We don't extract and repair damage later — we embed stewardship into every phase, from exploration to closure. Our Environmental Management System, certified to ISO 14001:2015, governs water usage, energy consumption, land rehabilitation, and community engagement. Transparency and third-party verification are non-negotiable.</p>
+        <p><strong>Our ESG Pillars:</strong> Land restoration and biodiversity, water stewardship and zero-discharge operations, energy transition and carbon neutrality, community safety and local economic impact.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pillars-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Core Commitments</span>
+        <h2>Our <span class="accent">Four Pillars</span> of Responsibility</h2>
+      </div>
+
+      <div class="pillars-grid">
+        {pillars.map((p) => (
+          <div class="pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-icon" aria-hidden="true">{p.icon}</div>
+              <h3>{p.title}</h3>
+            </div>
+            <div class="pillar-card-body">
+              <p><strong>{p.lead}</strong></p>
+              <ul>
+                {p.items.map((it) => <li>{it}</li>)}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section timeline-section">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <span class="section-tag">Progress Milestones</span>
+        <h2>Our <span class="accent">Sustainability Journey</span></h2>
+      </div>
+
+      <ol class="timeline">
+        {timeline.map((t) => (
+          <li class="timeline-item">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">{t.year}</div>
+              <div class="timeline-event">{t.event}</div>
+              <div class="timeline-desc">{t.desc}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section certifications-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Verified Standards</span>
+        <h2>Certifications & <span class="accent">Compliance</span></h2>
+      </div>
+
+      <div class="certifications-grid">
+        {certifications.map((c) => (
+          <div class="cert-card">
+            <div class="cert-icon" aria-hidden="true">{c.icon}</div>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section metrics-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Key Metrics</span>
+        <h2>Our <span class="accent">Environmental</span> Footprint</h2>
+      </div>
+
+      <div class="metrics-grid">
+        {metrics.map((m) => (
+          <div class="metric-card">
+            <div class="metric-num">{m.num}</div>
+            <div class="metric-label">{m.label}</div>
+            <div class="metric-desc">{m.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq-section">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <span class="section-tag">Questions & Answers</span>
+        <h2>Sustainability <span class="accent">FAQ</span></h2>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map((item) => (
+          <details class="faq-item">
+            <summary class="faq-q">
+              <span>{item.q}</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-a"><p>{item.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band section section--dark">
+    <div class="container container-narrow">
+      <h2>Partner with a Responsible Supplier</h2>
+      <p>When you choose Sepiolite Mine, you're choosing a partner committed to environmental stewardship, safety, and community prosperity. Let's build a sustainable supply chain together.</p>
+      <div class="cta-buttons">
+        <a href="/contact/" class="btn btn-primary">Get in Touch</a>
+        <a href="/products/" class="btn btn-outline">Explore Products</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--c-gold-dark); }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+
+  .hub-hero { text-align: center; padding-block: var(--s-7); }
+  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .hub-hero .accent { color: var(--c-gold); }
+  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; max-width: 720px; margin: 0 auto; }
+
+  .hero-stats { display: flex; justify-content: center; gap: var(--s-6); margin-top: var(--s-6); flex-wrap: wrap; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 800; color: var(--c-gold); line-height: 1; }
+  .hero-stat .label { font-size: 0.78rem; color: var(--c-text-light); margin-top: 0.35rem; letter-spacing: 0.04em; }
+
+  .accent { color: var(--c-gold-dark); }
+  .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-gold-dark); margin-bottom: var(--s-2); }
+  .section-header { text-align: center; margin-bottom: var(--s-6); }
+  .section-header h2 { margin-bottom: var(--s-2); }
+  .section-header p { color: var(--c-text-muted); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+  /* Commitment */
+  .commitment-text { text-align: center; }
+  .commitment-text h2 { margin-bottom: var(--s-3); }
+  .commitment-text p { font-size: 1rem; color: var(--c-text-muted); line-height: 1.8; margin-bottom: var(--s-3); }
+  .commitment-text strong { color: var(--c-earth); font-weight: 700; }
+
+  /* Pillars */
+  .pillars-section { background: var(--c-cream); }
+  .pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+  .pillar-card { background: var(--c-white); border-radius: var(--r-card); overflow: hidden; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t), border-color var(--t); }
+  .pillar-card:hover { transform: translateY(-6px); box-shadow: var(--sh-mid); border-color: var(--c-gold); }
+  .pillar-card-header { padding: var(--s-5) var(--s-4) var(--s-4); background: var(--c-earth); }
+  .pillar-icon { font-size: 2.5rem; margin-bottom: var(--s-2); }
+  .pillar-card-header h3 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--c-white); margin: 0; }
+  .pillar-card-body { padding: var(--s-4); }
+  .pillar-card-body p { font-size: 0.95rem; line-height: 1.7; color: var(--c-text-muted); margin: 0 0 var(--s-2); }
+  .pillar-card-body strong { color: var(--c-earth); }
+  .pillar-card-body ul { margin: 0; padding-left: 1.4rem; }
+  .pillar-card-body li { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.7; margin-bottom: 0.5rem; }
+  .pillar-card-body li::marker { color: var(--c-gold); }
+
+  /* Timeline */
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 12px; top: 4px; bottom: 4px; width: 2px; background: var(--c-gold); }
+  .timeline-item { position: relative; padding-left: var(--s-5); margin-bottom: var(--s-4); }
+  .timeline-dot { position: absolute; left: 4px; top: 6px; width: 18px; height: 18px; background: var(--c-gold); border: 3px solid var(--c-white); border-radius: 50%; box-shadow: 0 0 0 2px var(--c-gold); }
+  .timeline-year { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 800; color: var(--c-gold-dark); margin-bottom: 0.2rem; }
+  .timeline-event { font-size: 1rem; color: var(--c-earth); font-weight: 600; }
+  .timeline-desc { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.65; margin-top: 0.3rem; }
+
+  /* Certifications */
+  .certifications-section { background: var(--c-cream); }
+  .certifications-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); }
+  .cert-card { background: var(--c-white); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
+  .cert-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
+  .cert-icon { width: 64px; height: 64px; background: rgba(201,146,42,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-3); font-size: 1.8rem; }
+  .cert-card h3 { font-family: var(--font-serif); font-size: 1.05rem; color: var(--c-earth); margin: 0 0 0.6rem; font-weight: 700; }
+  .cert-card p { font-size: 0.82rem; color: var(--c-text-muted); line-height: 1.6; margin: 0; }
+
+  /* Metrics */
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+  .metric-card { background: linear-gradient(135deg, rgba(201,146,42,0.05), rgba(201,146,42,0.02)); border-radius: var(--r-card); padding: var(--s-5) var(--s-4); text-align: center; border: 2px solid var(--c-gold); transition: transform var(--t), box-shadow var(--t); }
+  .metric-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(201,146,42,0.2); }
+  .metric-num { font-family: var(--font-serif); font-size: 3rem; font-weight: 800; color: var(--c-gold-dark); line-height: 1; margin-bottom: 0.5rem; }
+  .metric-label { font-size: 0.95rem; color: var(--c-earth); font-weight: 600; margin-bottom: 0.35rem; }
+  .metric-desc { font-size: 0.8rem; color: var(--c-text-muted); line-height: 1.5; }
+
+  /* FAQ */
+  .faq-section { background: var(--c-cream); }
+  .faq-list { margin-top: var(--s-4); }
+  .faq-item { border-bottom: 1px solid var(--c-cream-dark); }
+  .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: var(--s-3) 0; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--c-earth); list-style: none; }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q:hover { color: var(--c-gold-dark); }
+  .faq-icon { font-size: 1.4rem; color: var(--c-gold); transition: transform var(--t); flex-shrink: 0; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  .faq-a { padding-bottom: var(--s-3); }
+  .faq-a p { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.8; margin: 0; }
+
+  /* CTA */
+  .cta-band { text-align: center; padding-block: var(--s-7); }
+  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); max-width: 580px; margin-left: auto; margin-right: auto; }
+  .cta-buttons { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 1024px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .certifications-grid { grid-template-columns: repeat(2, 1fr); }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .certifications-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: var(--s-4); }
+    .hero-stat .num { font-size: 1.9rem; }
+  }
+</style>

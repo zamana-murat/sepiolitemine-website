@@ -1,0 +1,153 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+import ProductHero from '@components/ProductHero.astro';
+import ProductSections from '@components/ProductSections.astro';
+import { BRAND } from '@config/brand';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products', (p) => p.data.locale === 'en' && !p.data.draft);
+  return products.map((p) => ({
+    params: { slug: p.slug },
+    props: { entry: p },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data: product } = entry;
+const { Content } = await render(entry);
+
+// Resolve related products (EN locale only)
+const relatedSlugs = product.relatedProducts ?? [];
+const relatedEntries = await Promise.all(
+  relatedSlugs.map((slug) => getEntry('products', slug).catch(() => null))
+);
+
+const related = relatedEntries
+  .filter((e): e is NonNullable<typeof e> => e != null)
+  .map((e) => ({
+    slug: e.slug,
+    title: e.data.title,
+    description: e.data.description.slice(0, 120),
+    heroImage: e.data.heroImage,
+    href: `/products/${e.slug}/`,
+  }));
+
+// Schema.org Product + BreadcrumbList + FAQPage
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const productUrl = `${siteUrl}/products/${entry.slug}/`;
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.title,
+  description: product.description,
+  image: [product.heroImage.startsWith('http') ? product.heroImage : `${siteUrl}${product.heroImage}`],
+  sku: product.sku,
+  brand: { '@type': 'Brand', name: BRAND.name },
+  manufacturer: {
+    '@type': 'Organization',
+    name: BRAND.legalName,
+  },
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    url: productUrl,
+    seller: { '@type': 'Organization', name: BRAND.name },
+  },
+  material: product.material,
+  countryOfOrigin: { '@type': 'Country', name: BRAND.address.country },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Products', item: `${siteUrl}/products/` },
+    { '@type': 'ListItem', position: 3, name: product.title, item: productUrl },
+  ],
+};
+
+const faqSchema = product.faqs.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: product.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    }
+  : null;
+
+const schemaJson = [productSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])];
+---
+
+<Layout
+  title={product.title}
+  description={product.description}
+  ogImage={`products/${entry.slug}`}
+  locale="en"
+  alternates={{
+    en: `/products/${entry.slug}/`,
+    tr: `/tr/products/${product.altSlug}/`,
+  }}
+  schemaJson={schemaJson}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li><a href="/products/">Products</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">{product.title}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <ProductHero product={product} locale="en" contactHref="/contact/" />
+  <ProductSections product={product} locale="en" related={related}>
+    <Content slot="body" />
+  </ProductSections>
+</Layout>
+
+<style>
+  .breadcrumb-bar {
+    background: var(--c-cream);
+    border-bottom: 1px solid var(--c-cream-dark);
+    padding-block: var(--s-3);
+  }
+
+  .breadcrumb {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    font-size: 0.85rem;
+    color: var(--c-text-muted);
+  }
+
+  .breadcrumb a {
+    color: var(--c-text-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--c-gold-dark);
+    text-decoration: underline;
+  }
+
+  .breadcrumb [aria-current='page'] {
+    color: var(--c-earth);
+    font-weight: 500;
+  }
+
+  .breadcrumb .sep {
+    color: var(--c-stone);
+  }
+</style>

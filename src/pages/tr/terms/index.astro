@@ -1,0 +1,171 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const lastUpdated = '2026-05-14';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Anasayfa', item: `${siteUrl}/tr/` },
+    { '@type': 'ListItem', position: 2, name: 'Kullanım Şartları', item: `${siteUrl}/tr/terms/` },
+  ],
+};
+---
+
+<Layout
+  title="Kullanım Şartları"
+  description="sepiolitemine.com kullanımına ilişkin şartlar. Sadece B2B sitesi. Site içeriği ticari teklif veya sözleşme oluşturmaz; tüm satışlar ayrı yazılı sözleşmeye tabidir."
+  locale="tr"
+  alternates={{ en: '/terms/', tr: '/tr/terms/' }}
+  schemaJson={[breadcrumbSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Kırıntı yolu">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/tr/">Anasayfa</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Kullanım Şartları</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article class="legal-page section">
+    <div class="container container-narrow">
+      <header class="legal-header">
+        <span class="section-tag">Hukuki</span>
+        <h1>Kullanım Şartları</h1>
+        <p class="last-updated">Son güncelleme: {lastUpdated}</p>
+      </header>
+
+      <div class="legal-body">
+        <p>
+          Bu Şartlar, {BRAND.legalName} ("{BRAND.name}", "biz") tarafından işletilen
+          <strong>sepiolitemine.com</strong> ("Site") kullanımınızı düzenler. Siteye
+          eriştiğinizde bu Şartları kabul etmiş sayılırsınız. Kabul etmiyorsanız, lütfen
+          Siteyi kullanmayın.
+        </p>
+
+        <h2>1. Sitenin Amacı</h2>
+        <p>
+          Bu Site, dünya çapındaki B2B alıcılar için endüstriyel sepiyolit kademeleri,
+          uygulamaları ve tedarik kapasitemiz hakkında genel bilgi sağlar. Tüketiciye yönelik
+          bir e-ticaret platformu değildir.
+        </p>
+
+        <h2>2. Ticari Teklif Niteliği Yoktur</h2>
+        <p>
+          Bu Sitede yayınlanan bilgiler (ürün açıklamaları, teknik spesifikasyonlar ve referans
+          değerleri dahil) genel bilgi amaçlıdır. Sitedeki hiçbir içerik bağlayıcı ticari
+          teklif, fiyat kotasyonu veya tedarik garantisi oluşturmaz. Tüm satışlar, her iki taraf
+          tarafından imzalanan ayrı yazılı bir anlaşmaya (satın alma siparişi, satış sözleşmesi
+          veya imzalı proforma fatura) tabidir.
+        </p>
+
+        <h2>3. Spesifikasyonlar ve Teknik Veriler</h2>
+        <p>
+          Ürün ve uygulama sayfalarında gösterilen tipik spesifikasyonlar, üretimimizden temsili
+          değerleri yansıtır. Gerçek parti değerleri, her sevkiyatın Analiz Sertifikasında
+          belgelenen tolerans aralıkları içinde değişebilir. Alıcılar, büyük hacimli siparişler
+          öncesinde herhangi bir sepiyolit kademesinin kendi uygulamalarına uygunluğunu doğrulamaktan
+          sorumludur.
+        </p>
+
+        <h2>4. Fikri Mülkiyet</h2>
+        <p>
+          Bu Sitedeki tüm içerik (metin, görseller, grafikler, logolar ve ticari adlar dahil),
+          {BRAND.legalName} tarafından sahiplenilir veya lisanslanır ve telif hakkı, ticari marka
+          ve diğer fikri mülkiyet kanunlarıyla korunur. Önceden yazılı izin almaksızın çoğaltma,
+          dağıtım veya türev eserler oluşturma, adil kullanım amaçları (uygun atıfla basın alıntısı
+          gibi) dışında yasaktır.
+        </p>
+
+        <h2>5. AI / Crawler Politikası</h2>
+        <p>
+          Sitenin <a href="/robots.txt">robots.txt</a> dosyası, otomatik erişim tercihlerimizi
+          beyan eder. Site içeriğinin AI model eğitimi, büyük ölçekli veri kazıma veya ticari
+          yeniden yayınlama amacıyla kullanımı yetkili değildir.
+        </p>
+
+        <h2>6. Garanti Reddi</h2>
+        <p>
+          Site, "olduğu gibi" ve "mevcut haliyle" sunulur. Sitenin kesintisiz, hatasız veya
+          virüslerden ya da zararlı bileşenlerden arındırılmış olacağını garanti etmiyoruz.
+          Yasaların izin verdiği ölçüde, satılabilirlik, belirli bir amaca uygunluk ve Site
+          içeriğine ilişkin ihlal yokluğu garantileri dahil olmak üzere açık veya zımni tüm
+          garantileri reddediyoruz.
+        </p>
+        <p>
+          <strong>Not:</strong> Fiziksel sepiyolit ürününe ilişkin garantiler bu Site tarafından
+          değil, ayrı satış sözleşmesi veya satın alma anlaşması tarafından düzenlenir.
+        </p>
+
+        <h2>7. Sorumluluğun Sınırlandırılması</h2>
+        <p>
+          Geçerli kanunun izin verdiği azami ölçüde, {BRAND.legalName} ve bağlı kuruluşları;
+          kâr, veri veya itibar kaybı dahil olmak üzere Sitenin kullanımından kaynaklanan
+          dolaylı, arızi, özel, sonuç olarak ortaya çıkan veya cezai zararlardan sorumlu
+          tutulamaz.
+        </p>
+
+        <h2>8. Üçüncü Taraf Bağlantıları</h2>
+        <p>
+          Site, kolaylık sağlamak amacıyla üçüncü taraf web sitelerine bağlantılar içerebilir.
+          Bağlantı verilen sitelerin içeriğini onaylamıyor, kontrol etmiyor veya sorumluluk
+          almıyoruz.
+        </p>
+
+        <h2>9. İhracat Kontrolleri ve Yaptırımlar</h2>
+        <p>
+          Sepiyolit kontrol edilmeyen bir endüstriyel mineraldir, ancak alıcılar kendi yetki
+          alanlarındaki geçerli ihracat kontrolü, rüşvete karşı ve yaptırım kanunlarına
+          uymaktan sorumludur. AB, ABD, BM veya Türk ticaret kısıtlamalarıyla çelişebilecek
+          siparişleri reddetme hakkımızı saklı tutuyoruz.
+        </p>
+
+        <h2>10. Geçerli Hukuk ve Uyuşmazlıklar</h2>
+        <p>
+          Bu Şartlar, kanunlar çatışması kurallarına bakılmaksızın Türkiye Cumhuriyeti
+          kanunlarına tabidir. Sitenin kullanımından kaynaklanan herhangi bir uyuşmazlık,
+          yetki alanınızın zorunlu tüketici koruma kanunlarının aksini öngördüğü durumlar
+          hariç olmak üzere, {BRAND.address.city}, Türkiye mahkemelerinin münhasır yargı
+          yetkisine tabidir.
+        </p>
+        <p>
+          Gerçek satışlarla ilgili ticari uyuşmazlıklar için geçerli hukuk ve uyuşmazlık
+          çözüm mekanizması, ayrı satış sözleşmesinde tanımlanır.
+        </p>
+
+        <h2>11. Değişiklikler</h2>
+        <p>
+          Bu Şartları herhangi bir zamanda bu sayfayı güncelleyerek revize edebiliriz.
+          Değişikliklerden sonra Siteyi kullanmaya devam etmek, kabulü oluşturur.
+        </p>
+
+        <h2>12. İletişim</h2>
+        <p>
+          Bu Şartlar hakkında sorular için <a href="/tr/contact/">iletişim formunu</a>
+          kullanabilirsiniz.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+  .legal-page { padding-block: var(--s-7); }
+  .legal-header { margin-bottom: var(--s-6); padding-bottom: var(--s-5); border-bottom: 1px solid var(--c-cream-dark); }
+  .last-updated { color: var(--c-text-muted); font-size: 0.9rem; margin-top: var(--s-2); }
+  .legal-body { line-height: 1.75; }
+  .legal-body h2 { font-size: 1.4rem; margin-top: var(--s-6); margin-bottom: var(--s-3); color: var(--c-earth); }
+  .legal-body p { color: var(--c-text); margin-bottom: var(--s-3); }
+  .legal-body strong { color: var(--c-earth); }
+  .legal-body a { color: var(--c-gold-dark); font-weight: 600; }
+</style>

@@ -1,0 +1,435 @@
+---
+import Layout from '@layouts/Layout.astro';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: `${siteUrl}/tr/` },
+    { '@type': 'ListItem', position: 2, name: 'Sürdürülebilirlik', item: `${siteUrl}/tr/sustainability/` },
+  ],
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Sepiolite Mine, Akmin Mining',
+  url: siteUrl,
+  description:
+    "Türkiye'nin önde gelen sepiyolit üreticisi; sorumlu madenciliğe, sıfır iş kazasına ve 2035'e kadar karbon nötrlüğüne kararlıdır.",
+  areaServed: [
+    { '@type': 'Continent', name: 'Europe' },
+    { '@type': 'Continent', name: 'Asia' },
+    { '@type': 'Continent', name: 'Africa' },
+    { '@type': 'Continent', name: 'North America' },
+    { '@type': 'Continent', name: 'South America' },
+  ],
+  certifications: [
+    'ISO 9001:2015',
+    'ISO 14001:2015',
+    'ISO 45001:2018',
+    'REACH Uyumluluğu',
+    'Maden Lisansı ve ÇED',
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Sepiyolit madenciliği çevreye zararlı mıdır?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sorumlu biçimde yapıldığında değil. Sepiyolit yatakları nispeten sığdır (50–150 m) ve derin madenciliğin aksine operasyonlarımız çökme yaratmaz ya da su tablasına zarar vermez. Aşamalı restorasyon uyguluyor; her çıkarım bölgesi hemen doğal bitki örtüsüyle yeniden yeşillendiriliyor. Sıfır deşarjlı su sistemlerimiz çevresel sızdırmayı önler. Doğru kapanış planlamasıyla çıkarım alanı 5–7 yılda yeniden verimli hale gelir.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Madencilik tamamlandıktan sonra arazi ne olur?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Bağlayıcı kapanış planlarımız tam saha restorasyonunu zorunlu kılar. Çıkarım sonrası bölgeler onaylı malzemelerle doldurulur, yerel biyoçeşitlilik etütlerine göre doğal flora yeniden ekilir, toprak ıslah edilir ve 5 yıllık kapanış sonrası izleme programı sürdürülür. Bugüne kadar 15 hektarı başarıyla iyileştirdik.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'ISO çevre sertifikalarınız var mı?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Evet. ISO 14001:2015 Çevre Yönetim Sistemi, ISO 9001:2015 Kalite Yönetimi ve ISO 45001:2018 İş Sağlığı ve Güvenliği sertifikalarını tutmaktayız. Ayrıca REACH (AB kimyasal yönetmeliği) uyumluluğu sağlıyor, FDA listeli ürün kademeleri sunuyor ve onaylı Çevresel Etki Değerlendirmesi ile geçerli bir Maden İşletme Lisansı'nı muhafaza ediyoruz.",
+      },
+    },
+  ],
+};
+
+const pillars = [
+  {
+    icon: '🌱',
+    title: 'Arazi Restorasyonu',
+    lead: 'Çıkarımdan ekosistem iyileşmesine',
+    items: [
+      'Madencilik başlamadan önce tescil edilen bağlayıcı kapanış planları',
+      'Bölgesel biyoçeşitlilik etütlerine göre doğal bitki örtüsü yeniden ekimi',
+      'Toprak ıslah ve üst toprak koruma protokolleri',
+      '5 yıllık çıkarım sonrası izleme programı',
+      'Aktif madencilik sürecinde aşamalı rehabilitasyon',
+      'Bugüne kadar başarıyla iyileştirilen 15 hektar',
+    ],
+  },
+  {
+    icon: '💧',
+    title: 'Su Yönetimi',
+    lead: '%100 proses suyu geri dönüşümü, sıfır deşarj',
+    items: [
+      'Sıfır deşarjlı kapalı döngü su devreleri',
+      'Çöktürme/filtrasyon ile tam proses suyu geri dönüşümü',
+      'Üç ayda bir üçüncü taraf su kalitesi denetimleri',
+      'Yerel su kütlelerine mineral atık sızdırılmaması',
+      'Tutma havuzları ve sızma sistemleriyle yağmur suyu yönetimi',
+      'Akifer çıkarımı sıkıca düzenleniyor ve izleniyor',
+    ],
+  },
+  {
+    icon: '⚡',
+    title: 'Enerji ve İklim',
+    lead: "2035'e kadar karbon nötr",
+    items: [
+      'Sahada %30 güneş enerjisi kapasitesi (1. ve 2. aşamalar tamamlandı)',
+      'İşleme tesisinde enerji verimliliği iyileştirmeleri',
+      'Filo elektrifikasyonu pilot programı (2026)',
+      'Yıllık karbon yol haritası yayınları',
+      'Yenilenebilir enerji ve karbon ofsetleriyle Kapsam 1 ve 2 net sıfır',
+      'Tedarik zinciri emisyon izlemesi devam ediyor',
+    ],
+  },
+  {
+    icon: '👥',
+    title: 'Toplum ve Güvenlik',
+    lead: 'Sıfır İş Kazası, yerel refah',
+    items: [
+      '4+ yıllık sıfır İş Kazası güvenlik sicili',
+      'Yerel istihdam önceliği (%92 yerel iş gücü)',
+      'Mesleki eğitim ve beceri geliştirme programları',
+      'Madencilik bölgelerinde okul altyapısına yatırım',
+      'Tüm çalışanlar için yıllık sağlık taramaları',
+      'Toplum Kalkınma Fonu kuruldu (2024)',
+    ],
+  },
+];
+
+const timeline = [
+  { year: '2018', event: 'İlk Çevre Yönetim Planı Sertifikalandı', desc: 'ISO 14001 temeli kuruldu; temel çevresel izleme başladı' },
+  { year: '2019', event: 'Sıfır Deşarjlı Su Sistemi Devreye Alındı', desc: 'Kapalı döngü proses suyu geri dönüşümü madencilik deşarjını ortadan kaldırdı' },
+  { year: '2020', event: 'Güneş Paneli Çiftliği Devreye Alındı (1. Aşama)', desc: '%12 yenilenebilir enerji hedefine ulaşıldı; ilk saha içi üretim başladı' },
+  { year: '2021', event: 'Sıfır İş Kazası Kilometre Taşı', desc: '12 aylık sıfır iş kazası sicili elde edildi; güvenlik kültürü şirket genelinde güçlendirildi' },
+  { year: '2022', event: 'ISO 14001 ve ISO 45001 Sertifikasyonu', desc: 'Çevre ve iş sağlığı ve güvenliği yönetim sistemleri bağımsız olarak doğrulandı' },
+  { year: '2023', event: 'Güneş 2. Aşama, %30 Yenilenebilir Enerji Hedefi Gerçekleşti', desc: 'Genişletilmiş güneş kapasitesi; filo hibrit dönüşümü başladı; %30 elektrik hedefine ulaşıldı' },
+  { year: '2024', event: 'Toplum Kalkınma Fonu Kuruldu', desc: 'Madencilik bölgelerindeki yerel eğitim, sağlık ve altyapı projeleri için resmi fon başlatıldı' },
+  { year: '2025', event: 'Karbon Nötr Yol Haritası Yayımlandı', desc: '2035 net sıfır için ayrıntılı yol haritası; 2028 ve 2031 için ara hedefler belirlendi' },
+  { year: '2026', event: 'Filo Elektrifikasyonu Pilotu Başlıyor', desc: 'Saha içi ulaşıma elektrikli araçlar tanıtılıyor; tam filo geçişi için değerlendirme aşaması' },
+];
+
+const certifications = [
+  { icon: '✔', title: 'ISO 9001:2015', desc: 'Kalite Yönetim Sistemi; tutarlı ürün kalitesi ve müşteri memnuniyetini güvence altına alır' },
+  { icon: '🌍', title: 'ISO 14001:2015', desc: 'Çevre Yönetim Sistemi; tüm atık, emisyon ve kaynak kullanımını yönetir' },
+  { icon: '⚖', title: 'REACH Uyumluluğu (AB)', desc: 'Kimyasal yönetmelik uyumluluğu; tüm ihracat kademeleri Avrupa güvenlik standartlarını karşılar' },
+  { icon: '👷', title: 'ISO 45001:2018', desc: 'İş Sağlığı ve Güvenliği; sertifikalı güvenlik yönetimi ve olay önleme' },
+  { icon: '📄', title: 'Maden Lisansı ve ÇED', desc: 'Türk hükümeti onayı ile onaylı Çevresel Etki Değerlendirmesi' },
+  { icon: '💊', title: 'FDA Listeli Kademeler', desc: 'Düzenlenmiş sektörler için gıda teması ve eczacılık kalitesi sepiyolit' },
+];
+
+const metrics = [
+  { num: '0', label: 'Depolama Alanına Giden Tehlikeli Atık (Ton)', desc: 'Tüm atık akışları geri kazanılıyor veya güvenli şekilde işleniyor' },
+  { num: '%100', label: 'Su Geri Dönüşüm Oranı', desc: 'Kapalı devre; çevreye sıfır deşarj' },
+  { num: '%30', label: 'Yenilenebilir Enerji Payı', desc: "Saha içi güneş; 2035'e kadar %100 hedefi" },
+  { num: '%92', label: 'Yerel İstihdam Oranı', desc: 'Bölgesel topluluklar için iş, beceri ve ekonomik fayda' },
+  { num: '15', label: 'İyileştirilen Arazi (Hektar)', desc: "Verimli kullanıma geri kazandırıldı; 2029'a kadar izleme sürüyor" },
+  { num: '4+', label: 'Yıl Sıfır Güvenlik Olayı', desc: 'Sürdürülen sıfır İş Kazası sicili; önleme kültürü' },
+];
+
+const faqs = [
+  {
+    q: 'Sepiyolit madenciliği çevreye zararlı mıdır?',
+    a: 'Sorumlu biçimde yapıldığında değil. Sepiyolit yatakları nispeten sığdır (50–150 m) ve derin madenciliğin aksine operasyonlarımız çökme yaratmaz ya da su tablasına zarar vermez. Aşamalı restorasyon uyguluyoruz: her çıkarım bölgesi hemen doğal bitki örtüsüyle yeniden yeşillendiriliyor, toprak ıslah ediliyor ve uzun vadeli izleme sürdürülüyor. Sıfır deşarjlı su sistemlerimiz çevresel sızdırmayı önler. Madencilik yoğun arazi kullanımı gerektirir; ancak doğru kapanış planlamasıyla çıkarım alanı 5–7 yılda yeniden verimli hale gelir.',
+  },
+  {
+    q: 'Madencilik tamamlandıktan sonra arazi ne olur?',
+    a: "Bağlayıcı kapanış planlarımız tam saha restorasyonunu zorunlu kılar. Çıkarım sonrası bölgeler onaylı malzemelerle doldurulur, yerel biyoçeşitlilik etütlerine göre doğal flora yeniden ekilir, toprak ıslah edilir ve 5 yıllık kapanış sonrası izleme programı sürdürülür. Restore edilen arazi, bölgesel arazi kullanım planlamasına bağlı olarak tarım, ağaçlandırma veya habitat rekreasyonu için uygundur. Bugüne kadar 15 hektarı başarıyla iyileştirdik ve tüm restorasyon ilerlemesini yıllık sürdürülebilirlik raporumuzda kamuoyuyla paylaşıyoruz.",
+  },
+  {
+    q: 'ISO çevre sertifikalarınız var mı?',
+    a: "Evet. ISO 14001:2015 Çevre Yönetim Sistemi, ISO 9001:2015 Kalite Yönetimi ve ISO 45001:2018 İş Sağlığı ve Güvenliği sertifikalarını tutuyoruz. Ayrıca REACH (AB kimyasal yönetmeliği) uyumluluğu sağlıyor, FDA listeli ürün kademeleri sunuyor ve onaylı Çevresel Etki Değerlendirmesi ile geçerli bir Maden İşletme Lisansı'nı muhafaza ediyoruz. Tüm sertifikalar yıllık bağımsız denetime tabi tutulmaktadır.",
+  },
+  {
+    q: 'Madencilik operasyonlarında su kullanımını nasıl yönetiyorsunuz?',
+    a: 'Operasyonlarımız sıfır deşarjlı kapalı döngü su devresi kullanmaktadır. Tüm proses suyu, çöktürme ve filtrasyon sistemleri aracılığıyla geri dönüştürülür; su yollarına mineral atık deşarj edilmeden %100 geri dönüşüm sağlanır. Yağmur suyu, tutma havuzları ve sızma sistemleriyle yönetilir. Üç ayda bir üçüncü taraf su kalitesi denetimleri yapılır ve sonuçlar yıllık sürdürülebilirlik raporumuzda yayımlanır. Yerel akiferlerden tatlı su çıkarımı sıkıca düzenlenmekte ve bölgesel su otoritelerince onaylanmaktadır.',
+  },
+  {
+    q: 'Karbon nötrlük zaman çizelgeniz nedir?',
+    a: "Yol haritamız 2035'e kadar karbon nötrlüğü hedeflemektedir. Mevcut ilerleme: Enerjinin %30'u artık saha içi güneşten sağlanmaktadır (2. Aşama 2023'te tamamlandı). 3. Aşama (2026–2028) rüzgar ve şebeke yenilenebilir enerjisini ekleyecek. Filo elektrifikasyon pilotları 2026'da başlıyor. 2035'e kadar yenilenebilir enerji, enerji verimliliği ve doğrulanmış karbon ofsetlerinin kombinasyonu yoluyla Kapsam 1 ve 2 net sıfıra ulaşmayı hedefliyoruz. Yıllık ilerleme raporları sürdürülebilirlik merkezimizde yayımlanmaktadır.",
+  },
+];
+---
+
+<Layout
+  title="Sürdürülebilirlik, Sorumlu Madencilik Uygulamaları"
+  description="Sepiolite Mine, sıfır iş kazası kaydı, %30 yenilenebilir enerji, su geri dönüşümü ve 2035 karbon nötr hedefiyle sorumlu madenciliğe kararlıdır. Sürdürülebilirlik kilometre taşlarımızı, ESG uygulamalarımızı ve çevre sertifikalarımızı keşfedin."
+  locale="tr"
+  alternates={{ en: '/sustainability/', tr: '/tr/sustainability/' }}
+  schemaJson={[breadcrumbSchema, organizationSchema, faqSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Kırıntı yolu">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/tr/">Ana Sayfa</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Sürdürülebilirlik</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="hub-hero section section--dark">
+    <div class="container container-narrow">
+      <span class="section-tag">ESG Liderliği</span>
+      <h1>Yeri Kazıyor, <span class="accent">Onu Koruyoruz da</span></h1>
+      <p class="lead">
+        Sorumlu madencilik her operasyona işlenmiştir. Sıfır kazalı güvenlik sicilinden su geri
+        dönüşüm sistemlerine ve karbon nötr hedeflerine kadar, çıkarım ile yöneticilik anlayışının
+        el ele gittiğini kanıtlıyoruz.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">0</div><div class="label">İş Kazası (4+ yıl)</div></div>
+        <div class="hero-stat"><div class="num">%30</div><div class="label">Güneş Enerjisi</div></div>
+        <div class="hero-stat"><div class="num">2035</div><div class="label">Karbon Nötr Hedefi</div></div>
+        <div class="hero-stat"><div class="num">%100</div><div class="label">Su Geri Dönüşümü</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section commitment-section">
+    <div class="container container-narrow">
+      <div class="commitment-text">
+        <span class="section-tag">Felsefemiz</span>
+        <h2>Sürdürülebilirlik <span class="accent">Pazarlama Değil</span>, Operasyon</h2>
+        <p>Akmin Mining basit bir ilkeyle hareket eder: sürdürülebilir uygulama, işi sorumlu biçimde yapmanın maliyetidir. Önce çıkar, sonra hasarı onar anlayışıyla değil; yöneticilik anlayışını aramadan kapanışa her aşamaya yerleştiririz. ISO 14001:2015 belgesini taşıyan Çevre Yönetim Sistemimiz; su kullanımını, enerji tüketimini, arazi rehabilitasyonunu ve toplumsal katılımı yönetir. Şeffaflık ve üçüncü taraf doğrulaması tartışmasızdır.</p>
+        <p><strong>ESG Sütunlarımız:</strong> Arazi restorasyonu ve biyoçeşitlilik, su yönetimi ve sıfır deşarjlı operasyonlar, enerji dönüşümü ve karbon nötrlüğü, toplum güvenliği ve yerel ekonomik katkı.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pillars-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Temel Taahhütler</span>
+        <h2>Sorumluluğumuzun <span class="accent">Dört Sütunu</span></h2>
+      </div>
+
+      <div class="pillars-grid">
+        {pillars.map((p) => (
+          <div class="pillar-card">
+            <div class="pillar-card-header">
+              <div class="pillar-icon" aria-hidden="true">{p.icon}</div>
+              <h3>{p.title}</h3>
+            </div>
+            <div class="pillar-card-body">
+              <p><strong>{p.lead}</strong></p>
+              <ul>
+                {p.items.map((it) => <li>{it}</li>)}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section timeline-section">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <span class="section-tag">İlerleme Kilometre Taşları</span>
+        <h2><span class="accent">Sürdürülebilirlik</span> Yolculuğumuz</h2>
+      </div>
+
+      <ol class="timeline">
+        {timeline.map((t) => (
+          <li class="timeline-item">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">{t.year}</div>
+              <div class="timeline-event">{t.event}</div>
+              <div class="timeline-desc">{t.desc}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section certifications-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Doğrulanmış Standartlar</span>
+        <h2>Sertifikalar ve <span class="accent">Uyumluluk</span></h2>
+      </div>
+
+      <div class="certifications-grid">
+        {certifications.map((c) => (
+          <div class="cert-card">
+            <div class="cert-icon" aria-hidden="true">{c.icon}</div>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section metrics-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Temel Göstergeler</span>
+        <h2><span class="accent">Çevresel</span> Ayak İzimiz</h2>
+      </div>
+
+      <div class="metrics-grid">
+        {metrics.map((m) => (
+          <div class="metric-card">
+            <div class="metric-num">{m.num}</div>
+            <div class="metric-label">{m.label}</div>
+            <div class="metric-desc">{m.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq-section">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <span class="section-tag">Sorular ve Yanıtlar</span>
+        <h2>Sürdürülebilirlik <span class="accent">SSS</span></h2>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map((item) => (
+          <details class="faq-item">
+            <summary class="faq-q">
+              <span>{item.q}</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-a"><p>{item.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band section section--dark">
+    <div class="container container-narrow">
+      <h2>Sorumlu Bir Tedarikçiyle Ortaklık Kurun</h2>
+      <p>Sepiolite Mine'ı seçtiğinizde, çevresel yönetim, güvenlik ve toplumsal refahı öncelikli tutan bir ortağı seçiyorsunuz. Birlikte sürdürülebilir bir tedarik zinciri inşa edelim.</p>
+      <div class="cta-buttons">
+        <a href="/tr/contact/" class="btn btn-primary">İletişime Geçin</a>
+        <a href="/tr/products/" class="btn btn-outline">Ürünleri Keşfedin</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--c-gold-dark); }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+
+  .hub-hero { text-align: center; padding-block: var(--s-7); }
+  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .hub-hero .accent { color: var(--c-gold); }
+  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; max-width: 720px; margin: 0 auto; }
+
+  .hero-stats { display: flex; justify-content: center; gap: var(--s-6); margin-top: var(--s-6); flex-wrap: wrap; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 800; color: var(--c-gold); line-height: 1; }
+  .hero-stat .label { font-size: 0.78rem; color: var(--c-text-light); margin-top: 0.35rem; letter-spacing: 0.04em; }
+
+  .accent { color: var(--c-gold-dark); }
+  .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-gold-dark); margin-bottom: var(--s-2); }
+  .section-header { text-align: center; margin-bottom: var(--s-6); }
+  .section-header h2 { margin-bottom: var(--s-2); }
+  .section-header p { color: var(--c-text-muted); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+  .commitment-text { text-align: center; }
+  .commitment-text h2 { margin-bottom: var(--s-3); }
+  .commitment-text p { font-size: 1rem; color: var(--c-text-muted); line-height: 1.8; margin-bottom: var(--s-3); }
+  .commitment-text strong { color: var(--c-earth); font-weight: 700; }
+
+  .pillars-section { background: var(--c-cream); }
+  .pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+  .pillar-card { background: var(--c-white); border-radius: var(--r-card); overflow: hidden; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t), border-color var(--t); }
+  .pillar-card:hover { transform: translateY(-6px); box-shadow: var(--sh-mid); border-color: var(--c-gold); }
+  .pillar-card-header { padding: var(--s-5) var(--s-4) var(--s-4); background: var(--c-earth); }
+  .pillar-icon { font-size: 2.5rem; margin-bottom: var(--s-2); }
+  .pillar-card-header h3 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--c-white); margin: 0; }
+  .pillar-card-body { padding: var(--s-4); }
+  .pillar-card-body p { font-size: 0.95rem; line-height: 1.7; color: var(--c-text-muted); margin: 0 0 var(--s-2); }
+  .pillar-card-body strong { color: var(--c-earth); }
+  .pillar-card-body ul { margin: 0; padding-left: 1.4rem; }
+  .pillar-card-body li { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.7; margin-bottom: 0.5rem; }
+  .pillar-card-body li::marker { color: var(--c-gold); }
+
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 12px; top: 4px; bottom: 4px; width: 2px; background: var(--c-gold); }
+  .timeline-item { position: relative; padding-left: var(--s-5); margin-bottom: var(--s-4); }
+  .timeline-dot { position: absolute; left: 4px; top: 6px; width: 18px; height: 18px; background: var(--c-gold); border: 3px solid var(--c-white); border-radius: 50%; box-shadow: 0 0 0 2px var(--c-gold); }
+  .timeline-year { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 800; color: var(--c-gold-dark); margin-bottom: 0.2rem; }
+  .timeline-event { font-size: 1rem; color: var(--c-earth); font-weight: 600; }
+  .timeline-desc { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.65; margin-top: 0.3rem; }
+
+  .certifications-section { background: var(--c-cream); }
+  .certifications-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); }
+  .cert-card { background: var(--c-white); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
+  .cert-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
+  .cert-icon { width: 64px; height: 64px; background: rgba(201,146,42,0.14); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-3); font-size: 1.8rem; }
+  .cert-card h3 { font-family: var(--font-serif); font-size: 1.05rem; color: var(--c-earth); margin: 0 0 0.6rem; font-weight: 700; }
+  .cert-card p { font-size: 0.82rem; color: var(--c-text-muted); line-height: 1.6; margin: 0; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+  .metric-card { background: linear-gradient(135deg, rgba(201,146,42,0.05), rgba(201,146,42,0.02)); border-radius: var(--r-card); padding: var(--s-5) var(--s-4); text-align: center; border: 2px solid var(--c-gold); transition: transform var(--t), box-shadow var(--t); }
+  .metric-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(201,146,42,0.2); }
+  .metric-num { font-family: var(--font-serif); font-size: 3rem; font-weight: 800; color: var(--c-gold-dark); line-height: 1; margin-bottom: 0.5rem; }
+  .metric-label { font-size: 0.95rem; color: var(--c-earth); font-weight: 600; margin-bottom: 0.35rem; }
+  .metric-desc { font-size: 0.8rem; color: var(--c-text-muted); line-height: 1.5; }
+
+  .faq-section { background: var(--c-cream); }
+  .faq-list { margin-top: var(--s-4); }
+  .faq-item { border-bottom: 1px solid var(--c-cream-dark); }
+  .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: var(--s-3) 0; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--c-earth); list-style: none; }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q:hover { color: var(--c-gold-dark); }
+  .faq-icon { font-size: 1.4rem; color: var(--c-gold); transition: transform var(--t); flex-shrink: 0; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  .faq-a { padding-bottom: var(--s-3); }
+  .faq-a p { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.8; margin: 0; }
+
+  .cta-band { text-align: center; padding-block: var(--s-7); }
+  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); max-width: 580px; margin-left: auto; margin-right: auto; }
+  .cta-buttons { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 1024px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .certifications-grid { grid-template-columns: repeat(2, 1fr); }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .certifications-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: var(--s-4); }
+    .hero-stat .num { font-size: 1.9rem; }
+  }
+</style>

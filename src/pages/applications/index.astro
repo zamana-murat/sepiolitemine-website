@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+
+const apps = (await getCollection('applications', (a) => a.data.locale === 'en' && !a.data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Applications', item: `${siteUrl}/applications/` },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: apps.map((a, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${siteUrl}/applications/${a.slug}/`,
+    name: a.data.title,
+  })),
+};
+---
+
+<Layout
+  title="Sepiolite Applications"
+  description="Nine industrial applications where Turkish sepiolite delivers value: agriculture, oil &amp; gas drilling, construction, environmental remediation, paints, catalysis, pharma, bioplastics, pet care."
+  locale="en"
+  alternates={{ en: '/applications/', tr: '/tr/applications/' }}
+  schemaJson={[breadcrumbSchema, itemListSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Applications</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="hub-hero section section--dark">
+    <div class="container container-narrow">
+      <span class="section-tag">Applications</span>
+      <h1>Sepiolite Across Industries</h1>
+      <p class="lead">
+        Nine industrial sectors trust sepiolite as a high-performance mineral input.
+        From soil enhancement to drilling fluids, from pharmaceutical excipients to
+        bioplastic compounds, our grades deliver predictable performance for B2B
+        manufacturers worldwide.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="apps-grid">
+        {apps.map((a) => (
+          <a href={`/applications/${a.slug}/`} class="app-card">
+            <div class="card-img">
+              <img
+                src={a.data.heroImage ?? '/images/mine/aerial-02-800w.webp'}
+                alt={a.data.heroImageAlt ?? a.data.title}
+                width="400"
+                height="300"
+                loading="lazy"
+              />
+            </div>
+            <div class="card-body">
+              {a.data.badge && <span class="card-badge">{a.data.badge}</span>}
+              <h2>{a.data.title}</h2>
+              <p class="card-desc">{a.data.tagline}</p>
+              <span class="card-link">Explore application →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band section section--dark">
+    <div class="container container-narrow">
+      <h2>Don't see your application?</h2>
+      <p>Sepiolite is used in dozens of niche industrial applications. Tell us about your use case and we'll advise on the right grade.</p>
+      <a href="/contact/" class="btn btn-primary">Talk to Us</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--c-gold-dark); }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+  .hub-hero { text-align: center; padding-block: var(--s-7); }
+  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; }
+  .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-4); }
+  .app-card { background: var(--c-white); border: 1px solid var(--c-cream-dark); border-radius: var(--r-card); overflow: hidden; text-decoration: none; color: var(--c-text); display: flex; flex-direction: column; transition: border-color var(--t), transform var(--t), box-shadow var(--t); }
+  .app-card:hover { border-color: var(--c-gold); transform: translateY(-4px); box-shadow: var(--sh-mid); text-decoration: none; }
+  .card-img { aspect-ratio: 4 / 3; overflow: hidden; background: var(--c-cream); }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow); }
+  .app-card:hover .card-img img { transform: scale(1.05); }
+  .card-body { padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); flex: 1; }
+  .card-badge { align-self: flex-start; background: rgba(201, 146, 42, 0.14); border: 1px solid rgba(201, 146, 42, 0.35); color: var(--c-gold-dark); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; border-radius: 100px; }
+  .card-body h2 { font-size: 1.2rem; margin: 0; color: var(--c-earth); }
+  .card-desc { font-size: 0.92rem; line-height: 1.6; color: var(--c-text-muted); margin: 0; flex: 1; }
+  .card-link { color: var(--c-gold-dark); font-weight: 600; font-size: 0.9rem; margin-top: var(--s-2); }
+  .cta-band { text-align: center; padding-block: var(--s-6); }
+  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); }
+</style>

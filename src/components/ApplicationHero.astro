@@ -1,0 +1,111 @@
+---
+/**
+ * ApplicationHero.astro — Uygulama detay hero (centered, with stats)
+ */
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  application: CollectionEntry<'applications'>['data'];
+  locale: 'en' | 'tr';
+}
+
+const { application: a, locale } = Astro.props;
+---
+
+<section class="app-hero section--dark">
+  <div class="container">
+    {a.badge && <span class="section-tag">{a.badge}</span>}
+    <h1>
+      {a.titleAccent ? (
+        <>
+          {a.title.replace(a.titleAccent, '').trim()}{' '}
+          <em>{a.titleAccent}</em>
+        </>
+      ) : (
+        a.title
+      )}
+    </h1>
+    <p class="subtitle">{a.tagline}</p>
+
+    {a.heroStats.length > 0 && (
+      <div class="stats-grid">
+        {a.heroStats.map((s) => (
+          <div class="stat-card">
+            <div class="stat-value">{s.value}</div>
+            <div class="stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .app-hero {
+    padding-block: var(--s-7);
+    background: linear-gradient(135deg, var(--c-earth) 0%, var(--c-earth-mid) 100%);
+    text-align: center;
+  }
+
+  .app-hero h1 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .app-hero h1 em {
+    font-style: italic;
+    color: var(--c-gold);
+  }
+
+  .section-tag {
+    color: var(--c-gold);
+  }
+
+  .subtitle {
+    color: var(--c-text-light);
+    font-size: 1.15rem;
+    max-width: 640px;
+    margin: 0 auto var(--s-6);
+    line-height: 1.6;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--s-3);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(201, 146, 42, 0.25);
+    border-radius: var(--r-card);
+    padding: var(--s-4) var(--s-3);
+    transition: border-color var(--t), transform var(--t);
+  }
+
+  .stat-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+  }
+
+  .stat-value {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--c-gold);
+    line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-text-light);
+  }
+</style>

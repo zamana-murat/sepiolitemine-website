@@ -1,0 +1,116 @@
+---
+import Layout from '@layouts/Layout.astro';
+
+// 404 — locale detection from referer not reliable on static page; default EN.
+// User can switch via header lang toggle.
+---
+
+<Layout
+  title="Page not found"
+  description="The page you're looking for doesn't exist. Find products, applications, or contact us instead."
+  locale="en"
+  alternates={{ en: '/404', tr: '/tr/404' }}
+  noSuffix={false}
+  robots="noindex, follow"
+>
+  <section class="error-page section">
+    <div class="container container-narrow">
+      <div class="error-content">
+        <p class="error-code">404</p>
+        <h1>Page not found</h1>
+        <p class="lead">
+          The page you're looking for has moved or doesn't exist. Try one of these instead:
+        </p>
+
+        <div class="error-grid">
+          <a href="/" class="error-card">
+            <strong>Home</strong>
+            <span>Sepiolite Mine homepage</span>
+          </a>
+          <a href="/products/" class="error-card">
+            <strong>Products</strong>
+            <span>All six sepiolite grades</span>
+          </a>
+          <a href="/applications/" class="error-card">
+            <strong>Applications</strong>
+            <span>Nine industrial uses</span>
+          </a>
+          <a href="/contact/" class="error-card">
+            <strong>Contact</strong>
+            <span>Request a quote</span>
+          </a>
+          <a href="/tr/" class="error-card">
+            <strong>Türkçe</strong>
+            <span>Türkçe siteye geç</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .error-page {
+    padding-block: var(--s-8);
+  }
+
+  .error-content {
+    text-align: center;
+  }
+
+  .error-code {
+    font-family: var(--font-serif);
+    font-size: 6rem;
+    font-weight: 800;
+    color: var(--c-gold);
+    line-height: 1;
+    margin: 0 0 var(--s-3) 0;
+    opacity: 0.55;
+  }
+
+  .error-content h1 {
+    margin-bottom: var(--s-3);
+  }
+
+  .lead {
+    color: var(--c-text-muted);
+    margin-bottom: var(--s-6);
+    font-size: 1.1rem;
+  }
+
+  .error-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--s-3);
+    text-align: left;
+  }
+
+  .error-card {
+    background: var(--c-cream);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    padding: var(--s-4);
+    text-decoration: none;
+    color: var(--c-text);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    transition: border-color var(--t), transform var(--t);
+  }
+
+  .error-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+    text-decoration: none;
+  }
+
+  .error-card strong {
+    color: var(--c-earth);
+    font-size: 1rem;
+  }
+
+  .error-card span {
+    color: var(--c-text-muted);
+    font-size: 0.85rem;
+  }
+</style>

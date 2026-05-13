@@ -1,0 +1,472 @@
+---
+/**
+ * ApplicationSections.astro — Intro, benefits, process, specs, FAQ, related products
+ */
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  application: CollectionEntry<'applications'>['data'];
+  locale: 'en' | 'tr';
+  contactHref: string;
+  related: Array<{ slug: string; title: string; heroImage: string; href: string }>;
+}
+
+const { application: a, locale, contactHref, related } = Astro.props;
+const isTr = locale === 'tr';
+
+const labels = isTr
+  ? {
+      benefits: 'Temel Faydalar',
+      benefitsHead: 'Neden Bu Uygulama İçin Sepiyolit',
+      process: 'Sürecimiz',
+      processHead: 'Madenden Uygulamanıza',
+      specs: 'Teknik Veri',
+      specsHead: 'Tipik Özellikler',
+      faq: 'SSS',
+      faqHead: 'Sıkça Sorulan Sorular',
+      ctaHead: 'Uygulamanız için Hazır mısınız?',
+      ctaSub: 'Teknik ekibimiz endüstri ihtiyaçlarınıza özel numune, spec ve formülasyon rehberliği sunar.',
+      ctaPrimary: 'Numune İste',
+      ctaSecondary: 'Tüm Uygulamalar',
+      related: 'Daha Fazlasını Keşfedin',
+      relatedHead: 'İlgili Ürünler',
+      applicationsHref: '/tr/applications/',
+    }
+  : {
+      benefits: 'Key Benefits',
+      benefitsHead: 'Why Sepiolite for This Application',
+      process: 'Our Process',
+      processHead: 'From Mine to Your Application',
+      specs: 'Technical Data',
+      specsHead: 'Typical Specifications',
+      faq: 'FAQ',
+      faqHead: 'Frequently Asked Questions',
+      ctaHead: 'Ready for Your Application?',
+      ctaSub: 'Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.',
+      ctaPrimary: 'Request Samples',
+      ctaSecondary: 'All Applications',
+      related: 'Explore More',
+      relatedHead: 'Related Products',
+      applicationsHref: '/applications/',
+    };
+---
+
+{a.intro && (
+  <section class="intro-section section">
+    <div class="container container-narrow">
+      <p class="intro-text">{a.intro}</p>
+    </div>
+  </section>
+)}
+
+{/* ── Body markdown prose ─────────────────────────────────── */}
+<section class="body-section section">
+  <div class="container container-narrow">
+    <div class="prose">
+      <slot name="body" />
+    </div>
+  </div>
+</section>
+
+{/* ── Benefits ────────────────────────────────────────────── */}
+{a.benefits.length > 0 && (
+  <section class="benefits-section section">
+    <div class="container">
+      <header class="centered-header">
+        <span class="section-tag">{labels.benefits}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.benefitsHead}</h2>
+      </header>
+      <div class="benefits-grid">
+        {a.benefits.map((b) => (
+          <div class="benefit-card">
+            {b.icon && <div class="benefit-icon" aria-hidden="true">{b.icon}</div>}
+            <h3>{b.title}</h3>
+            <p>{b.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ── Process / Use cases ─────────────────────────────────── */}
+{a.useCases.length > 0 && (
+  <section class="process-section section">
+    <div class="container container-narrow">
+      <header class="centered-header">
+        <span class="section-tag">{labels.process}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.processHead}</h2>
+      </header>
+      <ol class="process-list">
+        {a.useCases.map((u, i) => (
+          <li>
+            <span class="process-num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{u.title}</h3>
+              <p>{u.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+
+{/* ── Specs table ──────────────────────────────────────────── */}
+{a.specsTable.length > 0 && (
+  <section class="specs-section section">
+    <div class="container container-narrow">
+      <header class="centered-header">
+        <span class="section-tag">{labels.specs}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.specsHead}</h2>
+      </header>
+      <table class="specs-table">
+        <tbody>
+          {a.specsTable.map((s) => (
+            <tr>
+              <th scope="row">{s.label}</th>
+              <td set:html={s.value}></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
+
+{/* ── FAQ ─────────────────────────────────────────────────── */}
+{a.faqs.length > 0 && (
+  <section class="faq-section section">
+    <div class="container container-narrow">
+      <header class="centered-header">
+        <span class="section-tag">{labels.faq}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.faqHead}</h2>
+      </header>
+      <div class="faq-list">
+        {a.faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.question}</summary>
+            <div class="faq-answer">{f.answer}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{/* ── CTA ─────────────────────────────────────────────────── */}
+<section class="cta-section section section--dark">
+  <div class="container">
+    <h2>{labels.ctaHead}</h2>
+    <p>{labels.ctaSub}</p>
+    <div class="cta-actions">
+      <a href={contactHref} class="btn btn-primary">{labels.ctaPrimary}</a>
+      <a href={labels.applicationsHref} class="btn btn-outline">{labels.ctaSecondary}</a>
+    </div>
+  </div>
+</section>
+
+{/* ── Related Products ────────────────────────────────────── */}
+{related.length > 0 && (
+  <section class="related-section section">
+    <div class="container">
+      <header class="centered-header">
+        <span class="section-tag">{labels.related}</span>
+        <div class="divider divider--center"></div>
+        <h2>{labels.relatedHead}</h2>
+      </header>
+      <div class="related-grid">
+        {related.map((r) => (
+          <a href={r.href} class="related-card">
+            <div class="related-img">
+              <img src={r.heroImage} alt={r.title} width="400" height="300" loading="lazy" />
+            </div>
+            <h4>{r.title}</h4>
+            <span class="related-link">View Product →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .intro-section {
+    padding-block: var(--s-7) var(--s-4);
+  }
+
+  .intro-text {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--c-earth);
+    text-align: center;
+    margin: 0;
+  }
+
+  .body-section {
+    padding-block: var(--s-4);
+  }
+
+  .prose :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--c-text);
+    margin-bottom: var(--s-3);
+  }
+
+  .centered-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto var(--s-5);
+  }
+
+  .divider--center {
+    margin-inline: auto;
+  }
+
+  /* Benefits grid */
+  .benefits-section {
+    background: var(--c-cream);
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .benefit-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    padding: var(--s-5);
+    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+  }
+
+  .benefit-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+    box-shadow: var(--sh-soft);
+  }
+
+  .benefit-icon {
+    font-size: 2.2rem;
+    margin-bottom: var(--s-3);
+  }
+
+  .benefit-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: var(--s-2);
+    color: var(--c-earth);
+  }
+
+  .benefit-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--c-text-muted);
+  }
+
+  /* Process list */
+  .process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    align-items: start;
+  }
+
+  .process-num {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--c-gold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .process-list h3 {
+    font-size: 1.15rem;
+    margin: 0 0 var(--s-2) 0;
+    color: var(--c-earth);
+  }
+
+  .process-list p {
+    margin: 0;
+    color: var(--c-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* Specs table */
+  .specs-section {
+    background: var(--c-cream);
+  }
+
+  .specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    overflow: hidden;
+  }
+
+  .specs-table th,
+  .specs-table td {
+    padding: var(--s-3) var(--s-4);
+    text-align: left;
+    border-bottom: 1px solid var(--c-cream-dark);
+  }
+
+  .specs-table tr:last-child th,
+  .specs-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .specs-table th {
+    background: var(--c-cream);
+    font-weight: 500;
+    color: var(--c-stone);
+    width: 40%;
+  }
+
+  .specs-table td {
+    color: var(--c-earth);
+    font-weight: 600;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .faq-item {
+    background: var(--c-cream);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-input);
+    padding: var(--s-3) var(--s-4);
+    transition: border-color var(--t-fast);
+  }
+
+  .faq-item[open] {
+    border-color: var(--c-gold);
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    color: var(--c-earth);
+    padding-block: var(--s-1);
+    position: relative;
+    padding-right: var(--s-5);
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--c-gold);
+  }
+
+  .faq-item[open] summary::after { content: '−'; }
+
+  .faq-answer {
+    margin-top: var(--s-3);
+    color: var(--c-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+  }
+
+  .cta-section p {
+    color: var(--c-text-light);
+    max-width: 640px;
+    margin: 0 auto var(--s-5);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: var(--s-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Related */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .related-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--c-text);
+    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+    text-align: center;
+    padding-bottom: var(--s-3);
+  }
+
+  .related-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-3px);
+    box-shadow: var(--sh-mid);
+    text-decoration: none;
+  }
+
+  .related-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    margin-bottom: var(--s-3);
+  }
+
+  .related-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .related-card h4 {
+    margin: 0 var(--s-3) var(--s-2);
+    font-size: 1.05rem;
+  }
+
+  .related-link {
+    color: var(--c-gold-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+</style>

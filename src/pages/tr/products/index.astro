@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@layouts/Layout.astro';
+
+const products = (await getCollection('products', (p) => p.data.locale === 'tr' && !p.data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Anasayfa', item: `${siteUrl}/tr/` },
+    { '@type': 'ListItem', position: 2, name: 'Ürünler', item: `${siteUrl}/tr/products/` },
+  ],
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: products.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${siteUrl}/tr/products/${p.slug}/`,
+    name: p.data.title,
+  })),
+};
+---
+
+<Layout
+  title="Sepiyolit Ürünleri"
+  description="Endüstriyel B2B alıcılar için altı premium Türk sepiyolit kademesi: ham cevher, granül, öğütülmüş toz, sondaj, tarım, inşaat. Teklif istemek için iletişime geçin."
+  locale="tr"
+  alternates={{ en: '/products/', tr: '/tr/products/' }}
+  schemaJson={[breadcrumbSchema, itemListSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Kırıntı yolu">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/tr/">Anasayfa</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Ürünler</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="hub-hero section section--dark">
+    <div class="container container-narrow">
+      <span class="section-tag">Ürünler</span>
+      <h1>Her Uygulama İçin Sepiyolit Kademeleri</h1>
+      <p class="lead">
+        Türkiye'de çıkarılıp işlenen altı hassas mühendislik sepiyolit kademesi. Tarım,
+        petrol ve gaz sondajı, inşaat, evcil hayvan bakımı ve daha fazlası için 50+ ülkede
+        B2B endüstriyel alıcılara hizmet veriyoruz.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="products-grid">
+        {products.map((p) => (
+          <a href={`/tr/products/${p.slug}/`} class="product-card">
+            <div class="card-img">
+              <img
+                src={p.data.heroImage}
+                alt={p.data.heroImageAlt}
+                width="400"
+                height="300"
+                loading="lazy"
+              />
+            </div>
+            <div class="card-body">
+              {p.data.badge && <span class="card-badge">{p.data.badge}</span>}
+              <h2>{p.data.title}</h2>
+              <p class="card-desc">{p.data.tagline}</p>
+              {p.data.keySpecs.length > 0 && (
+                <div class="card-specs">
+                  {p.data.keySpecs.slice(0, 3).map((s) => (
+                    <span class="spec-pill">
+                      <strong>{s.value}</strong> {s.label}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <span class="card-link">Ürün detayları →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band section section--dark">
+    <div class="container container-narrow">
+      <h2>Özel kademe veya büyük hacimli sözleşme mi arıyorsunuz?</h2>
+      <p>Teknik ekibimiz kademe seçimi, spec özelleştirme ve tedarik sözleşmeleri konusunda danışmanlık verir.</p>
+      <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--c-gold-dark); }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+  .hub-hero { text-align: center; padding-block: var(--s-7); }
+  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; }
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--s-4); }
+  .product-card { background: var(--c-white); border: 1px solid var(--c-cream-dark); border-radius: var(--r-card); overflow: hidden; text-decoration: none; color: var(--c-text); display: flex; flex-direction: column; transition: border-color var(--t), transform var(--t), box-shadow var(--t); }
+  .product-card:hover { border-color: var(--c-gold); transform: translateY(-4px); box-shadow: var(--sh-mid); text-decoration: none; }
+  .card-img { aspect-ratio: 4 / 3; overflow: hidden; background: var(--c-cream); }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow); }
+  .product-card:hover .card-img img { transform: scale(1.05); }
+  .card-body { padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); flex: 1; }
+  .card-badge { align-self: flex-start; background: rgba(201, 146, 42, 0.14); border: 1px solid rgba(201, 146, 42, 0.35); color: var(--c-gold-dark); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; border-radius: 100px; }
+  .card-body h2 { font-size: 1.3rem; margin: 0; color: var(--c-earth); }
+  .card-desc { font-size: 0.92rem; line-height: 1.6; color: var(--c-text-muted); margin: 0; flex: 1; }
+  .card-specs { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-2); }
+  .spec-pill { font-size: 0.78rem; color: var(--c-text-muted); background: var(--c-cream); padding: 0.3rem 0.65rem; border-radius: 100px; border: 1px solid var(--c-cream-dark); }
+  .spec-pill strong { color: var(--c-gold-dark); font-weight: 700; }
+  .card-link { color: var(--c-gold-dark); font-weight: 600; font-size: 0.9rem; margin-top: var(--s-2); }
+  .cta-band { text-align: center; padding-block: var(--s-6); }
+  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
+  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); }
+</style>

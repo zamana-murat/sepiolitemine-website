@@ -1,0 +1,259 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const lastUpdated = '2026-05-14';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: `${siteUrl}/privacy/` },
+  ],
+};
+---
+
+<Layout
+  title="Privacy Policy"
+  description="How Sepiolite Mine collects, uses, and protects personal data. GDPR, CCPA, PIPL, 152-FZ, PDPL, and DPL compliance disclosures."
+  locale="en"
+  alternates={{ en: '/privacy/', tr: '/tr/privacy/' }}
+  schemaJson={[breadcrumbSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Privacy Policy</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article class="legal-page section">
+    <div class="container container-narrow">
+      <header class="legal-header">
+        <span class="section-tag">Legal</span>
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last updated: {lastUpdated}</p>
+      </header>
+
+      <div class="legal-body">
+        <p>
+          {BRAND.name} ("we", "us", "our") respects your privacy and is committed to protecting
+          your personal data. This policy explains how we collect, use, store, and disclose
+          personal information when you visit <strong>sepiolitemine.com</strong> or contact us
+          for B2B inquiries.
+        </p>
+
+        <h2>1. Data Controller</h2>
+        <p>
+          The data controller for personal information collected through this website is
+          {BRAND.legalName}, based in {BRAND.address.city}, {BRAND.address.country}. For
+          privacy inquiries, please reach us via the <a href="/contact/">contact form</a>.
+        </p>
+
+        <h2>2. Information We Collect</h2>
+        <p>We collect personal information only when you provide it voluntarily, such as:</p>
+        <ul>
+          <li>Name, business email, company name, country, and phone (when submitting our contact form)</li>
+          <li>Subject and content of your inquiry message</li>
+          <li>Aggregate, anonymous traffic data via Cloudflare Web Analytics (no cookies, no tracking, no IP storage)</li>
+        </ul>
+        <p>
+          We do <strong>not</strong> use cookies, third-party tracking pixels, advertising
+          networks, or fingerprinting on this site.
+        </p>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>Personal information you submit is used solely to:</p>
+        <ul>
+          <li>Respond to your B2B inquiry, quote request, or sample request</li>
+          <li>Maintain commercial correspondence regarding sepiolite supply</li>
+          <li>Comply with applicable export, customs, and trade documentation requirements</li>
+        </ul>
+        <p>
+          We do not sell, rent, or share your personal data with third parties for marketing
+          purposes.
+        </p>
+
+        <h2>4. Legal Bases (GDPR — EU/EEA visitors)</h2>
+        <p>For visitors in the European Economic Area, we process personal data under:</p>
+        <ul>
+          <li><strong>Article 6(1)(b)</strong> — performance of a contract or pre-contractual steps (responding to a quote request)</li>
+          <li><strong>Article 6(1)(f)</strong> — legitimate interests (handling B2B commercial correspondence)</li>
+          <li><strong>Article 6(1)(c)</strong> — legal compliance (export documentation)</li>
+        </ul>
+
+        <h2>5. Your Rights</h2>
+        <p>Depending on your jurisdiction, you may have rights to:</p>
+        <ul>
+          <li><strong>Access, rectify, or delete</strong> your personal data (GDPR Articles 15–17, CCPA §1798.100, PIPL Articles 44–47, KVKK Article 11)</li>
+          <li><strong>Object to or restrict processing</strong> (GDPR Article 21, PIPL Article 44)</li>
+          <li><strong>Data portability</strong> (GDPR Article 20)</li>
+          <li><strong>Opt out of "sale"</strong> (CCPA §1798.120) — note: we do not sell personal data</li>
+          <li><strong>Lodge a complaint</strong> with your local supervisory authority</li>
+        </ul>
+        <p>
+          To exercise any of these rights, contact us via the <a href="/contact/">contact form</a>.
+          We respond within 30 days.
+        </p>
+
+        <h2>6. International Data Transfers</h2>
+        <p>
+          Our servers are operated by Cloudflare on a global edge network. Email correspondence
+          is handled via Resend (EU region) and our hosting provider. By contacting us, you
+          consent to your data being processed in Türkiye and other jurisdictions where our
+          service providers operate, subject to appropriate safeguards (Standard Contractual
+          Clauses where applicable).
+        </p>
+
+        <h2>7. Jurisdiction-Specific Disclosures</h2>
+
+        <h3>7.1 California (CCPA / CPRA)</h3>
+        <p>
+          California residents have the right to know what personal information is collected,
+          to request deletion, to opt out of sale (we do not sell), and to non-discrimination
+          for exercising rights. We do not have actual knowledge of selling personal information
+          of consumers under 16.
+        </p>
+
+        <h3>7.2 China (PIPL)</h3>
+        <p>
+          For users in mainland China, we process personal information under Article 13(2) of
+          the Personal Information Protection Law (PIPL) for the necessary purposes of contract
+          performance. Cross-border transfers comply with PIPL Article 38 standards. You may
+          exercise PIPL rights via the contact form.
+        </p>
+
+        <h3>7.3 Russia (152-FZ)</h3>
+        <p>
+          For Russian Federation users, personal data submitted via this site is processed in
+          accordance with Federal Law 152-FZ. Russian residents' personal data is initially
+          recorded and stored on Russian-located servers where required, with subsequent
+          processing handled in accordance with applicable cross-border transfer rules.
+        </p>
+
+        <h3>7.4 Saudi Arabia (PDPL) and UAE (DPL)</h3>
+        <p>
+          For users in the Kingdom of Saudi Arabia and the United Arab Emirates, processing
+          complies with the Personal Data Protection Law (PDPL, Saudi) and the Federal Decree-Law
+          No. 45 of 2021 on Personal Data Protection (UAE DPL). Data subject rights apply as
+          prescribed by these laws.
+        </p>
+
+        <h3>7.5 Türkiye (KVKK)</h3>
+        <p>
+          For Turkish residents, we process personal data in accordance with Personal Data
+          Protection Law No. 6698 (KVKK). Data subjects may exercise rights under Article 11
+          via the contact form.
+        </p>
+
+        <h2>8. Data Retention</h2>
+        <p>
+          Inquiry messages and commercial correspondence are retained for the duration of the
+          business relationship plus a reasonable period for legal, tax, and audit obligations
+          (typically 5–10 years depending on applicable law). Anonymous analytics data is
+          aggregated and retained per Cloudflare's data policies.
+        </p>
+
+        <h2>9. Security</h2>
+        <p>
+          We use industry-standard measures (HTTPS/TLS encryption, restricted access controls,
+          and secure hosting) to protect personal information. No method of transmission or
+          storage is 100% secure; we cannot guarantee absolute security.
+        </p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>
+          This is a B2B website not directed at children under 16. We do not knowingly collect
+          personal data from children.
+        </p>
+
+        <h2>11. Changes to This Policy</h2>
+        <p>
+          We may update this policy periodically. Material changes will be reflected by updating
+          the "Last updated" date at the top. Continued use of the site after changes constitutes
+          acceptance.
+        </p>
+
+        <h2>12. Contact</h2>
+        <p>
+          For privacy questions or to exercise your rights, please use the
+          <a href="/contact/">contact form</a> with subject "Privacy". We do not publish a direct
+          email address on this site to prevent automated abuse.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+
+  .legal-page {
+    padding-block: var(--s-7);
+  }
+
+  .legal-header {
+    margin-bottom: var(--s-6);
+    padding-bottom: var(--s-5);
+    border-bottom: 1px solid var(--c-cream-dark);
+  }
+
+  .last-updated {
+    color: var(--c-text-muted);
+    font-size: 0.9rem;
+    margin-top: var(--s-2);
+  }
+
+  .legal-body {
+    line-height: 1.75;
+  }
+
+  .legal-body h2 {
+    font-size: 1.4rem;
+    margin-top: var(--s-6);
+    margin-bottom: var(--s-3);
+    color: var(--c-earth);
+  }
+
+  .legal-body h3 {
+    font-size: 1.1rem;
+    margin-top: var(--s-5);
+    margin-bottom: var(--s-2);
+    color: var(--c-earth);
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+
+  .legal-body p {
+    color: var(--c-text);
+    margin-bottom: var(--s-3);
+  }
+
+  .legal-body ul {
+    color: var(--c-text);
+    margin-bottom: var(--s-4);
+    padding-inline-start: var(--s-5);
+  }
+
+  .legal-body li {
+    margin-bottom: var(--s-2);
+  }
+
+  .legal-body strong {
+    color: var(--c-earth);
+  }
+
+  .legal-body a {
+    color: var(--c-gold-dark);
+    font-weight: 600;
+  }
+</style>

@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
+
+const products = (await getCollection('products', (p) => p.data.locale === 'en' && !p.data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const apps = (await getCollection('applications', (a) => a.data.locale === 'en' && !a.data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout
@@ -10,66 +17,194 @@ import { BRAND } from '@config/brand';
   locale="en"
   noSuffix={true}
 >
-  <section class="hero section--dark">
-    <div class="container hero-inner">
-      <div class="hero-content">
-        <span class="section-tag">Industrial Sepiolite · Türkiye</span>
-        <h1>{BRAND.tagline}</h1>
-        <p class="lead">
-          Raw and processed sepiolite for agriculture, oil &amp; gas drilling, construction,
-          cat litter, and industrial markets worldwide. B2B supply since 1995.
-        </p>
-        <div class="hero-actions">
-          <a href="/contact/" class="btn btn-primary">Request Quote</a>
-          <a href="/products/" class="btn btn-outline">View Products</a>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href="/images/mine/aerial-02-800w.webp" fetchpriority="high" />
+  </Fragment>
+
+  {/* ── HERO ────────────────────────────────────────────── */}
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="section-tag">Industrial Sepiolite · Türkiye</span>
+      <h1>{BRAND.tagline}</h1>
+      <p class="lead">
+        Raw and processed sepiolite for agriculture, oil &amp; gas drilling, construction,
+        cat litter, and global industrial markets. Mine-to-port supply, B2B only.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact/" class="btn btn-primary">Request Quote</a>
+        <a href="/products/" class="btn btn-outline">View Products</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── TRUST STRIP ─────────────────────────────────────── */}
+  <section class="trust-strip">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <strong>70%</strong>
+          <span>of global sepiolite reserves are in Türkiye</span>
+        </div>
+        <div class="trust-item">
+          <strong>1995</strong>
+          <span>Operating since</span>
+        </div>
+        <div class="trust-item">
+          <strong>50+</strong>
+          <span>Export destinations</span>
+        </div>
+        <div class="trust-item">
+          <strong>99%+</strong>
+          <span>Typical purity grade</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  {/* ── PRODUCTS ────────────────────────────────────────── */}
+  <section class="products-section section">
     <div class="container">
-      <div class="phase-notice">
-        <h2>🚧 Site Migration in Progress</h2>
-        <p>
-          This is the Astro scaffold smoke-test build. Content migration from the
-          legacy static HTML site (<code>Oldwebsite/</code>) is scheduled for Phase 3.
-        </p>
-        <p>
-          Current scaffold validates: brand config (B5 — rentable tenant model), self-host
-          fonts (C5), Layout + Header + Footer, Astro i18n routing, schema.org JSON-LD,
-          robots.txt with AI bot disallow (B3), site.webmanifest, humans.txt.
-        </p>
+      <header class="section-header">
+        <span class="section-tag">Products</span>
+        <div class="divider"></div>
+        <h2>Six Grades, One Mine</h2>
+        <p>From raw ore to micronized powder, drilling-grade to agricultural carrier, every grade is processed and quality-controlled in-house.</p>
+      </header>
+      <div class="products-grid">
+        {products.map((p) => (
+          <a href={`/products/${p.slug}/`} class="product-card">
+            <div class="card-img">
+              <img
+                src={p.data.heroImage}
+                alt={p.data.heroImageAlt}
+                width="400"
+                height="300"
+                loading="lazy"
+              />
+            </div>
+            <div class="card-body">
+              <h3>{p.data.title}</h3>
+              <p>{p.data.tagline}</p>
+              <span class="card-link">View details →</span>
+            </div>
+          </a>
+        ))}
       </div>
+    </div>
+  </section>
+
+  {/* ── APPLICATIONS ─────────────────────────────────────── */}
+  <section class="apps-section section section--dark">
+    <div class="container">
+      <header class="section-header centered">
+        <span class="section-tag">Applications</span>
+        <div class="divider divider--center"></div>
+        <h2>Where Sepiolite Delivers Value</h2>
+        <p>Nine industries trust sepiolite for absorption, rheology, controlled release, and structural performance.</p>
+      </header>
+      <div class="apps-grid">
+        {apps.map((a) => (
+          <a href={`/applications/${a.slug}/`} class="app-tile">
+            <span class="app-name">{a.data.title}</span>
+            <span class="app-arrow">→</span>
+          </a>
+        ))}
+      </div>
+      <div class="apps-cta">
+        <a href="/applications/" class="btn btn-outline">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── WHY US ──────────────────────────────────────────── */}
+  <section class="why-section section">
+    <div class="container">
+      <header class="section-header centered">
+        <span class="section-tag">Why Sepiolite Mine</span>
+        <div class="divider divider--center"></div>
+        <h2>Direct Mine, Direct Supply</h2>
+      </header>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-num">01</div>
+          <h3>World's Highest Purity</h3>
+          <p>Eskişehir and Sivrihisar deposits consistently yield 99%+ purity, the global benchmark.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">02</div>
+          <h3>Mine-to-Port Control</h3>
+          <p>We own the full chain from extraction to FOB delivery. No middlemen, no quality gaps.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">03</div>
+          <h3>ISO-Certified Quality</h3>
+          <p>Every batch tested in our on-site laboratory. Full Certificate of Analysis with every shipment.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">04</div>
+          <h3>Scalable Supply</h3>
+          <p>From a single 20 MT container to full vessel loads. Long-term contracts welcomed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FINAL CTA ───────────────────────────────────────── */}
+  <section class="final-cta section section--dark">
+    <div class="container container-narrow">
+      <h2>Ready to discuss your sepiolite requirement?</h2>
+      <p>Send us your specification, target volume, and destination. We respond within 24 hours.</p>
+      <a href="/contact/" class="btn btn-primary">Request Quote</a>
     </div>
   </section>
 </Layout>
 
 <style>
+  /* ── Hero ─────────────────────────────────────────── */
   .hero {
-    min-height: 60vh;
+    position: relative;
+    min-height: 70vh;
     display: flex;
     align-items: center;
-    background-color: var(--c-earth);
-    background-image: linear-gradient(135deg, rgba(28, 20, 16, 0.85), rgba(46, 33, 24, 0.75));
-  }
-
-  .hero-inner {
+    overflow: hidden;
+    background: var(--c-earth);
     padding-block: var(--s-7);
   }
 
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('/images/mine/aerial-02-800w.webp') center/cover no-repeat;
+    opacity: 0.55;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28, 20, 16, 0.78), rgba(46, 33, 24, 0.55));
+  }
+
   .hero-content {
+    position: relative;
+    z-index: 1;
     max-width: 720px;
   }
 
-  .hero-content h1 {
+  .hero .section-tag {
+    color: var(--c-gold);
+  }
+
+  .hero h1 {
     color: var(--c-white);
     margin-bottom: var(--s-3);
   }
 
-  .lead {
+  .hero .lead {
     font-size: 1.15rem;
     color: var(--c-text-light);
+    line-height: 1.7;
     margin-bottom: var(--s-5);
   }
 
@@ -79,23 +214,228 @@ import { BRAND } from '@config/brand';
     gap: var(--s-3);
   }
 
-  .phase-notice {
+  /* ── Trust strip ──────────────────────────────────── */
+  .trust-strip {
     background: var(--c-cream);
-    border-left: 4px solid var(--c-gold);
-    padding: var(--s-5);
+    border-bottom: 1px solid var(--c-cream-dark);
+    padding-block: var(--s-5);
+  }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--s-4);
+    text-align: center;
+  }
+
+  .trust-item strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--c-gold-dark);
+    line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+
+  .trust-item span {
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Section headers ──────────────────────────────── */
+  .section-header {
+    margin-bottom: var(--s-6);
+    max-width: 640px;
+  }
+
+  .section-header.centered {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .section-header h2 {
+    margin-block: var(--s-2) var(--s-3);
+  }
+
+  .section-header p {
+    font-size: 1.05rem;
+    color: var(--c-text-muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .section--dark .section-header p {
+    color: var(--c-text-light);
+  }
+
+  .divider--center {
+    margin-inline: auto;
+  }
+
+  /* ── Products grid ────────────────────────────────── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .product-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
     border-radius: var(--r-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--c-text);
+    display: flex;
+    flex-direction: column;
+    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
   }
 
-  .phase-notice h2 {
-    margin-top: 0;
+  .product-card:hover {
+    border-color: var(--c-gold);
+    transform: translateY(-4px);
+    box-shadow: var(--sh-mid);
+    text-decoration: none;
+  }
+
+  .product-card .card-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--c-cream);
+  }
+
+  .product-card .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-card .card-body {
+    padding: var(--s-4);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .product-card h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .product-card p {
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+
+  .product-card .card-link {
+    color: var(--c-gold-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: var(--s-2);
+  }
+
+  /* ── Applications grid ────────────────────────────── */
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--s-3);
+  }
+
+  .app-tile {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--r-input);
+    padding: var(--s-4);
+    text-decoration: none;
+    color: var(--c-text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-3);
+    transition: border-color var(--t), background var(--t);
+  }
+
+  .app-tile:hover {
+    border-color: var(--c-gold);
+    background: rgba(201, 146, 42, 0.08);
+    color: var(--c-white);
+    text-decoration: none;
+  }
+
+  .app-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .app-arrow {
+    color: var(--c-gold);
+    font-size: 1.1rem;
+  }
+
+  .apps-cta {
+    text-align: center;
+    margin-top: var(--s-5);
+  }
+
+  /* ── Why us ───────────────────────────────────────── */
+  .why-section {
+    background: var(--c-cream);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .why-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    padding: var(--s-5);
+  }
+
+  .why-num {
+    font-family: var(--font-serif);
     font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--c-gold);
+    line-height: 1;
+    margin-bottom: var(--s-3);
   }
 
-  .phase-notice code {
-    background: var(--c-cream-dark);
-    padding: 0.1em 0.4em;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 0.9em;
+  .why-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--s-2);
+    color: var(--c-earth);
+  }
+
+  .why-card p {
+    font-size: 0.92rem;
+    color: var(--c-text-muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────── */
+  .final-cta {
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+  }
+
+  .final-cta p {
+    color: var(--c-text-light);
+    margin-bottom: var(--s-4);
+    font-size: 1.05rem;
   }
 </style>

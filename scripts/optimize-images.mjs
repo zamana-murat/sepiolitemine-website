@@ -1,12 +1,12 @@
 /**
  * optimize-images.mjs — C1 + C2 + C14 implementation
  *
- * Ham imajları `assets-source/` klasöründen okur, sharp ile WebP varyantlara
- * dönüştürür ve `public/images/` altına yazar.
+ * Folder-convention approach: assets-source/<folder>/<image> → public/images/<folder>/<image>-<width>w.webp
+ *
+ * Variants per folder (defined below). Yeni imaj eklemek için sadece doğru klasöre
+ * koy, config'e dokunma. B5 (rentable tenant) ergonomi.
  *
  * Çağrı: `npm run preimages` (npm scripts), her build öncesi otomatik.
- *
- * Yeni imaj ekleme: VARIANTS objesine satır ekle, ham dosyayı assets-source/'a koy.
  */
 
 import sharp from 'sharp';
@@ -22,26 +22,27 @@ const SOURCE_DIR = join(ROOT, 'assets-source');
 const TARGET_DIR = join(__dirname, '..', 'public', 'images');
 
 /**
- * Variant config — her ham dosya için hangi boyutlarda varyant üretilecek.
+ * Variant width sets per folder.
  *
- * KEY: assets-source/ içindeki göreli path
- * VALUE: { widths: number[], quality?: number, outputName?: string }
+ * - hero/banner usage → larger widths
+ * - product main + cards → medium widths
+ * - thumbnails + logos → small widths
  *
- * Output ismi default: <input-name>-<width>w.webp
- * Örnek: hero-main.png + widths [640, 1280, 1920] →
- *   public/images/hero-main-640w.webp
- *   public/images/hero-main-1280w.webp
- *   public/images/hero-main-1920w.webp
+ * sharp `withoutEnlargement: true` ensures we don't upscale beyond source.
  */
-const VARIANTS = {
-  // Phase 3'te eski sitedan asset'ler taşındıkça doldurulur (C14).
-  // Örnek (şu anlık placeholder — assets-source/ boş olabilir, script no-op olur):
-  //
-  // 'hero/hero-main.jpg':      { widths: [640, 1280, 1920], quality: 80 },
-  // 'factory/exterior-01.jpg': { widths: [640, 1280, 1920], quality: 80 },
-  // 'products/granulated.jpg': { widths: [400, 800, 1600], quality: 82 },
-  // 'logo/logo-light.png':     { widths: [200, 400], quality: 90 },
+const FOLDER_VARIANTS = {
+  mine: [400, 800, 1280, 1600],              // landscape/banner usage
+  factory: [400, 800, 1280],                  // production photos
+  products: [200, 400, 800, 1280],           // product main + gallery thumbs
+  certifications: [200, 400, 800, 1200],     // cert documents
+  logo: [200, 400],                           // header/footer logo
 };
+
+/** Default if folder not listed above */
+const DEFAULT_VARIANTS = [400, 800];
+
+/** WebP quality */
+const QUALITY = 80;
 
 async function ensureDir(dir) {
   try {
@@ -60,32 +61,60 @@ async function fileExists(path) {
   }
 }
 
-async function processVariant(sourceRel, widths, quality = 80) {
-  const sourcePath = join(SOURCE_DIR, sourceRel);
-
-  if (!(await fileExists(sourcePath))) {
-    console.warn(`  ⚠️  Source missing: ${sourceRel} — skipping`);
-    return;
+async function listImageFiles(dir, baseRel = '') {
+  const out = [];
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return out;
   }
+  for (const e of entries) {
+    if (e.name.startsWith('.')) continue;
+    const full = join(dir, e.name);
+    const rel = baseRel ? `${baseRel}/${e.name}` : e.name;
+    if (e.isDirectory()) {
+      const nested = await listImageFiles(full, rel);
+      out.push(...nested);
+    } else if (/\.(jpe?g|png|webp|tiff?|avif)$/i.test(e.name)) {
+      out.push({ rel, full });
+    }
+  }
+  return out;
+}
+
+async function processImage(sourceRel, sourceFull) {
+  const folder = sourceRel.split('/')[0];
+  const widths = FOLDER_VARIANTS[folder] ?? DEFAULT_VARIANTS;
 
   const baseName = basename(sourceRel, extname(sourceRel));
-  const targetSubdir = dirname(sourceRel);
-  const outDir = join(TARGET_DIR, targetSubdir === '.' ? '' : targetSubdir);
+  const subDir = dirname(sourceRel);
+  const outDir = join(TARGET_DIR, subDir === '.' ? '' : subDir);
 
   await ensureDir(outDir);
 
+  const sourceMeta = await sharp(sourceFull).metadata();
+  const sourceWidth = sourceMeta.width ?? 9999;
+  const generated = [];
+
   for (const w of widths) {
+    // Skip variants larger than the source (sharp's withoutEnlargement would skip
+    // resizing but still write a copy at source dimensions — we want to skip entirely)
+    if (w > sourceWidth) continue;
+
     const outPath = join(outDir, `${baseName}-${w}w.webp`);
     try {
-      await sharp(sourcePath)
+      await sharp(sourceFull)
         .resize({ width: w, withoutEnlargement: true })
-        .webp({ quality })
+        .webp({ quality: QUALITY })
         .toFile(outPath);
-      console.log(`  ✅ ${sourceRel} → ${basename(outPath)}`);
+      generated.push(`${baseName}-${w}w`);
     } catch (e) {
       console.error(`  ❌ Failed ${sourceRel} @ ${w}w: ${e.message}`);
     }
   }
+
+  return { sourceRel, sourceWidth, widths, generated };
 }
 
 async function main() {
@@ -94,27 +123,30 @@ async function main() {
   console.log(`   Target: ${TARGET_DIR}`);
 
   if (!(await fileExists(SOURCE_DIR))) {
-    console.log(`   ℹ️  assets-source/ does not exist yet — skipping (Phase 3'te doldurulacak)`);
+    console.log(`   ℹ️  assets-source/ does not exist yet — nothing to do.`);
     return;
   }
 
-  const entries = Object.entries(VARIANTS);
+  const files = await listImageFiles(SOURCE_DIR);
 
-  if (entries.length === 0) {
-    console.log('   ℹ️  VARIANTS map is empty — no images to process yet.');
-    console.log("   ℹ️  Phase 3 (içerik migration) sırasında bu dosyaya entry eklenecek.");
+  if (files.length === 0) {
+    console.log('   ℹ️  No images found in assets-source/');
     return;
   }
 
-  await ensureDir(TARGET_DIR);
+  console.log(`   Processing ${files.length} source image(s)...\n`);
 
-  console.log(`   Processing ${entries.length} source image(s)...`);
+  let total = 0;
+  let skipped = 0;
 
-  for (const [sourceRel, opts] of entries) {
-    await processVariant(sourceRel, opts.widths, opts.quality);
+  for (const { rel, full } of files) {
+    const result = await processImage(rel, full);
+    total += result.generated.length;
+    skipped += result.widths.length - result.generated.length;
+    process.stdout.write(`  ✓ ${rel} (${result.sourceWidth}px) → ${result.generated.length} variants\n`);
   }
 
-  console.log('✅ Image optimization done.');
+  console.log(`\n✅ Generated ${total} variants from ${files.length} sources (${skipped} skipped — source too small).`);
 }
 
 main().catch((err) => {

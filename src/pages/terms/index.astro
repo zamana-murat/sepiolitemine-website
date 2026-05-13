@@ -1,0 +1,167 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const lastUpdated = '2026-05-14';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Terms of Use', item: `${siteUrl}/terms/` },
+  ],
+};
+---
+
+<Layout
+  title="Terms of Use"
+  description="Terms governing use of sepiolitemine.com. B2B-only website. No commercial offer or contract is created by website content; all sales are subject to separate written agreement."
+  locale="en"
+  alternates={{ en: '/terms/', tr: '/tr/terms/' }}
+  schemaJson={[breadcrumbSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Terms of Use</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article class="legal-page section">
+    <div class="container container-narrow">
+      <header class="legal-header">
+        <span class="section-tag">Legal</span>
+        <h1>Terms of Use</h1>
+        <p class="last-updated">Last updated: {lastUpdated}</p>
+      </header>
+
+      <div class="legal-body">
+        <p>
+          These Terms govern your use of <strong>sepiolitemine.com</strong> (the "Site"),
+          operated by {BRAND.legalName} ("{BRAND.name}", "we", "us"). By accessing the Site,
+          you agree to these Terms. If you disagree, please do not use the Site.
+        </p>
+
+        <h2>1. Purpose of the Site</h2>
+        <p>
+          This Site provides general information about industrial sepiolite grades, applications,
+          and our supply capabilities for B2B buyers worldwide. It is not a consumer-facing
+          e-commerce platform.
+        </p>
+
+        <h2>2. No Commercial Offer</h2>
+        <p>
+          Information published on this Site (including product descriptions, technical
+          specifications, and reference figures) is provided for general informational purposes.
+          Nothing on the Site constitutes a binding commercial offer, price quotation, or
+          guarantee of availability. All sales are subject to a separate written agreement
+          (purchase order, sales contract, or signed proforma invoice) executed by both parties.
+        </p>
+
+        <h2>3. Specifications and Technical Data</h2>
+        <p>
+          Typical specifications shown on product and application pages reflect representative
+          values from our production. Actual batch values may vary within the tolerance ranges
+          documented in each shipment's Certificate of Analysis. Buyers are responsible for
+          verifying suitability of any sepiolite grade for their specific application before
+          large-volume orders.
+        </p>
+
+        <h2>4. Intellectual Property</h2>
+        <p>
+          All content on this Site — including text, images, graphics, logos, and trade names —
+          is owned by or licensed to {BRAND.legalName} and is protected by copyright, trademark,
+          and other intellectual property laws. You may not reproduce, distribute, or create
+          derivative works without prior written permission, except for fair-use purposes
+          (e.g. press citation with proper attribution).
+        </p>
+
+        <h2>5. AI / Crawler Policy</h2>
+        <p>
+          The Site's <a href="/robots.txt">robots.txt</a> declares our preferences regarding
+          automated access. Use of Site content for training AI models, large-scale scraping,
+          or commercial republication is not authorized.
+        </p>
+
+        <h2>6. Disclaimer of Warranties</h2>
+        <p>
+          The Site is provided "as is" and "as available". We do not warrant that the Site
+          will be uninterrupted, error-free, or free from viruses or harmful components. To the
+          extent permitted by law, we disclaim all warranties, express or implied, including
+          warranties of merchantability, fitness for a particular purpose, and non-infringement
+          regarding Site content.
+        </p>
+        <p>
+          <strong>Note:</strong> Warranties regarding the actual physical sepiolite product are
+          governed by the separate sales contract or purchase agreement, not by this Site.
+        </p>
+
+        <h2>7. Limitation of Liability</h2>
+        <p>
+          To the maximum extent permitted by applicable law, {BRAND.legalName} and its
+          affiliates shall not be liable for any indirect, incidental, special, consequential,
+          or punitive damages arising from use of the Site, including loss of profit, data,
+          or goodwill.
+        </p>
+
+        <h2>8. Third-Party Links</h2>
+        <p>
+          The Site may contain links to third-party websites for convenience. We do not endorse,
+          control, or take responsibility for content on linked sites.
+        </p>
+
+        <h2>9. Export Controls and Sanctions</h2>
+        <p>
+          Sepiolite is a non-controlled industrial mineral, but buyers are responsible for
+          complying with applicable export control, anti-bribery, and sanctions laws in their
+          jurisdiction. We reserve the right to decline orders that may conflict with EU, US,
+          UN, or Turkish trade restrictions.
+        </p>
+
+        <h2>10. Governing Law and Disputes</h2>
+        <p>
+          These Terms are governed by the laws of the Republic of Türkiye, without regard to
+          conflict-of-law rules. Any dispute arising from use of the Site shall be subject to
+          the exclusive jurisdiction of the courts of {BRAND.address.city}, Türkiye, except
+          where mandatory consumer-protection laws of your jurisdiction provide otherwise.
+        </p>
+        <p>
+          For commercial disputes related to actual sales, the governing law and dispute
+          resolution mechanism are defined in the separate sales contract.
+        </p>
+
+        <h2>11. Changes</h2>
+        <p>
+          We may revise these Terms at any time by updating this page. Continued use of the
+          Site after changes constitutes acceptance.
+        </p>
+
+        <h2>12. Contact</h2>
+        <p>
+          For questions about these Terms, please use the <a href="/contact/">contact form</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+  .legal-page { padding-block: var(--s-7); }
+  .legal-header { margin-bottom: var(--s-6); padding-bottom: var(--s-5); border-bottom: 1px solid var(--c-cream-dark); }
+  .last-updated { color: var(--c-text-muted); font-size: 0.9rem; margin-top: var(--s-2); }
+  .legal-body { line-height: 1.75; }
+  .legal-body h2 { font-size: 1.4rem; margin-top: var(--s-6); margin-bottom: var(--s-3); color: var(--c-earth); }
+  .legal-body p { color: var(--c-text); margin-bottom: var(--s-3); }
+  .legal-body strong { color: var(--c-earth); }
+  .legal-body a { color: var(--c-gold-dark); font-weight: 600; }
+</style>

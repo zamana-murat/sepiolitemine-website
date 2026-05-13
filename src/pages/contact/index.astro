@@ -1,0 +1,406 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: `${siteUrl}/contact/` },
+  ],
+};
+
+const phoneHref = `tel:${BRAND.contact.phone.replace(/\s/g, '')}`;
+---
+
+<Layout
+  title="Contact"
+  description="Request a quote, technical specs, or samples for Turkish sepiolite. B2B inquiries only. We respond within 24 hours."
+  locale="en"
+  alternates={{ en: '/contact/', tr: '/tr/contact/' }}
+  schemaJson={[breadcrumbSchema]}
+>
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="sep">›</li>
+        <li aria-current="page">Contact</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="contact-hero section section--dark">
+    <div class="container container-narrow">
+      <span class="section-tag">Contact</span>
+      <h1>Let's talk sepiolite</h1>
+      <p class="lead">
+        Tell us your specification, target volume, and destination. We respond within
+        24 hours with pricing, lead time, and a Certificate of Analysis sample.
+      </p>
+    </div>
+  </section>
+
+  <section class="contact-section section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Quick Channels</h2>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Phone</span>
+              <a href={phoneHref} class="contact-value">{BRAND.contact.phone}</a>
+            </li>
+            <li>
+              <span class="contact-label">Office</span>
+              <span class="contact-value">{BRAND.address.city}, {BRAND.address.country}</span>
+            </li>
+            <li>
+              <span class="contact-label">Hours</span>
+              <span class="contact-value">Mon–Fri 09:00–18:00 (GMT+3)</span>
+            </li>
+            <li>
+              <span class="contact-label">Response time</span>
+              <span class="contact-value">Within 24 hours</span>
+            </li>
+          </ul>
+
+          <div class="contact-notes">
+            <h3>Before you submit</h3>
+            <ul>
+              <li>Specify the product grade you need (e.g. drilling-grade, milled powder, granulated).</li>
+              <li>Indicate target volume (in metric tons) and destination port.</li>
+              <li>Mention any spec requirements (mesh size, purity, packaging).</li>
+              <li>For samples, include shipping address and contact person.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="form-wrapper">
+          <h2>Send a Request</h2>
+          <form id="contact-form" action="/api/contact" method="POST" novalidate>
+            <div class="field">
+              <label for="name">Full name <span class="req">*</span></label>
+              <input id="name" name="name" type="text" required autocomplete="name" />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="email">Business email <span class="req">*</span></label>
+                <input id="email" name="email" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="company">Company</label>
+                <input id="company" name="company" type="text" autocomplete="organization" />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="country">Destination country</label>
+                <input id="country" name="country" type="text" autocomplete="country-name" />
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject">
+                <option value="quote">Request a quote</option>
+                <option value="sample">Request a sample</option>
+                <option value="spec">Technical specification</option>
+                <option value="partnership">Distribution / partnership</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Message <span class="req">*</span></label>
+              <textarea id="message" name="message" rows="6" required placeholder="Product, volume, destination, timeline..."></textarea>
+            </div>
+
+            {/* Honeypot — must remain empty */}
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">Website (leave empty)</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Send Request</button>
+              <p class="form-note">By submitting, you agree to be contacted regarding your inquiry. See our <a href="/privacy/">privacy policy</a>.</p>
+            </div>
+
+            <div id="form-success" class="form-success" hidden role="status">
+              Thank you. We received your request and will respond within 24 hours.
+            </div>
+            <div id="form-error" class="form-error" hidden role="alert">
+              Something went wrong. Please try again or reach us by phone at <a href={phoneHref}>{BRAND.contact.phone}</a>.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('form-success');
+  const error = document.getElementById('form-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    success?.setAttribute('hidden', '');
+    error?.setAttribute('hidden', '');
+
+    const fd = new FormData(form);
+    const payload: Record<string, string> = {};
+    fd.forEach((v, k) => { payload[k] = String(v); });
+
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        success?.removeAttribute('hidden');
+        form.reset();
+      } else {
+        error?.removeAttribute('hidden');
+      }
+    } catch {
+      error?.removeAttribute('hidden');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Request';
+      }
+    }
+  });
+</script>
+
+<style>
+  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
+  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
+  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
+  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
+  .breadcrumb .sep { color: var(--c-stone); }
+
+  .contact-hero {
+    text-align: center;
+    padding-block: var(--s-7);
+  }
+
+  .contact-hero h1 {
+    color: var(--c-white);
+    margin-bottom: var(--s-3);
+  }
+
+  .contact-hero .lead {
+    color: var(--c-text-light);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--s-6);
+    align-items: start;
+  }
+
+  .contact-info h2,
+  .form-wrapper h2 {
+    font-size: 1.4rem;
+    margin-bottom: var(--s-4);
+  }
+
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+
+  .contact-list li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    padding-bottom: var(--s-3);
+    border-bottom: 1px solid var(--c-cream-dark);
+  }
+
+  .contact-list li:last-child {
+    border-bottom: none;
+  }
+
+  .contact-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-stone);
+    font-weight: 600;
+  }
+
+  .contact-value {
+    font-size: 1rem;
+    color: var(--c-earth);
+    font-weight: 500;
+  }
+
+  a.contact-value:hover {
+    color: var(--c-gold-dark);
+  }
+
+  .contact-notes {
+    margin-top: var(--s-5);
+    background: var(--c-cream);
+    border-left: 3px solid var(--c-gold);
+    padding: var(--s-4);
+    border-radius: 0 var(--r-input) var(--r-input) 0;
+  }
+
+  .contact-notes h3 {
+    font-size: 1rem;
+    margin-bottom: var(--s-2);
+    color: var(--c-earth);
+  }
+
+  .contact-notes ul {
+    margin: 0;
+    padding-inline-start: var(--s-4);
+    color: var(--c-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  /* Form */
+  .form-wrapper {
+    background: var(--c-cream);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-card);
+    padding: var(--s-5);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    margin-bottom: var(--s-3);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
+  }
+
+  .field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-earth);
+  }
+
+  .req {
+    color: var(--c-gold-dark);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    padding: var(--s-2) var(--s-3);
+    border: 1px solid var(--c-cream-dark);
+    border-radius: var(--r-input);
+    background: var(--c-white);
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    color: var(--c-earth);
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--c-gold);
+    box-shadow: 0 0 0 3px rgba(201, 146, 42, 0.18);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* Honeypot — hidden from users + assistive tech */
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+
+  .form-note {
+    font-size: 0.8rem;
+    color: var(--c-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .form-note a {
+    color: var(--c-gold-dark);
+  }
+
+  .form-success,
+  .form-error {
+    margin-top: var(--s-4);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-input);
+    font-size: 0.95rem;
+  }
+
+  .form-success {
+    background: rgba(44, 140, 122, 0.12);
+    border: 1px solid var(--c-accent-teal);
+    color: var(--c-accent-teal);
+  }
+
+  .form-error {
+    background: rgba(180, 50, 50, 0.1);
+    border: 1px solid #b43232;
+    color: #b43232;
+  }
+
+  .form-error a {
+    color: inherit;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
