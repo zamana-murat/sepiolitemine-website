@@ -1,441 +1,906 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
 
-const products = (await getCollection('products', (p) => p.data.locale === 'en' && !p.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
-const apps = (await getCollection('applications', (a) => a.data.locale === 'en' && !a.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: BRAND.name,
+  url: siteUrl,
+  description: BRAND.description,
+  telephone: BRAND.contact.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Başkent Organize Sanayi Atatürk Bulvarı No:48',
+    addressLocality: 'Sincan / Ankara',
+    addressCountry: 'TR',
+  },
+  sameAs: ['https://www.linkedin.com/company/akmin'],
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'Akmin Mining',
+    url: 'https://akmin.com.tr',
+  },
+};
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Sepiolite Mine — Akmin Mining',
+  image: `${siteUrl}/images/mine/aerial-02-1280w.webp`,
+  telephone: BRAND.contact.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Başkent Organize Sanayi Atatürk Bulvarı No:48',
+    addressLocality: 'Sincan',
+    addressRegion: 'Ankara',
+    addressCountry: 'TR',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+};
 ---
 
 <Layout
-  title={BRAND.tagline}
-  description={BRAND.description}
+  title="Premium Turkish Sepiolite Supplier"
+  description="Turkey's premier sepiolite producer. Premium raw and processed sepiolite for agriculture, oil & gas, construction, cat litter, and industrial markets globally."
   alternates={{ en: '/', tr: '/tr/' }}
   locale="en"
   noSuffix={true}
+  schemaJson={[orgSchema, localBusinessSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-800w.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1280w.webp" fetchpriority="high" />
   </Fragment>
 
-  {/* ── HERO ────────────────────────────────────────────── */}
-  <section class="hero">
+  {/* ===== HERO ===== */}
+  <section id="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
+    <div class="hero-particles" id="particles"></div>
     <div class="container hero-content">
-      <span class="section-tag">Industrial Sepiolite · Türkiye</span>
-      <h1>{BRAND.tagline}</h1>
-      <p class="lead">
-        Raw and processed sepiolite for agriculture, oil &amp; gas drilling, construction,
-        cat litter, and global industrial markets. Mine-to-port supply, B2B only.
+      <div class="hero-badge">Turkey's Premier Sepiolite Producer</div>
+      <h1 class="hero-title">
+        The Earth's Most<br/><em>Versatile Mineral</em><br/>Delivered Globally
+      </h1>
+      <p class="hero-desc">
+        From the rich deposits of Turkey, Sepiolite Mine supplies premium raw and processed sepiolite to industries across the world — agriculture, oil &amp; gas, construction, environmental, and beyond.
       </p>
       <div class="hero-actions">
-        <a href="/contact/" class="btn btn-primary">Request Quote</a>
-        <a href="/products/" class="btn btn-outline">View Products</a>
+        <a href="#products" class="btn btn-primary">Explore Products ↓</a>
+        <a href="/contact/" class="btn btn-outline">Request a Sample</a>
       </div>
-    </div>
-  </section>
-
-  {/* ── TRUST STRIP ─────────────────────────────────────── */}
-  <section class="trust-strip">
-    <div class="container">
-      <div class="trust-grid">
-        <div class="trust-item">
-          <strong>70%</strong>
-          <span>of global sepiolite reserves are in Türkiye</span>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value">50+</div>
+          <div class="hero-stat-label">Countries Served</div>
         </div>
-        <div class="trust-item">
-          <strong>1995</strong>
-          <span>Operating since</span>
+        <div>
+          <div class="hero-stat-value">15+</div>
+          <div class="hero-stat-label">Industry Sectors</div>
         </div>
-        <div class="trust-item">
-          <strong>50+</strong>
-          <span>Export destinations</span>
+        <div>
+          <div class="hero-stat-value">99.2%</div>
+          <div class="hero-stat-label">Purity Grade</div>
         </div>
-        <div class="trust-item">
-          <strong>99%+</strong>
-          <span>Typical purity grade</span>
+        <div>
+          <div class="hero-stat-value">25+</div>
+          <div class="hero-stat-label">Years Experience</div>
         </div>
       </div>
     </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
   </section>
 
-  {/* ── PRODUCTS ────────────────────────────────────────── */}
-  <section class="products-section section">
+  {/* ===== TICKER ===== */}
+  <div class="ticker-strip">
+    <div class="ticker-inner" id="ticker">
+      <span>Raw Sepiolite</span><span>Granulated Sepiolite</span><span>Milled Powder</span>
+      <span>Cat Litter Grade</span><span>Drilling Grade</span><span>Agriculture Grade</span>
+      <span>Industrial Grade</span><span>Pharmaceutical Grade</span><span>Environmental Grade</span>
+      <span>Sepiolite Turkey</span><span>Akmin Mining Group</span><span>sepiolitemine.com</span>
+      <span>Raw Sepiolite</span><span>Granulated Sepiolite</span><span>Milled Powder</span>
+      <span>Cat Litter Grade</span><span>Drilling Grade</span><span>Agriculture Grade</span>
+      <span>Industrial Grade</span><span>Pharmaceutical Grade</span><span>Environmental Grade</span>
+      <span>Sepiolite Turkey</span><span>Akmin Mining Group</span><span>sepiolitemine.com</span>
+    </div>
+  </div>
+
+  {/* ===== ABOUT ===== */}
+  <section id="about">
     <div class="container">
-      <header class="section-header">
-        <span class="section-tag">Products</span>
-        <div class="divider"></div>
-        <h2>Six Grades, One Mine</h2>
-        <p>From raw ore to micronized powder, drilling-grade to agricultural carrier, every grade is processed and quality-controlled in-house.</p>
-      </header>
-      <div class="products-grid">
-        {products.map((p) => (
-          <a href={`/products/${p.slug}/`} class="product-card">
-            <div class="card-img">
-              <img
-                src={p.data.heroImage}
-                alt={p.data.heroImageAlt}
-                width="400"
-                height="300"
-                loading="lazy"
-              />
+      <div class="grid-2">
+        <div class="about-visual">
+          <img src="/images/mine/cliff-1280w.webp" alt="Sepiolite Mine — Turkey" width="1280" height="960" loading="lazy"/>
+          <div class="about-visual-badge">
+            <strong>Est. 1995</strong>
+            <span>Akmin Mining Co.</span>
+          </div>
+        </div>
+        <div>
+          <div class="section-tag">Our Story</div>
+          <div class="divider"></div>
+          <h2 class="section-title">Rooted in Earth,<br/>Reaching the <span>World</span></h2>
+          <p class="section-subtitle">
+            Sepiolite Mine is a dedicated sepiolite production and export division of <strong>Akmin Mining</strong>, operating at the heart of Turkey's richest mineral deposits. We mine, process, and deliver the finest quality sepiolite to clients in over 50 countries.
+          </p>
+          <p class="section-subtitle" style="margin-top:1rem;">
+            Turkey holds the world's largest sepiolite reserves, and we are privileged stewards of those resources — committed to sustainable extraction, rigorous quality control, and customer-centric solutions.
+          </p>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="about-feature-icon">🏔️</div>
+              <div class="about-feature-text">
+                <strong>Prime Deposits</strong>
+                <span>Direct access to Turkey's richest seams</span>
+              </div>
             </div>
-            <div class="card-body">
-              <h3>{p.data.title}</h3>
-              <p>{p.data.tagline}</p>
-              <span class="card-link">View details →</span>
+            <div class="about-feature">
+              <div class="about-feature-icon">🔬</div>
+              <div class="about-feature-text">
+                <strong>ISO Certified Lab</strong>
+                <span>Every batch tested and certified</span>
+              </div>
             </div>
-          </a>
-        ))}
+            <div class="about-feature">
+              <div class="about-feature-icon">🌍</div>
+              <div class="about-feature-text">
+                <strong>Global Logistics</strong>
+                <span>Bulk &amp; container shipping worldwide</span>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">♻️</div>
+              <div class="about-feature-text">
+                <strong>Eco Mining</strong>
+                <span>Responsible land restoration policy</span>
+              </div>
+            </div>
+          </div>
+          <div class="akmin-badge">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            A division of <span>Akmin Mining</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  {/* ── APPLICATIONS ─────────────────────────────────────── */}
-  <section class="apps-section section section--dark">
+  {/* ===== PRODUCTS ===== */}
+  <section id="products">
     <div class="container">
-      <header class="section-header centered">
-        <span class="section-tag">Applications</span>
+      <div class="products-header">
+        <div class="section-tag">Product Range</div>
         <div class="divider divider--center"></div>
-        <h2>Where Sepiolite Delivers Value</h2>
-        <p>Nine industries trust sepiolite for absorption, rheology, controlled release, and structural performance.</p>
-      </header>
-      <div class="apps-grid">
-        {apps.map((a) => (
-          <a href={`/applications/${a.slug}/`} class="app-tile">
-            <span class="app-name">{a.data.title}</span>
-            <span class="app-arrow">→</span>
-          </a>
-        ))}
+        <h2 class="section-title" style="text-align:center;">Premium <span>Sepiolite</span> Products</h2>
+        <p class="section-subtitle" style="text-align:center;margin:0 auto;">
+          From raw ore to precision-processed grades — our full product line is engineered to meet the exact specifications of each industry we serve.
+        </p>
       </div>
-      <div class="apps-cta">
-        <a href="/applications/" class="btn btn-outline">All Applications</a>
+      <div class="grid-3">
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/raw-ore-400w.webp" alt="Raw Sepiolite Ore" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Raw Material</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Raw Sepiolite Ore</h3>
+            <p>Directly mined sepiolite in natural block or chunk form. Ideal for clients who process in-house. High purity, unrefined, with natural fiber structure intact.</p>
+            <div class="product-specs">
+              <span class="product-spec">MgO ≥18%</span>
+              <span class="product-spec">SiO₂ ≥54%</span>
+              <span class="product-spec">Bulk Bags</span>
+            </div>
+            <a href="/products/raw-sepiolite-ore/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/granulated-400w.webp" alt="Granulated Sepiolite" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Processed</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Granulated Sepiolite</h3>
+            <p>Precision-sized granules for cat litter, agriculture, and industrial absorbent markets. Available in 0–2mm, 2–4mm, and 4–8mm fractions with controlled moisture.</p>
+            <div class="product-specs">
+              <span class="product-spec">0–8mm</span>
+              <span class="product-spec">Low Dust</span>
+              <span class="product-spec">Custom Size</span>
+            </div>
+            <a href="/products/granulated-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/milled-powder-800w.webp" alt="Milled Sepiolite Powder" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Fine Grade</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Milled Sepiolite Powder</h3>
+            <p>Ultra-fine micronized powder for paints, coatings, pharmaceuticals, and cosmetics. Controlled particle distribution from 5–200 microns with high surface area.</p>
+            <div class="product-specs">
+              <span class="product-spec">5–200μm</span>
+              <span class="product-spec">High Surface</span>
+              <span class="product-spec">Bags/BigBag</span>
+            </div>
+            <a href="/products/milled-sepiolite-powder/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/drilling-grade-800w.webp" alt="Drilling Grade Sepiolite" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Oil &amp; Gas</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Drilling Grade Sepiolite</h3>
+            <p>API-compliant sepiolite for oil and gas drilling fluid applications. Provides stable rheology in saline and high-temperature environments where bentonite fails.</p>
+            <div class="product-specs">
+              <span class="product-spec">API Spec 13A</span>
+              <span class="product-spec">Salt Tolerant</span>
+              <span class="product-spec">50kg Bags</span>
+            </div>
+            <a href="/products/drilling-grade-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/agriculture-800w.webp" alt="Agricultural Sepiolite" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Agriculture</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Agricultural Sepiolite</h3>
+            <p>Soil amendment and carrier grade for fertilizers, pesticides, and seed coatings. Improves soil structure, water retention, and nutrient delivery for enhanced yields.</p>
+            <div class="product-specs">
+              <span class="product-spec">Soil Grade</span>
+              <span class="product-spec">Carrier</span>
+              <span class="product-spec">Eco Cert.</span>
+            </div>
+            <a href="/products/agricultural-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/construction-800w.webp" alt="Construction & Insulation Grade Sepiolite" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Construction</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Construction &amp; Insulation Grade</h3>
+            <p>Low thermal conductivity sepiolite for insulating boards, mortars, and fireproof coatings. Enhances workability and durability in cement and lime-based products.</p>
+            <div class="product-specs">
+              <span class="product-spec">Low λ</span>
+              <span class="product-spec">Fireproof</span>
+              <span class="product-spec">Bulk Delivery</span>
+            </div>
+            <a href="/products/construction-insulation-grade/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  {/* ── WHY US ──────────────────────────────────────────── */}
-  <section class="why-section section">
+  {/* ===== APPLICATIONS ===== */}
+  <section id="applications" style="padding:6rem 0;background:var(--earth);">
     <div class="container">
-      <header class="section-header centered">
-        <span class="section-tag">Why Sepiolite Mine</span>
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-tag">Solutions</div>
         <div class="divider divider--center"></div>
-        <h2>Direct Mine, Direct Supply</h2>
-      </header>
-      <div class="why-grid">
-        <div class="why-card">
-          <div class="why-num">01</div>
-          <h3>World's Highest Purity</h3>
-          <p>Eskişehir and Sivrihisar deposits consistently yield 99%+ purity, the global benchmark.</p>
+        <h2 class="section-title section-title--white">Where Sepiolite <span>Transforms</span> Industries</h2>
+        <p class="section-subtitle section-subtitle--white" style="margin:0 auto;">
+          Our mineral's unique combination of high porosity, thermal stability, and chemical inertness makes it indispensable across more than 15 global industries.
+        </p>
+      </div>
+      <div class="app-grid">
+        <div class="app-card">
+          <div class="app-icon">🐾</div>
+          <h3>Pet Care &amp; Cat Litter</h3>
+          <p>Superior odour control and moisture absorption. The fastest-growing application globally, with sepiolite outperforming clay competitors in clumping and hygiene.</p>
+          <ul class="app-list">
+            <li>Clumping &amp; non-clumping grades</li>
+            <li>Odour neutralisation</li>
+            <li>Low tracking, dust-free</li>
+            <li>Custom fragrance options</li>
+          </ul>
+          <a href="/applications/pet-care-cat-litter/" class="app-link-home">Learn More →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">02</div>
-          <h3>Mine-to-Port Control</h3>
-          <p>We own the full chain from extraction to FOB delivery. No middlemen, no quality gaps.</p>
+        <div class="app-card">
+          <div class="app-icon">🌾</div>
+          <h3>Agriculture</h3>
+          <p>Revolutionising soil science through superior water retention, fertiliser and pesticide carriers, and animal feed binders that improve nutrient bioavailability.</p>
+          <ul class="app-list">
+            <li>Soil conditioner</li>
+            <li>Fertiliser/pesticide carrier</li>
+            <li>Seed coating binder</li>
+            <li>Feed additive (flow agent)</li>
+          </ul>
+          <a href="/applications/agriculture/" class="app-link-home">Learn More →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">03</div>
-          <h3>ISO-Certified Quality</h3>
-          <p>Every batch tested in our on-site laboratory. Full Certificate of Analysis with every shipment.</p>
+        <div class="app-card">
+          <div class="app-icon">🛢️</div>
+          <h3>Oil &amp; Gas Drilling</h3>
+          <p>The only mineral that maintains stable rheology in saturated saltwater — making it essential for offshore and high-salinity drilling operations worldwide.</p>
+          <ul class="app-list">
+            <li>Salt-saturated mud systems</li>
+            <li>High-temperature stability</li>
+            <li>Spill absorption</li>
+            <li>API 13A compliant</li>
+          </ul>
+          <a href="/applications/oil-gas-drilling/" class="app-link-home">Learn More →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">04</div>
-          <h3>Scalable Supply</h3>
-          <p>From a single 20 MT container to full vessel loads. Long-term contracts welcomed.</p>
+        <div class="app-card">
+          <div class="app-icon">🏗️</div>
+          <h3>Construction</h3>
+          <p>Thermal insulation, fire resistance, and improved workability in mortars, plasters, and concrete — delivering buildings that are safer, stronger, and more efficient.</p>
+          <ul class="app-list">
+            <li>Insulating bricks &amp; boards</li>
+            <li>Lime mortar additive</li>
+            <li>Rheology modifier</li>
+            <li>Fireproof coatings</li>
+          </ul>
+          <a href="/applications/construction/" class="app-link-home">Learn More →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🌿</div>
+          <h3>Environmental Remediation</h3>
+          <p>A natural solution to pollution. Sepiolite's unparalleled adsorption capacity makes it ideal for wastewater treatment, heavy metal sequestration, and oil spill response.</p>
+          <ul class="app-list">
+            <li>Wastewater treatment</li>
+            <li>Heavy metal removal</li>
+            <li>Oil spill cleanup</li>
+            <li>Air purification media</li>
+          </ul>
+          <a href="/applications/environmental-remediation/" class="app-link-home">Learn More →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🎨</div>
+          <h3>Paints &amp; Coatings</h3>
+          <p>Acts as a rheology modifier, anti-sagging agent, and matting agent in water-based and solvent-borne paints — improving texture without compromising opacity.</p>
+          <ul class="app-list">
+            <li>Anti-settling agent</li>
+            <li>Thixotropic additive</li>
+            <li>Matting effect</li>
+            <li>Improved brushability</li>
+          </ul>
+          <a href="/applications/paints-coatings/" class="app-link-home">Learn More →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">⚗️</div>
+          <h3>Catalysis &amp; Chemical</h3>
+          <p>High surface area and thermal stability make sepiolite an outstanding catalyst support for hydrogenation, dehydrogenation, and oxidation reactions.</p>
+          <ul class="app-list">
+            <li>Catalyst carrier</li>
+            <li>Zeolite substitute</li>
+            <li>High-temp. reactions</li>
+            <li>Selectivity enhancement</li>
+          </ul>
+          <a href="/applications/catalysis-chemical/" class="app-link-home">Learn More →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">💊</div>
+          <h3>Pharma &amp; Cosmetics</h3>
+          <p>GRAS-listed and biocompatible, sepiolite serves as an excipient, thickener, and carrier in pharmaceutical formulations, face masks, and personal care products.</p>
+          <ul class="app-list">
+            <li>Tablet excipient</li>
+            <li>Cosmetic thickener</li>
+            <li>Facial mask filler</li>
+            <li>Drug delivery carrier</li>
+          </ul>
+          <a href="/applications/pharma-cosmetics/" class="app-link-home">Learn More →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🌱</div>
+          <h3>Bioplastics (Emerging)</h3>
+          <p>As sustainability drives innovation, sepiolite nano-fibres reinforce biodegradable polymers, improving mechanical strength while maintaining compostability.</p>
+          <ul class="app-list">
+            <li>PLA / PHA reinforcement</li>
+            <li>Nano-filler</li>
+            <li>Compostable-compatible</li>
+            <li>Barrier improvement</li>
+          </ul>
+          <a href="/applications/bioplastics/" class="app-link-home">Learn More →</a>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ── FINAL CTA ───────────────────────────────────────── */}
-  <section class="final-cta section section--dark">
-    <div class="container container-narrow">
-      <h2>Ready to discuss your sepiolite requirement?</h2>
-      <p>Send us your specification, target volume, and destination. We respond within 24 hours.</p>
-      <a href="/contact/" class="btn btn-primary">Request Quote</a>
+  {/* ===== MARKETS / WHY CHOOSE US ===== */}
+  <section id="markets" style="padding:6rem 0;background:var(--cream);">
+    <div class="container">
+      <div class="grid-2" style="gap:4rem;">
+        <div>
+          <div class="section-tag">Why Sepiolite Mine</div>
+          <div class="divider"></div>
+          <h2 class="section-title">A Partner You Can<br/>Build Your <span>Supply Chain</span> On</h2>
+          <p class="section-subtitle">
+            We don't just sell mineral — we deliver certainty. Our vertically integrated operation, from mine face to freight-on-board, ensures quality, consistency, and on-time delivery every time.
+          </p>
+          <div class="why-list">
+            <div class="why-item">
+              <div class="why-num">01</div>
+              <div>
+                <strong>Vertically Integrated</strong>
+                <p>We own and operate our mines, processing facilities, and quality labs. No middlemen — full traceability from ore to shipment.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">02</div>
+              <div>
+                <strong>Custom Formulation</strong>
+                <p>Need a specific moisture level, particle size, or blend? Our R&amp;D team works with you to develop bespoke grades at commercial scale.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">03</div>
+              <div>
+                <strong>Certifications</strong>
+                <p>ISO 9001, REACH compliant, FDA-listed grades available. Full certificate of analysis with every shipment, no exceptions.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">04</div>
+              <div>
+                <strong>Global Logistics</strong>
+                <p>Containerised, bulk vessel, and big-bag shipments to any port. Our logistics team manages customs, documentation, and last-mile if needed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="market-map-box">
+            <div class="market-map-title">
+              <span class="section-tag" style="margin:0;">Active Markets</span>
+            </div>
+            <div class="market-regions">
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Europe</strong>
+                  <span>Germany, Netherlands, Spain, Italy, France, Poland…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Middle East &amp; North Africa</strong>
+                  <span>UAE, Saudi Arabia, Egypt, Morocco, Israel…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Asia Pacific</strong>
+                  <span>China, Japan, South Korea, India, Thailand…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Americas</strong>
+                  <span>USA, Canada, Brazil, Mexico, Argentina…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Sub-Saharan Africa</strong>
+                  <span>South Africa, Nigeria, Kenya, Ethiopia…</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--cream-dark);">
+              <div style="display:flex;gap:2rem;">
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">50+</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">Countries</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">300+</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">Clients</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">120k</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">MT/Year</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== SUSTAINABILITY ===== */}
+  <section id="sustainability-home" style="padding:6rem 0;background:var(--earth-mid);position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:url('/images/mine/landscape-01-400w.webp') center/cover no-repeat;opacity:0.10;" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-tag">Responsibility</div>
+        <div class="divider divider--center"></div>
+        <h2 class="section-title section-title--white">Mining the <span>Earth</span>,<br/>Protecting It Too</h2>
+        <p class="section-subtitle section-subtitle--white" style="margin:0 auto;">
+          At Sepiolite Mine, sustainability is not a marketing claim — it is embedded in how we design our mines, manage our tailings, and restore the land we temporarily borrow.
+        </p>
+      </div>
+      <div class="sustain-grid">
+        <div class="sustain-card">
+          <div class="sustain-icon">🌱</div>
+          <h3>Land Restoration</h3>
+          <p>Every active mine site has a binding closure and rehabilitation plan. We replant native vegetation and monitor soil health for 5 years post-extraction.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">💧</div>
+          <h3>Water Management</h3>
+          <p>Zero-discharge water circuits. Process water is fully recycled. No mineral waste reaches local water bodies — monitored by third-party auditors quarterly.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">⚡</div>
+          <h3>Energy Transition</h3>
+          <p>30% of our facility energy comes from on-site solar. We are committed to carbon-neutral operations by 2035, with roadmap milestones published annually.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">👷</div>
+          <h3>Community &amp; Safety</h3>
+          <p>Zero Lost Time Incidents in the last 4 years. We invest in local employment, vocational training, and school infrastructure in all communities near our sites.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="/sustainability/" class="btn btn-primary">Read Full ESG Story</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== CONTACT TEASER (full form lives at /contact/) ===== */}
+  <section id="contact-teaser" style="padding:6rem 0;background:var(--white);">
+    <div class="container">
+      <div class="grid-2" style="gap:4rem;align-items:start;">
+        <div>
+          <div class="section-tag">Get In Touch</div>
+          <div class="divider"></div>
+          <h2 class="section-title">Start Your<br/><span>Sourcing Journey</span></h2>
+          <p class="section-subtitle">
+            Whether you need a technical data sheet, a sample shipment, or a long-term supply contract — our team responds within 24 hours.
+          </p>
+          <div style="margin-top:1.5rem;margin-bottom:1.75rem;padding:1rem 1.25rem;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem;">Registered Company</div>
+            <div style="font-size:0.82rem;font-weight:600;color:var(--earth);line-height:1.5;">BAGRUP Group Company<br/>AKMİN ENDÜSTRİYEL MADENCİLİK LTD ŞTİ</div>
+          </div>
+
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🏭</div>
+              <div>
+                <strong>Factory</strong>
+                <span>Başkent Organize Sanayi Atatürk Bulvarı No:48<br/>Malıköy, Sincan / Ankara</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🏢</div>
+              <div>
+                <strong>Office</strong>
+                <span>Kızılay Mah. Fevziçakmak 1. Sokak No:15 D:7<br/>Çankaya / Ankara</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📞</div>
+              <div>
+                <strong>Phone / WhatsApp</strong>
+                <span>{BRAND.contact.phone}</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📧</div>
+              <div>
+                <strong>Enquiries</strong>
+                <span>Use the contact form or call us directly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-cta-box">
+          <h3>Ready to Get Started?</h3>
+          <p>Open the full contact form to send your specification, target volume, and destination. We respond within 24 hours.</p>
+          <a href="/contact/" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">Send Enquiry →</a>
+          <p class="contact-cta-note">No spam. Your data is never shared.</p>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>
 
+<script>
+  // Particle generator (LCP-safe — runs after page load)
+  document.addEventListener('DOMContentLoaded', () => {
+    const particlesEl = document.getElementById('particles');
+    if (particlesEl) {
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('span');
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 14) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        const size = (1 + Math.random() * 3);
+        p.style.width = p.style.height = size + 'px';
+        particlesEl.appendChild(p);
+      }
+    }
+
+    // Reveal on scroll
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).style.opacity = '1';
+          (e.target as HTMLElement).style.transform = 'translateY(0)';
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll<HTMLElement>('.product-card, .app-card, .sustain-card, .about-feature, .why-item').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      revealObserver.observe(el);
+    });
+  });
+</script>
+
 <style>
-  /* ── Hero ─────────────────────────────────────────── */
-  .hero {
+  /* ===== HERO (1:1 port of legacy index.html hero styles) ===== */
+  #hero {
     position: relative;
-    min-height: 70vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: var(--c-earth);
-    padding-block: var(--s-7);
+    background: var(--earth);
   }
-
   .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: url('/images/mine/aerial-02-800w.webp') center/cover no-repeat;
+    position: absolute; inset: 0;
+    background: url('/images/mine/aerial-02-1280w.webp') center/cover no-repeat;
     opacity: 0.55;
+    transform-origin: center center;
+    animation: kenBurns 22s ease-in-out infinite;
+    will-change: transform;
   }
-
+  @keyframes kenBurns {
+    0%   { transform: scale(1.05) translate(0%,    0%);    }
+    25%  { transform: scale(1.10) translate(-1.2%, -0.6%); }
+    50%  { transform: scale(1.14) translate(-0.5%, -1.2%); }
+    75%  { transform: scale(1.10) translate( 1.0%, -0.4%); }
+    100% { transform: scale(1.05) translate(0%,    0%);    }
+  }
   .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      115deg,
+      rgba(28,20,16,0.93) 0%,
+      rgba(28,20,16,0.78) 45%,
+      rgba(28,20,16,0.35) 75%,
+      rgba(14,10,6,0.55)  100%
+    );
+  }
+  .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+  .hero-particles span {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(28, 20, 16, 0.78), rgba(46, 33, 24, 0.55));
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
   }
+  @keyframes float {
+    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+  }
+  .hero-content { position: relative; z-index: 2; padding: 8rem 0 5rem; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(201,146,42,0.18); border: 1px solid rgba(201,146,42,0.4);
+    color: var(--gold-light); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.45rem 1rem; border-radius: 100px; margin-bottom: 1.75rem;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold-light); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+    line-height: 1.07;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    max-width: 820px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.55), 0 6px 48px rgba(0,0,0,0.30);
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); text-shadow: 0 2px 20px rgba(201,146,42,0.4); }
+  .hero-desc {
+    font-size: 1.15rem;
+    line-height: 1.82;
+    color: rgba(255,255,255,0.80);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.45);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.12); }
+  .hero-stat-value { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); line-height: 1; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+  .hero-stat-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-top: 0.35rem; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 2; }
+  .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent); animation: scrollLine 1.8s ease-in-out infinite; }
+  @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
 
-  .hero-content {
+  /* ===== TICKER STRIP ===== */
+  .ticker-strip {
+    background: var(--gold);
+    padding: 0.7rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner { display: inline-flex; animation: ticker 28s linear infinite; }
+  .ticker-inner span { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--earth); padding: 0 2.5rem; }
+  .ticker-inner span::before { content: '◆ '; }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ===== ABOUT ===== */
+  #about { padding: 6rem 0; background: var(--cream); }
+  .about-visual {
     position: relative;
-    z-index: 1;
-    max-width: 720px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/3;
   }
-
-  .hero .section-tag {
-    color: var(--c-gold);
+  .about-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .about-visual-badge {
+    position: absolute; bottom: 1.5rem; right: 1.5rem;
+    background: var(--gold); color: var(--earth);
+    padding: 0.58rem 0.98rem; border-radius: 8px;
+    font-weight: 700;
   }
-
-  .hero h1 {
-    color: var(--c-white);
-    margin-bottom: var(--s-3);
+  .about-visual-badge strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.3rem; line-height: 1; }
+  .about-visual-badge span { font-size: 0.47rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .about-feature { display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .about-feature-icon { width: 40px; height: 40px; background: rgba(201,146,42,0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+  .about-feature-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--earth); }
+  .about-feature-text span { font-size: 0.78rem; color: var(--text-light); }
+  .akmin-badge {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--earth); color: var(--white);
+    padding: 0.75rem 1.25rem; border-radius: var(--radius);
+    font-size: 0.8rem; font-weight: 600; margin-top: 1.75rem;
   }
+  .akmin-badge span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1rem; }
 
-  .hero .lead {
-    font-size: 1.15rem;
-    color: var(--c-text-light);
-    line-height: 1.7;
-    margin-bottom: var(--s-5);
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-3);
-  }
-
-  /* ── Trust strip ──────────────────────────────────── */
-  .trust-strip {
-    background: var(--c-cream);
-    border-bottom: 1px solid var(--c-cream-dark);
-    padding-block: var(--s-5);
-  }
-
-  .trust-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--s-4);
-    text-align: center;
-  }
-
-  .trust-item strong {
-    display: block;
-    font-family: var(--font-serif);
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--c-gold-dark);
-    line-height: 1;
-    margin-bottom: var(--s-2);
-  }
-
-  .trust-item span {
-    font-size: 0.9rem;
-    color: var(--c-text-muted);
-    line-height: 1.5;
-  }
-
-  /* ── Section headers ──────────────────────────────── */
-  .section-header {
-    margin-bottom: var(--s-6);
-    max-width: 640px;
-  }
-
-  .section-header.centered {
-    text-align: center;
-    margin-inline: auto;
-  }
-
-  .section-header h2 {
-    margin-block: var(--s-2) var(--s-3);
-  }
-
-  .section-header p {
-    font-size: 1.05rem;
-    color: var(--c-text-muted);
-    line-height: 1.7;
-    margin: 0;
-  }
-
-  .section--dark .section-header p {
-    color: var(--c-text-light);
-  }
-
-  .divider--center {
-    margin-inline: auto;
-  }
-
-  /* ── Products grid ────────────────────────────────── */
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--s-4);
-  }
-
+  /* ===== PRODUCTS ===== */
+  #products { padding: 6rem 0; background: var(--white); }
+  .products-header { text-align: center; margin-bottom: 3.5rem; }
+  .products-header .section-subtitle { margin: 0 auto; }
   .product-card {
-    background: var(--c-white);
-    border: 1px solid var(--c-cream-dark);
-    border-radius: var(--r-card);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    text-decoration: none;
-    color: var(--c-text);
-    display: flex;
-    flex-direction: column;
-    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex; flex-direction: column;
   }
-
-  .product-card:hover {
-    border-color: var(--c-gold);
-    transform: translateY(-4px);
-    box-shadow: var(--sh-mid);
-    text-decoration: none;
+  .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+  .product-card-img { height: 220px; position: relative; overflow: hidden; }
+  .product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .product-card:hover .product-card-img img { transform: scale(1.07); }
+  .product-card-tag {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--gold); color: var(--earth);
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.75rem; border-radius: 100px;
   }
+  .product-card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+  .product-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--earth); margin-bottom: 0.75rem; }
+  .product-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-light); flex: 1; margin-bottom: 1.25rem; }
+  .product-specs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .product-spec { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.7rem; background: var(--cream); color: var(--stone); border-radius: 100px; }
+  .product-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-top: 1.25rem; transition: var(--transition); }
+  .product-link svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .product-link:hover svg { transform: translateX(4px); }
 
-  .product-card .card-img {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    background: var(--c-cream);
+  /* ===== APPLICATIONS ===== */
+  .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .app-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 2rem; transition: var(--transition); }
+  .app-card:hover { background: rgba(201,146,42,0.12); border-color: rgba(201,146,42,0.4); transform: translateY(-4px); }
+  .app-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .app-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+  .app-card p { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+  .app-list { display: flex; flex-direction: column; gap: 0.35rem; }
+  .app-list li { font-size: 0.8rem; color: var(--gold-light); padding-left: 1rem; position: relative; list-style: none; }
+  .app-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .app-link-home { display: inline-block; margin-top: 1rem; font-size: 0.82rem; font-weight: 600; color: var(--gold); transition: color 0.25s ease, letter-spacing 0.25s ease; }
+  .app-link-home:hover { color: var(--gold-light); letter-spacing: 0.04em; }
+
+  /* ===== WHY ===== */
+  .why-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .why-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .why-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 40px; }
+  .why-item strong { display: block; font-size: 1rem; font-weight: 700; color: var(--earth); margin-bottom: 0.35rem; }
+  .why-item p { font-size: 0.875rem; line-height: 1.7; color: var(--text-light); margin: 0; }
+
+  /* ===== MARKET MAP BOX ===== */
+  .market-map-box { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--cream-dark); }
+  .market-regions { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+  .market-region { display: flex; align-items: flex-start; gap: 0.85rem; }
+  .region-dot { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; margin-top: 5px; flex-shrink: 0; box-shadow: 0 0 0 4px rgba(201,146,42,0.2); }
+  .market-region strong { display: block; font-size: 0.9rem; font-weight: 700; color: var(--earth); }
+  .market-region span { font-size: 0.8rem; color: var(--stone); }
+
+  /* ===== SUSTAINABILITY ===== */
+  .sustain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .sustain-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 2rem; text-align: center; transition: var(--transition); }
+  .sustain-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.35); transform: translateY(-4px); }
+  .sustain-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .sustain-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+  .sustain-card p { font-size: 0.83rem; line-height: 1.75; color: rgba(255,255,255,0.6); }
+
+  /* ===== CONTACT (homepage teaser) ===== */
+  .contact-info { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+  .contact-info-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-info-icon { font-size: 1.25rem; width: 42px; height: 42px; background: rgba(201,146,42,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-info-item strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--earth); }
+  .contact-info-item span { font-size: 0.85rem; color: var(--stone); }
+  .contact-cta-box {
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
   }
-
-  .product-card .card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .contact-cta-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--earth);
+    margin-bottom: 1rem;
   }
-
-  .product-card .card-body {
-    padding: var(--s-4);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-  }
-
-  .product-card h3 {
-    font-size: 1.15rem;
-    margin: 0;
-  }
-
-  .product-card p {
-    font-size: 0.9rem;
-    color: var(--c-text-muted);
-    line-height: 1.6;
-    margin: 0;
-    flex: 1;
-  }
-
-  .product-card .card-link {
-    color: var(--c-gold-dark);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-top: var(--s-2);
-  }
-
-  /* ── Applications grid ────────────────────────────── */
-  .apps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--s-3);
-  }
-
-  .app-tile {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--r-input);
-    padding: var(--s-4);
-    text-decoration: none;
-    color: var(--c-text-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--s-3);
-    transition: border-color var(--t), background var(--t);
-  }
-
-  .app-tile:hover {
-    border-color: var(--c-gold);
-    background: rgba(201, 146, 42, 0.08);
-    color: var(--c-white);
-    text-decoration: none;
-  }
-
-  .app-name {
-    font-weight: 500;
+  .contact-cta-box > p {
     font-size: 0.95rem;
-  }
-
-  .app-arrow {
-    color: var(--c-gold);
-    font-size: 1.1rem;
-  }
-
-  .apps-cta {
-    text-align: center;
-    margin-top: var(--s-5);
-  }
-
-  /* ── Why us ───────────────────────────────────────── */
-  .why-section {
-    background: var(--c-cream);
-  }
-
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--s-4);
-  }
-
-  .why-card {
-    background: var(--c-white);
-    border: 1px solid var(--c-cream-dark);
-    border-radius: var(--r-card);
-    padding: var(--s-5);
-  }
-
-  .why-num {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--c-gold);
-    line-height: 1;
-    margin-bottom: var(--s-3);
-  }
-
-  .why-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: var(--s-2);
-    color: var(--c-earth);
-  }
-
-  .why-card p {
-    font-size: 0.92rem;
-    color: var(--c-text-muted);
+    color: var(--text-light);
     line-height: 1.7;
-    margin: 0;
+    margin-bottom: 2rem;
+  }
+  .contact-cta-note {
+    font-size: 0.75rem;
+    color: var(--stone);
+    margin-top: 0.75rem;
   }
 
-  /* ── Final CTA ────────────────────────────────────── */
-  .final-cta {
-    text-align: center;
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .app-grid { grid-template-columns: 1fr 1fr; }
+    .sustain-grid { grid-template-columns: 1fr 1fr; }
   }
-
-  .final-cta h2 {
-    color: var(--c-white);
-    margin-bottom: var(--s-3);
+  @media (max-width: 768px) {
+    .app-grid { grid-template-columns: 1fr; }
+    .sustain-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .about-features { grid-template-columns: 1fr; }
   }
-
-  .final-cta p {
-    color: var(--c-text-light);
-    margin-bottom: var(--s-4);
-    font-size: 1.05rem;
+  @media (max-width: 480px) {
+    .sustain-grid { grid-template-columns: 1fr; }
   }
 </style>

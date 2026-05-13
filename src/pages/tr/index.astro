@@ -1,198 +1,765 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
 
-const products = (await getCollection('products', (p) => p.data.locale === 'tr' && !p.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
-const apps = (await getCollection('applications', (a) => a.data.locale === 'tr' && !a.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
-
-const description =
-  "Premium Türk sepiyolit tedarikçisi. Tarım, petrol ve gaz sondajı, inşaat, kedi kumu ve global endüstriyel pazarlar için ham ve işlenmiş sepiyolit. 1995'ten beri B2B tedarik.";
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: BRAND.name,
+  url: siteUrl,
+  description: BRAND.description,
+  telephone: BRAND.contact.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Başkent Organize Sanayi Atatürk Bulvarı No:48',
+    addressLocality: 'Sincan / Ankara',
+    addressCountry: 'TR',
+  },
+  sameAs: ['https://www.linkedin.com/company/akmin'],
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'Akmin Mining',
+    url: 'https://akmin.com.tr',
+  },
+};
 ---
 
 <Layout
   title="Premium Türk Sepiyolit Tedarikçisi"
-  description={description}
+  description="Türkiye'nin öncü sepiyolit üreticisi. Tarım, petrol ve gaz, inşaat, kedi kumu ve küresel endüstriyel pazarlar için premium ham ve işlenmiş sepiyolit."
   alternates={{ en: '/', tr: '/tr/' }}
   locale="tr"
   noSuffix={true}
+  schemaJson={[orgSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-800w.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1280w.webp" fetchpriority="high" />
   </Fragment>
 
-  <section class="hero">
+  {/* HERO */}
+  <section id="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
+    <div class="hero-particles" id="particles"></div>
     <div class="container hero-content">
-      <span class="section-tag">Endüstriyel Sepiyolit · Türkiye</span>
-      <h1>Premium Türk Sepiyolit Tedarikçisi</h1>
-      <p class="lead">
-        Tarım, petrol ve gaz sondajı, inşaat, kedi kumu ve global endüstriyel pazarlar
-        için ham ve işlenmiş sepiyolit. Madenden limana doğrudan tedarik, sadece B2B.
+      <div class="hero-badge">Türkiye'nin Öncü Sepiyolit Üreticisi</div>
+      <h1 class="hero-title">
+        Dünyanın En<br/><em>Çok Yönlü Minerali</em><br/>Küresel Pazarlara
+      </h1>
+      <p class="hero-desc">
+        Türkiye'nin zengin yataklarından, Sepiolite Mine; tarım, petrol &amp; gaz, inşaat, çevre ve daha pek çok sektöre dünya genelinde premium ham ve işlenmiş sepiyolit tedarik eder.
       </p>
       <div class="hero-actions">
-        <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
-        <a href="/tr/products/" class="btn btn-outline">Ürünleri İncele</a>
+        <a href="#urunler" class="btn btn-primary">Ürünleri Keşfedin ↓</a>
+        <a href="/tr/contact/" class="btn btn-outline">Numune Talep Edin</a>
       </div>
-    </div>
-  </section>
-
-  <section class="trust-strip">
-    <div class="container">
-      <div class="trust-grid">
-        <div class="trust-item">
-          <strong>%70</strong>
-          <span>Küresel sepiyolit rezervi Türkiye'de</span>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value">50+</div>
+          <div class="hero-stat-label">Hizmet Verilen Ülke</div>
         </div>
-        <div class="trust-item">
-          <strong>1995</strong>
-          <span>Faaliyet başlangıcı</span>
+        <div>
+          <div class="hero-stat-value">15+</div>
+          <div class="hero-stat-label">Endüstri Sektörü</div>
         </div>
-        <div class="trust-item">
-          <strong>50+</strong>
-          <span>İhracat ülkesi</span>
+        <div>
+          <div class="hero-stat-value">%99.2</div>
+          <div class="hero-stat-label">Saflık Derecesi</div>
         </div>
-        <div class="trust-item">
-          <strong>%99+</strong>
-          <span>Tipik saflık derecesi</span>
+        <div>
+          <div class="hero-stat-value">25+</div>
+          <div class="hero-stat-label">Yıllık Deneyim</div>
         </div>
       </div>
     </div>
+    <div class="hero-scroll">
+      <span>Kaydır</span>
+      <div class="hero-scroll-line"></div>
+    </div>
   </section>
 
-  <section class="products-section section">
+  {/* BANT */}
+  <div class="ticker-strip">
+    <div class="ticker-inner" id="ticker">
+      <span>Ham Sepiyolit</span><span>Granüle Sepiyolit</span><span>Öğütülmüş Toz</span>
+      <span>Kedi Kumu Kalitesi</span><span>Sondaj Kalitesi</span><span>Tarım Kalitesi</span>
+      <span>Endüstriyel Kalite</span><span>Farmasötik Kalite</span><span>Çevre Kalitesi</span>
+      <span>Sepiyolit Türkiye</span><span>Akmin Madencilik Grubu</span><span>sepiolitemine.com</span>
+      <span>Ham Sepiyolit</span><span>Granüle Sepiyolit</span><span>Öğütülmüş Toz</span>
+      <span>Kedi Kumu Kalitesi</span><span>Sondaj Kalitesi</span><span>Tarım Kalitesi</span>
+      <span>Endüstriyel Kalite</span><span>Farmasötik Kalite</span><span>Çevre Kalitesi</span>
+      <span>Sepiyolit Türkiye</span><span>Akmin Madencilik Grubu</span><span>sepiolitemine.com</span>
+    </div>
+  </div>
+
+  {/* HAKKIMIZDA */}
+  <section id="about">
     <div class="container">
-      <header class="section-header">
-        <span class="section-tag">Ürünler</span>
-        <div class="divider"></div>
-        <h2>Altı Kademe, Tek Maden</h2>
-        <p>Ham cevherden mikronize toza, sondaj kalitesinden tarımsal taşıyıcıya, her kademe kendi tesisimizde işlenir ve kalite kontrolünden geçer.</p>
-      </header>
-      <div class="products-grid">
-        {products.map((p) => (
-          <a href={`/tr/products/${p.slug}/`} class="product-card">
-            <div class="card-img">
-              <img src={p.data.heroImage} alt={p.data.heroImageAlt} width="400" height="300" loading="lazy" />
+      <div class="grid-2">
+        <div class="about-visual">
+          <img src="/images/mine/cliff-1280w.webp" alt="Sepiyolit Madeni, Türkiye" width="1280" height="960" loading="lazy"/>
+          <div class="about-visual-badge">
+            <strong>Est. 1995</strong>
+            <span>Akmin Mining Co.</span>
+          </div>
+        </div>
+        <div>
+          <div class="section-tag">Hikayemiz</div>
+          <div class="divider"></div>
+          <h2 class="section-title">Toprağa Köklenmiş,<br/>Dünyaya <span>Ulaşan</span></h2>
+          <p class="section-subtitle">
+            Sepiolite Mine, Türkiye'nin en zengin mineral yataklarının kalbinde faaliyet gösteren <strong>Akmin Mining</strong>'in özel bir sepiyolit üretim ve ihracat bölümüdür. 50'den fazla ülkedeki müşterilerimize en yüksek kaliteli sepiyoliti maden, işleme ve teslimat zinciriyle sunuyoruz.
+          </p>
+          <p class="section-subtitle" style="margin-top:1rem;">
+            Türkiye, dünyanın en büyük sepiyolit rezervlerine sahiptir; biz de bu kaynakların sorumlu koruyucuları olarak sürdürülebilir çıkarım, titiz kalite kontrol ve müşteri odaklı çözümler sunmaya kararlıyız.
+          </p>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="about-feature-icon">🏔️</div>
+              <div class="about-feature-text">
+                <strong>Birincil Yataklar</strong>
+                <span>Türkiye'nin en zengin damarlarına doğrudan erişim</span>
+              </div>
             </div>
-            <div class="card-body">
-              <h3>{p.data.title}</h3>
-              <p>{p.data.tagline}</p>
-              <span class="card-link">Detayları gör →</span>
+            <div class="about-feature">
+              <div class="about-feature-icon">🔬</div>
+              <div class="about-feature-text">
+                <strong>ISO Sertifikalı Lab</strong>
+                <span>Her parti test edilmiş ve sertifikalandırılmıştır</span>
+              </div>
             </div>
-          </a>
-        ))}
+            <div class="about-feature">
+              <div class="about-feature-icon">🌍</div>
+              <div class="about-feature-text">
+                <strong>Küresel Lojistik</strong>
+                <span>Dünya genelinde dökme &amp; konteyner sevkiyatı</span>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">♻️</div>
+              <div class="about-feature-text">
+                <strong>Çevre Dostu Madencilik</strong>
+                <span>Sorumlu arazi restorasyon politikası</span>
+              </div>
+            </div>
+          </div>
+          <div class="akmin-badge">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            <span>Akmin Mining</span> bünyesinde bir bölüm
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="apps-section section section--dark">
+  {/* ÜRÜNLER */}
+  <section id="products">
     <div class="container">
-      <header class="section-header centered">
-        <span class="section-tag">Uygulamalar</span>
+      <div class="products-header">
+        <div class="section-tag">Ürün Yelpazesi</div>
         <div class="divider divider--center"></div>
-        <h2>Sepiyolit Hangi Sektörlerde Değer Katıyor</h2>
-        <p>Dokuz sektör; emicilik, reoloji, kontrollü salınım ve yapısal performans için sepiyolite güvenir.</p>
-      </header>
-      <div class="apps-grid">
-        {apps.map((a) => (
-          <a href={`/tr/applications/${a.slug}/`} class="app-tile">
-            <span class="app-name">{a.data.title}</span>
-            <span class="app-arrow">→</span>
-          </a>
-        ))}
+        <h2 class="section-title" style="text-align:center;">Premium <span>Sepiyolit</span> Ürünleri</h2>
+        <p class="section-subtitle" style="text-align:center;margin:0 auto;">
+          Ham cevherden hassas işlenmiş kalitelere; ürün yelpazemizin tamamı, hizmet verdiğimiz her sektörün tam özelliklerini karşılayacak şekilde tasarlanmıştır.
+        </p>
       </div>
-      <div class="apps-cta">
-        <a href="/tr/applications/" class="btn btn-outline">Tüm Uygulamalar</a>
+      <div class="grid-3">
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/raw-ore-400w.webp" alt="Ham Sepiyolit Cevheri" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Ham Malzeme</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Ham Sepiyolit Cevheri</h3>
+            <p>Doğal blok veya parça formunda doğrudan çıkarılmış sepiyolit. Kendi tesisinde işleme yapan müşteriler için idealdir. Yüksek saflık, rafine edilmemiş, doğal fiber yapısı korunmuş.</p>
+            <div class="product-specs">
+              <span class="product-spec">MgO ≥18%</span>
+              <span class="product-spec">SiO₂ ≥54%</span>
+              <span class="product-spec">Büyük Torbalar</span>
+            </div>
+            <a href="/tr/products/ham-sepiyolit-cevheri/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/granulated-400w.webp" alt="Granüle Sepiyolit" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">İşlenmiş</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Granüle Sepiyolit</h3>
+            <p>Kedi kumu, tarım ve endüstriyel emici pazarlar için hassas boyutlandırılmış granüller. Kontrollü nem içeriğiyle 0–2mm, 2–4mm ve 4–8mm fraksiyonlarında mevcuttur.</p>
+            <div class="product-specs">
+              <span class="product-spec">0–8mm</span>
+              <span class="product-spec">Düşük Toz</span>
+              <span class="product-spec">Özel Boyut</span>
+            </div>
+            <a href="/tr/products/granule-sepiyolit/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/milled-powder-800w.webp" alt="Öğütülmüş Sepiyolit Tozu" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">İnce Kalite</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Öğütülmüş Sepiyolit Tozu</h3>
+            <p>Boya, kaplama, ilaç ve kozmetik ürünler için ultra ince mikronize toz. 5–200 mikron aralığında kontrollü partikül dağılımı ve yüksek yüzey alanına sahiptir.</p>
+            <div class="product-specs">
+              <span class="product-spec">5–200μm</span>
+              <span class="product-spec">Yüksek Yüzey</span>
+              <span class="product-spec">Torba/BigBag</span>
+            </div>
+            <a href="/tr/products/ogutulmus-sepiyolit-tozu/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/drilling-grade-800w.webp" alt="Sondaj Kalitesi Sepiyolit" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Petrol &amp; Gaz</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Sondaj Kalitesi Sepiyolit</h3>
+            <p>Petrol ve gaz sondaj sıvısı uygulamaları için API uyumlu sepiyolit. Bentonitin yetersiz kaldığı tuzlu ve yüksek sıcaklık ortamlarında stabil reoloji sağlar.</p>
+            <div class="product-specs">
+              <span class="product-spec">API Spec 13A</span>
+              <span class="product-spec">Tuz Dayanımlı</span>
+              <span class="product-spec">50kg Torba</span>
+            </div>
+            <a href="/tr/products/sondaj-kalitesi-sepiyolit/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/agriculture-800w.webp" alt="Tarımsal Sepiyolit" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">Tarım</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Tarımsal Sepiyolit</h3>
+            <p>Gübre, pestisit ve tohum kaplamaları için toprak düzenleyici ve taşıyıcı kalite. Toprak yapısını, su tutma kapasitesini ve besin iletimini iyileştirerek verimi artırır.</p>
+            <div class="product-specs">
+              <span class="product-spec">Toprak Kalitesi</span>
+              <span class="product-spec">Taşıyıcı</span>
+              <span class="product-spec">Eko Sertifikalı</span>
+            </div>
+            <a href="/tr/products/tarimsal-sepiyolit/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="/images/products/construction-800w.webp" alt="İnşaat & Yalıtım Kalitesi Sepiyolit" width="800" height="440" loading="lazy"/>
+            <span class="product-card-tag">İnşaat</span>
+          </div>
+          <div class="product-card-body">
+            <h3>İnşaat &amp; Yalıtım Kalitesi</h3>
+            <p>Yalıtım levhaları, harç ve yangına dayanıklı kaplamalar için düşük ısıl iletkenlikli sepiyolit. Çimento ve kireç bazlı ürünlerde işlenebilirliği ve dayanıklılığı artırır.</p>
+            <div class="product-specs">
+              <span class="product-spec">Düşük λ</span>
+              <span class="product-spec">Yanmaz</span>
+              <span class="product-spec">Dökme Teslimat</span>
+            </div>
+            <a href="/tr/products/insaat-yalitim-kalitesi/" class="product-link">Detayları Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section class="why-section section">
+  {/* UYGULAMALAR */}
+  <section id="applications" style="padding:6rem 0;background:var(--earth);">
     <div class="container">
-      <header class="section-header centered">
-        <span class="section-tag">Neden Sepiolite Mine</span>
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-tag">Çözümler</div>
         <div class="divider divider--center"></div>
-        <h2>Direkt Maden, Direkt Tedarik</h2>
-      </header>
-      <div class="why-grid">
-        <div class="why-card">
-          <div class="why-num">01</div>
-          <h3>Dünyanın En Yüksek Saflığı</h3>
-          <p>Eskişehir ve Sivrihisar yatakları sürekli %99+ saflık verir; küresel kıyaslama değeri.</p>
+        <h2 class="section-title section-title--white">Sepiyolitin Sektörleri <span>Dönüştürdüğü</span> Alanlar</h2>
+        <p class="section-subtitle section-subtitle--white" style="margin:0 auto;">
+          Mineralimizin yüksek gözeneklilik, termal kararlılık ve kimyasal inerlik kombinasyonu, onu 15'ten fazla küresel sektörde vazgeçilmez kılmaktadır.
+        </p>
+      </div>
+      <div class="app-grid">
+        <div class="app-card">
+          <div class="app-icon">🐾</div>
+          <h3>Evcil Hayvan Bakımı &amp; Kedi Kumu</h3>
+          <p>Üstün koku kontrolü ve nem emişi. Küresel ölçekte en hızlı büyüyen uygulama; sepiyolit, topaklanma ve hijyen açısından kil rakiplerini geride bırakır.</p>
+          <ul class="app-list">
+            <li>Topaklaşan &amp; topaklaşmayan kaliteler</li>
+            <li>Koku nötralizasyonu</li>
+            <li>Düşük dağılma, tozsuz</li>
+            <li>Özel koku seçenekleri</li>
+          </ul>
+          <a href="/tr/applications/evcil-hayvan-kedi-kumu/" class="app-link-home">Daha Fazla →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">02</div>
-          <h3>Maden-Liman Kontrolü</h3>
-          <p>Çıkartmadan FOB teslimine tüm zincirin sahibi biziz. Aracı yok, kalite boşluğu yok.</p>
+        <div class="app-card">
+          <div class="app-icon">🌾</div>
+          <h3>Tarım</h3>
+          <p>Üstün su tutma, gübre ve pestisit taşıyıcılar ve besin biyoyararlanımını artıran hayvan yemi bağlayıcıları ile toprak bilimini dönüştürmek.</p>
+          <ul class="app-list">
+            <li>Toprak düzenleyici</li>
+            <li>Gübre/pestisit taşıyıcısı</li>
+            <li>Tohum kaplama bağlayıcısı</li>
+            <li>Yem katkısı (akış ajanı)</li>
+          </ul>
+          <a href="/tr/applications/tarim/" class="app-link-home">Daha Fazla →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">03</div>
-          <h3>ISO Sertifikalı Kalite</h3>
-          <p>Her parti yerleşik laboratuvarımızda test edilir. Her sevkiyatta tam Analiz Sertifikası.</p>
+        <div class="app-card">
+          <div class="app-icon">🛢️</div>
+          <h3>Petrol &amp; Gaz Sondajı</h3>
+          <p>Doymuş tuzlu suda stabil reoloji koruyan tek mineral; dünya genelinde açık deniz ve yüksek tuzluluklu sondaj operasyonları için vazgeçilmez.</p>
+          <ul class="app-list">
+            <li>Tuz doymuş çamur sistemleri</li>
+            <li>Yüksek sıcaklık kararlılığı</li>
+            <li>Sızıntı absorbsiyonu</li>
+            <li>API 13A uyumlu</li>
+          </ul>
+          <a href="/tr/applications/petrol-gaz-sondaj/" class="app-link-home">Daha Fazla →</a>
         </div>
-        <div class="why-card">
-          <div class="why-num">04</div>
-          <h3>Ölçeklenebilir Tedarik</h3>
-          <p>Tek 20 MT konteynerden tam gemi yüklerine. Uzun vadeli sözleşmeler memnuniyetle.</p>
+        <div class="app-card">
+          <div class="app-icon">🏗️</div>
+          <h3>İnşaat</h3>
+          <p>Harç, sıva ve betonda termal yalıtım, yangın direnci ve gelişmiş işlenebilirlik; daha güvenli, daha güçlü ve daha verimli yapılar.</p>
+          <ul class="app-list">
+            <li>Yalıtım tuğlası &amp; levhalar</li>
+            <li>Kireç harç katkısı</li>
+            <li>Reoloji düzenleyici</li>
+            <li>Yangına dayanıklı kaplamalar</li>
+          </ul>
+          <a href="/tr/applications/insaat/" class="app-link-home">Daha Fazla →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🌿</div>
+          <h3>Çevre Rehabilitasyonu</h3>
+          <p>Kirliliğe doğal bir çözüm. Sepiyolitin benzersiz adsorpsiyon kapasitesi, onu atık su arıtma, ağır metal tutma ve petrol sızıntısı müdahalesi için ideal kılar.</p>
+          <ul class="app-list">
+            <li>Atık su arıtma</li>
+            <li>Ağır metal uzaklaştırma</li>
+            <li>Petrol sızıntısı temizliği</li>
+            <li>Hava arıtma ortamı</li>
+          </ul>
+          <a href="/tr/applications/cevre-rehabilitasyon/" class="app-link-home">Daha Fazla →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🎨</div>
+          <h3>Boya &amp; Kaplamalar</h3>
+          <p>Su bazlı ve solvent bazlı boyalarda reoloji düzenleyici, sarkma önleyici ve mat verici ajan olarak görev yapar; opaklığı korurken dokuyu iyileştirir.</p>
+          <ul class="app-list">
+            <li>Çökelme önleyici ajan</li>
+            <li>Tiksotropik katkı</li>
+            <li>Matlık etkisi</li>
+            <li>Gelişmiş fırçalanabilirlik</li>
+          </ul>
+          <a href="/tr/applications/boya-kaplama/" class="app-link-home">Daha Fazla →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">⚗️</div>
+          <h3>Kataliz &amp; Kimya</h3>
+          <p>Yüksek yüzey alanı ve termal kararlılık, sepiyoliti hidrojenasyon, dehidrojenasyon ve oksidasyon reaksiyonları için olağanüstü bir katalizör taşıyıcısı yapar.</p>
+          <ul class="app-list">
+            <li>Katalizör taşıyıcısı</li>
+            <li>Zeolit alternatifi</li>
+            <li>Yüksek sıcaklık reaksiyonları</li>
+            <li>Seçicilik artırımı</li>
+          </ul>
+          <a href="/tr/applications/kataliz-kimya/" class="app-link-home">Daha Fazla →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">💊</div>
+          <h3>İlaç &amp; Kozmetik</h3>
+          <p>GRAS listesinde yer alan ve biyouyumlu sepiyolit; farmasötik formülasyonlarda, yüz maskelerinde ve kişisel bakım ürünlerinde eksipiyan, kıvamlaştırıcı ve taşıyıcı olarak kullanılır.</p>
+          <ul class="app-list">
+            <li>Tablet eksipiyanı</li>
+            <li>Kozmetik kıvamlaştırıcı</li>
+            <li>Yüz maskesi doldurucu</li>
+            <li>İlaç iletim taşıyıcısı</li>
+          </ul>
+          <a href="/tr/applications/ilac-kozmetik/" class="app-link-home">Daha Fazla →</a>
+        </div>
+        <div class="app-card">
+          <div class="app-icon">🌱</div>
+          <h3>Biyoplastikler (Gelişmekte)</h3>
+          <p>Sürdürülebilirlik inovasyonu yönlendirdikçe, sepiyolit nano fiberler biyobozunabilir polimerleri güçlendirerek mekanik dayanımı artırırken kompostlanabilirliği korur.</p>
+          <ul class="app-list">
+            <li>PLA / PHA güçlendirme</li>
+            <li>Nano doldurucu</li>
+            <li>Kompostlanabilir uyumlu</li>
+            <li>Bariyer iyileştirme</li>
+          </ul>
+          <a href="/tr/applications/biyoplastik/" class="app-link-home">Daha Fazla →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="final-cta section section--dark">
-    <div class="container container-narrow">
-      <h2>Sepiyolit ihtiyacınızı konuşmaya hazır mısınız?</h2>
-      <p>Spesifikasyon, hedef hacim ve varış noktanızı paylaşın. 24 saat içinde yanıtlıyoruz.</p>
-      <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
+  {/* PAZARLAR / NEDEN BİZİ SEÇMELİSİNİZ */}
+  <section id="markets" style="padding:6rem 0;background:var(--cream);">
+    <div class="container">
+      <div class="grid-2" style="gap:4rem;">
+        <div>
+          <div class="section-tag">Neden Sepiolite Mine</div>
+          <div class="divider"></div>
+          <h2 class="section-title">Tedarik Zincirinizi<br/><span>Güvenle</span> Kurduğunuz Bir Ortak</h2>
+          <p class="section-subtitle">
+            Biz sadece mineral satmıyoruz; kesinlik sunuyoruz. Maden yüzeyinden FOB'a kadar dikey entegre operasyonumuz; her seferinde kalite, tutarlılık ve zamanında teslimat güvencesi sağlar.
+          </p>
+          <div class="why-list">
+            <div class="why-item">
+              <div class="why-num">01</div>
+              <div>
+                <strong>Dikey Entegrasyon</strong>
+                <p>Madenlerimizi, işleme tesislerimizi ve kalite laboratuvarlarımızı biz işletiyoruz. Aracı yok; cevherden sevkiyata tam izlenebilirlik.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">02</div>
+              <div>
+                <strong>Özel Formülasyon</strong>
+                <p>Belirli bir nem seviyesi, partikül boyutu veya karışıma mı ihtiyacınız var? Ar-Ge ekibimiz ticari ölçekte özel kaliteler geliştirmek için sizinle çalışır.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">03</div>
+              <div>
+                <strong>Sertifikalar</strong>
+                <p>ISO 9001, REACH uyumlu, FDA listeli kaliteler mevcuttur. Her sevkiyatta istisna olmaksızın tam analiz sertifikası.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-num">04</div>
+              <div>
+                <strong>Küresel Lojistik</strong>
+                <p>Her limana konteyner, dökme gemi ve büyük torba sevkiyatı. Lojistik ekibimiz gerektiğinde gümrük, belgelendirme ve son kilometre taşımacılığını yönetir.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="market-map-box">
+            <div class="market-map-title">
+              <span class="section-tag" style="margin:0;">Aktif Pazarlar</span>
+            </div>
+            <div class="market-regions">
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Avrupa</strong>
+                  <span>Almanya, Hollanda, İspanya, İtalya, Fransa, Polonya…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Orta Doğu &amp; Kuzey Afrika</strong>
+                  <span>BAE, Suudi Arabistan, Mısır, Fas, İsrail…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Asya Pasifik</strong>
+                  <span>Çin, Japonya, Güney Kore, Hindistan, Tayland…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Amerika</strong>
+                  <span>ABD, Kanada, Brezilya, Meksika, Arjantin…</span>
+                </div>
+              </div>
+              <div class="market-region">
+                <span class="region-dot"></span>
+                <div>
+                  <strong>Sahra Altı Afrika</strong>
+                  <span>Güney Afrika, Nijerya, Kenya, Etiyopya…</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--cream-dark);">
+              <div style="display:flex;gap:2rem;">
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">50+</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">Ülke</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">300+</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">Müşteri</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);font-weight:700;">120k</div>
+                  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--stone);">MT/Yıl</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SÜRDÜRÜLEBİLİRLİK */}
+  <section id="sustainability-home" style="padding:6rem 0;background:var(--earth-mid);position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:url('/images/mine/landscape-01-400w.webp') center/cover no-repeat;opacity:0.10;" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-tag">Sorumluluk</div>
+        <div class="divider divider--center"></div>
+        <h2 class="section-title section-title--white">Toprağı <span>Kazıyor</span>,<br/>Onu Koruyoruz da</h2>
+        <p class="section-subtitle section-subtitle--white" style="margin:0 auto;">
+          Sepiolite Mine'de sürdürülebilirlik bir pazarlama iddiası değildir; madenlerimizi nasıl tasarladığımıza, atıklarımızı nasıl yönettiğimize ve geçici olarak kullandığımız araziyi nasıl restore ettiğimize işlenmiş bir değerdir.
+        </p>
+      </div>
+      <div class="sustain-grid">
+        <div class="sustain-card">
+          <div class="sustain-icon">🌱</div>
+          <h3>Arazi Restorasyonu</h3>
+          <p>Her aktif maden sahasının bağlayıcı bir kapanış ve rehabilitasyon planı vardır. Yerel bitki örtüsünü yeniden dikiyoruz ve çıkarım sonrası 5 yıl boyunca toprak sağlığını izliyoruz.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">💧</div>
+          <h3>Su Yönetimi</h3>
+          <p>Sıfır deşarjlı su döngüleri. Proses suyu tamamen geri dönüştürülmektedir. Hiçbir mineral atığı yerel su kaynaklarına ulaşmıyor; üç ayda bir üçüncü taraf denetçiler tarafından izlenmektedir.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">⚡</div>
+          <h3>Enerji Dönüşümü</h3>
+          <p>Tesis enerjimizin %30'u yerleşik güneş panellerinden karşılanmaktadır. Yıllık yol haritası kilometre taşlarıyla 2035 yılında karbon nötr operasyonlara ulaşmayı hedefliyoruz.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="sustain-icon">👷</div>
+          <h3>Toplum &amp; Güvenlik</h3>
+          <p>Son 4 yılda sıfır kayıp zamanlı kaza. Sahalarımıza yakın tüm topluluklar için yerel istihdama, mesleki eğitime ve okul altyapısına yatırım yapıyoruz.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="/tr/sustainability/" class="btn btn-primary">Tam ESG Hikayesini Oku</a>
+      </div>
+    </div>
+  </section>
+
+  {/* İLETİŞİM TEASER */}
+  <section id="contact-teaser" style="padding:6rem 0;background:var(--white);">
+    <div class="container">
+      <div class="grid-2" style="gap:4rem;align-items:start;">
+        <div>
+          <div class="section-tag">İletişime Geçin</div>
+          <div class="divider"></div>
+          <h2 class="section-title">Tedarik Yolculuğunuza<br/><span>Başlayın</span></h2>
+          <p class="section-subtitle">
+            Bir teknik veri sayfasına, numune sevkiyatına veya uzun vadeli tedarik sözleşmesine ihtiyacınız olsa da; ekibimiz 24 saat içinde yanıt verir.
+          </p>
+          <div style="margin-top:1.5rem;margin-bottom:1.75rem;padding:1rem 1.25rem;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem;">Tescilli Şirket</div>
+            <div style="font-size:0.82rem;font-weight:600;color:var(--earth);line-height:1.5;">BAGRUP Group Şirketi<br/>AKMİN ENDÜSTRİYEL MADENCİLİK LTD ŞTİ</div>
+          </div>
+
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🏭</div>
+              <div>
+                <strong>Fabrika</strong>
+                <span>Başkent Organize Sanayi Atatürk Bulvarı No:48<br/>Malıköy, Sincan / Ankara</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">🏢</div>
+              <div>
+                <strong>Ofis</strong>
+                <span>Kızılay Mah. Fevziçakmak 1. Sokak No:15 D:7<br/>Çankaya / Ankara</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📞</div>
+              <div>
+                <strong>Telefon / WhatsApp</strong>
+                <span>{BRAND.contact.phone}</span>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">📧</div>
+              <div>
+                <strong>Sorgular</strong>
+                <span>İletişim formunu kullanın veya doğrudan arayın</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-cta-box">
+          <h3>Başlamaya Hazır mısınız?</h3>
+          <p>Spec, hedef hacim ve varış noktanızı göndermek için tam iletişim formunu açın. 24 saat içinde yanıt veriyoruz.</p>
+          <a href="/tr/contact/" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">Talep Gönder →</a>
+          <p class="contact-cta-note">Spam yok. Verileriniz asla paylaşılmaz.</p>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const particlesEl = document.getElementById('particles');
+    if (particlesEl) {
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('span');
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 14) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        const size = (1 + Math.random() * 3);
+        p.style.width = p.style.height = size + 'px';
+        particlesEl.appendChild(p);
+      }
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).style.opacity = '1';
+          (e.target as HTMLElement).style.transform = 'translateY(0)';
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll<HTMLElement>('.product-card, .app-card, .sustain-card, .about-feature, .why-item').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      revealObserver.observe(el);
+    });
+  });
+</script>
+
 <style>
-  .hero { position: relative; min-height: 70vh; display: flex; align-items: center; overflow: hidden; background: var(--c-earth); padding-block: var(--s-7); }
-  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-800w.webp') center/cover no-repeat; opacity: 0.55; }
-  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(28, 20, 16, 0.78), rgba(46, 33, 24, 0.55)); }
-  .hero-content { position: relative; z-index: 1; max-width: 720px; }
-  .hero .section-tag { color: var(--c-gold); }
-  .hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .hero .lead { font-size: 1.15rem; color: var(--c-text-light); line-height: 1.7; margin-bottom: var(--s-5); }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
-  .trust-strip { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-5); }
-  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--s-4); text-align: center; }
-  .trust-item strong { display: block; font-family: var(--font-serif); font-size: 2.2rem; font-weight: 800; color: var(--c-gold-dark); line-height: 1; margin-bottom: var(--s-2); }
-  .trust-item span { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.5; }
-  .section-header { margin-bottom: var(--s-6); max-width: 640px; }
-  .section-header.centered { text-align: center; margin-inline: auto; }
-  .section-header h2 { margin-block: var(--s-2) var(--s-3); }
-  .section-header p { font-size: 1.05rem; color: var(--c-text-muted); line-height: 1.7; margin: 0; }
-  .section--dark .section-header p { color: var(--c-text-light); }
-  .divider--center { margin-inline: auto; }
-  .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-4); }
-  .product-card { background: var(--c-white); border: 1px solid var(--c-cream-dark); border-radius: var(--r-card); overflow: hidden; text-decoration: none; color: var(--c-text); display: flex; flex-direction: column; transition: border-color var(--t), transform var(--t), box-shadow var(--t); }
-  .product-card:hover { border-color: var(--c-gold); transform: translateY(-4px); box-shadow: var(--sh-mid); text-decoration: none; }
-  .product-card .card-img { aspect-ratio: 4 / 3; overflow: hidden; background: var(--c-cream); }
-  .product-card .card-img img { width: 100%; height: 100%; object-fit: cover; }
-  .product-card .card-body { padding: var(--s-4); flex: 1; display: flex; flex-direction: column; gap: var(--s-2); }
-  .product-card h3 { font-size: 1.15rem; margin: 0; }
-  .product-card p { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.6; margin: 0; flex: 1; }
-  .product-card .card-link { color: var(--c-gold-dark); font-weight: 600; font-size: 0.9rem; margin-top: var(--s-2); }
-  .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--s-3); }
-  .app-tile { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--r-input); padding: var(--s-4); text-decoration: none; color: var(--c-text-light); display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); transition: border-color var(--t), background var(--t); }
-  .app-tile:hover { border-color: var(--c-gold); background: rgba(201, 146, 42, 0.08); color: var(--c-white); text-decoration: none; }
-  .app-name { font-weight: 500; font-size: 0.95rem; }
-  .app-arrow { color: var(--c-gold); font-size: 1.1rem; }
-  .apps-cta { text-align: center; margin-top: var(--s-5); }
-  .why-section { background: var(--c-cream); }
-  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s-4); }
-  .why-card { background: var(--c-white); border: 1px solid var(--c-cream-dark); border-radius: var(--r-card); padding: var(--s-5); }
-  .why-num { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 800; color: var(--c-gold); line-height: 1; margin-bottom: var(--s-3); }
-  .why-card h3 { font-size: 1.1rem; margin-bottom: var(--s-2); color: var(--c-earth); }
-  .why-card p { font-size: 0.92rem; color: var(--c-text-muted); line-height: 1.7; margin: 0; }
-  .final-cta { text-align: center; }
-  .final-cta h2 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .final-cta p { color: var(--c-text-light); margin-bottom: var(--s-4); font-size: 1.05rem; }
+  /* Hero */
+  #hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--earth); }
+  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-1280w.webp') center/cover no-repeat; opacity: 0.55; transform-origin: center center; animation: kenBurns 22s ease-in-out infinite; will-change: transform; }
+  @keyframes kenBurns { 0%{transform:scale(1.05) translate(0%,0%)} 25%{transform:scale(1.10) translate(-1.2%,-0.6%)} 50%{transform:scale(1.14) translate(-0.5%,-1.2%)} 75%{transform:scale(1.10) translate(1.0%,-0.4%)} 100%{transform:scale(1.05) translate(0%,0%)} }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(28,20,16,0.93) 0%, rgba(28,20,16,0.78) 45%, rgba(28,20,16,0.35) 75%, rgba(14,10,6,0.55) 100%); }
+  .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+  .hero-particles span { position: absolute; width: 2px; height: 2px; background: var(--gold); border-radius: 50%; animation: float linear infinite; opacity: 0; }
+  @keyframes float { 0%{transform:translateY(100vh) translateX(0); opacity:0} 10%{opacity:0.7} 90%{opacity:0.5} 100%{transform:translateY(-10vh) translateX(30px); opacity:0} }
+  .hero-content { position: relative; z-index: 2; padding: 8rem 0 5rem; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,146,42,0.18); border: 1px solid rgba(201,146,42,0.4); color: var(--gold-light); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.45rem 1rem; border-radius: 100px; margin-bottom: 1.75rem; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold-light); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 1.07; letter-spacing: -0.01em; color: var(--white); margin-bottom: 1.5rem; max-width: 820px; text-shadow: 0 2px 24px rgba(0,0,0,0.55), 0 6px 48px rgba(0,0,0,0.30); }
+  .hero-title em { font-style: italic; color: var(--gold-light); text-shadow: 0 2px 20px rgba(201,146,42,0.4); }
+  .hero-desc { font-size: 1.15rem; line-height: 1.82; color: rgba(255,255,255,0.80); max-width: 580px; margin-bottom: 2.5rem; text-shadow: 0 1px 10px rgba(0,0,0,0.45); font-weight: 400; letter-spacing: 0.01em; }
+  .hero-actions { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.12); }
+  .hero-stat-value { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold-light); line-height: 1; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+  .hero-stat-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-top: 0.35rem; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 2; }
+  .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent); animation: scrollLine 1.8s ease-in-out infinite; }
+  @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+  /* Ticker */
+  .ticker-strip { background: var(--gold); padding: 0.7rem 0; overflow: hidden; white-space: nowrap; }
+  .ticker-inner { display: inline-flex; animation: ticker 28s linear infinite; }
+  .ticker-inner span { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--earth); padding: 0 2.5rem; }
+  .ticker-inner span::before { content: '◆ '; }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* About */
+  #about { padding: 6rem 0; background: var(--cream); }
+  .about-visual { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; }
+  .about-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .about-visual-badge { position: absolute; bottom: 1.5rem; right: 1.5rem; background: var(--gold); color: var(--earth); padding: 0.58rem 0.98rem; border-radius: 8px; font-weight: 700; }
+  .about-visual-badge strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.3rem; line-height: 1; }
+  .about-visual-badge span { font-size: 0.47rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .about-feature { display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .about-feature-icon { width: 40px; height: 40px; background: rgba(201,146,42,0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+  .about-feature-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--earth); }
+  .about-feature-text span { font-size: 0.78rem; color: var(--text-light); }
+  .akmin-badge { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--earth); color: var(--white); padding: 0.75rem 1.25rem; border-radius: var(--radius); font-size: 0.8rem; font-weight: 600; margin-top: 1.75rem; }
+  .akmin-badge span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1rem; }
+
+  /* Products */
+  #products { padding: 6rem 0; background: var(--white); }
+  .products-header { text-align: center; margin-bottom: 3.5rem; }
+  .products-header .section-subtitle { margin: 0 auto; }
+  .product-card { border-radius: var(--radius-lg); overflow: hidden; background: var(--white); border: 1px solid var(--cream-dark); box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
+  .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+  .product-card-img { height: 220px; position: relative; overflow: hidden; }
+  .product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .product-card:hover .product-card-img img { transform: scale(1.07); }
+  .product-card-tag { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: var(--earth); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 100px; }
+  .product-card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+  .product-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--earth); margin-bottom: 0.75rem; }
+  .product-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-light); flex: 1; margin-bottom: 1.25rem; }
+  .product-specs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .product-spec { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.7rem; background: var(--cream); color: var(--stone); border-radius: 100px; }
+  .product-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--gold); margin-top: 1.25rem; transition: var(--transition); }
+  .product-link svg { width: 16px; height: 16px; transition: transform var(--transition); }
+  .product-link:hover svg { transform: translateX(4px); }
+
+  /* Applications */
+  .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .app-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 2rem; transition: var(--transition); }
+  .app-card:hover { background: rgba(201,146,42,0.12); border-color: rgba(201,146,42,0.4); transform: translateY(-4px); }
+  .app-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .app-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+  .app-card p { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+  .app-list { display: flex; flex-direction: column; gap: 0.35rem; }
+  .app-list li { font-size: 0.8rem; color: var(--gold-light); padding-left: 1rem; position: relative; list-style: none; }
+  .app-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+  .app-link-home { display: inline-block; margin-top: 1rem; font-size: 0.82rem; font-weight: 600; color: var(--gold); transition: color 0.25s ease, letter-spacing 0.25s ease; }
+  .app-link-home:hover { color: var(--gold-light); letter-spacing: 0.04em; }
+
+  /* Why */
+  .why-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .why-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .why-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 40px; }
+  .why-item strong { display: block; font-size: 1rem; font-weight: 700; color: var(--earth); margin-bottom: 0.35rem; }
+  .why-item p { font-size: 0.875rem; line-height: 1.7; color: var(--text-light); margin: 0; }
+
+  /* Market */
+  .market-map-box { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--cream-dark); }
+  .market-regions { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+  .market-region { display: flex; align-items: flex-start; gap: 0.85rem; }
+  .region-dot { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; margin-top: 5px; flex-shrink: 0; box-shadow: 0 0 0 4px rgba(201,146,42,0.2); }
+  .market-region strong { display: block; font-size: 0.9rem; font-weight: 700; color: var(--earth); }
+  .market-region span { font-size: 0.8rem; color: var(--stone); }
+
+  /* Sustainability */
+  .sustain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .sustain-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 2rem; text-align: center; transition: var(--transition); }
+  .sustain-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.35); transform: translateY(-4px); }
+  .sustain-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .sustain-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+  .sustain-card p { font-size: 0.83rem; line-height: 1.75; color: rgba(255,255,255,0.6); }
+
+  /* Contact teaser */
+  .contact-info { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+  .contact-info-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-info-icon { font-size: 1.25rem; width: 42px; height: 42px; background: rgba(201,146,42,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-info-item strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--earth); }
+  .contact-info-item span { font-size: 0.85rem; color: var(--stone); }
+  .contact-cta-box { background: var(--cream); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; }
+  .contact-cta-box h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--earth); margin-bottom: 1rem; }
+  .contact-cta-box > p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; margin-bottom: 2rem; }
+  .contact-cta-note { font-size: 0.75rem; color: var(--stone); margin-top: 0.75rem; }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .app-grid { grid-template-columns: 1fr 1fr; }
+    .sustain-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .app-grid { grid-template-columns: 1fr; }
+    .sustain-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .about-features { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .sustain-grid { grid-template-columns: 1fr; }
+  }
 </style>

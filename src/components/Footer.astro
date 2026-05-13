@@ -1,8 +1,8 @@
 ---
 /**
- * Footer.astro — Site geneli footer
- *
- * brand.ts (B5) ile sync. mailto: YASAK (C4) — form linki kullanılır.
+ * Footer.astro — Footer CTA + 3-column site-footer
+ * Ported 1:1 from legacy js/include.js FOOTER_EN / FOOTER_TR.
+ * C4: no mailto: anywhere — email icon links to contact form.
  */
 import { BRAND } from '@config/brand';
 
@@ -12,199 +12,174 @@ export interface Props {
 
 const { locale } = Astro.props;
 const isTr = locale === 'tr';
+const prefix = isTr ? '/tr' : '';
+const homeHref = isTr ? '/tr/' : '/';
 
 const labels = isTr
   ? {
+      ctaHeading: 'Dünyanın En Kaliteli Sepiyolitini Tedarik Etmeye Hazır mısınız?',
+      ctaBody: 'Numune, teknik özellikler ve sektörünüze özel rekabetçi fiyatlandırma için teknik satış ekibimizle bugün iletişime geçin.',
+      ctaContact: 'Satış Ekibiyle İletişime Geçin',
+      ctaProducts: 'Tüm Ürünleri Görüntüle',
+      brandTagline: "1995'ten bu yana küresel endüstrilere premium ham ve işlenmiş mineral ürünleri sunan Türkiye'nin önde gelen sepiyolit üreticisi.",
       products: 'Ürünler',
       applications: 'Uygulamalar',
-      markets: 'Pazarlar',
+      company: 'Şirket',
+      about: 'Hakkımızda',
       sustainability: 'Sürdürülebilirlik',
+      markets: 'Küresel Pazarlar',
       contact: 'İletişim',
-      blog: 'Blog',
+      copyright: '· Akmin Mining bünyesinde · sepiolitemine.com · Tüm hakları saklıdır.',
       privacy: 'Gizlilik Politikası',
-      terms: 'Hizmet Şartları',
-      navTitle: 'Site',
-      contactTitle: 'İletişim',
-      legalTitle: 'Hukuki',
-      rights: 'Tüm hakları saklıdır',
-      cta: 'Teklif İste',
-      tagline: BRAND.tagline,
+      terms: 'Kullanım Şartları',
+      sitemap: 'Site Haritası',
+      logoAria: 'Sepiolite Mine — Ana Sayfa',
+      emailAria: 'İletişim formuna git',
+      phoneAria: 'Bizi arayın',
     }
   : {
+      ctaHeading: "Ready to Source the World's Finest Sepiolite?",
+      ctaBody: 'Contact our technical sales team today for samples, specifications, and competitive pricing tailored to your industry.',
+      ctaContact: 'Contact Sales Team',
+      ctaProducts: 'View All Products',
+      brandTagline: "Turkey's premier sepiolite producer serving global industries with premium raw and processed mineral products since 1995.",
       products: 'Products',
       applications: 'Applications',
-      markets: 'Markets',
+      company: 'Company',
+      about: 'About Us',
       sustainability: 'Sustainability',
+      markets: 'Global Markets',
       contact: 'Contact',
-      blog: 'Blog',
+      copyright: '· A division of Akmin Mining · sepiolitemine.com · All rights reserved.',
       privacy: 'Privacy Policy',
       terms: 'Terms of Use',
-      navTitle: 'Site',
-      contactTitle: 'Contact',
-      legalTitle: 'Legal',
-      rights: 'All rights reserved',
-      cta: 'Request Quote',
-      tagline: BRAND.tagline,
+      sitemap: 'Sitemap',
+      logoAria: 'Sepiolite Mine — Home',
+      emailAria: 'Go to contact form',
+      phoneAria: 'Call us',
     };
 
-const prefix = isTr ? '/tr' : '';
-const year = new Date().getFullYear();
+const productLinks = isTr
+  ? [
+      { href: '/tr/products/ham-sepiyolit-cevheri/', label: 'Ham Sepiyolit Cevheri' },
+      { href: '/tr/products/granule-sepiyolit/', label: 'Granül Sepiyolit' },
+      { href: '/tr/products/ogutulmus-sepiyolit-tozu/', label: 'Öğütülmüş Toz' },
+      { href: '/tr/products/sondaj-kalitesi-sepiyolit/', label: 'Sondaj Kalitesi' },
+      { href: '/tr/products/tarimsal-sepiyolit/', label: 'Tarımsal Kalite' },
+      { href: '/tr/products/insaat-yalitim-kalitesi/', label: 'İnşaat Kalitesi' },
+    ]
+  : [
+      { href: '/products/raw-sepiolite-ore/', label: 'Raw Sepiolite Ore' },
+      { href: '/products/granulated-sepiolite/', label: 'Granulated Sepiolite' },
+      { href: '/products/milled-sepiolite-powder/', label: 'Milled Powder' },
+      { href: '/products/drilling-grade-sepiolite/', label: 'Drilling Grade' },
+      { href: '/products/agricultural-sepiolite/', label: 'Agricultural Grade' },
+      { href: '/products/construction-insulation-grade/', label: 'Construction Grade' },
+    ];
+
+const appLinks = isTr
+  ? [
+      { href: '/tr/applications/evcil-hayvan-kedi-kumu/', label: 'Evcil Hayvan Bakımı' },
+      { href: '/tr/applications/tarim/', label: 'Tarım' },
+      { href: '/tr/applications/petrol-gaz-sondaj/', label: 'Petrol ve Gaz' },
+      { href: '/tr/applications/insaat/', label: 'İnşaat' },
+      { href: '/tr/applications/cevre-rehabilitasyon/', label: 'Çevre' },
+      { href: '/tr/applications/ilac-kozmetik/', label: 'İlaç ve Kozmetik' },
+    ]
+  : [
+      { href: '/applications/pet-care-cat-litter/', label: 'Pet Care' },
+      { href: '/applications/agriculture/', label: 'Agriculture' },
+      { href: '/applications/oil-gas-drilling/', label: 'Oil & Gas' },
+      { href: '/applications/construction/', label: 'Construction' },
+      { href: '/applications/environmental-remediation/', label: 'Environmental' },
+      { href: '/applications/pharma-cosmetics/', label: 'Pharma & Cosmetics' },
+    ];
+
 const phoneHref = `tel:${BRAND.contact.phone.replace(/\s/g, '')}`;
+const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <h3 class="footer-brand-name">{BRAND.name}</h3>
-      <p class="footer-tagline">{labels.tagline}</p>
-      <a href={`${prefix}/contact/`} class="btn btn-primary footer-cta">{labels.cta}</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>{labels.navTitle}</h4>
-      <ul>
-        <li><a href={`${prefix}/products/`}>{labels.products}</a></li>
-        <li><a href={`${prefix}/applications/`}>{labels.applications}</a></li>
-        <li><a href={`${prefix}/markets/`}>{labels.markets}</a></li>
-        <li><a href={`${prefix}/sustainability/`}>{labels.sustainability}</a></li>
-        {BRAND.blog.enabled && <li><a href={`${prefix}/blog/`}>{labels.blog}</a></li>}
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>{labels.contactTitle}</h4>
-      <ul class="footer-contact">
-        <li>
-          <a href={phoneHref} class="footer-phone">{BRAND.contact.phone}</a>
-        </li>
-        <li>
-          {/* C4 — mailto: YASAK. "Contact form" linki */}
-          <a href={`${prefix}/contact/`}>
-            {isTr ? 'İletişim formuna git →' : 'Go to contact form →'}
-          </a>
-        </li>
-        <li class="footer-address">
-          {BRAND.address.city}, {BRAND.address.country}
-        </li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>{labels.legalTitle}</h4>
-      <ul>
-        <li><a href={isTr ? '/tr/privacy/' : '/privacy/'}>{labels.privacy}</a></li>
-        <li><a href={isTr ? '/tr/terms/' : '/terms/'}>{labels.terms}</a></li>
-      </ul>
+<section class="footer-cta" aria-labelledby="footer-cta-heading">
+  <div class="container" style="text-align:center;">
+    <h2 id="footer-cta-heading">{labels.ctaHeading}</h2>
+    <p>{labels.ctaBody}</p>
+    <div class="footer-cta-actions">
+      <a href={`${prefix}/contact/`} class="btn btn-dark">{labels.ctaContact}</a>
+      <a href={`${prefix}/products/`} class="btn btn-outline-dark">{labels.ctaProducts}</a>
     </div>
   </div>
+</section>
 
-  <div class="footer-bottom">
-    <div class="container">
-      <p>&copy; {year} {BRAND.legalName}. {labels.rights}.</p>
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href={homeHref} class="footer-logo" aria-label={labels.logoAria}>
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <circle cx="22" cy="22" r="20.5" fill="rgba(201,146,42,0.07)" stroke="#C9922A" stroke-width="1.5"/>
+            <path d="M6,34 L14,12 L19,18 L23,11 L28,34 Z" fill="#C9922A" opacity="0.20"/>
+            <path d="M6,34 L14,12 L19,18 L23,11 L28,34" stroke="#C9922A" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+            <line x1="23" y1="11" x2="25.5" y2="19" stroke="#C9922A" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+            <rect x="29.5" y="18" width="7" height="16" fill="#C9922A" opacity="0.18"/>
+            <rect x="29.5" y="18" width="7" height="16" stroke="#C9922A" stroke-width="1.3" fill="none"/>
+            <path d="M29,18 Q33,13 37,18 Z" fill="#C9922A" opacity="0.28"/>
+            <path d="M29,18 Q33,13 37,18" stroke="#C9922A" stroke-width="1.3" fill="none"/>
+            <line x1="33" y1="13" x2="33" y2="9.5" stroke="#C9922A" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="33" cy="8.5" r="1.2" fill="#C9922A" opacity="0.55"/>
+            <circle cx="34.2" cy="7.2" r="0.75" fill="#C9922A" opacity="0.3"/>
+            <line x1="29.5" y1="22.5" x2="26" y2="22.5" stroke="#C9922A" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="26" cy="22.5" r="0.9" fill="#C9922A" opacity="0.55"/>
+            <line x1="29.5" y1="28" x2="27" y2="28" stroke="#C9922A" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="27" cy="28" r="0.9" fill="#C9922A" opacity="0.55"/>
+            <line x1="5" y1="34" x2="39" y2="34" stroke="#C9922A" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+          </svg>
+          <div style="display:flex;flex-direction:column;">
+            <span class="nav-logo-main">{BRAND.name}</span>
+            <span class="nav-logo-sub">by Akmin Mining</span>
+          </div>
+        </a>
+        <p>{labels.brandTagline}</p>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/akmin" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank">in</a>
+          {/* C4: email icon links to contact form, NOT mailto: */}
+          <a href={`${prefix}/contact/`} aria-label={labels.emailAria}>✉</a>
+          <a href={phoneHref} aria-label={labels.phoneAria}>📞</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>{labels.products}</h3>
+        <ul>
+          {productLinks.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>{labels.applications}</h3>
+        <ul>
+          {appLinks.map((a) => <li><a href={a.href}>{a.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>{labels.company}</h3>
+        <ul>
+          <li><a href={`${homeHref}#about`}>{labels.about}</a></li>
+          <li><a href={`${prefix}/sustainability/`}>{labels.sustainability}</a></li>
+          <li><a href={`${prefix}/markets/`}>{labels.markets}</a></li>
+          <li><a href={`${prefix}/contact/`}>{labels.contact}</a></li>
+          <li><a href="https://akmin.com.tr" rel="noopener noreferrer" target="_blank">Akmin Mining</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {year} {BRAND.name} {labels.copyright}</p>
+      <div class="footer-legal">
+        <a href={`${prefix}/privacy/`}>{labels.privacy}</a>
+        <a href={`${prefix}/terms/`}>{labels.terms}</a>
+        <a href="/sitemap-index.xml">{labels.sitemap}</a>
+      </div>
     </div>
   </div>
 </footer>
-
-<style>
-  .site-footer {
-    background: var(--c-earth);
-    color: var(--c-text-light);
-    padding-top: var(--s-7);
-    margin-top: var(--s-7);
-  }
-
-  .footer-inner {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: var(--s-5);
-    padding-bottom: var(--s-7);
-  }
-
-  .footer-brand-name {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    color: var(--c-white);
-    margin: 0 0 var(--s-2) 0;
-  }
-
-  .footer-tagline {
-    color: var(--c-text-light);
-    margin-bottom: var(--s-4);
-    font-size: 0.95rem;
-  }
-
-  .footer-cta {
-    display: inline-flex;
-  }
-
-  .footer-col h4 {
-    color: var(--c-gold);
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin: 0 0 var(--s-3) 0;
-  }
-
-  .footer-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-  }
-
-  .footer-col a {
-    color: var(--c-text-light);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color var(--t-fast);
-  }
-
-  .footer-col a:hover {
-    color: var(--c-gold);
-    text-decoration: none;
-  }
-
-  .footer-phone {
-    font-weight: 600;
-  }
-
-  .footer-address {
-    color: var(--c-text-light);
-    font-size: 0.9rem;
-    opacity: 0.7;
-  }
-
-  .footer-bottom {
-    border-top: 1px solid var(--c-earth-mid);
-    padding-block: var(--s-4);
-    font-size: 0.85rem;
-    color: var(--c-text-light);
-    opacity: 0.65;
-  }
-
-  .footer-bottom p {
-    margin: 0;
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    .footer-inner {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--s-5);
-    }
-
-    .footer-brand {
-      grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .footer-inner {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
