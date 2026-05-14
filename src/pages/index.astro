@@ -29,7 +29,7 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Sepiolite Mine — Akmin Mining',
-  image: `${siteUrl}/images/mine/aerial-02-1280w.webp`,
+  image: `${siteUrl}/images/mine/aerial-02-1200w.webp`,
   telephone: BRAND.contact.phone,
   address: {
     '@type': 'PostalAddress',
@@ -58,7 +58,7 @@ const localBusinessSchema = {
   schemaJson={[orgSchema, localBusinessSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-1280w.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
   </Fragment>
 
   {/* ===== HERO ===== */}
@@ -672,7 +672,7 @@ const localBusinessSchema = {
   }
   .hero-bg {
     position: absolute; inset: 0;
-    background: url('/images/mine/aerial-02-1280w.webp') center/cover no-repeat;
+    background: url('/images/mine/aerial-02-1200w.webp') center/cover no-repeat;
     opacity: 0.55;
     transform-origin: center center;
     animation: kenBurns 22s ease-in-out infinite;

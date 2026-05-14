@@ -31,7 +31,7 @@ const TARGET_DIR = join(__dirname, '..', 'public', 'images');
  * sharp `withoutEnlargement: true` ensures we don't upscale beyond source.
  */
 const FOLDER_VARIANTS = {
-  mine: [400, 800, 1280, 1600],              // landscape/banner usage
+  mine: [400, 800, 1200, 1280, 1600],        // landscape/banner usage (1200 added for sources <1280px like aerial-02 1200x896)
   factory: [400, 800, 1280],                  // production photos
   products: [200, 400, 800, 1280],           // product main + gallery thumbs
   certifications: [200, 400, 800, 1200],     // cert documents

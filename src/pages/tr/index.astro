@@ -35,7 +35,7 @@ const orgSchema = {
   schemaJson={[orgSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-1280w.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
   </Fragment>
 
   {/* HERO */}
@@ -638,7 +638,7 @@ const orgSchema = {
 <style>
   /* Hero */
   #hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--earth); }
-  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-1280w.webp') center/cover no-repeat; opacity: 0.55; transform-origin: center center; animation: kenBurns 22s ease-in-out infinite; will-change: transform; }
+  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-1200w.webp') center/cover no-repeat; opacity: 0.55; transform-origin: center center; animation: kenBurns 22s ease-in-out infinite; will-change: transform; }
   @keyframes kenBurns { 0%{transform:scale(1.05) translate(0%,0%)} 25%{transform:scale(1.10) translate(-1.2%,-0.6%)} 50%{transform:scale(1.14) translate(-0.5%,-1.2%)} 75%{transform:scale(1.10) translate(1.0%,-0.4%)} 100%{transform:scale(1.05) translate(0%,0%)} }
   .hero-overlay { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(28,20,16,0.93) 0%, rgba(28,20,16,0.78) 45%, rgba(28,20,16,0.35) 75%, rgba(14,10,6,0.55) 100%); }
   .hero-particles { position: absolute; inset: 0; overflow: hidden; }
