@@ -66,7 +66,7 @@ advantages:
   - title: "Scalable Supply"
     description: "From single containers to full vessel loads, we maintain ready stock at our facility for rapid dispatch to any global destination."
 advantageImage: /images/mine/landscape-09-800w.webp
-advantageImageAlt: Sepiolite mine, Akmin Mining Türkiye
+advantageImageAlt: Sepiolite mine, Zamana Türkiye
 
 faqs:
   - question: "What size fractions are available for granulated sepiolite?"

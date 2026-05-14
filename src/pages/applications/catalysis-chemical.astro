@@ -1,0 +1,329 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sepiolitemine.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://sepiolitemine.com/applications/"},{"@type":"ListItem","position":3,"name":"Catalysis &amp; Chemical","item":"https://sepiolitemine.com/applications/catalysis-chemical/"}]},
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What metals can be supported on sepiolite?","acceptedAnswer":{"@type":"Answer","text":"Virtually any catalytic metal can be deposited on sepiolite. The most common are nickel, palladium, platinum, copper, iron, cobalt, and zinc. We have experience with mono-metallic, bi-metallic, and tri-metallic catalyst systems."}},{"@type":"Question","name":"How does sepiolite compare to alumina or silica as a catalyst support?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite offers comparable surface area to gamma-alumina but with superior metal anchoring due to its channel structure. It is cheaper than synthetic silicas, more thermally stable than most carbon supports, and provides the unique advantage of built-in filtration through its fibrous morphology."}},{"@type":"Question","name":"Can you supply pre-loaded catalysts?","acceptedAnswer":{"@type":"Answer","text":"We can supply sepiolite in various forms: raw, purified, acid-activated, and surface-modified. For metal-loaded catalysts, we partner with catalyst manufacturers and can facilitate the development process, but we do not currently offer finished loaded catalysts as a standard product."}},{"@type":"Question","name":"Is sepiolite suitable for fixed-bed reactor systems?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite powder is best suited for slurry reactors and batch processes. For fixed-bed systems, we offer pelletised sepiolite (3–5mm extrudates) that provides adequate flow-through characteristics while maintaining high surface area."}},{"@type":"Question","name":"Do you provide technical literature and research support?","acceptedAnswer":{"@type":"Answer","text":"Yes. We maintain a database of published research on sepiolite catalysis and can provide application-specific literature reviews. Our technical team collaborates with university research groups and can facilitate joint development projects."}}]}
+];
+---
+
+<Layout
+  title="Sepiolite for Catalysis &amp; Chemical – Applications"
+  description="Sepiolite catalyst support with 240 m²/g surface area for hydrogenation, oxidation, and environmental catalysis. Thermally stable to 500°C."
+  locale="en"
+  alternates={{ en: "/applications/catalysis-chemical/", tr: "/tr/applications/kataliz-kimya/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+    <a href="../../">Home</a><span class="sep">›</span>
+    <a href="../">Applications</a><span class="sep">›</span>
+    <span class="current">Catalysis &amp; Chemical</span>
+  </div></div></div>
+
+  <section class="app-hero">
+    <div class="container">
+      <span class="section-tag">Chemical</span>
+      <h1>Sepiolite for <span>Catalysis &amp; Chemical</span></h1>
+      <p class="hero-subtitle">High-Surface-Area Catalyst Support for Advanced Reactions</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">240</div>
+          <div class="hero-stat-label">m²/g Surface</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">500°C</div>
+          <div class="hero-stat-label">Thermal Limit</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5–50</div>
+          <div class="hero-stat-label">nm Metal Dispersion</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">90%+</div>
+          <div class="hero-stat-label">Catalyst Recovery</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="container">
+      <p class="intro-text">Sepiolite&#x27;s combination of high specific surface area (240 m²/g), thermal stability to 500°C, and tuneable surface chemistry makes it an outstanding catalyst support and carrier material. Researchers and industrial chemists use sepiolite to anchor metal nanoparticles, enzymes, and organocatalysts — achieving high dispersion, long catalyst life, and easy recovery in reactions ranging from petrochemical hydrogenation to pharmaceutical synthesis.</p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Key Benefits</span>
+        <h2 class="section-title">Why Sepiolite for <span>Catalysis &amp; Chemical</span></h2>
+      </div>
+      <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🔬</div>
+        <h3>High Surface Area Support</h3>
+        <p>With 240 m²/g of BET surface area and a unique channel structure, sepiolite provides abundant anchoring sites for catalytic metals (Pt, Pd, Ni, Cu, Fe). This produces high metal dispersion, small particle sizes, and maximised catalytic activity per gram of metal.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌡️</div>
+        <h3>Thermal Stability</h3>
+        <p>Unlike organic supports that decompose above 200°C, sepiolite maintains its structure and catalytic metal dispersion at temperatures up to 500°C. This enables use in high-temperature reactions such as Fischer-Tropsch synthesis, methane reforming, and catalytic combustion.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🧪</div>
+        <h3>Tunable Surface Chemistry</h3>
+        <p>Sepiolite&#x27;s surface can be modified through acid activation (increasing surface area to 400+ m²/g), organofunctionalisation (adding selectivity), or metal impregnation. This versatility allows optimisation for virtually any catalytic application.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🧬</div>
+        <h3>Enzyme Immobilisation</h3>
+        <p>The mild, neutral surface of sepiolite is ideal for immobilising enzymes for biocatalysis. Lipases, laccases, and proteases retain high activity when adsorbed onto sepiolite, enabling reuse across multiple reaction cycles.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌍</div>
+        <h3>Environmental Catalysis</h3>
+        <p>Sepiolite-supported catalysts are used for automotive exhaust treatment (NOx reduction), industrial VOC destruction, and photocatalytic water purification. The mineral&#x27;s inertness ensures the catalyst works without unwanted side reactions.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">♻️</div>
+        <h3>Easy Filtration &amp; Recovery</h3>
+        <p>The fibrous morphology of sepiolite creates a self-filtering catalyst bed. After reaction, catalyst-loaded sepiolite settles rapidly and can be recovered by simple filtration — reducing precious metal losses and simplifying process design.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Our Process</span>
+      <h2 class="section-title">From Mine to <span>Your Application</span></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Purification</h3>
+            <p>High-purity sepiolite is selected and processed to remove accessory minerals that could poison catalytic reactions.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Acid Activation (optional)</h3>
+            <p>Treatment with dilute HCl increases surface area from 240 to 400+ m²/g by dissolving internal magnesium, creating additional micropores.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Metal Loading</h3>
+            <p>Catalytic metals are deposited by wet impregnation, ion exchange, or precipitation methods. Loading and dispersion are verified by XRD, TEM, and BET analysis.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>Calcination</h3>
+            <p>The loaded catalyst is calcined at controlled temperature to fix the metal phase, remove residual precursors, and activate the catalyst.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">05</div>
+          <div class="process-content">
+            <h3>Performance Validation</h3>
+            <p>Activity, selectivity, and lifetime are tested in laboratory reactors before production-scale quantities are released.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Technical Data</span>
+      <h2 class="section-title">Typical <span>Specifications</span></h2>
+      <table class="specs-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>BET Surface Area</td><td>240 m²/g (natural), 400+ m²/g (activated)</td></tr>
+          <tr><td>Thermal Stability</td><td>Up to 500°C structural retention</td></tr>
+          <tr><td>Pore Volume</td><td>0.4–0.6 cm³/g</td></tr>
+          <tr><td>Metal Loading Capacity</td><td>1–20 wt% depending on metal</td></tr>
+          <tr><td>Particle Size</td><td>&lt;75µm (standard), custom available</td></tr>
+          <tr><td>Impurities</td><td>SiO₂ dominant, low Fe/Al</td></tr>
+          <tr><td>Packaging</td><td>25kg bags / sample jars</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>What metals can be supported on sepiolite?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Virtually any catalytic metal can be deposited on sepiolite. The most common are nickel, palladium, platinum, copper, iron, cobalt, and zinc. We have experience with mono-metallic, bi-metallic, and tri-metallic catalyst systems.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>How does sepiolite compare to alumina or silica as a catalyst support?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite offers comparable surface area to gamma-alumina but with superior metal anchoring due to its channel structure. It is cheaper than synthetic silicas, more thermally stable than most carbon supports, and provides the unique advantage of built-in filtration through its fibrous morphology.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can you supply pre-loaded catalysts?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>We can supply sepiolite in various forms: raw, purified, acid-activated, and surface-modified. For metal-loaded catalysts, we partner with catalyst manufacturers and can facilitate the development process, but we do not currently offer finished loaded catalysts as a standard product.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Is sepiolite suitable for fixed-bed reactor systems?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite powder is best suited for slurry reactors and batch processes. For fixed-bed systems, we offer pelletised sepiolite (3–5mm extrudates) that provides adequate flow-through characteristics while maintaining high surface area.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Do you provide technical literature and research support?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Yes. We maintain a database of published research on sepiolite catalysis and can provide application-specific literature reviews. Our technical team collaborates with university research groups and can facilitate joint development projects.</p></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Explore <span>Sepiolite</span> for Your Application?</h2>
+      <p>Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.</p>
+      <div class="btn-group">
+        <a href="../../#contact" class="btn btn-primary">Request Samples</a>
+        <a href="../" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Explore More</span>
+        <h2 class="section-title">Related <span>Products</span></h2>
+      </div>
+      <div class="related-grid">
+      <a href="../../products/milled-sepiolite-powder/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy"/></div>
+        <h4>Milled Sepiolite Powder</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/raw-sepiolite-ore/" class="related-card reveal">
+        <div class="related-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Raw Sepiolite Ore" loading="lazy"/></div>
+        <h4>Raw Sepiolite Ore</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/drilling-grade-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-drilling-grade.webp" alt="Drilling Grade Sepiolite" loading="lazy"/></div>
+        <h4>Drilling Grade Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      </div>
+      <div style="text-align:center;margin-top:3.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--earth);margin-bottom:1.5rem">Related <span style="color:var(--gold)">Applications</span></h3>
+      </div>
+      <div class="related-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin:0 auto">
+      <a href="../environmental-remediation/" class="related-app-card reveal">
+        <div class="related-app-icon">🌿</div>
+        <h4>Environmental Remediation</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      <a href="../paints-coatings/" class="related-app-card reveal">
+        <div class="related-app-icon">🎨</div>
+        <h4>Paints &amp; Coatings</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <script>
+  (function(){'use strict';
+    var nb=document.getElementById('navbar');if(nb)window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>30)});
+    var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+    if(hb&&mm)hb.addEventListener('click',function(){var e=hb.getAttribute('aria-expanded')==='true';hb.setAttribute('aria-expanded',String(!e));mm.classList.toggle('open')});
+    var ro=new IntersectionObserver(function(ent){ent.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  })();
+  function toggleFaq(btn){var a=btn.nextElementSibling;var exp=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!exp));a.style.maxHeight=exp?'0':a.scrollHeight+'px'}
+  </script>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4.5rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden}
+    .app-hero::before{content:'';position:absolute;inset:0;background:url('/images/mine/mine-landscape-07.webp') center/cover no-repeat;opacity:0.15}
+    .app-hero .container{position:relative;z-index:2}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:0.75rem;line-height:1.12}
+    .app-hero h1 span{color:var(--gold)}
+    .app-hero .hero-subtitle{font-size:1.15rem;color:rgba(255,255,255,0.7);max-width:640px;line-height:1.7;margin-bottom:2rem}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+    .hero-stat{text-align:center}.hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}.hero-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.3rem;letter-spacing:0.04em}
+    .intro-section{padding:4.5rem 0;background:var(--white)}
+    .intro-text{font-size:1.05rem;line-height:1.85;color:var(--text-mid);max-width:860px;margin:0 auto;text-align:center}
+    .benefits-section{padding:5rem 0;background:var(--cream)}
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+    .benefit-card{background:var(--white);border-radius:var(--radius-lg);padding:2.25rem;border:1px solid var(--cream-dark);transition:transform 0.4s ease,box-shadow 0.4s ease}
+    .benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+    .benefit-icon{font-size:2.2rem;margin-bottom:1.25rem}
+    .benefit-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:0.75rem}
+    .benefit-card p{font-size:0.87rem;line-height:1.75;color:var(--text-light)}
+    .process-section{padding:5rem 0;background:var(--white)}
+    .process-steps{max-width:780px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:0}
+    .process-step{display:flex;gap:1.75rem;padding:1.75rem 0;border-bottom:1px solid var(--cream-dark)}
+    .process-step:last-child{border-bottom:none}
+    .process-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold);opacity:0.4;line-height:1;flex-shrink:0;width:40px}
+    .process-content h3{font-size:1rem;font-weight:700;color:var(--earth);margin-bottom:0.4rem}
+    .process-content p{font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .specs-section{padding:5rem 0;background:var(--cream)}
+    .specs-table{max-width:700px;margin:2rem auto 0;border-collapse:collapse;width:100%}
+    .specs-table th,.specs-table td{padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--cream-dark);font-size:0.88rem}
+    .specs-table th{background:var(--earth);color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.75rem}
+    .specs-table td:first-child{font-weight:600;color:var(--earth);width:45%}
+    .specs-table td:last-child{color:var(--text-mid)}
+    .specs-table tr:hover td{background:rgba(201,146,42,0.05)}
+    .faq-section{padding:5rem 0;background:var(--white)}
+    .faq-list{max-width:780px;margin:2rem auto 0;display:flex;flex-direction:column;gap:0.75rem}
+    .faq-item{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:border-color 0.3s}
+    .faq-item:hover{border-color:var(--gold)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1.15rem 1.5rem;font-size:0.92rem;font-weight:600;color:var(--earth);text-align:left;gap:1rem;background:none;border:none;cursor:pointer;font-family:inherit}
+    .faq-q svg{flex-shrink:0;transition:transform 0.3s ease;color:var(--gold)}
+    .faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease}
+    .faq-a p{padding:0 1.5rem 1.25rem;font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .related-section{padding:5rem 0;background:var(--cream)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+    .related-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column}
+    .related-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-img{height:160px;overflow:hidden}.related-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}.related-card:hover .related-img img{transform:scale(1.06)}
+    .related-card h4{padding:1.25rem 1.25rem 0.35rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth)}
+    .related-link{padding:0 1.25rem 1.25rem;font-size:0.82rem;font-weight:600;color:var(--gold);display:block;margin-top:auto}
+    .related-app-card{background:var(--white);border-radius:var(--radius);padding:2rem;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .related-app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-app-icon{font-size:2.5rem;margin-bottom:1rem}
+    .related-app-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth);margin-bottom:0.5rem}
+    .cta-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem}.cta-section h2 span{color:var(--gold)}
+    .cta-section p{font-size:1rem;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+    .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    @media(max-width:1024px){.benefits-grid,.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.benefits-grid,.related-grid{grid-template-columns:1fr}.hero-stats{gap:2rem}.process-step{flex-direction:column;gap:0.5rem}}
+</style>

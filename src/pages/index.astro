@@ -17,18 +17,33 @@ const orgSchema = {
     addressLocality: 'Sincan / Ankara',
     addressCountry: 'TR',
   },
-  sameAs: ['https://www.linkedin.com/company/akmin'],
+  sameAs: ['https://www.linkedin.com/in/murat-%C3%B6zsayg%C4%B1l%C4%B1-59790865/?locale=en'],
   parentOrganization: {
     '@type': 'Organization',
-    name: 'Akmin Mining',
-    url: 'https://akmin.com.tr',
+    name: 'Zamana',
+    url: 'https://zamana.com.tr',
   },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#owner`,
+  name: 'Murat Özsaygılı',
+  jobTitle: 'Owner / Operator',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Zamana',
+    url: 'https://zamana.com.tr',
+  },
+  url: 'https://zamana.com.tr',
+  sameAs: ['https://www.linkedin.com/in/murat-%C3%B6zsayg%C4%B1l%C4%B1-59790865/?locale=en'],
 };
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'Sepiolite Mine — Akmin Mining',
+  name: 'Sepiolite Mine - Zamana',
   image: `${siteUrl}/images/mine/aerial-02-1200w.webp`,
   telephone: BRAND.contact.phone,
   address: {
@@ -55,7 +70,7 @@ const localBusinessSchema = {
   alternates={{ en: '/', tr: '/tr/' }}
   locale="en"
   noSuffix={true}
-  schemaJson={[orgSchema, localBusinessSchema]}
+  schemaJson={[orgSchema, personSchema, localBusinessSchema]}
 >
   <Fragment slot="head">
     <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
@@ -109,11 +124,11 @@ const localBusinessSchema = {
       <span>Raw Sepiolite</span><span>Granulated Sepiolite</span><span>Milled Powder</span>
       <span>Cat Litter Grade</span><span>Drilling Grade</span><span>Agriculture Grade</span>
       <span>Industrial Grade</span><span>Pharmaceutical Grade</span><span>Environmental Grade</span>
-      <span>Sepiolite Turkey</span><span>Akmin Mining Group</span><span>sepiolitemine.com</span>
+      <span>Sepiolite Turkey</span><span>Zamana</span><span>sepiolitemine.com</span>
       <span>Raw Sepiolite</span><span>Granulated Sepiolite</span><span>Milled Powder</span>
       <span>Cat Litter Grade</span><span>Drilling Grade</span><span>Agriculture Grade</span>
       <span>Industrial Grade</span><span>Pharmaceutical Grade</span><span>Environmental Grade</span>
-      <span>Sepiolite Turkey</span><span>Akmin Mining Group</span><span>sepiolitemine.com</span>
+      <span>Sepiolite Turkey</span><span>Zamana</span><span>sepiolitemine.com</span>
     </div>
   </div>
 
@@ -125,7 +140,7 @@ const localBusinessSchema = {
           <img src="/images/mine/cliff-1280w.webp" alt="Sepiolite Mine — Turkey" width="1280" height="960" loading="lazy"/>
           <div class="about-visual-badge">
             <strong>Est. 1995</strong>
-            <span>Akmin Mining Co.</span>
+            <span>Zamana</span>
           </div>
         </div>
         <div>
@@ -133,7 +148,7 @@ const localBusinessSchema = {
           <div class="divider"></div>
           <h2 class="section-title">Rooted in Earth,<br/>Reaching the <span>World</span></h2>
           <p class="section-subtitle">
-            Sepiolite Mine is a dedicated sepiolite production and export division of <strong>Akmin Mining</strong>, operating at the heart of Turkey's richest mineral deposits. We mine, process, and deliver the finest quality sepiolite to clients in over 50 countries.
+            Sepiolite Mine is a dedicated sepiolite production and export division of <strong>Zamana</strong>, operating at the heart of Turkey's richest mineral deposits. We mine, process, and deliver the finest quality sepiolite to clients in over 50 countries.
           </p>
           <p class="section-subtitle" style="margin-top:1rem;">
             Turkey holds the world's largest sepiolite reserves, and we are privileged stewards of those resources — committed to sustainable extraction, rigorous quality control, and customer-centric solutions.
@@ -170,7 +185,7 @@ const localBusinessSchema = {
           </div>
           <div class="akmin-badge">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
-            A division of <span>Akmin Mining</span>
+            A division of <span>Zamana</span>
           </div>
         </div>
       </div>
@@ -579,7 +594,7 @@ const localBusinessSchema = {
           </p>
           <div style="margin-top:1.5rem;margin-bottom:1.75rem;padding:1rem 1.25rem;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;">
             <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem;">Registered Company</div>
-            <div style="font-size:0.82rem;font-weight:600;color:var(--earth);line-height:1.5;">BAGRUP Group Company<br/>AKMİN ENDÜSTRİYEL MADENCİLİK LTD ŞTİ</div>
+            <div style="font-size:0.82rem;font-weight:600;color:var(--earth);line-height:1.5;">Zamana Danışmanlık</div>
           </div>
 
           <div class="contact-info">

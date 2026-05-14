@@ -1,334 +1,449 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-    { '@type': 'ListItem', position: 2, name: 'Markets', item: `${siteUrl}/markets/` },
-  ],
-};
-
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Sepiolite Mine – Akmin Mining',
-  url: siteUrl,
-  description:
-    "Turkey's premier sepiolite producer and exporter serving 45+ countries worldwide with premium raw and processed sepiolite grades.",
-  areaServed: [
-    { '@type': 'Continent', name: 'Europe' },
-    { '@type': 'Continent', name: 'Asia' },
-    { '@type': 'Continent', name: 'Africa' },
-    { '@type': 'Continent', name: 'North America' },
-    { '@type': 'Continent', name: 'South America' },
-  ],
-};
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Which countries does Sepiolite Mine export to?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Sepiolite Mine exports to over 45 countries across Europe (Germany, Netherlands, Spain, Italy, France, Poland, UK), Middle East & North Africa (UAE, Saudi Arabia, Egypt, Morocco), Asia Pacific (China, Japan, South Korea, India), the Americas (USA, Canada, Brazil, Mexico), and Sub-Saharan Africa (South Africa, Nigeria, Kenya).',
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Markets", "item": "https://sepiolitemine.com/markets/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sepiolite Mine – Zamana",
+    "url": "https://sepiolitemine.com",
+    "description": "Turkey's premier sepiolite producer and exporter serving 45+ countries worldwide with premium raw and processed sepiolite grades.",
+    "areaServed": [
+      { "@type": "Continent", "name": "Europe" },
+      { "@type": "Continent", "name": "Asia" },
+      { "@type": "Continent", "name": "Africa" },
+      { "@type": "Continent", "name": "North America" },
+      { "@type": "Continent", "name": "South America" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which countries does Sepiolite Mine export to?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sepiolite Mine exports to over 45 countries across Europe (Germany, Netherlands, Spain, Italy, France, Poland, UK), Middle East & North Africa (UAE, Saudi Arabia, Egypt, Morocco), Asia Pacific (China, Japan, South Korea, India), the Americas (USA, Canada, Brazil, Mexico), and Sub-Saharan Africa (South Africa, Nigeria, Kenya)."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'What shipping methods does Sepiolite Mine offer?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'We offer containerised shipments (20ft and 40ft), bulk vessel charter for large orders, big bag (FIBC) options, and palletised 25–50kg bags. All shipments include full documentation, certificate of analysis, and customs clearance support.',
+      {
+        "@type": "Question",
+        "name": "What shipping methods does Sepiolite Mine offer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer containerised shipments (20ft and 40ft), bulk vessel charter for large orders, big bag (FIBC) options, and palletised 25–50kg bags. All shipments include full documentation, certificate of analysis, and customs clearance support."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'What are the Incoterms available?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'We trade under EXW, FCA, FOB, CFR, CIF, and DAP Incoterms 2020. FOB Turkish port is the most common arrangement, but we can deliver CIF/DAP to any world port with competitive freight rates through our logistics partners.',
+      {
+        "@type": "Question",
+        "name": "What are the Incoterms available?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We trade under EXW, FCA, FOB, CFR, CIF, and DAP Incoterms 2020. FOB Turkish port is the most common arrangement, but we can deliver CIF/DAP to any world port with competitive freight rates through our logistics partners."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is the minimum order quantity for export?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'The standard minimum order is one 20-foot container (~18–22 tonnes depending on product density). For new clients or trial orders, we can accommodate smaller quantities of 5–10 tonnes. Bulk vessel orders typically start at 3,000 tonnes.',
+      {
+        "@type": "Question",
+        "name": "What is the minimum order quantity for export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The standard minimum order is one 20-foot container (~18–22 tonnes depending on product density). For new clients or trial orders, we can accommodate smaller quantities of 5–10 tonnes. Bulk vessel orders typically start at 3,000 tonnes."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Sepiolite Mine provide private labelling?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. We offer full private-label and white-label packaging for all product lines. This includes custom bag designs (25kg, 50kg, big bag), branded pallets, and client-specific documentation. Minimum order for private-label packaging is one 20ft container.',
-      },
-    },
-  ],
-};
-
-const regions = [
-  {
-    flag: '🇪🇺',
-    name: 'Europe',
-    subtitle: 'Our largest export market',
-    desc: 'Europe accounts for 45% of our exports, driven by strong demand in pet care (cat litter), paints & coatings, and construction insulation. REACH-compliant grades available for all product lines.',
-    countries: ['Germany', 'Netherlands', 'Spain', 'Italy', 'France', 'Poland', 'UK', 'Belgium'],
-    stats: [{ num: '45%', label: 'Export Share' }, { num: '18', label: 'Countries' }],
-  },
-  {
-    flag: '🇰🇼',
-    name: 'Middle East & North Africa',
-    subtitle: 'Fastest-growing corridor',
-    desc: 'Oil & gas drilling, construction boom, and expanding pet care markets make MENA our fastest-growing region. Strategic proximity means 5–10 day delivery to any Gulf or North African port.',
-    countries: ['UAE', 'Saudi Arabia', 'Egypt', 'Morocco', 'Israel', 'Qatar', 'Tunisia'],
-    stats: [{ num: '25%', label: 'Export Share' }, { num: '12', label: 'Countries' }],
-  },
-  {
-    flag: '🇯🇵',
-    name: 'Asia Pacific',
-    subtitle: 'High-growth industrial demand',
-    desc: 'Rapidly industrialising economies drive demand for drilling-grade sepiolite, catalysis supports, and agricultural carriers. China, Japan, and South Korea are our top-3 Asian markets by volume.',
-    countries: ['China', 'Japan', 'South Korea', 'India', 'Thailand', 'Vietnam'],
-    stats: [{ num: '15%', label: 'Export Share' }, { num: '9', label: 'Countries' }],
-  },
-  {
-    flag: '🇺🇸',
-    name: 'The Americas',
-    subtitle: 'Premium grade focus',
-    desc: 'The US and Canada import high-purity drilling and pharmaceutical-grade sepiolite, while Brazil and Mexico are growing markets for agricultural and environmental applications.',
-    countries: ['USA', 'Canada', 'Brazil', 'Mexico', 'Argentina', 'Colombia'],
-    stats: [{ num: '10%', label: 'Export Share' }, { num: '8', label: 'Countries' }],
-  },
-  {
-    flag: '🇿🇦',
-    name: 'Sub-Saharan Africa',
-    subtitle: 'Emerging opportunity',
-    desc: 'Agriculture-driven demand for soil conditioners and fertiliser carriers is opening new markets across East and Southern Africa. Environmental remediation projects are also creating opportunities.',
-    countries: ['South Africa', 'Nigeria', 'Kenya', 'Ethiopia', 'Tanzania'],
-    stats: [{ num: '5%', label: 'Export Share' }, { num: '7', label: 'Countries' }],
-  },
-  {
-    flag: '🇷🇺',
-    name: 'CIS & Central Asia',
-    subtitle: 'Drilling & industrial base',
-    desc: 'Oil & gas-rich economies of the Caspian region and Central Asia are consistent importers of drilling-grade sepiolite and industrial absorbents. Land routes via Georgia offer cost-effective transport.',
-    countries: ['Russia', 'Kazakhstan', 'Azerbaijan', 'Georgia', 'Uzbekistan'],
-    stats: [{ num: '~5%', label: 'Export Share' }, { num: '6', label: 'Countries' }],
-  },
-];
-
-const tradeRoutes = [
-  { port: 'Rotterdam, Netherlands', region: "Europe's largest mineral hub", time: '7 days' },
-  { port: 'Jebel Ali, UAE', region: 'Middle East & re-export gateway', time: '10 days' },
-  { port: 'Shanghai, China', region: 'Asia Pacific primary port', time: '22 days' },
-  { port: 'New York / Newark, USA', region: 'North America east coast', time: '18 days' },
-  { port: 'Casablanca, Morocco', region: 'North Africa & agriculture corridor', time: '5 days' },
-  { port: 'Santos, Brazil', region: 'South America primary port', time: '24 days' },
-];
-
-const incoterms = [
-  { code: 'EXW', name: 'Ex Works', desc: 'Buyer arranges all transport from our plant gate. Lowest unit price — ideal for clients with established Turkish freight agents.' },
-  { code: 'FCA', name: 'Free Carrier', desc: 'We deliver to your nominated carrier or forwarder. Goods cleared for export and loaded at our facility. A flexible mid-point option.' },
-  { code: 'FOB', name: 'Free on Board', desc: 'Our most popular term. We handle everything until the goods are loaded on the vessel at the Turkish port. You manage ocean freight onward.' },
-  { code: 'CFR', name: 'Cost & Freight', desc: 'We cover transport to the destination port. You handle insurance and unloading. Good when you want one landed cost quote without insurance complexity.' },
-  { code: 'CIF', name: 'Cost, Insurance & Freight', desc: 'All-inclusive to destination port including marine insurance. The simplest option for buyers who want a single delivered price per tonne.' },
-  { code: 'DAP', name: 'Delivered at Place', desc: 'Door-to-door delivery to your warehouse or plant. We handle all logistics including customs clearance at your end. Full peace of mind.' },
-];
-
-const faqs = [
-  {
-    q: 'Which countries does Sepiolite Mine export to?',
-    a: "We export to over 45 countries across five continents. Our primary markets include Germany, Netherlands, Spain, Italy, and France in Europe; UAE, Saudi Arabia, Egypt, and Morocco in MENA; China, Japan, South Korea, and India in Asia Pacific; the USA, Canada, and Brazil in the Americas; and South Africa, Nigeria, and Kenya in Africa. We're always open to new markets and welcome enquiries from any country.",
-  },
-  {
-    q: 'What shipping methods do you offer?',
-    a: 'We offer containerised shipments (20ft and 40ft), bulk vessel charter for orders above 3,000 MT, and big bag (FIBC) options. Products can be palletised on 25 kg or 50 kg bags, or loaded loose in big bags of 1–1.5 MT each. All shipments include full documentation, certificate of analysis, and customs clearance support from our logistics team.',
-  },
-  {
-    q: 'What Incoterms do you trade under?',
-    a: 'We trade under Incoterms 2020: EXW, FCA, FOB, CFR, CIF, and DAP. FOB Turkish port (Gemlik or Mersin) is the most common arrangement, but we regularly ship CIF and DAP to clients who prefer a single delivered cost. Our logistics partners maintain competitive freight rates on all major shipping lanes.',
-  },
-  {
-    q: 'What is the minimum order quantity?',
-    a: 'The standard minimum is one 20-foot container, which holds approximately 18–22 tonnes depending on the product grade and packing type. For new clients or trial orders, we can accommodate smaller shipments of 5–10 tonnes. Bulk vessel orders typically start at 3,000 tonnes for Handy-size charters.',
-  },
-  {
-    q: 'Do you provide private-label packaging?',
-    a: 'Yes. We offer full private-label and white-label packaging for all product lines. This includes custom bag designs (25 kg, 50 kg, big bags), branded pallets, client-specific labels, and documentation under your company name. The minimum order for custom-printed packaging is one 20ft container. Lead time for new artwork approval is typically 2–3 weeks.',
-  },
+      {
+        "@type": "Question",
+        "name": "Does Sepiolite Mine provide private labelling?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. We offer full private-label and white-label packaging for all product lines. This includes custom bag designs (25kg, 50kg, big bag), branded pallets, and client-specific documentation. Minimum order for private-label packaging is one 20ft container."
+        }
+      }
+    ]
+  }
 ];
 ---
 
 <Layout
-  title="Global Markets — Sepiolite Export to 45+ Countries"
+  title="Global Markets – Sepiolite Export to 45+ Countries"
   description="Sepiolite Mine exports premium Turkish sepiolite to 45+ countries across Europe, Middle East, Asia Pacific, Americas, and Africa. Explore our regional presence, logistics capabilities, and market insights."
   locale="en"
-  alternates={{ en: '/markets/', tr: '/tr/markets/' }}
-  schemaJson={[breadcrumbSchema, organizationSchema, faqSchema]}
+  alternates={{ en: "/markets/", tr: "/tr/markets/" }}
+  schemaJson={schemaJson}
 >
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Markets</li>
-      </ol>
-    </div>
-  </nav>
+<!-- ===== HEADER ===== -->
+  
 
-  <section class="hub-hero section section--dark">
-    <div class="container container-narrow">
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Markets</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="markets-hero">
+    <div class="container">
       <span class="section-tag">Global Presence</span>
-      <h1>From Turkey to the <span class="accent">World</span></h1>
-      <p class="lead">
-        Strategically positioned at the crossroads of three continents, Sepiolite Mine delivers
-        premium Turkish sepiolite to industrial partners across 45+ countries — with reliability,
-        speed, and the quality that built our reputation over three decades.
-      </p>
+      <h1>From Turkey to the <span>World</span></h1>
+      <p>Strategically positioned at the crossroads of three continents, Sepiolite Mine delivers premium Turkish sepiolite to industrial partners across 45+ countries — with reliability, speed, and the quality that built our reputation over three decades.</p>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="num">45+</div><div class="label">Countries Served</div></div>
-        <div class="hero-stat"><div class="num">300+</div><div class="label">Active Clients</div></div>
-        <div class="hero-stat"><div class="num">120K</div><div class="label">MT Annual Capacity</div></div>
-        <div class="hero-stat"><div class="num">5</div><div class="label">Continents Reached</div></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">45+</div>
+          <div class="hero-stat-label">Countries Served</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">300+</div>
+          <div class="hero-stat-label">Active Clients</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">120K</div>
+          <div class="hero-stat-label">MT Annual Capacity</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5</div>
+          <div class="hero-stat-label">Continents Reached</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section strategic-section">
+  <!-- ===== STRATEGIC POSITION ===== -->
+  <section class="strategic-section">
     <div class="container">
       <div class="strategic-grid">
-        <div class="strategic-text">
+        <div class="strategic-text reveal">
           <span class="section-tag">Strategic Advantage</span>
-          <h2>Turkey: The World's <span class="accent">Sepiolite Capital</span></h2>
-          <p class="section-subtitle">
-            Turkey holds an estimated 70% of global sepiolite reserves, concentrated in the
-            Eskisehir-Sivrihisar basin. Our mines sit at the heart of this formation, giving us
-            direct access to the planet's richest deposits and a logistical advantage few
-            competitors can match.
-          </p>
+          <h2 class="section-title">Turkey: The World's <span>Sepiolite Capital</span></h2>
+          <p class="section-subtitle">Turkey holds an estimated 70% of global sepiolite reserves, concentrated in the Eskisehir-Sivrihisar basin. Our mines sit at the heart of this formation, giving us direct access to the planet's richest deposits and a logistical advantage few competitors can match.</p>
           <div class="advantage-list">
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">⚓</div>
+              <div class="advantage-icon">&#9875;</div>
               <div>
                 <h4>Port Proximity</h4>
                 <p>200 km to Gemlik port, 380 km to Mersin — Turkey's busiest mineral export terminals with daily container services to all major routes.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">🚀</div>
+              <div class="advantage-icon">&#128640;</div>
               <div>
                 <h4>Rapid Transit Times</h4>
                 <p>7–10 days to European ports, 14–18 days to the Americas, 20–25 days to Asia Pacific. Shorter transit means lower inventory costs for you.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">🏭</div>
+              <div class="advantage-icon">&#127981;</div>
               <div>
                 <h4>Mine-to-Port Integration</h4>
                 <p>Our processing plant is co-located with the mine. Ore goes from extraction to export-ready product in 48 hours, minimising lead times.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">📈</div>
+              <div class="advantage-icon">&#128200;</div>
               <div>
-                <h4>Direct From Producer</h4>
-                <p>No intermediaries. We control every step from extraction to FOB, ensuring transparent terms and consistent quality across all grades.</p>
+                <h4>Competitive Pricing</h4>
+                <p>No intermediaries. We control every step from extraction to FOB, which translates into consistently competitive pricing across all grades.</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="map-visual">
+        <div class="map-visual reveal">
           <div class="map-header">
-            <div class="map-header-icon" aria-hidden="true">🌍</div>
+            <div class="map-header-icon">&#127758;</div>
             <h3>Key Trade Routes from Turkey</h3>
           </div>
           <div class="trade-routes">
-            {tradeRoutes.map((r) => (
-              <div class="trade-route">
-                <span class="route-dot" aria-hidden="true"></span>
-                <div class="route-info">
-                  <strong>{r.port}</strong>
-                  <span>{r.region}</span>
-                </div>
-                <span class="route-time">{r.time}</span>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Rotterdam, Netherlands</strong>
+                <span>Europe's largest mineral hub</span>
               </div>
-            ))}
+              <span class="route-time">7 days</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Jebel Ali, UAE</strong>
+                <span>Middle East & re-export gateway</span>
+              </div>
+              <span class="route-time">10 days</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Shanghai, China</strong>
+                <span>Asia Pacific primary port</span>
+              </div>
+              <span class="route-time">22 days</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>New York / Newark, USA</strong>
+                <span>North America east coast</span>
+              </div>
+              <span class="route-time">18 days</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Casablanca, Morocco</strong>
+                <span>North Africa & agriculture corridor</span>
+              </div>
+              <span class="route-time">5 days</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Santos, Brazil</strong>
+                <span>South America primary port</span>
+              </div>
+              <span class="route-time">24 days</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section regions-section">
+  <!-- ===== REGIONAL MARKETS ===== -->
+  <section class="regions-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Regional Markets</span>
-        <h2>Where Our <span class="accent">Sepiolite</span> Goes</h2>
+        <h2 class="section-title">Where Our <span>Sepiolite</span> Goes</h2>
         <p>Each region has unique industrial demands and regulatory requirements. We tailor our product grades, packaging, and documentation to fit every market perfectly.</p>
       </div>
 
       <div class="regions-grid">
-        {regions.map((region) => (
-          <div class="region-card">
-            <div class="region-card-header">
-              <div class="region-card-flag" aria-hidden="true">{region.flag}</div>
-              <h3>{region.name}</h3>
-              <div class="region-subtitle">{region.subtitle}</div>
+
+        <!-- Europe -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127466;&#127482;</div>
+            <h3>Europe</h3>
+            <div class="region-subtitle">Our largest export market</div>
+          </div>
+          <div class="region-card-body">
+            <p>Europe accounts for 45% of our exports, driven by strong demand in pet care (cat litter), paints & coatings, and construction insulation. REACH-compliant grades available for all product lines.</p>
+            <div class="region-countries">
+              <span class="region-country">Germany</span>
+              <span class="region-country">Netherlands</span>
+              <span class="region-country">Spain</span>
+              <span class="region-country">Italy</span>
+              <span class="region-country">France</span>
+              <span class="region-country">Poland</span>
+              <span class="region-country">UK</span>
+              <span class="region-country">Belgium</span>
             </div>
-            <div class="region-card-body">
-              <p>{region.desc}</p>
-              <div class="region-countries">
-                {region.countries.map((c) => <span class="region-country">{c}</span>)}
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">45%</div>
+                <div class="region-stat-label">Export Share</div>
               </div>
-              <div class="region-stats">
-                {region.stats.map((s) => (
-                  <div class="region-stat">
-                    <div class="region-stat-num">{s.num}</div>
-                    <div class="region-stat-label">{s.label}</div>
-                  </div>
-                ))}
+              <div class="region-stat">
+                <div class="region-stat-num">18</div>
+                <div class="region-stat-label">Countries</div>
               </div>
             </div>
           </div>
-        ))}
+        </div>
+
+        <!-- MENA -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127472;&#127484;</div>
+            <h3>Middle East &amp; North Africa</h3>
+            <div class="region-subtitle">Fastest-growing corridor</div>
+          </div>
+          <div class="region-card-body">
+            <p>Oil & gas drilling, construction boom, and expanding pet care markets make MENA our fastest-growing region. Strategic proximity means 5–10 day delivery to any Gulf or North African port.</p>
+            <div class="region-countries">
+              <span class="region-country">UAE</span>
+              <span class="region-country">Saudi Arabia</span>
+              <span class="region-country">Egypt</span>
+              <span class="region-country">Morocco</span>
+              <span class="region-country">Israel</span>
+              <span class="region-country">Qatar</span>
+              <span class="region-country">Tunisia</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">25%</div>
+                <div class="region-stat-label">Export Share</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">12</div>
+                <div class="region-stat-label">Countries</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asia Pacific -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127471;&#127477;</div>
+            <h3>Asia Pacific</h3>
+            <div class="region-subtitle">High-growth industrial demand</div>
+          </div>
+          <div class="region-card-body">
+            <p>Rapidly industrialising economies drive demand for drilling-grade sepiolite, catalysis supports, and agricultural carriers. China, Japan, and South Korea are our top-3 Asian markets by volume.</p>
+            <div class="region-countries">
+              <span class="region-country">China</span>
+              <span class="region-country">Japan</span>
+              <span class="region-country">South Korea</span>
+              <span class="region-country">India</span>
+              <span class="region-country">Thailand</span>
+              <span class="region-country">Vietnam</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">15%</div>
+                <div class="region-stat-label">Export Share</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">9</div>
+                <div class="region-stat-label">Countries</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Americas -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127482;&#127480;</div>
+            <h3>The Americas</h3>
+            <div class="region-subtitle">Premium grade focus</div>
+          </div>
+          <div class="region-card-body">
+            <p>The US and Canada import high-purity drilling and pharmaceutical-grade sepiolite, while Brazil and Mexico are growing markets for agricultural and environmental applications.</p>
+            <div class="region-countries">
+              <span class="region-country">USA</span>
+              <span class="region-country">Canada</span>
+              <span class="region-country">Brazil</span>
+              <span class="region-country">Mexico</span>
+              <span class="region-country">Argentina</span>
+              <span class="region-country">Colombia</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">10%</div>
+                <div class="region-stat-label">Export Share</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">8</div>
+                <div class="region-stat-label">Countries</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Saharan Africa -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127487;&#127462;</div>
+            <h3>Sub-Saharan Africa</h3>
+            <div class="region-subtitle">Emerging opportunity</div>
+          </div>
+          <div class="region-card-body">
+            <p>Agriculture-driven demand for soil conditioners and fertiliser carriers is opening new markets across East and Southern Africa. Environmental remediation projects are also creating opportunities.</p>
+            <div class="region-countries">
+              <span class="region-country">South Africa</span>
+              <span class="region-country">Nigeria</span>
+              <span class="region-country">Kenya</span>
+              <span class="region-country">Ethiopia</span>
+              <span class="region-country">Tanzania</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">5%</div>
+                <div class="region-stat-label">Export Share</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">7</div>
+                <div class="region-stat-label">Countries</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CIS / Central Asia -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127479;&#127482;</div>
+            <h3>CIS &amp; Central Asia</h3>
+            <div class="region-subtitle">Drilling & industrial base</div>
+          </div>
+          <div class="region-card-body">
+            <p>Oil & gas-rich economies of the Caspian region and Central Asia are consistent importers of drilling-grade sepiolite and industrial absorbents. Land routes via Georgia offer cost-effective transport.</p>
+            <div class="region-countries">
+              <span class="region-country">Russia</span>
+              <span class="region-country">Kazakhstan</span>
+              <span class="region-country">Azerbaijan</span>
+              <span class="region-country">Georgia</span>
+              <span class="region-country">Uzbekistan</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">~5%</div>
+                <div class="region-stat-label">Export Share</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">6</div>
+                <div class="region-stat-label">Countries</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section class="section logistics-section">
+  <!-- ===== LOGISTICS & SHIPPING ===== -->
+  <section class="logistics-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Logistics</span>
-        <h2>End-to-End <span class="accent">Shipping</span> Solutions</h2>
+        <h2 class="section-title">End-to-End <span>Shipping</span> Solutions</h2>
       </div>
 
       <div class="logistics-grid">
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">📦</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128230;</div>
           <h3>Containerised</h3>
           <p>Standard 20ft and 40ft containers for palletised bags (25–50 kg) or big bags (1–1.5 MT). Weekly sailings from Gemlik and Mersin ports to all major trade lanes.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">🚢</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128674;</div>
           <h3>Bulk Vessel</h3>
           <p>Handy-size to Panamax charter for large orders starting at 3,000 MT. Ideal for cat litter and construction-grade buyers with silo storage at destination.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">📋</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128203;</div>
           <h3>Documentation</h3>
           <p>Full export documentation: Bill of Lading, Certificate of Origin, Phytosanitary Certificate, Certificate of Analysis, MSDS, and customs declarations handled in-house.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">🏷️</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128737;&#65039;</div>
           <h3>Private Label</h3>
           <p>Custom branding, packaging design, bag sizes, and pallet configurations. We can ship under your brand name with your specifications — turnkey white-label service.</p>
         </div>
@@ -336,220 +451,418 @@ const faqs = [
     </div>
   </section>
 
-  <section class="section section--dark terms-section">
+  <!-- ===== TRADE TERMS ===== -->
+  <section class="terms-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Trade Terms</span>
-        <h2>Incoterms <span class="accent">2020</span> We Trade Under</h2>
+        <span class="section-tag" style="color:var(--gold-light);">Trade Terms</span>
+        <h2 class="section-title" style="color:var(--white);">Incoterms <span>2020</span> We Trade Under</h2>
       </div>
 
       <div class="terms-grid">
-        {incoterms.map((t) => (
-          <div class="term-card">
-            <div class="term-code">{t.code}</div>
-            <div class="term-name">{t.name}</div>
-            <div class="term-desc">{t.desc}</div>
-          </div>
-        ))}
+        <div class="term-card reveal">
+          <div class="term-code">EXW</div>
+          <div class="term-name">Ex Works</div>
+          <div class="term-desc">Buyer arranges all transport from our plant gate. Lowest unit price — ideal for clients with established Turkish freight agents.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">FCA</div>
+          <div class="term-name">Free Carrier</div>
+          <div class="term-desc">We deliver to your nominated carrier or forwarder. Goods cleared for export and loaded at our facility. A flexible mid-point option.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">FOB</div>
+          <div class="term-name">Free on Board</div>
+          <div class="term-desc">Our most popular term. We handle everything until the goods are loaded on the vessel at the Turkish port. You manage ocean freight onward.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">CFR</div>
+          <div class="term-name">Cost &amp; Freight</div>
+          <div class="term-desc">We cover transport to the destination port. You handle insurance and unloading. Good when you want one landed cost quote without insurance complexity.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">CIF</div>
+          <div class="term-name">Cost, Insurance &amp; Freight</div>
+          <div class="term-desc">All-inclusive to destination port including marine insurance. The simplest option for buyers who want a single delivered price per tonne.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">DAP</div>
+          <div class="term-name">Delivered at Place</div>
+          <div class="term-desc">Door-to-door delivery to your warehouse or plant. We handle all logistics including customs clearance at your end. Full peace of mind.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section insights-section">
+  <!-- ===== MARKET INSIGHTS ===== -->
+  <section class="insights-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Market Intelligence</span>
-        <h2>Sepiolite Market <span class="accent">At a Glance</span></h2>
+        <h2 class="section-title">Sepiolite Market <span>At a Glance</span></h2>
       </div>
 
       <div class="insights-grid">
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">$340M</div>
           <h3>Global Market Size (2025)</h3>
           <p>The global sepiolite market is valued at approximately USD 340 million, with steady growth driven by expanding applications in pet care, drilling, and environmental sectors.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:68%;"></div></div>
         </div>
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">4.8%</div>
           <h3>Annual Growth Rate (CAGR)</h3>
           <p>Projected 4.8% CAGR through 2030, fuelled by rising pet ownership in developing markets, growing environmental remediation needs, and the bioplastics revolution.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:48%;"></div></div>
         </div>
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">70%</div>
           <h3>Turkey's Reserve Share</h3>
           <p>Turkey holds roughly 70% of the world's known sepiolite reserves, primarily in the Eskisehir and Konya provinces — making it the undisputed global leader in sepiolite mining.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:70%;"></div></div>
         </div>
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">38%</div>
           <h3>Pet Care Segment Share</h3>
           <p>Cat litter and pet care products account for the largest single application segment, driven by the shift from clay-based to mineral-based premium litters across Europe and Asia.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:38%;"></div></div>
         </div>
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">22%</div>
           <h3>Construction & Industrial</h3>
           <p>Construction insulation and industrial applications represent the second-largest segment, propelled by green building regulations demanding lightweight, fire-resistant mineral additives.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:22%;"></div></div>
         </div>
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">+15%</div>
           <h3>Bioplastics Growth (YoY)</h3>
           <p>The fastest-growing application. Sepiolite nano-fibres as PLA/PHA reinforcement are creating a new demand vertical, with year-over-year growth exceeding 15% since 2023.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:15%;"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="container container-narrow">
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <div class="container">
       <div class="section-header">
         <span class="section-tag">Frequently Asked</span>
-        <h2>Trade & Export <span class="accent">FAQ</span></h2>
+        <h2 class="section-title">Trade &amp; Export <span>FAQ</span></h2>
       </div>
 
       <div class="faq-list">
-        {faqs.map((item) => (
-          <details class="faq-item">
-            <summary class="faq-q">
-              <span>{item.q}</span>
-              <span class="faq-icon" aria-hidden="true">+</span>
-            </summary>
-            <div class="faq-a"><p>{item.a}</p></div>
-          </details>
-        ))}
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Which countries does Sepiolite Mine export to?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>We export to over 45 countries across five continents. Our primary markets include Germany, Netherlands, Spain, Italy, and France in Europe; UAE, Saudi Arabia, Egypt, and Morocco in MENA; China, Japan, South Korea, and India in Asia Pacific; the USA, Canada, and Brazil in the Americas; and South Africa, Nigeria, and Kenya in Africa. We're always open to new markets and welcome enquiries from any country.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What shipping methods do you offer?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>We offer containerised shipments (20ft and 40ft), bulk vessel charter for orders above 3,000 MT, and big bag (FIBC) options. Products can be palletised on 25 kg or 50 kg bags, or loaded loose in big bags of 1–1.5 MT each. All shipments include full documentation, certificate of analysis, and customs clearance support from our logistics team.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What Incoterms do you trade under?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>We trade under Incoterms 2020: EXW, FCA, FOB, CFR, CIF, and DAP. FOB Turkish port (Gemlik or Mersin) is the most common arrangement, but we regularly ship CIF and DAP to clients who prefer a single delivered cost. Our logistics partners maintain competitive freight rates on all major shipping lanes.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What is the minimum order quantity?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>The standard minimum is one 20-foot container, which holds approximately 18–22 tonnes depending on the product grade and packing type. For new clients or trial orders, we can accommodate smaller shipments of 5–10 tonnes. Bulk vessel orders typically start at 3,000 tonnes for Handy-size charters.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Do you provide private-label packaging?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Yes. We offer full private-label and white-label packaging for all product lines. This includes custom bag designs (25 kg, 50 kg, big bags), branded pallets, client-specific labels, and documentation under your company name. The minimum order for custom-printed packaging is one 20ft container. Lead time for new artwork approval is typically 2–3 weeks.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cta-band section section--dark">
-    <div class="container container-narrow">
-      <h2>Ready to Start Trading?</h2>
+  <!-- ===== CTA ===== -->
+  <section class="markets-cta">
+    <div class="container">
+      <h2>Ready to <span>Start Trading</span>?</h2>
       <p>Whether you need a trial container or a long-term supply contract, our commercial team is ready to build a partnership that works for your market.</p>
-      <div class="cta-buttons">
-        <a href="/contact/" class="btn btn-primary">Request a Quote</a>
-        <a href="/products/" class="btn btn-outline">View Products</a>
+      <div class="btn-group">
+        <a href="/#contact" class="btn btn-primary">Request a Quote</a>
+        <a href="../products/" class="btn btn-outline" style="border-color:rgba(255,255,255,0.4);color:#fff;">View Products</a>
       </div>
     </div>
   </section>
+
+  <!-- ===== FOOTER ===== -->
+  
+
+  <!-- ===== SCRIPTS ===== -->
+  
+  <script>
+  (function() {
+    'use strict';
+
+    // Navbar scroll effect
+    var navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', function() {
+        navbar.classList.toggle('scrolled', window.scrollY > 30);
+      });
+    }
+
+    // Hamburger menu
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function() {
+        var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!expanded));
+        mobileMenu.classList.toggle('open');
+        mobileMenu.setAttribute('aria-hidden', String(expanded));
+      });
+    }
+
+    // Scroll reveal
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  })();
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var isOpen = answer.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-a').forEach(function(a) { a.classList.remove('open'); });
+    document.querySelectorAll('.faq-q').forEach(function(q) { q.classList.remove('active'); });
+    // Toggle current
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('active');
+    }
+  }
+  </script>
 </Layout>
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--c-gold-dark); }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
+<style is:global>
+/* ===== HERO ===== */
+    .markets-hero {
+      position: relative;
+      padding: 6rem 0 5rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+      overflow: hidden;
+    }
+    .markets-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('/images/mine/mine-aerial-02.webp') center/cover no-repeat;
+      opacity: 0.15;
+    }
+    .markets-hero .container { position: relative; z-index: 2; text-align: center; }
+    .markets-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); margin-bottom: 1.25rem; line-height: 1.12; }
+    .markets-hero h1 span { color: var(--gold); }
+    .markets-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 700px; margin: 0 auto 2rem; line-height: 1.7; }
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1; }
+    .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.35rem; letter-spacing: 0.04em; }
 
-  .hub-hero { text-align: center; padding-block: var(--s-7); }
-  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .hub-hero .accent { color: var(--c-gold); }
-  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; max-width: 720px; margin: 0 auto; }
+    /* ===== STRATEGIC POSITION ===== */
+    .strategic-section { padding: 5rem 0; background: var(--white); }
+    .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .strategic-text .section-subtitle { font-size: 1.05rem; color: var(--text-light); line-height: 1.75; margin-bottom: 2rem; }
+    .advantage-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .advantage-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .advantage-icon { width: 44px; height: 44px; background: rgba(201,146,42,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+    .advantage-item h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--earth); margin-bottom: 0.3rem; }
+    .advantage-item p { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
 
-  .hero-stats { display: flex; justify-content: center; gap: var(--s-6); margin-top: var(--s-6); flex-wrap: wrap; }
-  .hero-stat { text-align: center; }
-  .hero-stat .num { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 800; color: var(--c-gold); line-height: 1; }
-  .hero-stat .label { font-size: 0.78rem; color: var(--c-text-light); margin-top: 0.35rem; letter-spacing: 0.04em; }
+    .map-visual {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid var(--cream-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .map-visual::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: rgba(201,146,42,0.08);
+      border-radius: 50%;
+    }
+    .map-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+    .map-header-icon { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 1.1rem; }
+    .map-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--earth); }
+    .trade-routes { display: flex; flex-direction: column; gap: 1rem; }
+    .trade-route { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; background: var(--white); border-radius: 8px; border: 1px solid var(--cream-dark); transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+    .trade-route:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+    .route-dot { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(201,146,42,0.2); }
+    .route-info { flex: 1; }
+    .route-info strong { display: block; font-size: 0.88rem; color: var(--earth); margin-bottom: 0.15rem; }
+    .route-info span { font-size: 0.78rem; color: var(--stone); }
+    .route-time { font-size: 0.72rem; font-weight: 700; color: var(--gold-dark); background: rgba(201,146,42,0.1); padding: 0.3rem 0.6rem; border-radius: 4px; white-space: nowrap; }
 
-  .accent { color: var(--c-gold-dark); }
-  .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-gold-dark); margin-bottom: var(--s-2); }
-  .section-header { text-align: center; margin-bottom: var(--s-6); }
-  .section-header h2 { margin-bottom: var(--s-2); }
-  .section-header p { color: var(--c-text-muted); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+    /* ===== REGIONS GRID ===== */
+    .regions-section { padding: 5rem 0; background: var(--cream); }
+    .regions-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .regions-section .section-header p { font-size: 1rem; color: var(--text-light); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+    .regions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 
-  /* Strategic */
-  .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: start; }
-  .section-subtitle { font-size: 1.02rem; color: var(--c-text-muted); line-height: 1.75; margin-bottom: var(--s-4); }
-  .advantage-list { display: flex; flex-direction: column; gap: var(--s-3); }
-  .advantage-item { display: flex; gap: var(--s-3); align-items: flex-start; }
-  .advantage-icon { width: 44px; height: 44px; background: rgba(201,146,42,0.14); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
-  .advantage-item h4 { font-family: var(--font-serif); font-size: 1rem; color: var(--c-earth); margin: 0 0 0.3rem; }
-  .advantage-item p { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.6; margin: 0; }
+    .region-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--cream-dark);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .region-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+    .region-card-header {
+      padding: 2rem 1.75rem 1.25rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%);
+      position: relative;
+    }
+    .region-card-flag { font-size: 2rem; margin-bottom: 0.75rem; }
+    .region-card-header h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--white); margin-bottom: 0.35rem; }
+    .region-card-header .region-subtitle { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .region-card-body { padding: 1.75rem; }
+    .region-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-light); margin-bottom: 1.25rem; }
+    .region-countries { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .region-country { font-size: 0.7rem; font-weight: 600; color: var(--gold-dark); background: rgba(201,146,42,0.1); padding: 0.25rem 0.6rem; border-radius: 4px; }
+    .region-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--cream-dark); }
+    .region-stat { text-align: center; }
+    .region-stat-num { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--gold); }
+    .region-stat-label { font-size: 0.68rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
 
-  .map-visual { background: var(--c-cream); border-radius: var(--r-card); padding: var(--s-5); border: 1px solid var(--c-cream-dark); }
-  .map-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--s-4); }
-  .map-header-icon { width: 40px; height: 40px; background: var(--c-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--c-white); font-size: 1.1rem; }
-  .map-header h3 { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-earth); margin: 0; }
-  .trade-routes { display: flex; flex-direction: column; gap: var(--s-2); }
-  .trade-route { display: flex; align-items: center; gap: var(--s-3); padding: 0.85rem 1rem; background: var(--c-white); border-radius: 8px; border: 1px solid var(--c-cream-dark); transition: border-color var(--t), box-shadow var(--t); }
-  .trade-route:hover { border-color: var(--c-gold); box-shadow: var(--sh-soft); }
-  .route-dot { width: 10px; height: 10px; background: var(--c-gold); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(201,146,42,0.2); }
-  .route-info { flex: 1; }
-  .route-info strong { display: block; font-size: 0.9rem; color: var(--c-earth); margin-bottom: 0.15rem; }
-  .route-info span { font-size: 0.78rem; color: var(--c-stone); }
-  .route-time { font-size: 0.74rem; font-weight: 700; color: var(--c-gold-dark); background: rgba(201,146,42,0.12); padding: 0.3rem 0.6rem; border-radius: 4px; white-space: nowrap; }
+    /* ===== LOGISTICS ===== */
+    .logistics-section { padding: 5rem 0; background: var(--white); }
+    .logistics-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .logistics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.75rem; }
+    .logistics-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--cream-dark);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logistics-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .logistics-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.5rem; }
+    .logistics-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--earth); margin-bottom: 0.75rem; }
+    .logistics-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
 
-  /* Regions */
-  .regions-section { background: var(--c-cream); }
-  .regions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
-  .region-card { background: var(--c-white); border-radius: var(--r-card); overflow: hidden; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t), border-color var(--t); }
-  .region-card:hover { transform: translateY(-6px); box-shadow: var(--sh-mid); border-color: var(--c-gold); }
-  .region-card-header { padding: var(--s-4) var(--s-4) var(--s-3); background: var(--c-earth); }
-  .region-card-flag { font-size: 1.8rem; margin-bottom: 0.6rem; }
-  .region-card-header h3 { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-white); margin: 0 0 0.3rem; }
-  .region-subtitle { font-size: 0.78rem; color: var(--c-text-light); }
-  .region-card-body { padding: var(--s-4); }
-  .region-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--c-text-muted); margin-bottom: var(--s-3); }
-  .region-countries { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: var(--s-3); }
-  .region-country { font-size: 0.72rem; font-weight: 600; color: var(--c-gold-dark); background: rgba(201,146,42,0.1); padding: 0.25rem 0.6rem; border-radius: 4px; }
-  .region-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-2); padding-top: var(--s-3); border-top: 1px solid var(--c-cream-dark); }
-  .region-stat { text-align: center; }
-  .region-stat-num { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--c-gold-dark); }
-  .region-stat-label { font-size: 0.68rem; color: var(--c-stone); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
+    /* ===== TRADE TERMS ===== */
+    .terms-section { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); }
+    .terms-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .term-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    }
+    .term-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.3); transform: translateY(-4px); }
+    .term-code { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold); margin-bottom: 0.5rem; }
+    .term-name { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 0.75rem; letter-spacing: 0.02em; }
+    .term-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
 
-  /* Logistics */
-  .logistics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-3); }
-  .logistics-card { background: var(--c-cream); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
-  .logistics-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
-  .logistics-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.14); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-3); font-size: 1.5rem; }
-  .logistics-card h3 { font-family: var(--font-serif); font-size: 1.05rem; color: var(--c-earth); margin: 0 0 0.6rem; }
-  .logistics-card p { font-size: 0.85rem; color: var(--c-text-muted); line-height: 1.65; margin: 0; }
+    /* ===== MARKET INSIGHTS ===== */
+    .insights-section { padding: 5rem 0; background: var(--cream); }
+    .insights-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .insight-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--cream-dark);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .insight-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .insight-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 0.75rem; }
+    .insight-card h3 { font-size: 1rem; font-weight: 700; color: var(--earth); margin-bottom: 0.65rem; }
+    .insight-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
+    .insight-bar { width: 100%; height: 6px; background: var(--cream); border-radius: 3px; margin-top: 1.25rem; overflow: hidden; }
+    .insight-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; transition: width 1s ease; }
 
-  /* Terms (dark) */
-  .terms-section .section-header h2,
-  .terms-section .section-tag,
-  .terms-section .section-header p { color: var(--c-white); }
-  .terms-section .section-tag { color: var(--c-gold); }
-  .terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); }
-  .term-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; transition: background var(--t), border-color var(--t), transform var(--t); }
-  .term-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.3); transform: translateY(-4px); }
-  .term-code { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 800; color: var(--c-gold); margin-bottom: 0.5rem; }
-  .term-name { font-size: 0.84rem; font-weight: 600; color: var(--c-white); margin-bottom: 0.6rem; }
-  .term-desc { font-size: 0.82rem; color: var(--c-text-light); line-height: 1.6; }
+    /* ===== FAQ ===== */
+    .faq-section { padding: 5rem 0; background: var(--white); }
+    .faq-section .section-header { text-align: center; margin-bottom: 3rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--cream-dark); }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.25rem 0; cursor: pointer; font-size: 1rem; font-weight: 600;
+      color: var(--earth); transition: color 0.2s ease; width: 100%;
+      text-align: left; background: none; border: none; font-family: inherit;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q svg { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--gold); }
+    .faq-q.active svg { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .faq-a.open { max-height: 300px; padding-bottom: 1.25rem; }
+    .faq-a p { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; }
 
-  /* Insights */
-  .insights-section { background: var(--c-cream); }
-  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
-  .insight-card { background: var(--c-white); border-radius: var(--r-card); padding: var(--s-4); box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
-  .insight-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
-  .insight-num { font-family: var(--font-serif); font-size: 2.6rem; font-weight: 800; color: var(--c-gold-dark); line-height: 1; margin-bottom: 0.6rem; }
-  .insight-card h3 { font-size: 1rem; font-weight: 700; color: var(--c-earth); margin: 0 0 0.5rem; }
-  .insight-card p { font-size: 0.85rem; color: var(--c-text-muted); line-height: 1.65; margin: 0; }
+    /* ===== CTA ===== */
+    .markets-cta {
+      padding: 5rem 0;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%);
+      text-align: center;
+    }
+    .markets-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 1rem; }
+    .markets-cta h2 span { color: var(--gold); }
+    .markets-cta p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .markets-cta .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-  /* FAQ */
-  .faq-list { margin-top: var(--s-4); }
-  .faq-item { border-bottom: 1px solid var(--c-cream-dark); }
-  .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: var(--s-3) 0; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--c-earth); list-style: none; }
-  .faq-q::-webkit-details-marker { display: none; }
-  .faq-q:hover { color: var(--c-gold-dark); }
-  .faq-icon { font-size: 1.4rem; color: var(--c-gold); transition: transform var(--t); flex-shrink: 0; }
-  details[open] .faq-icon { transform: rotate(45deg); }
-  .faq-a { padding-bottom: var(--s-3); }
-  .faq-a p { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.75; margin: 0; }
-
-  /* CTA */
-  .cta-band { text-align: center; padding-block: var(--s-7); }
-  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); max-width: 560px; margin-left: auto; margin-right: auto; }
-  .cta-buttons { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; }
-
-  @media (max-width: 1024px) {
-    .strategic-grid { grid-template-columns: 1fr; gap: var(--s-5); }
-    .regions-grid { grid-template-columns: repeat(2, 1fr); }
-    .logistics-grid { grid-template-columns: repeat(2, 1fr); }
-    .terms-grid { grid-template-columns: repeat(2, 1fr); }
-    .insights-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 768px) {
-    .regions-grid, .logistics-grid, .terms-grid, .insights-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: var(--s-4); }
-    .hero-stat .num { font-size: 1.9rem; }
-  }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .strategic-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .regions-grid { grid-template-columns: repeat(2, 1fr); }
+      .logistics-grid { grid-template-columns: repeat(2, 1fr); }
+      .terms-grid { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .regions-grid { grid-template-columns: 1fr; }
+      .logistics-grid { grid-template-columns: 1fr; }
+      .terms-grid { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .markets-hero { padding: 4rem 0 3.5rem; }
+      .hero-stats { gap: 2rem; }
+      .hero-stat-num { font-size: 1.8rem; }
+    }
 </style>

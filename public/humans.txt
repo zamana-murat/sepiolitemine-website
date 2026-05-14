@@ -1,13 +1,14 @@
 /* TEAM */
-Owner: Murat Özsaygılı
+Owner: Murat Özsaygılı — Zamana
+LinkedIn: https://www.linkedin.com/in/murat-özsaygılı-59790865/
 Site: Sepiolite Mine — premium Turkish sepiolite supplier
 Location: Ankara, Türkiye
 
 /* SITE */
-Last update: 2026-05-13
+Last update: 2026-05-14
 Languages: English (primary), Türkçe
 Doctype: HTML5
-Stack: Astro 4, Cloudflare Pages, Cloudflare Pages Functions, Resend
+Stack: Astro 5, Cloudflare Pages, Cloudflare Pages Functions, Resend
 Fonts: Inter Variable + Playfair Display Variable (self-hosted woff2)
 Analytics: Cloudflare Web Analytics (cookieless, GDPR-compliant)
 

@@ -1,120 +1,259 @@
----
-import { getCollection } from 'astro:content';
+﻿---
 import Layout from '@layouts/Layout.astro';
-
-const apps = (await getCollection('applications', (a) => a.data.locale === 'tr' && !a.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+import { BRAND } from '@config/brand';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Anasayfa', item: `${siteUrl}/tr/` },
-    { '@type': 'ListItem', position: 2, name: 'Uygulamalar', item: `${siteUrl}/tr/applications/` },
-  ],
-};
-
-const itemListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  itemListElement: apps.map((a, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    url: `${siteUrl}/tr/applications/${a.slug}/`,
-    name: a.data.title,
-  })),
-};
 ---
 
 <Layout
-  title="Sepiyolit Uygulamaları"
-  description="Türk sepiyolitinin değer kattığı dokuz endüstriyel uygulama: tarım, petrol ve gaz sondajı, inşaat, çevre rehabilitasyonu, boyalar, kataliz, ilaç, biyoplastik, evcil hayvan bakımı."
+  title="Sepiyolit Uygulama AlanlarÄ± â€“ Her SektÃ¶r Ä°Ã§in"
+  description="Evcil hayvan bakÄ±mÄ±ndan petrol sondajÄ±na, tarÄ±mdan inÅŸaata kadar sepiyolitin 9+ endÃ¼strideki uygulama alanlarÄ±nÄ± keÅŸfedin. TÃ¼rkiye"
   locale="tr"
-  alternates={{ en: '/applications/', tr: '/tr/applications/' }}
-  schemaJson={[breadcrumbSchema, itemListSchema]}
+  alternates={{ en: "/applications/", tr: "/tr/applications/" }}
 >
-  <nav class="breadcrumb-bar" aria-label="Kırıntı yolu">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/tr/">Anasayfa</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Uygulamalar</li>
-      </ol>
+<div class="breadcrumb-bar">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/tr/">Ana Sayfa</a>
+      <span class="sep">â€º</span>
+      <span class="current">Uygulamalar</span>
     </div>
-  </nav>
+  </div>
+</div>
 
-  <section class="hub-hero section section--dark">
-    <div class="container container-narrow">
-      <span class="section-tag">Uygulamalar</span>
-      <h1>Endüstri Boyunca Sepiyolit</h1>
-      <p class="lead">
-        Dokuz endüstriyel sektör, yüksek performanslı mineral girdi olarak sepiyolite
-        güvenir. Toprak iyileştirmeden sondaj sıvılarına, ilaç eksipiyanlarından biyoplastik
-        bileşiklere kadar, kademelerimiz dünya çapındaki B2B üreticilerine öngörülebilir
-        performans sunar.
-      </p>
+<section class="apps-hero">
+  <div class="container">
+    <span class="section-tag">EndÃ¼striyel Uygulamalar</span>
+    <h1>Tek Mineral, <span>Sonsuz</span> OlasÄ±lÄ±k</h1>
+    <p>Sepiyolitin eÅŸsiz lifli mikro yapÄ±sÄ±, olaÄŸanÃ¼stÃ¼ emme kapasitesi, reoloji kontrolÃ¼ ve Ä±sÄ±l dayanÄ±m sayesinde Ã§ok geniÅŸ bir sektÃ¶r yelpazesine hizmet eder.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">9+</div><div class="hero-stat-label">Hizmet Verilen SektÃ¶r</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">200+</div><div class="hero-stat-label">MÃ¼ÅŸteri Firma</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">45+</div><div class="hero-stat-label">UlaÅŸÄ±lan Ãœlke</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">30+</div><div class="hero-stat-label">YÄ±llÄ±k Deneyim</div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section">
-    <div class="container">
-      <div class="apps-grid">
-        {apps.map((a) => (
-          <a href={`/tr/applications/${a.slug}/`} class="app-card">
-            <div class="card-img">
-              <img
-                src={a.data.heroImage ?? '/images/mine/aerial-02-800w.webp'}
-                alt={a.data.heroImageAlt ?? a.data.title}
-                width="400"
-                height="300"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body">
-              {a.data.badge && <span class="card-badge">{a.data.badge}</span>}
-              <h2>{a.data.title}</h2>
-              <p class="card-desc">{a.data.tagline}</p>
-              <span class="card-link">Uygulamayı keşfedin →</span>
-            </div>
-          </a>
-        ))}
+<section class="apps-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">UygulamalarÄ± KeÅŸfedin</span>
+      <h2 class="section-title"><span>Her SektÃ¶r</span> Ä°Ã§in Sepiyolit Ã‡Ã¶zÃ¼mleri</h2>
+      <p>Ev tipi evcil hayvan bakÄ±mÄ±ndan derin kuyu sondajÄ±na kadar sepiyolitin doÄŸal Ã¶zellikleri onu vazgeÃ§ilmez kÄ±lar. Detaylar iÃ§in herhangi bir uygulamaya tÄ±klayÄ±n.</p>
+    </div>
+    <div class="grid-3">
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">En Ã‡ok Satan</span>
+          <div class="app-card-icon">ğŸ¾</div>
+          <h3>Evcil Hayvan BakÄ±mÄ± &amp; Kedi Kumu</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Premium kedi kumu iÃ§in ultra emici, dÃ¼ÅŸÃ¼k tozlu sepiyolit granÃ¼ller. ÃœstÃ¼n koku kontrolÃ¼, hafif yapÄ± ve %100 doÄŸal â€” Avrupa'nÄ±n Ã¶nde gelen evcil hayvan markalarÄ±nÄ±n tercihi.</p>
+          <div class="app-highlights"><span class="app-highlight">%240 Emme</span><span class="app-highlight">DÃ¼ÅŸÃ¼k Toz</span><span class="app-highlight">DoÄŸal</span></div>
+          <a href="/tr/applications/evcil-hayvan-kedi-kumu/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">HÄ±zlÄ± BÃ¼yÃ¼yen</span>
+          <div class="app-card-icon">ğŸŒ±</div>
+          <h3>TarÄ±m &amp; Toprak Bilimi</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Toprak dÃ¼zenleyici, gÃ¼bre taÅŸÄ±yÄ±cÄ±sÄ± ve pestisit baÄŸlayÄ±cÄ±sÄ±. Sepiyolit su tutmayÄ± %40'a kadar artÄ±rÄ±r, besin daÄŸÄ±tÄ±mÄ±nÄ± iyileÅŸtirir ve sÃ¼rdÃ¼rÃ¼lebilir tarÄ±m uygulamalarÄ±nÄ± destekler.</p>
+          <div class="app-highlights"><span class="app-highlight">Toprak DÃ¼zenleme</span><span class="app-highlight">YavaÅŸ SalÄ±nÄ±m</span><span class="app-highlight">Organik Uyumlu</span></div>
+          <a href="/tr/applications/tarim/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">YÃ¼ksek DeÄŸer</span>
+          <div class="app-card-icon">ğŸ›¢ï¸</div>
+          <h3>Petrol &amp; Gaz SondajÄ±</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Tuz ve yÃ¼ksek sÄ±caklÄ±ÄŸa dayanÄ±mlÄ± sondaj sÄ±vÄ±sÄ± reoloji dÃ¼zenleyicisi. Bentonit'in yetersiz kaldÄ±ÄŸÄ± koÅŸullarda 300Â°C'ye kadar kararlÄ± viskozite saÄŸlar.</p>
+          <div class="app-highlights"><span class="app-highlight">API Spec 13A</span><span class="app-highlight">300Â°C KararlÄ±lÄ±k</span><span class="app-highlight">Tuz ToleranslÄ±</span></div>
+          <a href="/tr/applications/petrol-gaz-sondaj/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">BÃ¼yÃ¼yen Pazar</span>
+          <div class="app-card-icon">ğŸ-ï¸</div>
+          <h3>Ä°nÅŸaat &amp; YalÄ±tÄ±m</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Ã‡imento, sÄ±va ve yangÄ±n geÃ§irmez panellerde mineral dolgu maddesi. YangÄ±n direncini artÄ±rÄ±r, termal iletkenliÄŸi dÃ¼ÅŸÃ¼rÃ¼r ve yapÄ±sal bÃ¼tÃ¼nlÃ¼ÄŸÃ¼ gÃ¼Ã§lendirir.</p>
+          <div class="app-highlights"><span class="app-highlight">A1 YangÄ±n SÄ±nÄ±fÄ±</span><span class="app-highlight">DÃ¼ÅŸÃ¼k Î»</span><span class="app-highlight">Hafif</span></div>
+          <a href="/tr/applications/insaat/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">Stratejik</span>
+          <div class="app-card-icon">ğŸŒ¿</div>
+          <h3>Ã‡evre &amp; Rehabilitasyon</h3>
+        </div>
+        <div class="app-card-body">
+          <p>AÄŸÄ±r metal baÄŸlama, yaÄŸ dÃ¶kÃ¼lmesi temizleme ve atÄ±k su arÄ±tma iÃ§in doÄŸal sorbent. GeliÅŸmiÅŸ gÃ¶zenek yapÄ±sÄ± kirleticileri etkin biÃ§imde tutar.</p>
+          <div class="app-highlights"><span class="app-highlight">Metal BaÄŸlama</span><span class="app-highlight">YaÄŸ Emme</span><span class="app-highlight">Su ArÄ±tma</span></div>
+          <a href="/tr/applications/cevre-rehabilitasyon/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">Premium</span>
+          <div class="app-card-icon">ğŸ¨</div>
+          <h3>Boya &amp; Kaplama</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Su bazlÄ± ve solvent bazlÄ± boyalarda reoloji dÃ¼zenleyici ve Ã§Ã¶kelme Ã¶nleyici. Pigment daÄŸÄ±lÄ±mÄ±nÄ± iyileÅŸtirir, viskoziteyi stabilize eder ve film kalitesini artÄ±rÄ±r.</p>
+          <div class="app-highlights"><span class="app-highlight">Reoloji KontrolÃ¼</span><span class="app-highlight">Ã‡Ã¶kelme Ã–nleyici</span><span class="app-highlight">Tiksotropi</span></div>
+          <a href="/tr/applications/boya-kaplama/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">Teknik</span>
+          <div class="app-card-icon">ğŸ”¬</div>
+          <h3>Kataliz &amp; Kimya</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Kimyasal reaksiyonlarda katalizÃ¶r desteÄŸi ve taÅŸÄ±yÄ±cÄ±sÄ±. YÃ¼ksek yÃ¼zey alanÄ± ve termal kararlÄ±lÄ±k, sepiyoliti petrokimya ve ince kimya sÃ¼reÃ§leri iÃ§in ideal kÄ±lar.</p>
+          <div class="app-highlights"><span class="app-highlight">KatalizÃ¶r DesteÄŸi</span><span class="app-highlight">YÃ¼ksek BET</span><span class="app-highlight">IsÄ±l KararlÄ±lÄ±k</span></div>
+          <a href="/tr/applications/kataliz-kimya/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">YÃ¼ksek BÃ¼yÃ¼me</span>
+          <div class="app-card-icon">ğŸ’Š</div>
+          <h3>Ä°laÃ§ &amp; Kozmetik</h3>
+        </div>
+        <div class="app-card-body">
+          <p>Tablet baÄŸlayÄ±cÄ±, kapsÃ¼l dolgu ve kozmetik kÄ±vam artÄ±rÄ±cÄ±. DÃ¼ÅŸÃ¼k aÄŸÄ±r metal iÃ§eriÄŸi ve doÄŸal yapÄ±sÄ± dÃ¼zenleyici uyumu kolaylaÅŸtÄ±rÄ±r.</p>
+          <div class="app-highlights"><span class="app-highlight">Tablet BaÄŸlayÄ±cÄ±</span><span class="app-highlight">Kozmetik KatkÄ±</span><span class="app-highlight">USP Uyumlu</span></div>
+          <a href="/tr/applications/ilac-kozmetik/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="app-card reveal">
+        <div class="app-card-header">
+          <span class="app-card-tag">Gelecek</span>
+          <div class="app-card-icon">ğŸŒ</div>
+          <h3>Biyoplastik &amp; Kompozit</h3>
+        </div>
+        <div class="app-card-body">
+          <p>BiyobazlÄ± polimer matrislerinde doÄŸal mineral takviye maddesi. Biyoplastiklerin mekanik Ã¶zelliklerini ve bariyer performansÄ±nÄ± iyileÅŸtirerek sÃ¼rdÃ¼rÃ¼lebilir ambalaj Ã§Ã¶zÃ¼mleri saÄŸlar.</p>
+          <div class="app-highlights"><span class="app-highlight">DoÄŸal Takviye</span><span class="app-highlight">Biyobozunur Uyumlu</span><span class="app-highlight">SÃ¼rdÃ¼rÃ¼lebilir</span></div>
+          <a href="/tr/applications/biyoplastik/" class="app-link">UygulamayÄ± KeÅŸfet <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="why-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Neden Sepiyolit</span>
+      <h2 class="section-title">Sepiyoliti <span>EÅŸsiz</span> KÄ±lan Ã–zellikler</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">ğŸ’§</div>
+        <h3>OlaÄŸanÃ¼stÃ¼ Emme</h3>
+        <p>Mikro gÃ¶zenek yapÄ±sÄ± kendi aÄŸÄ±rlÄ±ÄŸÄ±nÄ±n 2.5 katÄ± sÄ±vÄ± emerek piyasanÄ±n en verimli doÄŸal sorbentlerinden biri olmasÄ±nÄ± saÄŸlar.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">ğŸŒ¡ï¸</div>
+        <h3>Termal DayanÄ±m</h3>
+        <p>300Â°C'ye kadar kararlÄ± kalan tek doÄŸal kil minerali. Bu Ã¶zellik sondaj sÄ±vÄ±larÄ±nda ve endÃ¼striyel sÃ¼reÃ§lerde kritik avantaj saÄŸlar.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">ğŸ§ª</div>
+        <h3>Kimyasal Uyumluluk</h3>
+        <p>Tuzlu su, asit ve bazlara karÅŸÄ± direnÃ§ gÃ¶sterir. Bu Ã¶zellik onu Ã§oÄŸu endÃ¼striyel ortamda gÃ¼venilir bir mineral katkÄ± maddesi yapar.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">ğŸŒ¿</div>
+        <h3>DoÄŸal ve SÃ¼rdÃ¼rÃ¼lebilir</h3>
+        <p>%100 doÄŸal mineral, organik tarÄ±m ve Ã§evre dostu Ã¼rÃ¼n sertifikasyonlarÄ±na uygun. HiÃ§bir kimyasal iÅŸlem veya katkÄ± gerektirmez.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="cta-band section section--dark">
-    <div class="container container-narrow">
-      <h2>Uygulamanızı göremiyor musunuz?</h2>
-      <p>Sepiyolit onlarca niş endüstriyel uygulamada kullanılır. Kullanım senaryonuzu paylaşın, size uygun kademeyi önerelim.</p>
-      <a href="/tr/contact/" class="btn btn-primary">Bizimle Konuşun</a>
+<section class="apps-cta">
+  <div class="container">
+    <h2>SektÃ¶rÃ¼nÃ¼z Ä°Ã§in <span>DoÄŸru Kademeyi</span> Bulun</h2>
+    <p>Teknik satÄ±ÅŸ ekibimiz, uygulamanÄ±z iÃ§in en uygun sepiyolit kademesini ve teknik Ã¶zellikleri belirlemenize yardÄ±mcÄ± olur.</p>
+    <div class="btn-group">
+      <a href="/tr/contact/" class="btn btn-primary">Teknik Ekiple Ä°letiÅŸim</a>
+      <a href="/tr/products/" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">TÃ¼m ÃœrÃ¼nleri GÃ¶rÃ¼ntÃ¼le</a>
     </div>
-  </section>
+  </div>
+</section>
 </Layout>
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--c-gold-dark); }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
-  .hub-hero { text-align: center; padding-block: var(--s-7); }
-  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; }
-  .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-4); }
-  .app-card { background: var(--c-white); border: 1px solid var(--c-cream-dark); border-radius: var(--r-card); overflow: hidden; text-decoration: none; color: var(--c-text); display: flex; flex-direction: column; transition: border-color var(--t), transform var(--t), box-shadow var(--t); }
-  .app-card:hover { border-color: var(--c-gold); transform: translateY(-4px); box-shadow: var(--sh-mid); text-decoration: none; }
-  .card-img { aspect-ratio: 4 / 3; overflow: hidden; background: var(--c-cream); }
-  .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow); }
-  .app-card:hover .card-img img { transform: scale(1.05); }
-  .card-body { padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); flex: 1; }
-  .card-badge { align-self: flex-start; background: rgba(201, 146, 42, 0.14); border: 1px solid rgba(201, 146, 42, 0.35); color: var(--c-gold-dark); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; border-radius: 100px; }
-  .card-body h2 { font-size: 1.2rem; margin: 0; color: var(--c-earth); }
-  .card-desc { font-size: 0.92rem; line-height: 1.6; color: var(--c-text-muted); margin: 0; flex: 1; }
-  .card-link { color: var(--c-gold-dark); font-weight: 600; font-size: 0.9rem; margin-top: var(--s-2); }
-  .cta-band { text-align: center; padding-block: var(--s-6); }
-  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); }
+<style is:global>
+/* HERO */
+    .apps-hero { position: relative; padding: 6rem 0 5rem; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%); overflow: hidden; }
+    .apps-hero::before { content: ''; position: absolute; inset: 0; background: url('/images/mine/mine-aerial-02.webp') center/cover no-repeat; opacity: 0.18; }
+    .apps-hero .container { position: relative; z-index: 2; text-align: center; }
+    .apps-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); margin-bottom: 1.25rem; line-height: 1.12; }
+    .apps-hero h1 span { color: var(--gold); }
+    .apps-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 640px; margin: 0 auto 2rem; line-height: 1.7; }
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1; }
+    .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.35rem; letter-spacing: 0.04em; }
+    /* APP GRID */
+    .apps-section { padding: 5rem 0 6rem; background: var(--white); }
+    .apps-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .apps-section .section-header p { color: var(--text-light); max-width: 680px; margin: 0 auto; line-height: 1.7; font-size: 0.95rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .app-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--cream-dark); box-shadow: var(--shadow-sm); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; overflow: hidden; }
+    .app-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+    .app-card-header { padding: 2rem 2rem 1.25rem; background: linear-gradient(135deg, var(--cream) 0%, #fff 100%); position: relative; }
+    .app-card-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: rgba(201,146,42,0.1); padding: 0.3rem 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+    .app-card-icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .app-card-header h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--earth); }
+    .app-card-body { padding: 1.5rem 2rem 2rem; }
+    .app-card-body p { font-size: 0.88rem; color: var(--text-light); line-height: 1.7; margin-bottom: 1.25rem; }
+    .app-highlights { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .app-highlight { font-size: 0.7rem; font-weight: 600; color: var(--gold-dark); background: rgba(201,146,42,0.08); padding: 0.3rem 0.7rem; border-radius: 4px; }
+    .app-link { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--gold); transition: color 0.25s ease, gap 0.25s ease; }
+    .app-link svg { width: 16px; height: 16px; }
+    .app-link:hover { color: var(--gold-dark); gap: 0.75rem; }
+    /* WHY SECTION */
+    .why-section { padding: 5rem 0; background: var(--cream); }
+    .why-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .why-card { background: var(--white); border-radius: var(--radius); padding: 2rem 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--cream-dark); text-align: center; }
+    .why-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.1); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem; }
+    .why-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--earth); margin-bottom: 0.75rem; }
+    .why-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
+    /* CTA */
+    .apps-cta { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); text-align: center; }
+    .apps-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 1rem; }
+    .apps-cta h2 span { color: var(--gold); }
+    .apps-cta p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .apps-cta .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 1024px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; } .apps-hero { padding: 4rem 0 3.5rem; } .hero-stats { gap: 2rem; } }
 </style>

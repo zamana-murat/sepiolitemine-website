@@ -1,0 +1,141 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+---
+
+<Layout
+  title="Petrol ve Gaz Sondajında Sepiyolit"
+  description="Petrol ve gaz sondaj sıvıları için API Spec 13A uyumlu sepiyolit. Bentonitin yetersiz kaldığı yüksek tuz ve yüksek sıcaklık ortamlarında kararlı reoloji ve viskozite sağlar."
+  locale="tr"
+  alternates={{ en: "/applications/oil-gas-drilling/", tr: "/tr/applications/petrol-gaz-sondaj/" }}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+  <a href="/tr/">Ana Sayfa</a><span class="sep">›</span>
+  <a href="/tr/applications/">Uygulamalar</a><span class="sep">›</span>
+  <span class="current">Petrol & Gaz Sondajı</span>
+</div></div></div>
+
+<section class="app-hero">
+  <div class="container">
+    <div class="app-hero-icon">🛢️</div>
+    <h1>Petrol <span>Gaz Sondajı</span></h1>
+    <p>Petrol ve gaz sondaj sıvıları için API Spec 13A uyumlu sepiyolit. Bentonitin yetersiz kaldığı yüksek tuz ve yüksek sıcaklık ortamlarında kararlı reoloji ve viskozite sağlar.</p>
+    <div class="app-hero-tags"><span class="app-hero-tag">API Spec 13A</span><span class="app-hero-tag">300°C Kararlılık</span><span class="app-hero-tag">Tuz Toleransı</span><span class="app-hero-tag">Reoloji Kontrolü</span><span class="app-hero-tag">Derin Kuyu</span></div>
+  </div>
+</section>
+
+<section class="overview-section">
+  <div class="container">
+    <div class="overview-grid">
+      <div class="overview-content">
+        <div class="section-tag">Uygulama Genel Bakışı</div>
+        <div class="divider"></div>
+        <h2>Bentonit'in <span>Sınırlarını Aşan</span> Reoloji Çözümü</h2>
+        <p>Petrol ve gaz sektörü, standart sondaj sıvısı kili olan bentonitin işlevsizleştiği koşullarda sepiyolite yönelmektedir. Özellikle yüksek tuz konsantrasyonları ve 150°C üzerindeki kuyu sıcaklıklarında sepiyolit benzersiz avantajlar sunar.</p><p>Benzersiz lif yapısı sayesinde sepiyolit, doymuş tuz çözeltisinde dahi viskozitesini ve jel dayanımını korur. Tuz domlu oluşumlarda ve Körfez Bölgesi sondaj operasyonlarında standart reoloji düzenleyici olarak benimsenmiştir.</p><p>300°C'ye kadar termal kararlılık, derin kuyu ve jeotermal uygulamalarında vazgeçilmez kılar. Bu sıcaklık limitinin üzerinde işlev görebilen çok az sayıda doğal mineral bulunmakta olup sepiyolit bu kategoride öne çıkmaktadır.</p><p>API Spec 13A Bölüm 3'e uygun üretim sürecimiz, her partinin küresel operatörlerin talep ettiği standartları karşılamasını güvence altına alır. Viskozite, jel dayanımı ve su kaybı değerleri belgelenerek test raporuyla birlikte sevk edilir.</p>
+      </div>
+      <div>
+        <div class="benefits-card">
+          <h3><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg> Temel Faydalar</h3>
+          <div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>Tuz Toleransı</strong><span>Doymuş NaCl'e kadar stabil</span></div></div><div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>Yüksek Sıcaklık</strong><span>300°C termal limit</span></div></div><div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>API Uyumlu</strong><span>Spec 13A Bölüm 3</span></div></div><div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>Kararlı Reoloji</strong><span>Konsantrasyondan bağımsız</span></div></div><div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>Düşük Su Kaybı</strong><span>≤15 ml API filtresi</span></div></div><div class="benefit-item"><div class="benefit-check">✓</div><div class="benefit-text"><strong>Küresel Tedarik</strong><span>FOB Mersin/Samsun</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="container">
+    <div class="how-header">
+      <div class="section-tag" style="color:var(--gold-light);">Nasıl Çalışır</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title" style="color:var(--white);">Sepiyolit <span>Bu Sektörde</span> Nasıl Kullanılır?</h2>
+    </div>
+    <div class="steps-grid"><div class="step-card reveal"><div class="step-num">01</div><h3>Formülasyon Tasarımı</h3><p>Sondaj mühendisi, kuyu koşullarına (sıcaklık, tuz, basınç) göre sepiyolit konsantrasyonunu ve diğer sıvı bileşenlerini belirler.</p></div><div class="step-card reveal"><div class="step-num">02</div><h3>Sondaj Sıvısına Katma</h3><p>Sepiyolit tozu, sondaj sıvısına kademeli olarak eklenerek hedef viskozite ve jel dayanımı değerlerine ulaşılır.</p></div><div class="step-card reveal"><div class="step-num">03</div><h3>Sahada İzleme</h3><p>Sondaj sırasında reoloji parametreleri düzenli olarak ölçülür ve gerekirse sepiyolit miktarı ayarlanır.</p></div></div>
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+    <div class="products-header">
+      <div class="section-tag">Önerilen Ürünler</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Bu Uygulama İçin <span>Uygun Ürünler</span></h2>
+    </div>
+    <div class="products-grid"><div class="product-ref-card reveal">
+        <div class="product-ref-img"><img width="1200" height="896" src="/images/products/product-drilling-grade.webp" alt="Sondaj Kalitesi Sepiyolit" loading="lazy"/></div>
+        <div class="product-ref-body"><h3>Sondaj Kalitesi Sepiyolit</h3><p>API Spec 13A uyumlu, yüksek sıcaklık ve tuz toleranslı sondaj sıvısı katkısı.</p>
+        <a href="/tr/products/sondaj-kalitesi-sepiyolit/" class="product-ref-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div></div><div class="product-ref-card reveal">
+        <div class="product-ref-img"><img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Öğütülmüş Sepiyolit Tozu" loading="lazy"/></div>
+        <div class="product-ref-body"><h3>Öğütülmüş Sepiyolit Tozu</h3><p>Sondaj sıvısı uygulamaları için özel öğütülmüş kademe.</p>
+        <a href="/tr/products/ogutulmus-sepiyolit-tozu/" class="product-ref-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div></div><div class="product-ref-card reveal">
+        <div class="product-ref-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Ham Sepiyolit Cevheri" loading="lazy"/></div>
+        <div class="product-ref-body"><h3>Ham Sepiyolit Cevheri</h3><p>Kendi öğütme tesisine sahip sondaj kimyasalı üreticileri için ham madde.</p>
+        <a href="/tr/products/ham-sepiyolit-cevheri/" class="product-ref-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div></div></div>
+  </div>
+</section>
+
+<section class="app-cta">
+  <div class="container">
+    <h2>Sondaj <span>Sıvısı Katkısı</span> mı Arıyorsunuz?</h2>
+    <p>Petrol, gaz veya jeotermal sondaj operasyonları için sepiyolit sağlıyoruz. API Spec 13A belgesi ve teknik veri sayfaları talep üzerine temin edilir.</p>
+    <div class="btn-group">
+      <a href="/tr/contact/" class="btn btn-primary">Teknik Teklif İste</a>
+      <a href="/tr/products/" class="btn btn-outline">Tüm Ürünleri Görüntüle</a>
+    </div>
+  </div>
+</section>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden;}
+    .app-hero::before{content:'';position:absolute;inset:0;opacity:0.15;}
+    .app-hero .container{position:relative;z-index:2;text-align:center;}
+    .app-hero-icon{font-size:4rem;margin-bottom:1rem;}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--white);margin-bottom:1.25rem;line-height:1.12;}
+    .app-hero h1 span{color:var(--gold);}
+    .app-hero p{font-size:1.05rem;color:rgba(255,255,255,0.72);max-width:620px;margin:0 auto 2rem;line-height:1.75;}
+    .app-hero-tags{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;}
+    .app-hero-tag{padding:0.45rem 1.1rem;border-radius:4px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(201,146,42,0.15);color:var(--gold-light);border:1px solid rgba(201,146,42,0.3);}
+    .overview-section{padding:5rem 0;background:var(--white);}
+    .overview-grid{display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:start;}
+    .overview-content h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.4rem);color:var(--earth);margin-bottom:1.5rem;line-height:1.2;}
+    .overview-content h2 span{color:var(--gold);}
+    .overview-content p{font-size:0.92rem;line-height:1.85;color:var(--text-mid);margin-bottom:1.25rem;}
+    .benefits-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-lg);padding:1.75rem;position:sticky;top:80px;}
+    .benefits-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.65rem;}
+    .benefit-item{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid var(--cream-dark);}
+    .benefit-item:last-child{border-bottom:none;}
+    .benefit-check{width:20px;height:20px;background:rgba(201,146,42,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold);font-size:0.7rem;font-weight:700;margin-top:0.1rem;}
+    .benefit-text strong{display:block;font-size:0.88rem;font-weight:700;color:var(--earth);margin-bottom:0.2rem;}
+    .benefit-text span{font-size:0.8rem;color:var(--text-light);}
+    .how-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);}
+    .how-header{text-align:center;margin-bottom:3.5rem;}
+    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .step-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:2rem;transition:var(--transition);}
+    .step-card:hover{background:rgba(201,146,42,0.1);border-color:rgba(201,146,42,0.35);transform:translateY(-4px);}
+    .step-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--gold);opacity:0.35;line-height:1;margin-bottom:1rem;}
+    .step-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--white);margin-bottom:0.75rem;}
+    .step-card p{font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.6);}
+    .products-section{padding:5rem 0;background:var(--cream);}
+    .products-header{text-align:center;margin-bottom:3rem;}
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .product-ref-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--cream-dark);box-shadow:var(--shadow-sm);transition:var(--transition);display:flex;flex-direction:column;}
+    .product-ref-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
+    .product-ref-img{height:160px;overflow:hidden;}.product-ref-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;}
+    .product-ref-card:hover .product-ref-img img{transform:scale(1.07);}
+    .product-ref-body{padding:1.5rem;}
+    .product-ref-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--earth);margin-bottom:0.5rem;}
+    .product-ref-body p{font-size:0.82rem;line-height:1.65;color:var(--text-light);margin-bottom:1rem;}
+    .product-ref-link{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;font-weight:600;color:var(--gold);}
+    .product-ref-link svg{width:14px;height:14px;}
+    .app-cta{padding:5rem 0;background:var(--white);text-align:center;}
+    .app-cta h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--earth);margin-bottom:1rem;}
+    .app-cta h2 span{color:var(--gold);}
+    .app-cta p{font-size:1rem;color:var(--text-light);max-width:560px;margin:0 auto 2rem;line-height:1.7;}
+    .app-cta .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease;}.reveal.visible{opacity:1;transform:translateY(0);}
+    @media(max-width:1024px){.overview-grid{grid-template-columns:1fr;}.benefits-card{position:static;}.steps-grid{grid-template-columns:1fr 1fr;}.products-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:768px){.steps-grid{grid-template-columns:1fr;}.products-grid{grid-template-columns:1fr;}}
+</style>

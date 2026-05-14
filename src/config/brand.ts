@@ -99,7 +99,8 @@ export const BRAND = {
 
   /** Plan C — Blog config */
   blog: {
-    enabled: true,
+    /** Plan C henüz canlı değil — true yapıldığında RSS link + /rss.xml route aktif olur */
+    enabled: false,
     title: 'Sepiolite Mine — Insights',
     description:
       'Technical guides, industry applications, market insights, and sourcing know-how for B2B sepiolite buyers worldwide.',
@@ -120,7 +121,7 @@ export const BRAND = {
   /** Schema.org Organization defaults */
   schema: {
     organizationType: 'Organization' as const,
-    foundingYear: 1995, // Akmin Mining historical reference
+    foundingYear: 1995, // Zamana historical reference
     sameAs: [] as string[], // doldurulacak — LinkedIn yoksa boş kalır
   },
 

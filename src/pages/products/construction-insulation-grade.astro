@@ -1,0 +1,1048 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Products", "item": "https://sepiolitemine.com/products/"},
+    {"@type": "ListItem", "position": 3, "name": "Construction & Insulation Grade", "item": "https://sepiolitemine.com/products/construction-insulation-grade/"}
+  ]
+},
+  {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Construction & Insulation Grade",
+  "description": "Construction grade sepiolite for thermal insulation boards, fireproof coatings, and cement additives. Low thermal conductivity, high fire resistance. FOB Mersin/Samsun.",
+  "image": ["https://sepiolitemine.com/images/products/product-construction.webp"],
+  "sku": "SM-CONS-001",
+  "brand": {"@type": "Brand", "name": "Sepiolite Mine"},
+  "manufacturer": {"@type": "Organization", "name": "Zamana", "url": "https://zamana.com.tr"},
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "url": "https://sepiolitemine.com/products/construction-insulation-grade/",
+    "seller": {"@type": "Organization", "name": "Sepiolite Mine"}
+  },
+  "countryOfOrigin": {"@type": "Country", "name": "Turkey"}
+},
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is sepiolite a safe alternative to asbestos in construction?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes, sepiolite is a safe, non-carcinogenic mineral fiber. Unlike asbestos, sepiolite fibers do not pose respiratory health risks and are approved for use in building materials worldwide."}
+    },    {
+      "@type": "Question",
+      "name": "What fire rating does construction grade sepiolite achieve?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Sepiolite achieves Euroclass A1 (non-combustible) classification under EN 13501-1. It maintains structural integrity at temperatures exceeding 800°C."}
+    },    {
+      "@type": "Question",
+      "name": "How much sepiolite should be added to cement mixes?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Typical addition rates are 2–8% by weight of cement, depending on the desired properties. Higher rates improve insulation; lower rates focus on crack resistance and workability."}
+    },    {
+      "@type": "Question",
+      "name": "Can sepiolite replace mineral wool in insulation panels?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Sepiolite-based panels offer comparable thermal performance with better fire resistance and no skin irritation during installation. They are increasingly used as a premium alternative."}
+    },    {
+      "@type": "Question",
+      "name": "What is the minimum order for construction grade sepiolite?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Minimum order is 20 metric tons. We offer technical support and sample quantities for building material manufacturers developing new formulations."}
+    }
+  ]
+}
+];
+---
+
+<Layout
+  title="Construction Sepiolite – Insulation & Fireproofing"
+  description="Construction grade sepiolite for thermal insulation boards, fireproof coatings, and cement additives. Low thermal conductivity, high fire resistance. FOB Mersin/Samsun."
+  locale="en"
+  alternates={{ en: "/products/construction-insulation-grade/", tr: "/tr/products/insaat-yalitim-kalitesi/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../">Home</a>
+      <span class="sep">›</span>
+      <a href="../">Products</a>
+      <span class="sep">›</span>
+      <span class="current">Construction & Insulation Grade</span>
+    </nav>
+  </div>
+</div>
+
+<section class="product-hero">
+  <div class="container">
+    <div class="product-hero-grid">
+
+      <div class="product-gallery">
+        <div class="product-main-img" id="mainImg">
+          <img width="1200" height="896" src="/images/products/product-construction.webp" alt="Construction and insulation grade sepiolite" id="mainImgSrc" />
+        </div>
+        <div class="product-thumbs">
+          <div class="product-thumb active" onclick="switchImage(this, '/images/products/product-construction.webp', 'Construction & Insulation Grade')">
+            <img width="1200" height="896" src="/images/products/product-construction.webp" alt="Construction & Insulation Grade" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/factory/factory-exterior-01.webp', 'Sepiolite processing facility exterior')">
+            <img width="787" height="1050" src="/images/factory/factory-exterior-01.webp" alt="Sepiolite processing facility exterior" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-03.webp', 'Construction & Insulation Grade sample')">
+            <img width="506" height="900" src="/images/products/product-sample-03.webp" alt="Construction & Insulation Grade sample" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-04.webp', 'Construction & Insulation Grade detail')">
+            <img width="506" height="900" src="/images/products/product-sample-04.webp" alt="Construction & Insulation Grade detail" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <div class="product-badge">Construction</div>
+        <h1 class="product-h1">Construction & <em>Insulation</em> Grade</h1>
+        <p class="product-tagline">Engineered for the building industry — delivering superior thermal insulation, fire resistance, and reinforcement properties for modern construction materials.</p>
+
+        <div class="key-specs">
+          <div class="key-spec">
+            <div class="key-spec-value">Low λ</div>
+            <div class="key-spec-label">Thermal Cond.</div>
+          </div>
+          <div class="key-spec">
+            <div class="key-spec-value">A1</div>
+            <div class="key-spec-label">Fire Class</div>
+          </div>
+          <div class="key-spec">
+            <div class="key-spec-value">Fiber</div>
+            <div class="key-spec-label">Reinforcement</div>
+          </div>
+        </div>
+
+        <div class="price-box">
+          <div class="price-box-header">
+            <span class="price-label">Bulk Pricing</span>
+            <span class="price-availability">In Stock</span>
+          </div>
+          <div class="price-value">TBD</div>
+          <div class="price-unit">Price per metric ton · FOB Port of Mersin or FOB Samsun Port, Turkey · Contact for CIF pricing</div>
+          <div class="price-features">
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Minimum order: 20 MT (one container)
+            </div>
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Certificate of Analysis included with every shipment
+            </div>
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Free samples available for qualified buyers
+            </div>
+          </div>
+          <div class="price-actions">
+            <a href="../../#contact" class="btn btn-primary">Request a Quote</a>
+            <a href="../../#contact" class="btn btn-outline">Request Sample</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="product-desc-section">
+  <div class="container">
+    <div class="product-desc-grid">
+      <div class="product-desc">
+        <div class="section-tag">Product Overview</div>
+        <div class="divider"></div>
+        <h2>Building Better with <span>Natural</span> Mineral Fiber</h2>
+        <p>Construction and insulation grade sepiolite leverages the mineral's natural fibrous structure and exceptionally low thermal conductivity to enhance a wide range of building materials. When incorporated into cement, plaster, and panel formulations, sepiolite fibers act as natural micro-reinforcement.</p>
+        <p>The mineral's inherent fire resistance — it is classified as non-combustible (Euroclass A1) — makes it invaluable in fireproof coatings, fire doors, and passive fire protection systems. Sepiolite maintains its structural integrity at temperatures exceeding 800°C.</p>
+        <p>In thermal insulation applications, sepiolite-based boards and panels deliver low-lambda performance while remaining lightweight and easy to install. The mineral's natural porosity traps air within its fiber structure, creating an effective thermal barrier.</p>
+        <p>Our construction grade is produced in both powder and short-fiber forms to suit different incorporation methods. We work closely with building material manufacturers to optimize grade specifications for their specific formulation requirements.</p>
+      </div>
+      <div>
+        <div class="tech-specs-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            Technical Specifications
+          </h3>
+          <div class="spec-row">
+            <span class="spec-label">Product Form</span>
+            <span class="spec-value">Powder / Short Fiber</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Thermal Conductivity</span>
+            <span class="spec-value">0.06–0.08 W/m·K</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Fire Classification</span>
+            <span class="spec-value">Euroclass A1 (non-combustible)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Temperature Resistance</span>
+            <span class="spec-value">> 800°C</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">MgO</span>
+            <span class="spec-value">≥ 18%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">SiO₂</span>
+            <span class="spec-value">≥ 54%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Moisture</span>
+            <span class="spec-value">≤ 10%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Bulk Density</span>
+            <span class="spec-value">0.15–0.35 g/cm³</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Fiber Length</span>
+            <span class="spec-value">1–5 mm (short fiber)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Color</span>
+            <span class="spec-value">White to Cream</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Packaging</span>
+            <span class="spec-value">25kg / 1 MT Bags</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Delivery</span>
+            <span class="spec-value">FOB Mersin / Samsun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usage-section">
+  <div class="container">
+    <div class="usage-header">
+      <div class="section-tag" style="color:var(--gold-light);">Applications</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title" style="color:var(--white);">Where Construction & Insulation Grade <span>Is Used</span></h2>
+    </div>
+    <div class="usage-grid">
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏗️</div>
+        <h3>Thermal Insulation Boards</h3>
+        <p>Sepiolite-based insulation panels provide excellent thermal performance with the added benefit of natural fire resistance. Used in walls, roofs, and industrial equipment insulation.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🔥</div>
+        <h3>Fireproof Coatings & Panels</h3>
+        <p>Incorporated into intumescent coatings, fire doors, and fire-rated partition walls. Maintains structural integrity above 800°C for passive fire protection.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🧱</div>
+        <h3>Cement & Mortar Additive</h3>
+        <p>Improves workability, reduces cracking, and enhances water retention in cement mortars. The fiber reinforcement increases flexural strength of thin-layer applications.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏠</div>
+        <h3>Plaster & Render Systems</h3>
+        <p>Used in lightweight plasters and external render systems. Improves adhesion, reduces shrinkage cracking, and enhances the insulating properties of the finished surface.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏭</div>
+        <h3>Industrial Insulation</h3>
+        <p>Applied in high-temperature industrial settings — kiln linings, pipe insulation, and furnace panels where mineral fiber insulation is required.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🌊</div>
+        <h3>Marine & Offshore Construction</h3>
+        <p>Used in fire-rated marine panels and offshore platform construction where non-combustible, lightweight insulation materials are mandatory.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="advantages-section">
+  <div class="container">
+    <div class="advantages-grid">
+      <div>
+        <div class="section-tag">Why Choose Us</div>
+        <div class="divider"></div>
+        <h2 class="section-title">Key <span>Advantages</span></h2>
+        <div class="advantage-list">
+          <div class="advantage-item reveal">
+            <div class="advantage-num">01</div>
+            <div>
+              <strong>Natural Fire Resistance</strong>
+              <p>Euroclass A1 non-combustible rating without any chemical flame retardant additives — pure mineral-based fire safety.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">02</div>
+            <div>
+              <strong>Low Thermal Conductivity</strong>
+              <p>At 0.06–0.08 W/m·K, sepiolite provides excellent insulation performance comparable to synthetic mineral fiber alternatives.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">03</div>
+            <div>
+              <strong>Fiber Micro-Reinforcement</strong>
+              <p>Natural sepiolite fibers strengthen cement and plaster matrices, reducing cracking and improving long-term durability of building surfaces.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">04</div>
+            <div>
+              <strong>Lightweight Solution</strong>
+              <p>With bulk density as low as 0.15 g/cm³, sepiolite significantly reduces the weight of insulation panels and building components.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">05</div>
+            <div>
+              <strong>Asbestos-Free Alternative</strong>
+              <p>Sepiolite provides similar fibrous reinforcement and insulation properties as asbestos with none of the health risks — a safe, natural replacement.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="advantage-image">
+        <img width="960" height="1280" src="/images/mine/mine-landscape-13.webp" alt="Sepiolite mine – Zamana Turkey" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <div class="section-tag">Common Questions</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is sepiolite a safe alternative to asbestos in construction?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Yes, sepiolite is a safe, non-carcinogenic mineral fiber. Unlike asbestos, sepiolite fibers do not pose respiratory health risks and are approved for use in building materials worldwide.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What fire rating does construction grade sepiolite achieve?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Sepiolite achieves Euroclass A1 (non-combustible) classification under EN 13501-1. It maintains structural integrity at temperatures exceeding 800°C.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How much sepiolite should be added to cement mixes?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Typical addition rates are 2–8% by weight of cement, depending on the desired properties. Higher rates improve insulation; lower rates focus on crack resistance and workability.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Can sepiolite replace mineral wool in insulation panels?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Sepiolite-based panels offer comparable thermal performance with better fire resistance and no skin irritation during installation. They are increasingly used as a premium alternative.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What is the minimum order for construction grade sepiolite?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Minimum order is 20 metric tons. We offer technical support and sample quantities for building material manufacturers developing new formulations.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="related-section">
+  <div class="container">
+    <div class="related-header">
+      <div class="section-tag">More Products</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Explore Our Other <span>Grades</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Raw Sepiolite Ore" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Raw Sepiolite Ore</h3>
+          <p>Directly mined sepiolite in natural block form with natural fiber structure intact.</p>
+          <a href="../raw-sepiolite-ore/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Milled Sepiolite Powder</h3>
+          <p>Ultra-fine micronized powder for paints, coatings, and pharmaceuticals.</p>
+          <a href="../milled-sepiolite-powder/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="1200" height="896" src="/images/products/product-agriculture.webp" alt="Agricultural Sepiolite" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Agricultural Sepiolite</h3>
+          <p>Carrier grade for fertilizers, pesticides, and soil amendment applications.</p>
+          <a href="../agricultural-sepiolite/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<script defer>
+  function switchImage(thumb, src, alt) {
+    document.getElementById('mainImgSrc').src = src;
+    document.getElementById('mainImgSrc').alt = alt;
+    document.querySelectorAll('.product-thumb').forEach(function(t) { t.classList.remove('active'); });
+    thumb.classList.add('active');
+  }
+  function toggleFaq(el) {
+    var item = el.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+    var navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    }
+    document.addEventListener('click', function(e) {
+      var ham = e.target.closest('#hamburger');
+      if (ham) {
+        var menu = document.getElementById('mobileMenu');
+        var isOpen = menu && menu.classList.toggle('open');
+        ham.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (menu) menu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      }
+      if (e.target.closest('#mobileMenu a')) {
+        var menu2 = document.getElementById('mobileMenu');
+        var ham2  = document.getElementById('hamburger');
+        if (menu2) { menu2.classList.remove('open'); menu2.setAttribute('aria-hidden','true'); }
+        if (ham2)  { ham2.setAttribute('aria-expanded','false'); }
+      }
+    });
+  });
+</script>
+</Layout>
+
+<style is:global>
+/* ===== PRODUCT HERO ===== */
+    .product-hero {
+      padding: 3.5rem 0 4rem;
+      background: var(--cream);
+    }
+    .product-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .product-gallery {
+      position: sticky;
+      top: 80px;
+    }
+    .product-main-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--cream-dark);
+    }
+    .product-main-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .product-thumb {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 1;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      background: var(--white);
+    }
+    .product-thumb:hover,
+    .product-thumb.active {
+      border-color: var(--gold);
+      box-shadow: 0 4px 12px rgba(201,146,42,0.25);
+    }
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,146,42,0.14);
+      border: 1px solid rgba(201,146,42,0.35);
+      color: var(--gold-dark);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      width: fit-content;
+    }
+    .product-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .product-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.12;
+      color: var(--earth);
+      margin-bottom: 1rem;
+    }
+    .product-h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .product-tagline {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+
+    /* Key specs strip */
+    .key-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .key-spec {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .key-spec:hover {
+      border-color: var(--gold);
+      box-shadow: var(--shadow-sm);
+    }
+    .key-spec-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .key-spec-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-top: 0.35rem;
+    }
+
+    /* Price box */
+    .price-box {
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 100%);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(201,146,42,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .price-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .price-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .price-availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4ADE80;
+    }
+    .price-availability::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: #4ADE80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+    .price-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .price-unit {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+    }
+    .price-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .price-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+    }
+    .price-feature svg {
+      width: 16px;
+      height: 16px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .price-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .price-actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* ===== PRODUCT DESCRIPTION SECTION ===== */
+    .product-desc-section {
+      padding: 5rem 0;
+      background: var(--white);
+    }
+    .product-desc-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .product-desc h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .product-desc h2 span { color: var(--gold); }
+    .product-desc p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      margin-bottom: 1.25rem;
+      max-width: 680px;
+    }
+    .product-desc p:last-child { margin-bottom: 0; }
+
+    /* Technical specs sidebar */
+    .tech-specs-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--cream-dark);
+      position: sticky;
+      top: 80px;
+    }
+    .tech-specs-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--stone);
+    }
+    .spec-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--earth);
+      text-align: right;
+    }
+
+    /* ===== USAGE AREAS ===== */
+    .usage-section {
+      padding: 5rem 0;
+      background: var(--earth);
+    }
+    .usage-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .usage-header .section-title { color: var(--white); }
+    .usage-header .section-subtitle { color: rgba(255,255,255,0.65); margin: 0 auto; max-width: 600px; }
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .usage-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: var(--transition);
+    }
+    .usage-card:hover {
+      background: rgba(201,146,42,0.1);
+      border-color: rgba(201,146,42,0.35);
+      transform: translateY(-4px);
+    }
+    .usage-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(201,146,42,0.15);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .usage-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .usage-card p {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ===== ADVANTAGES ===== */
+    .advantages-section {
+      padding: 5rem 0;
+      background: var(--cream);
+    }
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .advantage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .advantage-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .advantage-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .advantage-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 32px;
+    }
+    .advantage-item strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--earth);
+      margin-bottom: 0.3rem;
+    }
+    .advantage-item p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      margin: 0;
+    }
+    .advantage-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: var(--shadow-md);
+    }
+    .advantage-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      padding: 5rem 0;
+      background: var(--white);
+    }
+    .faq-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .faq-item {
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .faq-item.open {
+      border-color: var(--gold);
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--earth);
+      gap: 1rem;
+      user-select: none;
+    }
+    .faq-question:hover {
+      color: var(--gold-dark);
+    }
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--gold);
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--text-light);
+    }
+
+    /* ===== RELATED PRODUCTS ===== */
+    .related-section {
+      padding: 5rem 0;
+      background: var(--cream);
+    }
+    .related-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .related-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .related-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .related-card-img {
+      height: 180px;
+      overflow: hidden;
+    }
+    .related-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .related-card:hover .related-card-img img {
+      transform: scale(1.07);
+    }
+    .related-card-body {
+      padding: 1.5rem;
+    }
+    .related-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--earth);
+      margin-bottom: 0.5rem;
+    }
+    .related-card-body p {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    .related-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gold);
+      transition: var(--transition);
+    }
+    .related-link svg {
+      width: 14px;
+      height: 14px;
+      transition: transform var(--transition);
+    }
+    .related-link:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .product-hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .product-gallery { position: static; }
+      .product-desc-grid { grid-template-columns: 1fr; }
+      .advantages-grid { grid-template-columns: 1fr; }
+      .usage-grid { grid-template-columns: 1fr 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .usage-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      .key-specs { grid-template-columns: 1fr; }
+      .price-actions { flex-direction: column; }
+      .product-thumbs { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+</style>

@@ -1,0 +1,329 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sepiolitemine.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://sepiolitemine.com/applications/"},{"@type":"ListItem","position":3,"name":"Pharma &amp; Cosmetics","item":"https://sepiolitemine.com/applications/pharma-cosmetics/"}]},
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is sepiolite safe for ingestion?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite has GRAS status in the US and is listed as a food additive (E560b) in the EU. It has a long history of safe oral use in antacid tablets, animal feed, and gastro-intestinal detoxification products. Toxicological studies confirm no adverse effects at recommended dosages."}},{"@type":"Question","name":"Can sepiolite be used in &#x27;clean beauty&#x27; formulations?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Sepiolite is 100% natural, minimally processed, free of synthetic chemicals, and compliant with most clean beauty standards (COSMOS Natural, EWG Verified, etc.). It is an ideal ingredient for brands positioning themselves in the natural and organic beauty segment."}},{"@type":"Question","name":"What regulatory documentation do you provide?","acceptedAnswer":{"@type":"Answer","text":"We provide Certificates of Analysis (CoA) per batch, Material Safety Data Sheets (MSDS), technical data sheets, stability data, microbiological test reports, and can grant access to our Drug Master File (DMF) for pharmaceutical customers."}},{"@type":"Question","name":"Can sepiolite be used in toothpaste?","acceptedAnswer":{"@type":"Answer","text":"Yes. Sepiolite&#x27;s mild abrasiveness and adsorption properties make it suitable for natural toothpaste formulations. It provides gentle cleaning, helps remove stains, and can carry fluoride or other active ingredients for controlled release during brushing."}},{"@type":"Question","name":"What is the minimum order for pharma-grade material?","acceptedAnswer":{"@type":"Answer","text":"Minimum order for pharma-grade sepiolite is 500kg. Sample quantities of 1–5kg are available for formulation development and testing. Lead time for pharma-grade production is 4–6 weeks from order confirmation."}}]}
+];
+---
+
+<Layout
+  title="Sepiolite for Pharma &amp; Cosmetics – Applications"
+  description="Pharmaceutical and cosmetic grade sepiolite — excipient, thickener, carrier, and active ingredient for tablets, creams, masks, and personal care formulations."
+  locale="en"
+  alternates={{ en: "/applications/pharma-cosmetics/", tr: "/tr/applications/ilac-kozmetik/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+    <a href="../../">Home</a><span class="sep">›</span>
+    <a href="../">Applications</a><span class="sep">›</span>
+    <span class="current">Pharma &amp; Cosmetics</span>
+  </div></div></div>
+
+  <section class="app-hero">
+    <div class="container">
+      <span class="section-tag">Health</span>
+      <h1>Sepiolite for <span>Pharma &amp; Cosmetics</span></h1>
+      <p class="hero-subtitle">GRAS-Listed Mineral for Healthcare &amp; Beauty</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">GRAS</div>
+          <div class="hero-stat-label">Safety Status</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">240</div>
+          <div class="hero-stat-label">m²/g Adsorption</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">pH 8</div>
+          <div class="hero-stat-label">Skin-Friendly</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Natural Mineral</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="container">
+      <p class="intro-text">Sepiolite holds GRAS (Generally Recognized As Safe) status and is used across the pharmaceutical and cosmetic industries as an excipient, thickener, active ingredient carrier, and functional filler. Its biocompatibility, high surface area, and natural origin make it ideal for health-conscious formulations — from controlled-release tablets to luxury facial masks to natural deodorants.</p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Key Benefits</span>
+        <h2 class="section-title">Why Sepiolite for <span>Pharma &amp; Cosmetics</span></h2>
+      </div>
+      <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">💊</div>
+        <h3>Tablet Excipient</h3>
+        <p>Sepiolite serves as a disintegrant, filler, and flow agent in pharmaceutical tablets. Its high porosity enables rapid water uptake and tablet break-up, while its excellent flow properties improve die filling in high-speed tablet presses.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">⏱️</div>
+        <h3>Controlled Drug Release</h3>
+        <p>The channel structure of sepiolite can be loaded with active pharmaceutical ingredients and programmed for slow, sustained release over 6–24 hours. This reduces dosing frequency and improves patient compliance for chronic medications.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🧴</div>
+        <h3>Cosmetic Thickener &amp; Stabiliser</h3>
+        <p>In creams, lotions, and emulsions, sepiolite provides shear-thinning rheology that feels luxurious during application. It stabilises oil-in-water and water-in-oil emulsions without synthetic polymers, supporting &#x27;clean beauty&#x27; positioning.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">✨</div>
+        <h3>Facial Mask Active</h3>
+        <p>Sepiolite&#x27;s natural adsorption properties make it a star ingredient in facial masks. It draws out excess sebum, unclogs pores, and delivers minerals to the skin. Its fine, silky texture provides a premium sensory experience.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌿</div>
+        <h3>Natural Deodorant Base</h3>
+        <p>Sepiolite&#x27;s odour-adsorbing properties extend to personal care. As a base for natural deodorants, it absorbs moisture and neutralises body odour without aluminium salts or synthetic fragrances.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🛡️</div>
+        <h3>Mycotoxin &amp; Toxin Binding</h3>
+        <p>In veterinary and human gastro-intestinal applications, sepiolite binds aflatoxins, ochratoxins, and bacterial endotoxins in the gut, preventing absorption. This detoxification capability is used in both animal feed supplements and human digestive health products.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Our Process</span>
+      <h2 class="section-title">From Mine to <span>Your Application</span></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Pharma-Grade Selection</h3>
+            <p>Only the purest sepiolite seams are selected for pharmaceutical and cosmetic applications. Material must meet strict limits for heavy metals, microbiological contamination, and particle size.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Micronisation</h3>
+            <p>The mineral is jet-milled to sub-10 micron particle size for optimal incorporation into tablets, creams, and powders. Fine control of particle size distribution ensures batch consistency.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Sterilisation &amp; Testing</h3>
+            <p>Pharma-grade batches undergo dry-heat sterilisation and are tested to pharmacopeial standards for total aerobic count, yeasts/moulds, E. coli, Salmonella, and Staphylococcus.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>Stability Studies</h3>
+            <p>We conduct accelerated and long-term stability studies on finished formulations to validate that sepiolite does not affect product stability, activity, or appearance over its shelf life.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">05</div>
+          <div class="process-content">
+            <h3>Regulatory Documentation</h3>
+            <p>We provide full regulatory support including Certificates of Analysis, DMF (Drug Master File) access, MSDS, and technical dossiers for registration in EU, US, and other markets.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Technical Data</span>
+      <h2 class="section-title">Typical <span>Specifications</span></h2>
+      <table class="specs-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Purity</td><td>≥ 95% sepiolite (pharma grade)</td></tr>
+          <tr><td>Particle Size (D50)</td><td>3–7 µm</td></tr>
+          <tr><td>Heavy Metals (total)</td><td>&lt; 20 ppm</td></tr>
+          <tr><td>Microbiological</td><td>Meets Ph. Eur. / USP limits</td></tr>
+          <tr><td>Moisture</td><td>&lt; 10%</td></tr>
+          <tr><td>pH (10% slurry)</td><td>7.5–8.5</td></tr>
+          <tr><td>Packaging</td><td>10kg sealed drums / 25kg bags</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Is sepiolite safe for ingestion?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite has GRAS status in the US and is listed as a food additive (E560b) in the EU. It has a long history of safe oral use in antacid tablets, animal feed, and gastro-intestinal detoxification products. Toxicological studies confirm no adverse effects at recommended dosages.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite be used in &#x27;clean beauty&#x27; formulations?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Absolutely. Sepiolite is 100% natural, minimally processed, free of synthetic chemicals, and compliant with most clean beauty standards (COSMOS Natural, EWG Verified, etc.). It is an ideal ingredient for brands positioning themselves in the natural and organic beauty segment.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>What regulatory documentation do you provide?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>We provide Certificates of Analysis (CoA) per batch, Material Safety Data Sheets (MSDS), technical data sheets, stability data, microbiological test reports, and can grant access to our Drug Master File (DMF) for pharmaceutical customers.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite be used in toothpaste?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Yes. Sepiolite&#x27;s mild abrasiveness and adsorption properties make it suitable for natural toothpaste formulations. It provides gentle cleaning, helps remove stains, and can carry fluoride or other active ingredients for controlled release during brushing.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>What is the minimum order for pharma-grade material?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Minimum order for pharma-grade sepiolite is 500kg. Sample quantities of 1–5kg are available for formulation development and testing. Lead time for pharma-grade production is 4–6 weeks from order confirmation.</p></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Explore <span>Sepiolite</span> for Your Application?</h2>
+      <p>Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.</p>
+      <div class="btn-group">
+        <a href="../../#contact" class="btn btn-primary">Request Samples</a>
+        <a href="../" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Explore More</span>
+        <h2 class="section-title">Related <span>Products</span></h2>
+      </div>
+      <div class="related-grid">
+      <a href="../../products/milled-sepiolite-powder/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy"/></div>
+        <h4>Milled Sepiolite Powder</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/agricultural-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-agriculture.webp" alt="Agricultural Sepiolite" loading="lazy"/></div>
+        <h4>Agricultural Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/granulated-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granulated Sepiolite" loading="lazy"/></div>
+        <h4>Granulated Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      </div>
+      <div style="text-align:center;margin-top:3.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--earth);margin-bottom:1.5rem">Related <span style="color:var(--gold)">Applications</span></h3>
+      </div>
+      <div class="related-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin:0 auto">
+      <a href="../pet-care-cat-litter/" class="related-app-card reveal">
+        <div class="related-app-icon">🐾</div>
+        <h4>Pet Care &amp; Cat Litter</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      <a href="../catalysis-chemical/" class="related-app-card reveal">
+        <div class="related-app-icon">⚗️</div>
+        <h4>Catalysis &amp; Chemical</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <script>
+  (function(){'use strict';
+    var nb=document.getElementById('navbar');if(nb)window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>30)});
+    var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+    if(hb&&mm)hb.addEventListener('click',function(){var e=hb.getAttribute('aria-expanded')==='true';hb.setAttribute('aria-expanded',String(!e));mm.classList.toggle('open')});
+    var ro=new IntersectionObserver(function(ent){ent.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  })();
+  function toggleFaq(btn){var a=btn.nextElementSibling;var exp=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!exp));a.style.maxHeight=exp?'0':a.scrollHeight+'px'}
+  </script>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4.5rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden}
+    .app-hero::before{content:'';position:absolute;inset:0;background:url('/images/mine/mine-landscape-08.webp') center/cover no-repeat;opacity:0.15}
+    .app-hero .container{position:relative;z-index:2}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:0.75rem;line-height:1.12}
+    .app-hero h1 span{color:var(--gold)}
+    .app-hero .hero-subtitle{font-size:1.15rem;color:rgba(255,255,255,0.7);max-width:640px;line-height:1.7;margin-bottom:2rem}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+    .hero-stat{text-align:center}.hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}.hero-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.3rem;letter-spacing:0.04em}
+    .intro-section{padding:4.5rem 0;background:var(--white)}
+    .intro-text{font-size:1.05rem;line-height:1.85;color:var(--text-mid);max-width:860px;margin:0 auto;text-align:center}
+    .benefits-section{padding:5rem 0;background:var(--cream)}
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+    .benefit-card{background:var(--white);border-radius:var(--radius-lg);padding:2.25rem;border:1px solid var(--cream-dark);transition:transform 0.4s ease,box-shadow 0.4s ease}
+    .benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+    .benefit-icon{font-size:2.2rem;margin-bottom:1.25rem}
+    .benefit-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:0.75rem}
+    .benefit-card p{font-size:0.87rem;line-height:1.75;color:var(--text-light)}
+    .process-section{padding:5rem 0;background:var(--white)}
+    .process-steps{max-width:780px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:0}
+    .process-step{display:flex;gap:1.75rem;padding:1.75rem 0;border-bottom:1px solid var(--cream-dark)}
+    .process-step:last-child{border-bottom:none}
+    .process-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold);opacity:0.4;line-height:1;flex-shrink:0;width:40px}
+    .process-content h3{font-size:1rem;font-weight:700;color:var(--earth);margin-bottom:0.4rem}
+    .process-content p{font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .specs-section{padding:5rem 0;background:var(--cream)}
+    .specs-table{max-width:700px;margin:2rem auto 0;border-collapse:collapse;width:100%}
+    .specs-table th,.specs-table td{padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--cream-dark);font-size:0.88rem}
+    .specs-table th{background:var(--earth);color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.75rem}
+    .specs-table td:first-child{font-weight:600;color:var(--earth);width:45%}
+    .specs-table td:last-child{color:var(--text-mid)}
+    .specs-table tr:hover td{background:rgba(201,146,42,0.05)}
+    .faq-section{padding:5rem 0;background:var(--white)}
+    .faq-list{max-width:780px;margin:2rem auto 0;display:flex;flex-direction:column;gap:0.75rem}
+    .faq-item{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:border-color 0.3s}
+    .faq-item:hover{border-color:var(--gold)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1.15rem 1.5rem;font-size:0.92rem;font-weight:600;color:var(--earth);text-align:left;gap:1rem;background:none;border:none;cursor:pointer;font-family:inherit}
+    .faq-q svg{flex-shrink:0;transition:transform 0.3s ease;color:var(--gold)}
+    .faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease}
+    .faq-a p{padding:0 1.5rem 1.25rem;font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .related-section{padding:5rem 0;background:var(--cream)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+    .related-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column}
+    .related-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-img{height:160px;overflow:hidden}.related-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}.related-card:hover .related-img img{transform:scale(1.06)}
+    .related-card h4{padding:1.25rem 1.25rem 0.35rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth)}
+    .related-link{padding:0 1.25rem 1.25rem;font-size:0.82rem;font-weight:600;color:var(--gold);display:block;margin-top:auto}
+    .related-app-card{background:var(--white);border-radius:var(--radius);padding:2rem;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .related-app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-app-icon{font-size:2.5rem;margin-bottom:1rem}
+    .related-app-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth);margin-bottom:0.5rem}
+    .cta-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem}.cta-section h2 span{color:var(--gold)}
+    .cta-section p{font-size:1rem;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+    .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    @media(max-width:1024px){.benefits-grid,.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.benefits-grid,.related-grid{grid-template-columns:1fr}.hero-stats{gap:2rem}.process-step{flex-direction:column;gap:0.5rem}}
+</style>

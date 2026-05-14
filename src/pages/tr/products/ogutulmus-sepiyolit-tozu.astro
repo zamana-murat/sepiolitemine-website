@@ -1,0 +1,373 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+---
+
+<Layout
+  title="Öğütülmüş Sepiyolit Tozu – Mikronize İnce Toz"
+  description="Boya, kaplama, ilaç ve kozmetik ürünler için ultra ince mikronize toz - yüksek yüzey alanına sahip 5–200 mikron arasında kontrollü parçacık dağılımı."
+  locale="tr"
+  alternates={{ en: "/products/milled-sepiolite-powder/", tr: "/tr/products/ogutulmus-sepiyolit-tozu/" }}
+>
+<div class="breadcrumb-bar">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/tr/">Ana Sayfa</a>
+      <span class="sep">›</span>
+      <a href="/tr/products/">Ürünler</a>
+      <span class="sep">›</span>
+      <span class="current">Öğütülmüş Sepiyolit Tozu</span>
+    </nav>
+  </div>
+</div>
+
+<section class="product-hero">
+  <div class="container">
+    <div class="product-hero-grid">
+      <div class="product-gallery">
+        <div class="product-main-img" id="mainImg">
+          <img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Öğütülmüş Sepiyolit Tozu" id="mainImgSrc"/>
+        </div>
+        <div class="product-thumbs">
+          <div class="product-thumb active" onclick="switchImage(this, '/images/products/product-milled-powder.webp', 'Öğütülmüş Sepiyolit Tozu')">
+            <img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Öğütülmüş Sepiyolit Tozu" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/mine/mine-landscape-05.webp', 'Maden sahası')">
+            <img width="960" height="1280" src="/images/mine/mine-landscape-05.webp" alt="Maden sahası" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-01.webp', 'Öğütülmüş Sepiyolit Tozu örneği')">
+            <img width="675" height="900" src="/images/products/product-sample-01.webp" alt="Öğütülmüş Sepiyolit Tozu örneği" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-02.webp', 'Öğütülmüş Sepiyolit Tozu detay')">
+            <img width="675" height="900" src="/images/products/product-sample-02.webp" alt="Öğütülmüş Sepiyolit Tozu detay" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-badge">İnce Kademe</div>
+        <h1 class="product-h1">Öğütülmüş Sepiyolit <em>Tozu</em></h1>
+        <p class="product-tagline">Boya, kaplama, ilaç ve kozmetik ürünler için ultra ince mikronize toz - yüksek yüzey alanına sahip 5–200 mikron arasında kontrollü parçacık dağılımı.</p>
+        <div class="key-specs">
+          <div class="key-spec"><div class="key-spec-value">5–200µm</div><div class="key-spec-label">Parçacık Boyutu</div></div>
+          <div class="key-spec"><div class="key-spec-value">250m²/g</div><div class="key-spec-label">Yüzey Alanı</div></div>
+          <div class="key-spec"><div class="key-spec-value">≥18%</div><div class="key-spec-label">MgO İçeriği</div></div>
+        </div>
+        <div class="price-box">
+          <div class="price-box-header">
+            <span class="price-label">Toplu Fiyatlandırma</span>
+            <span class="price-availability">Stokta Mevcut</span>
+          </div>
+          <div class="price-value">TBD</div>
+          <div class="price-unit">Metrik ton başına fiyat · FOB Mersin Limanı · Parçacık boyutuna ve hacme göre fiyat değişir</div>
+          <div class="price-features"><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Minimum sipariş: 5 MT</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Ambalaj: 25 kg çuval veya 1 MT BigBag</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> D50 ve D90 değerleri için özel öğütme mümkündür</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Her sevkiyatla birlikte Analiz Sertifikası verilir</div></div>
+          <div class="price-actions">
+            <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
+            <a href="/tr/contact/" class="btn btn-outline">Numune İste</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="product-desc-section">
+  <div class="container">
+    <div class="product-desc-grid">
+      <div class="product-desc">
+        <div class="section-tag">Ürüne Genel Bakış</div>
+        <div class="divider"></div>
+        <h2>Yüksek Performanslı <span>Endüstriyel Uygulamalar</span> için Mikronize Toz</h2>
+        <p>Öğütülmüş sepiyolit tozu, kontrollü bilyeli değirmen işlemi kullanılarak istenen parçacık boyutu dağılımına ince öğütülen ham sepiyolittir. Parçacık boyutu gereksinimlerinize bağlı olarak 5 µm kadar ince veya 200 µm'ye kadar kaba öğütme sunuyoruz.</p>
+<p>Standart öğütülmüş sepiyolit tozu için tipik D50 değeri 25–35 µm'dir; bu boyut, boya ve kaplama reoloji kontrolü, plastik ve kauçuk dolgu maddeleri ve seramik gövde formülasyonlarının çoğu için uygundur. İlaç ve kozmetik uygulamalar için D50 ≤ 10 µm'ye kadar ultra ince öğütme temin edilebilir.</p>
+<p>Yüksek yüzey alanı (250 m²/g'a kadar) ve doğal tiksotropik özellikleri sayesinde öğütülmüş sepiyolit, boya formulasyonlarında çökelmeyi önler, viskoziteyi stabilize eder ve film tabakasının homojenliğini artırır. Aynı özellikler, poliüretan ve epoksi esaslı kaplamalarda da değerli katkı maddesi olmasını sağlar.</p>
+<p>Tüm partiler, ürün standartlarımıza uygunluğu doğrulamak amacıyla parçacık boyutu analizi (lazer kırınımı), BET yüzey alanı ölçümü ve X-Işını Floresans (XRF) analizini içeren kapsamlı kalite kontrolünden geçirilir.</p>
+      </div>
+      <div>
+        <div class="tech-specs-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            Teknik Özellikler
+          </h3>
+          <div class="spec-row"><span class="spec-label">Parçacık Boyutu (D50)</span><span class="spec-value">25–35 µm (standart)</span></div><div class="spec-row"><span class="spec-label">Parçacık Boyutu (D90)</span><span class="spec-value">≤ 100 µm (standart)</span></div><div class="spec-row"><span class="spec-label">BET Yüzey Alanı</span><span class="spec-value">200–300 m²/g</span></div><div class="spec-row"><span class="spec-label">Nem İçeriği</span><span class="spec-value">≤ 8%</span></div><div class="spec-row"><span class="spec-label">MgO</span><span class="spec-value">≥ 18%</span></div><div class="spec-row"><span class="spec-label">SiO₂</span><span class="spec-value">≥ 54%</span></div><div class="spec-row"><span class="spec-label">Fe₂O₃</span><span class="spec-value">≤ 1.5%</span></div><div class="spec-row"><span class="spec-label">Renk</span><span class="spec-value">Beyaz ile Krem Arası</span></div><div class="spec-row"><span class="spec-label">pH (süspansiyon)</span><span class="spec-value">7.5–8.5</span></div><div class="spec-row"><span class="spec-label">Dökme Yoğunluk</span><span class="spec-value">0.25–0.40 g/cm³</span></div><div class="spec-row"><span class="spec-label">Ambalaj</span><span class="spec-value">25 kg Çuval / 1 MT BigBag</span></div><div class="spec-row"><span class="spec-label">Teslimat</span><span class="spec-value">FOB Mersin / Samsun</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usage-section">
+  <div class="container">
+    <div class="usage-header">
+      <div class="section-tag" style="color:var(--gold-light);">Uygulama Alanları</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title" style="color:var(--white);">Öğütülmüş Sepiyolit Tozu <span>Nerelerde Kullanılır?</span></h2>
+    </div>
+    <div class="usage-grid">
+      <div class="usage-card reveal">
+        <div class="usage-icon">🎨</div>
+        <h3>Boya ve Kaplama</h3>
+        <p>Reoloji düzenleyici ve çökelme önleyici olarak su bazlı ve solvent bazlı boyalarda kullanılır. Pigment dağılımını iyileştirir, jel özelliği verir ve film kalınlığını dengeler.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">💊</div>
+        <h3>İlaç ve Kozmetik</h3>
+        <p>Tablet bağlayıcı, kapsül dolgu maddesi ve kozmetik ürünlerde kıvam artırıcı olarak kullanılır. Doğal mineral yapısı ve düşük ağır metal içeriği, düzenleyici uyumu kolaylaştırır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🧱</div>
+        <h3>Plastik ve Kauçuk Dolgular</h3>
+        <p>Polimer matrislerinde mineral dolgu maddesi olarak kullanılır. Mekanik özellikleri iyileştirir, ürün ağırlığını ve maliyetini düşürür, UV dayanımını artırır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏺</div>
+        <h3>Seramik ve Refrakter</h3>
+        <p>Seramik gövde formülasyonlarında plastisizan ve yardımcı eleman olarak kullanılır. Pişirme sırasında boyutsal stabilitenin korunmasına yardımcı olur ve çatlama riskini azaltır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🔬</div>
+        <h3>Kataliz ve Kimya</h3>
+        <p>Yüksek yüzey alanı, katalizörlerin ve aktif bileşenlerin tutulması için mükemmel destek materyali sağlar. Kimyasal sentez ve filtrasyon süreçlerinde yaygın uygulama alanı bulur.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🌿</div>
+        <h3>Biyoplastik</h3>
+        <p>Biyobazlı ve biyobozunur polimer formülasyonlarında doğal mineral takviye maddesi. Sürdürülebilir ambalaj ve tek kullanımlık ürün uygulamalarında kullanılır.</p>
+      </div></div>
+  </div>
+</section>
+
+<section class="advantages-section">
+  <div class="container">
+    <div class="advantages-grid">
+      <div>
+        <div class="section-tag">Neden Bizim Tozumuz</div>
+        <div class="divider"></div>
+        <h2 class="section-title">Öğütülmüş Sepiyolitte <span>Kalite Güvencemiz</span></h2>
+        <div class="advantage-list">
+          <div class="advantage-item reveal">
+            <div class="advantage-num">01</div>
+            <div><strong>Lazer Difraksiyon ile Parçacık Boyutu Kontrolü</strong><p>Her partinin parçacık boyutu dağılımı, Malvern Mastersizer cihazıyla lazer difraksiyon analizi ile doğrulanır. D50 ve D90 değerleri sipariş özelliklerinizle eşleşecek şekilde garanti edilir.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">02</div>
+            <div><strong>BET Yüzey Alanı Doğrulaması</strong><p>Öğütme kalitesini doğrulamak amacıyla BET analizi yapılır. Daha büyük yüzey alanı, daha iyi emme kapasitesi ve boya ile kaplama uygulamalarında daha güçlü reoloji kontrolü anlamına gelir.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">03</div>
+            <div><strong>ISO Uyumlu Üretim</strong><p>Öğütme ve paketleme işlemlerimiz ISO 9001 yönetim sistemine göre yürütülür. Düzenli denetimler ile tutarlı kalite ve üretim süreçlerimizin izlenebilirliği sağlanır.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">04</div>
+            <div><strong>Özel Öğütme Hizmeti</strong><p>Standart partilerimizin yanı sıra müşteri özelliklerine göre özel D50/D90 hedefleri için ayrı üretim çalışmaları gerçekleştiriyoruz. Ar-Ge ve pilot üretim desteği sağlıyoruz.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">05</div>
+            <div><strong>Hızlı Numune Temin</strong><p>Nitelikli alıcılara 1–5 kg numune courier ile gönderilir. Analiz Sertifikası, XRF raporu ve teknik veri sayfası numune ile birlikte verilir.</p></div>
+          </div></div>
+      </div>
+      <div class="advantage-image">
+        <img width="960" height="1280" src="/images/mine/mine-landscape-05.webp" alt="Türkiye'de sepiyolit madeni" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <div class="section-tag">Sık Sorulan Sorular</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Sıkça Sorulan <span>Sorular</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Boya uygulamaları için hangi parçacık boyutu önerilir? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Standart boya ve kaplama uygulamaları için D50 25–35 µm, D90 ≤ 100 µm önerilir. Bu boyut aralığı, iyi reoloji kontrolü ve çökelme önleme özelliği ile uygulama kolaylığını dengelemiş bir formül sunar.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">İlaç sınıfı ürün temin edebilir misiniz? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Evet, ilaç ve kozmetik uygulamalar için D50 ≤ 10 µm ve ağır metal içeriği minimal ultra ince ürünler üretiyoruz. Bu ürünler için ek kalite belgeleri ve analiz raporları sağlanmaktadır.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Minimum sipariş miktarı nedir? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Öğütülmüş sepiyolit tozu için minimum sipariş miktarı 5 metrik tondur. Standart boyutlar için hazır stokumuz mevcuttur; özel öğütme gerektiren siparişlerde teslim süresi uzayabilir.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Nem ve depolama koşulları nelerdir? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Öğütülmüş sepiyolit tozu serin, kuru ve iyi havalandırılmış alanlarda depolanmalıdır. Doğrudan güneş ışığından ve nemden korunmalıdır. Orijinal ambalajı kapalı tutulduğunda raf ömrü en az 2 yıldır.</div></div>
+      </div></div>
+  </div>
+</section>
+
+<section class="related-section">
+  <div class="container">
+    <div class="related-header">
+      <div class="section-tag">Diğer Ürünler</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Diğer <span>Kademelerimiz</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Ham Sepiyolit Cevheri" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>Ham Sepiyolit Cevheri</h3>
+          <p>İşlenmemiş sepiyolit - kendi öğütme tesisleriniz için ideal başlangıç hammaddesi.</p>
+          <a href="/tr/products/ham-sepiyolit-cevheri/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granül Sepiyolit" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>Granül Sepiyolit</h3>
+          <p>0–8mm fraksiyonlarda kedi kumu ve endüstriyel emici uygulamalar için hassas granüller.</p>
+          <a href="/tr/products/granule-sepiyolit/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="1200" height="896" src="/images/products/product-drilling-grade.webp" alt="Sondaj Kalitesi Sepiyolit" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>Sondaj Kalitesi Sepiyolit</h3>
+          <p>Yüksek sıcaklık petrol kuyuları için API uyumlu sondaj sıvısı katkı maddesi.</p>
+          <a href="/tr/products/sondaj-kalitesi-sepiyolit/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div></div>
+  </div>
+</section>
+
+
+  
+  <script>
+  function switchImage(thumb, src, alt) {
+    document.getElementById('mainImgSrc').src = src;
+    document.getElementById('mainImgSrc').alt = alt;
+    document.querySelectorAll('.product-thumb').forEach(function(t) { t.classList.remove('active'); });
+    thumb.classList.add('active');
+  }
+  function toggleFaq(el) {
+    var item = el.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var navbar = document.getElementById('navbar');
+    if (navbar) { window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 30); }); }
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function() {
+        var exp = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!exp));
+        mobileMenu.classList.toggle('open');
+        mobileMenu.setAttribute('aria-hidden', String(exp));
+      });
+    }
+    var langBtn = document.querySelector('.lang-btn');
+    var langDropdown = document.querySelector('.lang-dropdown');
+    if (langBtn && langDropdown) {
+      langBtn.addEventListener('click', function(e) { e.stopPropagation(); var isOpen = langDropdown.classList.contains('open'); langDropdown.classList.toggle('open', !isOpen); langBtn.setAttribute('aria-expanded', String(!isOpen)); });
+      document.addEventListener('click', function() { langDropdown.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); });
+    }
+    var obs = new IntersectionObserver(function(entries) { entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+  });
+  </script>
+</Layout>
+
+<style is:global>
+/* PRODUCT HERO */
+    .product-hero { padding: 4rem 0 5rem; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 40%, var(--earth-soft) 100%); }
+    .product-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .product-gallery { position: sticky; top: 80px; }
+    .product-main-img { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,146,42,0.2); }
+    .product-main-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .product-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.75rem; }
+    .product-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s ease; aspect-ratio: 1; }
+    .product-thumb.active { border-color: var(--gold); }
+    .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .product-info { padding-top: 0.5rem; }
+    .product-badge { display: inline-block; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(201,146,42,0.15); color: var(--gold-light); border: 1px solid rgba(201,146,42,0.3); margin-bottom: 1rem; }
+    .product-h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--white); line-height: 1.12; margin-bottom: 1rem; }
+    .product-h1 em { color: var(--gold); font-style: normal; }
+    .product-tagline { font-size: 1.05rem; color: rgba(255,255,255,0.7); line-height: 1.75; margin-bottom: 2rem; }
+    .key-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .key-spec { background: rgba(255,255,255,0.06); border: 1px solid rgba(201,146,42,0.2); border-radius: var(--radius); padding: 1rem; text-align: center; }
+    .key-spec-value { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .key-spec-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-top: 0.4rem; letter-spacing: 0.04em; }
+    .price-box { background: linear-gradient(135deg, rgba(28,20,16,0.9) 0%, rgba(62,46,30,0.9) 100%); border: 1px solid rgba(201,146,42,0.3); border-radius: var(--radius-lg); padding: 2rem; }
+    .price-box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .price-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+    .price-availability { font-size: 0.75rem; color: #4ade80; font-weight: 600; }
+    .price-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .price-unit { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; line-height: 1.6; }
+    .price-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .price-feature { display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+    .price-feature svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+    .price-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    /* PRODUCT DESC */
+    .product-desc-section { padding: 5rem 0; background: var(--white); }
+    .product-desc-grid { display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: start; }
+    .product-desc h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--earth); line-height: 1.2; margin-bottom: 1.5rem; }
+    .product-desc h2 span { color: var(--gold); }
+    .product-desc p { font-size: 0.92rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 1.25rem; }
+    .tech-specs-card { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: var(--radius-lg); padding: 1.75rem; position: sticky; top: 80px; }
+    .tech-specs-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--earth); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.65rem; }
+    .spec-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--cream-dark); }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { font-size: 0.8rem; color: var(--stone); font-weight: 500; }
+    .spec-value { font-size: 0.82rem; color: var(--earth); font-weight: 700; text-align: right; }
+    /* USAGE */
+    .usage-section { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); }
+    .usage-header { text-align: center; margin-bottom: 3.5rem; }
+    .usage-header .section-subtitle { color: rgba(255,255,255,0.65); font-size: 1.05rem; line-height: 1.75; margin-top: 1rem; }
+    .usage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .usage-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 2rem; transition: var(--transition); }
+    .usage-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.35); transform: translateY(-4px); }
+    .usage-icon { width: 52px; height: 52px; background: rgba(201,146,42,0.15); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; }
+    .usage-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+    .usage-card p { font-size: 0.85rem; line-height: 1.75; color: rgba(255,255,255,0.6); }
+    /* ADVANTAGES */
+    .advantages-section { padding: 5rem 0; background: var(--cream); }
+    .advantages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .advantage-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .advantage-item { display: flex; gap: 1rem; align-items: flex-start; background: var(--white); border-radius: var(--radius); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .advantage-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .advantage-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--gold); opacity: 0.5; line-height: 1; flex-shrink: 0; width: 32px; }
+    .advantage-item strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--earth); margin-bottom: 0.3rem; }
+    .advantage-item p { font-size: 0.85rem; line-height: 1.7; color: var(--text-light); margin: 0; }
+    .advantage-image { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-md); }
+    .advantage-image img { width: 100%; height: 100%; object-fit: cover; }
+    /* FAQ */
+    .faq-section { padding: 5rem 0; background: var(--white); }
+    .faq-header { text-align: center; margin-bottom: 3rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: var(--radius); overflow: hidden; transition: var(--transition); }
+    .faq-item.open { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--earth); gap: 1rem; user-select: none; }
+    .faq-question:hover { color: var(--gold-dark); }
+    .faq-chevron { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--gold); }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner { padding: 0 1.5rem 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text-light); }
+    /* RELATED */
+    .related-section { padding: 5rem 0; background: var(--cream); }
+    .related-header { text-align: center; margin-bottom: 3rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .related-card { border-radius: var(--radius-lg); overflow: hidden; background: var(--white); border: 1px solid var(--cream-dark); box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
+    .related-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+    .related-card-img { height: 180px; overflow: hidden; }
+    .related-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .related-card:hover .related-card-img img { transform: scale(1.07); }
+    .related-card-body { padding: 1.5rem; }
+    .related-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--earth); margin-bottom: 0.5rem; }
+    .related-card-body p { font-size: 0.82rem; line-height: 1.7; color: var(--text-light); margin-bottom: 1rem; }
+    .related-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--gold); transition: var(--transition); }
+    .related-link svg { width: 14px; height: 14px; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 1024px) { .product-hero-grid { grid-template-columns: 1fr; gap: 2.5rem; } .product-gallery { position: static; } .product-desc-grid { grid-template-columns: 1fr; } .advantages-grid { grid-template-columns: 1fr; } .usage-grid { grid-template-columns: 1fr 1fr; } .related-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .usage-grid { grid-template-columns: 1fr; } .related-grid { grid-template-columns: 1fr; } .key-specs { grid-template-columns: 1fr; } .price-actions { flex-direction: column; } }
+</style>

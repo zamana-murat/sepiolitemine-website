@@ -67,7 +67,7 @@ advantages:
   - title: "Versatile Application"
     description: "Available in both granular and powder form to suit different application methods — broadcast spreading, drill seeding, or direct soil incorporation."
 advantageImage: /images/mine/landscape-12-800w.webp
-advantageImageAlt: Sepiolite mine, Akmin Mining Türkiye
+advantageImageAlt: Sepiolite mine, Zamana Türkiye
 
 faqs:
   - question: "Is agricultural sepiolite safe for organic farming?"

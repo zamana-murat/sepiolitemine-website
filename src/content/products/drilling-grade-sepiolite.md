@@ -67,7 +67,7 @@ advantages:
   - title: "API-Certified Quality"
     description: "Every batch is tested to API 13A specifications. Full technical data and performance certificates provided with each shipment."
 advantageImage: /images/mine/landscape-11-800w.webp
-advantageImageAlt: Sepiolite mine, Akmin Mining Türkiye
+advantageImageAlt: Sepiolite mine, Zamana Türkiye
 
 faqs:
   - question: "Does your drilling grade sepiolite meet API specifications?"

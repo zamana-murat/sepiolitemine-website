@@ -1,0 +1,329 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sepiolitemine.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://sepiolitemine.com/applications/"},{"@type":"ListItem","position":3,"name":"Agriculture","item":"https://sepiolitemine.com/applications/agriculture/"}]},
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is sepiolite approved for organic farming?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite is a naturally occurring mineral with no chemical modifications. It is permitted under most organic farming certification bodies including EU Organic, USDA NOP, and various national programmes. We can provide certificates of compliance upon request."}},{"@type":"Question","name":"How much sepiolite should I apply per hectare?","acceptedAnswer":{"@type":"Answer","text":"Application rates vary by soil type and purpose. As a soil conditioner, typical rates are 2–5 tonnes per hectare mixed into the top 20cm. As a fertiliser carrier, rates follow the nutrient application plan — typically 200–500 kg/ha of loaded sepiolite per application."}},{"@type":"Question","name":"Does sepiolite affect soil pH?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite has a neutral to slightly alkaline pH (7.0–8.5). In most soils, the small application volumes have negligible impact on pH. In acidic soils, it may provide a mild liming effect which is generally beneficial for crop growth."}},{"@type":"Question","name":"Can sepiolite replace perlite or vermiculite?","acceptedAnswer":{"@type":"Answer","text":"In many applications, yes. Sepiolite offers superior water retention compared to perlite and is more cost-effective than vermiculite for large-scale agricultural use. It is particularly advantageous in greenhouse media and container growing operations."}},{"@type":"Question","name":"What crops benefit most from sepiolite?","acceptedAnswer":{"@type":"Answer","text":"All crops benefit, but the most dramatic improvements are seen in water-stressed crops (cereals, olives, vineyards), container-grown nursery stock, and high-value vegetables where precise nutrient delivery increases both yield and quality."}}]}
+];
+---
+
+<Layout
+  title="Sepiolite for Agriculture – Applications"
+  description="Sepiolite soil conditioner and fertiliser carrier improves water retention, nutrient delivery, and soil structure. Organic-compatible, 100% natural mineral from Turkey."
+  locale="en"
+  alternates={{ en: "/applications/agriculture/", tr: "/tr/applications/tarim/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+    <a href="../../">Home</a><span class="sep">›</span>
+    <a href="../">Applications</a><span class="sep">›</span>
+    <span class="current">Agriculture</span>
+  </div></div></div>
+
+  <section class="app-hero">
+    <div class="container">
+      <span class="section-tag">Agriculture</span>
+      <h1>Sepiolite for <span>Agriculture</span></h1>
+      <p class="hero-subtitle">Enhancing Soil Health &amp; Crop Yields Naturally</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">30%</div>
+          <div class="hero-stat-label">Water Savings</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">25%</div>
+          <div class="hero-stat-label">Yield Increase</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Natural Mineral</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">60+</div>
+          <div class="hero-stat-label">Crop Types</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="container">
+      <p class="intro-text">Sepiolite is transforming modern agriculture as a natural soil conditioner, fertiliser carrier, and plant growth enhancer. Its unique microporous structure retains moisture in sandy soils, delivers nutrients gradually through controlled release, and improves soil aeration — all while being 100% natural and compatible with organic farming standards.</p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Key Benefits</span>
+        <h2 class="section-title">Why Sepiolite for <span>Agriculture</span></h2>
+      </div>
+      <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">💧</div>
+        <h3>Water Retention &amp; Drought Resistance</h3>
+        <p>Sepiolite&#x27;s fibrous channels hold water molecules and release them slowly as the surrounding soil dries. Field trials show 25–30% reduction in irrigation requirements in sandy and loamy soils, making sepiolite invaluable in water-scarce agricultural regions worldwide.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌱</div>
+        <h3>Slow-Release Fertiliser Carrier</h3>
+        <p>When loaded with NPK fertilisers, urea, or micronutrients, sepiolite acts as a controlled-release matrix. Nutrients are adsorbed into the pore structure and released gradually over 4–8 weeks, reducing leaching losses by up to 40% and improving nitrogen use efficiency.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🧪</div>
+        <h3>Pesticide &amp; Herbicide Carrier</h3>
+        <p>Sepiolite granules serve as an ideal carrier for solid and liquid agrochemicals. The mineral holds active ingredients uniformly, prevents clumping during storage, improves flowability in spreaders, and enables even field distribution with reduced drift.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🏔️</div>
+        <h3>Soil Structure Improvement</h3>
+        <p>Mixed into heavy clay soils, sepiolite&#x27;s fibrous particles create macropores that improve drainage and root penetration. In sandy soils, it increases water-holding capacity. The result is better root development, improved aeration, and healthier soil biology.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌾</div>
+        <h3>Seed Coating &amp; Pelleting</h3>
+        <p>Sepiolite powder is used as a binder and filler in seed coating operations. It provides a uniform coating layer that protects seeds during handling and planting, delivers fungicides or inoculants in direct contact with the seed, and improves singulation in precision planters.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🐄</div>
+        <h3>Animal Feed Additive</h3>
+        <p>Food-grade sepiolite is used as a flow agent, anti-caking additive, and mycotoxin binder in compound animal feeds. It prevents feed bridging in silos, improves pellet quality, and can bind aflatoxins in the gut, protecting livestock health.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Our Process</span>
+      <h2 class="section-title">From Mine to <span>Your Application</span></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Ore Selection</h3>
+            <p>We select low-iron, high-purity sepiolite seams specifically suited for agricultural applications where soil and plant compatibility is critical.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Drying &amp; Grinding</h3>
+            <p>The ore is dried to optimal moisture and ground to agricultural-grade particle sizes — typically 0.1–2mm for soil amendment or sub-200 micron for carriers.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Nutrient Loading (if applicable)</h3>
+            <p>For pre-loaded fertiliser carriers, the sepiolite is mixed with specified nutrients under controlled conditions to achieve target loading rates.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>Quality Assurance</h3>
+            <p>Every batch is tested for heavy metal content, pH, particle size distribution, moisture, and absorption capacity to meet agricultural safety standards.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">05</div>
+          <div class="process-content">
+            <h3>Packaging &amp; Delivery</h3>
+            <p>Available in 25kg bags, 1-tonne big bags, or loose bulk. Shipped FOB Port of Mersin or Samsun Port, Turkey.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Technical Data</span>
+      <h2 class="section-title">Typical <span>Specifications</span></h2>
+      <table class="specs-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Purity</td><td>≥ 90% sepiolite</td></tr>
+          <tr><td>Particle Size</td><td>0.1–2mm (soil) / &lt;200µm (carrier)</td></tr>
+          <tr><td>pH</td><td>7.0–8.5</td></tr>
+          <tr><td>Water Absorption</td><td>≥ 120% by weight</td></tr>
+          <tr><td>Heavy Metals</td><td>Below EU agricultural limits</td></tr>
+          <tr><td>Organic Compatible</td><td>Yes (natural mineral, no additives)</td></tr>
+          <tr><td>Packaging</td><td>25kg bags / 1t big bags / bulk</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Is sepiolite approved for organic farming?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite is a naturally occurring mineral with no chemical modifications. It is permitted under most organic farming certification bodies including EU Organic, USDA NOP, and various national programmes. We can provide certificates of compliance upon request.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>How much sepiolite should I apply per hectare?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Application rates vary by soil type and purpose. As a soil conditioner, typical rates are 2–5 tonnes per hectare mixed into the top 20cm. As a fertiliser carrier, rates follow the nutrient application plan — typically 200–500 kg/ha of loaded sepiolite per application.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Does sepiolite affect soil pH?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite has a neutral to slightly alkaline pH (7.0–8.5). In most soils, the small application volumes have negligible impact on pH. In acidic soils, it may provide a mild liming effect which is generally beneficial for crop growth.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite replace perlite or vermiculite?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>In many applications, yes. Sepiolite offers superior water retention compared to perlite and is more cost-effective than vermiculite for large-scale agricultural use. It is particularly advantageous in greenhouse media and container growing operations.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>What crops benefit most from sepiolite?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>All crops benefit, but the most dramatic improvements are seen in water-stressed crops (cereals, olives, vineyards), container-grown nursery stock, and high-value vegetables where precise nutrient delivery increases both yield and quality.</p></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Explore <span>Sepiolite</span> for Your Application?</h2>
+      <p>Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.</p>
+      <div class="btn-group">
+        <a href="../../#contact" class="btn btn-primary">Request Samples</a>
+        <a href="../" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Explore More</span>
+        <h2 class="section-title">Related <span>Products</span></h2>
+      </div>
+      <div class="related-grid">
+      <a href="../../products/agricultural-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-agriculture.webp" alt="Agricultural Sepiolite" loading="lazy"/></div>
+        <h4>Agricultural Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/granulated-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granulated Sepiolite" loading="lazy"/></div>
+        <h4>Granulated Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/milled-sepiolite-powder/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy"/></div>
+        <h4>Milled Sepiolite Powder</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      </div>
+      <div style="text-align:center;margin-top:3.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--earth);margin-bottom:1.5rem">Related <span style="color:var(--gold)">Applications</span></h3>
+      </div>
+      <div class="related-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin:0 auto">
+      <a href="../environmental-remediation/" class="related-app-card reveal">
+        <div class="related-app-icon">🌿</div>
+        <h4>Environmental Remediation</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      <a href="../pet-care-cat-litter/" class="related-app-card reveal">
+        <div class="related-app-icon">🐾</div>
+        <h4>Pet Care &amp; Cat Litter</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <script>
+  (function(){'use strict';
+    var nb=document.getElementById('navbar');if(nb)window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>30)});
+    var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+    if(hb&&mm)hb.addEventListener('click',function(){var e=hb.getAttribute('aria-expanded')==='true';hb.setAttribute('aria-expanded',String(!e));mm.classList.toggle('open')});
+    var ro=new IntersectionObserver(function(ent){ent.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  })();
+  function toggleFaq(btn){var a=btn.nextElementSibling;var exp=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!exp));a.style.maxHeight=exp?'0':a.scrollHeight+'px'}
+  </script>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4.5rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden}
+    .app-hero::before{content:'';position:absolute;inset:0;background:url('/images/mine/mine-landscape-02.webp') center/cover no-repeat;opacity:0.15}
+    .app-hero .container{position:relative;z-index:2}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:0.75rem;line-height:1.12}
+    .app-hero h1 span{color:var(--gold)}
+    .app-hero .hero-subtitle{font-size:1.15rem;color:rgba(255,255,255,0.7);max-width:640px;line-height:1.7;margin-bottom:2rem}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+    .hero-stat{text-align:center}.hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}.hero-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.3rem;letter-spacing:0.04em}
+    .intro-section{padding:4.5rem 0;background:var(--white)}
+    .intro-text{font-size:1.05rem;line-height:1.85;color:var(--text-mid);max-width:860px;margin:0 auto;text-align:center}
+    .benefits-section{padding:5rem 0;background:var(--cream)}
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+    .benefit-card{background:var(--white);border-radius:var(--radius-lg);padding:2.25rem;border:1px solid var(--cream-dark);transition:transform 0.4s ease,box-shadow 0.4s ease}
+    .benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+    .benefit-icon{font-size:2.2rem;margin-bottom:1.25rem}
+    .benefit-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:0.75rem}
+    .benefit-card p{font-size:0.87rem;line-height:1.75;color:var(--text-light)}
+    .process-section{padding:5rem 0;background:var(--white)}
+    .process-steps{max-width:780px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:0}
+    .process-step{display:flex;gap:1.75rem;padding:1.75rem 0;border-bottom:1px solid var(--cream-dark)}
+    .process-step:last-child{border-bottom:none}
+    .process-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold);opacity:0.4;line-height:1;flex-shrink:0;width:40px}
+    .process-content h3{font-size:1rem;font-weight:700;color:var(--earth);margin-bottom:0.4rem}
+    .process-content p{font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .specs-section{padding:5rem 0;background:var(--cream)}
+    .specs-table{max-width:700px;margin:2rem auto 0;border-collapse:collapse;width:100%}
+    .specs-table th,.specs-table td{padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--cream-dark);font-size:0.88rem}
+    .specs-table th{background:var(--earth);color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.75rem}
+    .specs-table td:first-child{font-weight:600;color:var(--earth);width:45%}
+    .specs-table td:last-child{color:var(--text-mid)}
+    .specs-table tr:hover td{background:rgba(201,146,42,0.05)}
+    .faq-section{padding:5rem 0;background:var(--white)}
+    .faq-list{max-width:780px;margin:2rem auto 0;display:flex;flex-direction:column;gap:0.75rem}
+    .faq-item{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:border-color 0.3s}
+    .faq-item:hover{border-color:var(--gold)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1.15rem 1.5rem;font-size:0.92rem;font-weight:600;color:var(--earth);text-align:left;gap:1rem;background:none;border:none;cursor:pointer;font-family:inherit}
+    .faq-q svg{flex-shrink:0;transition:transform 0.3s ease;color:var(--gold)}
+    .faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease}
+    .faq-a p{padding:0 1.5rem 1.25rem;font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .related-section{padding:5rem 0;background:var(--cream)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+    .related-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column}
+    .related-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-img{height:160px;overflow:hidden}.related-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}.related-card:hover .related-img img{transform:scale(1.06)}
+    .related-card h4{padding:1.25rem 1.25rem 0.35rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth)}
+    .related-link{padding:0 1.25rem 1.25rem;font-size:0.82rem;font-weight:600;color:var(--gold);display:block;margin-top:auto}
+    .related-app-card{background:var(--white);border-radius:var(--radius);padding:2rem;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .related-app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-app-icon{font-size:2.5rem;margin-bottom:1rem}
+    .related-app-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth);margin-bottom:0.5rem}
+    .cta-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem}.cta-section h2 span{color:var(--gold)}
+    .cta-section p{font-size:1rem;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+    .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    @media(max-width:1024px){.benefits-grid,.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.benefits-grid,.related-grid{grid-template-columns:1fr}.hero-stats{gap:2rem}.process-step{flex-direction:column;gap:0.5rem}}
+</style>

@@ -2,166 +2,221 @@
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
 
-const lastUpdated = '2026-05-14';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-    { '@type': 'ListItem', position: 2, name: 'Terms of Use', item: `${siteUrl}/terms/` },
-  ],
-};
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Terms of Use", "item": "https://sepiolitemine.com/terms.html" }
+    ]
+  }
+];
 ---
 
 <Layout
   title="Terms of Use"
-  description="Terms governing use of sepiolitemine.com. B2B-only website. No commercial offer or contract is created by website content; all sales are subject to separate written agreement."
+  description="Terms of Use for Sepiolite Mine (sepiolitemine.com). Read the terms and conditions governing your use of our website and services."
   locale="en"
-  alternates={{ en: '/terms/', tr: '/tr/terms/' }}
-  schemaJson={[breadcrumbSchema]}
+  schemaJson={schemaJson}
 >
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+<!-- ===== HEADER ===== -->
+  
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
     <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Terms of Use</li>
-      </ol>
-    </div>
-  </nav>
-
-  <article class="legal-page section">
-    <div class="container container-narrow">
-      <header class="legal-header">
-        <span class="section-tag">Legal</span>
-        <h1>Terms of Use</h1>
-        <p class="last-updated">Last updated: {lastUpdated}</p>
-      </header>
-
-      <div class="legal-body">
-        <p>
-          These Terms govern your use of <strong>sepiolitemine.com</strong> (the "Site"),
-          operated by {BRAND.legalName} ("{BRAND.name}", "we", "us"). By accessing the Site,
-          you agree to these Terms. If you disagree, please do not use the Site.
-        </p>
-
-        <h2>1. Purpose of the Site</h2>
-        <p>
-          This Site provides general information about industrial sepiolite grades, applications,
-          and our supply capabilities for B2B buyers worldwide. It is not a consumer-facing
-          e-commerce platform.
-        </p>
-
-        <h2>2. No Commercial Offer</h2>
-        <p>
-          Information published on this Site (including product descriptions, technical
-          specifications, and reference figures) is provided for general informational purposes.
-          Nothing on the Site constitutes a binding commercial offer, price quotation, or
-          guarantee of availability. All sales are subject to a separate written agreement
-          (purchase order, sales contract, or signed proforma invoice) executed by both parties.
-        </p>
-
-        <h2>3. Specifications and Technical Data</h2>
-        <p>
-          Typical specifications shown on product and application pages reflect representative
-          values from our production. Actual batch values may vary within the tolerance ranges
-          documented in each shipment's Certificate of Analysis. Buyers are responsible for
-          verifying suitability of any sepiolite grade for their specific application before
-          large-volume orders.
-        </p>
-
-        <h2>4. Intellectual Property</h2>
-        <p>
-          All content on this Site — including text, images, graphics, logos, and trade names —
-          is owned by or licensed to {BRAND.legalName} and is protected by copyright, trademark,
-          and other intellectual property laws. You may not reproduce, distribute, or create
-          derivative works without prior written permission, except for fair-use purposes
-          (e.g. press citation with proper attribution).
-        </p>
-
-        <h2>5. AI / Crawler Policy</h2>
-        <p>
-          The Site's <a href="/robots.txt">robots.txt</a> declares our preferences regarding
-          automated access. Use of Site content for training AI models, large-scale scraping,
-          or commercial republication is not authorized.
-        </p>
-
-        <h2>6. Disclaimer of Warranties</h2>
-        <p>
-          The Site is provided "as is" and "as available". We do not warrant that the Site
-          will be uninterrupted, error-free, or free from viruses or harmful components. To the
-          extent permitted by law, we disclaim all warranties, express or implied, including
-          warranties of merchantability, fitness for a particular purpose, and non-infringement
-          regarding Site content.
-        </p>
-        <p>
-          <strong>Note:</strong> Warranties regarding the actual physical sepiolite product are
-          governed by the separate sales contract or purchase agreement, not by this Site.
-        </p>
-
-        <h2>7. Limitation of Liability</h2>
-        <p>
-          To the maximum extent permitted by applicable law, {BRAND.legalName} and its
-          affiliates shall not be liable for any indirect, incidental, special, consequential,
-          or punitive damages arising from use of the Site, including loss of profit, data,
-          or goodwill.
-        </p>
-
-        <h2>8. Third-Party Links</h2>
-        <p>
-          The Site may contain links to third-party websites for convenience. We do not endorse,
-          control, or take responsibility for content on linked sites.
-        </p>
-
-        <h2>9. Export Controls and Sanctions</h2>
-        <p>
-          Sepiolite is a non-controlled industrial mineral, but buyers are responsible for
-          complying with applicable export control, anti-bribery, and sanctions laws in their
-          jurisdiction. We reserve the right to decline orders that may conflict with EU, US,
-          UN, or Turkish trade restrictions.
-        </p>
-
-        <h2>10. Governing Law and Disputes</h2>
-        <p>
-          These Terms are governed by the laws of the Republic of Türkiye, without regard to
-          conflict-of-law rules. Any dispute arising from use of the Site shall be subject to
-          the exclusive jurisdiction of the courts of {BRAND.address.city}, Türkiye, except
-          where mandatory consumer-protection laws of your jurisdiction provide otherwise.
-        </p>
-        <p>
-          For commercial disputes related to actual sales, the governing law and dispute
-          resolution mechanism are defined in the separate sales contract.
-        </p>
-
-        <h2>11. Changes</h2>
-        <p>
-          We may revise these Terms at any time by updating this page. Continued use of the
-          Site after changes constitutes acceptance.
-        </p>
-
-        <h2>12. Contact</h2>
-        <p>
-          For questions about these Terms, please use the <a href="/contact/">contact form</a>.
-        </p>
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Terms of Use</span>
       </div>
     </div>
-  </article>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-tag">Legal</span>
+      <h1>Terms of <span>Use</span></h1>
+      <p>The terms and conditions governing your use of the Sepiolite Mine website and services.</p>
+    </div>
+  </section>
+
+  <!-- ===== LEGAL CONTENT ===== -->
+  <section class="legal-section">
+    <div class="container">
+      <div class="legal-container">
+
+        <p class="legal-updated"><strong>Last Updated:</strong> April 2026</p>
+
+        <p>Welcome to sepiolitemine.com (the "Website"), operated by Zamana ("Company", "we", "us", or "our"). These Terms of Use ("Terms") govern your access to and use of our Website. By accessing or using the Website, you agree to be bound by these Terms. If you do not agree, please do not use the Website.</p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing this Website, you confirm that you are at least 18 years of age and have the legal capacity to enter into these Terms. If you are accessing this Website on behalf of a company or organization, you represent that you have the authority to bind that entity to these Terms.</p>
+        <p>Your continued use of the Website after any changes to these Terms constitutes your acceptance of the revised Terms.</p>
+
+        <h2>2. Use of the Website</h2>
+        <p>You agree to use the Website only for lawful purposes and in a manner that does not infringe upon the rights of others or restrict their use of the Website. Specifically, you shall not:</p>
+        <ul>
+          <li>Use the Website in any way that violates applicable local, national, or international law</li>
+          <li>Attempt to gain unauthorized access to any part of the Website, server, or connected systems</li>
+          <li>Interfere with or disrupt the Website or its infrastructure</li>
+          <li>Transmit any malicious code, viruses, or harmful data</li>
+          <li>Use automated tools (bots, scrapers, spiders) to access or collect data from the Website without our prior written consent</li>
+          <li>Impersonate any person or entity, or misrepresent your affiliation with any person or entity</li>
+          <li>Use information obtained from the Website to harass, harm, or contact any individual or company without authorization</li>
+        </ul>
+
+        <h2>3. Intellectual Property</h2>
+        <p>All content on this Website, including but not limited to text, images, graphics, logos, icons, photographs, data compilations, technical specifications, product descriptions, and software, is the property of Zamana or its licensors and is protected by Turkish and international copyright, trademark, and intellectual property laws.</p>
+        <p>You may view, download, and print content from the Website for your personal, non-commercial use only, provided that you:</p>
+        <ul>
+          <li>Do not modify or alter any content</li>
+          <li>Retain all copyright and proprietary notices</li>
+          <li>Do not use the content for commercial purposes without our written permission</li>
+        </ul>
+        <p>The "Sepiolite Mine" name, logo, and all related trademarks, service marks, and trade names are the property of Zamana. No license or right to use any trademark is granted by these Terms.</p>
+
+        <h2>4. Product Information Disclaimer</h2>
+        <p>The product information, technical specifications, and performance data presented on this Website are provided for general informational and reference purposes only. While we make every reasonable effort to ensure accuracy:</p>
+        <ul>
+          <li>Product specifications may vary between production batches and are subject to standard manufacturing tolerances</li>
+          <li>Technical data sheets and certificates of analysis for specific shipments are provided separately upon request</li>
+          <li>Images are representative and may not reflect the exact appearance of delivered products</li>
+          <li>Information on this Website does not constitute a binding offer, contract, or warranty of fitness for any particular purpose</li>
+          <li>Users should conduct their own testing and evaluation to determine product suitability for their specific applications</li>
+        </ul>
+        <p>All commercial transactions are subject to separate written agreements, purchase orders, and supply contracts that contain the specific terms, specifications, and warranties applicable to each order.</p>
+
+        <h2>5. Third-Party Links</h2>
+        <p>This Website may contain links to third-party websites, resources, or services that are not owned or controlled by Zamana. We are not responsible for the content, privacy policies, or practices of any third-party websites. The inclusion of a link does not imply endorsement or affiliation.</p>
+        <p>You access third-party websites at your own risk and should review their terms and privacy policies independently.</p>
+
+        <h2>6. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law:</p>
+        <ul>
+          <li>The Website and its content are provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, whether express or implied</li>
+          <li>We disclaim all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, non-infringement, and accuracy</li>
+          <li>We shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the Website</li>
+          <li>We do not warrant that the Website will be uninterrupted, error-free, secure, or free of viruses or other harmful components</li>
+          <li>Our total liability for any claim related to the Website shall not exceed the amount you paid to us (if any) in the twelve (12) months preceding the claim</li>
+        </ul>
+
+        <h2>7. Indemnification</h2>
+        <p>You agree to indemnify, defend, and hold harmless Zamana, its officers, directors, employees, agents, and affiliates from and against any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising from your use of the Website, your violation of these Terms, or your infringement of any third-party rights.</p>
+
+        <h2>8. Governing Law and Jurisdiction</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the Republic of Turkey, without regard to its conflict of law provisions.</p>
+        <p>Any disputes arising from or in connection with these Terms or your use of the Website shall be subject to the exclusive jurisdiction of the courts of Eskisehir, Turkey. Notwithstanding the foregoing, we reserve the right to seek injunctive or other equitable relief in any court of competent jurisdiction.</p>
+
+        <h2>9. Privacy</h2>
+        <p>Your use of the Website is also governed by our <a href="/privacy.html">Privacy Policy</a>, which describes how we collect, use, and protect your personal information. By using the Website, you consent to the practices described in the Privacy Policy.</p>
+
+        <h2>10. Modifications to the Website</h2>
+        <p>We reserve the right to modify, suspend, or discontinue the Website (or any part thereof) at any time without notice. We shall not be liable to you or any third party for any modification, suspension, or discontinuation of the Website.</p>
+
+        <h2>11. Changes to These Terms</h2>
+        <p>We reserve the right to update or modify these Terms at any time. Changes take effect immediately upon posting to the Website. The "Last Updated" date at the top of this page indicates the most recent revision. We encourage you to review these Terms periodically. Your continued use of the Website after changes are posted constitutes your acceptance of the modified Terms.</p>
+
+        <h2>12. Severability</h2>
+        <p>If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, such invalidity shall not affect the remaining provisions, which shall continue in full force and effect.</p>
+
+        <h2>13. Entire Agreement</h2>
+        <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and Zamana regarding your use of the Website. These Terms supersede any prior agreements or communications regarding this subject matter. For the avoidance of doubt, commercial supply agreements are governed by their own separate terms.</p>
+
+        <h2>14. Contact Us</h2>
+        <p>If you have questions about these Terms of Use, please contact us:</p>
+        <ul>
+          <li><strong>Company:</strong> Zamana (Sepiolite Mine)</li>
+          <li><strong>Contact:</strong> <a href="/contact/">sepiolitemine.com/contact</a> (form-based — no email obfuscation)</li>
+          <li><strong>Phone:</strong> <a href="tel:+905304904740">+90 530 490 4740</a></li>
+          <li><strong>Website:</strong> <a href="https://sepiolitemine.com/contact/">sepiolitemine.com/contact</a></li>
+          <li><strong>Address:</strong> Eskisehir, Turkey</li>
+        </ul>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  
+
+  <!-- ===== SCRIPTS ===== -->
+  
+  <script>
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+      }
+    });
+  </script>
 </Layout>
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
-  .legal-page { padding-block: var(--s-7); }
-  .legal-header { margin-bottom: var(--s-6); padding-bottom: var(--s-5); border-bottom: 1px solid var(--c-cream-dark); }
-  .last-updated { color: var(--c-text-muted); font-size: 0.9rem; margin-top: var(--s-2); }
-  .legal-body { line-height: 1.75; }
-  .legal-body h2 { font-size: 1.4rem; margin-top: var(--s-6); margin-bottom: var(--s-3); color: var(--c-earth); }
-  .legal-body p { color: var(--c-text); margin-bottom: var(--s-3); }
-  .legal-body strong { color: var(--c-earth); }
-  .legal-body a { color: var(--c-gold-dark); font-weight: 600; }
+<style is:global>
+/* ===== HERO ===== */
+    .page-hero {
+      position: relative;
+      padding: 5rem 0 4rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(201,146,42,0.08) 0%, transparent 70%);
+    }
+    .page-hero .container { position: relative; z-index: 2; text-align: center; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.2rem); color: var(--white); margin-bottom: 1rem; line-height: 1.12; }
+    .page-hero h1 span { color: var(--gold); }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+    /* ===== LEGAL CONTENT ===== */
+    .legal-section { padding: 4rem 0 5rem; background: var(--white); }
+    .legal-container { max-width: 820px; margin: 0 auto; }
+    .legal-updated { font-size: 0.85rem; color: var(--stone); margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--cream-dark); }
+    .legal-container h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--earth);
+      margin: 2.5rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+    .legal-container h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .legal-container h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin: 1.5rem 0 0.75rem;
+    }
+    .legal-container p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .legal-container ul {
+      list-style: disc;
+      padding-left: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .legal-container li {
+      font-size: 0.93rem;
+      color: var(--text-light);
+      line-height: 1.75;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container li::marker { color: var(--gold); }
+    .legal-container a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+    .legal-container a:hover { color: var(--gold-dark); }
+    .legal-container strong { color: var(--text-dark); }
+
+    /* ===== RESPONSIVE (page-specific) ===== */
+    @media (max-width: 768px) {
+      .page-hero { padding: 4rem 0 3rem; }
+      .legal-container { padding: 0 0.5rem; }
+    }
 </style>

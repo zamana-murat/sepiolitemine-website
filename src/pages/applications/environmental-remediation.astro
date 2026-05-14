@@ -1,0 +1,329 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sepiolitemine.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://sepiolitemine.com/applications/"},{"@type":"ListItem","position":3,"name":"Environmental Remediation","item":"https://sepiolitemine.com/applications/environmental-remediation/"}]},
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does sepiolite compare to activated carbon for wastewater treatment?","acceptedAnswer":{"@type":"Answer","text":"For heavy metal removal, sepiolite outperforms activated carbon because metals bind through ion exchange, not just surface adsorption. For organic pollutants, activated carbon generally has higher capacity, but sepiolite is 3–5 times cheaper per tonne and can handle mixed metal-organic waste streams effectively."}},{"@type":"Question","name":"Can sepiolite remove PFAS (&#x27;forever chemicals&#x27;)?","acceptedAnswer":{"@type":"Answer","text":"Research shows sepiolite has moderate adsorption capacity for PFAS compounds, particularly when surface-modified with cationic surfactants. While not as effective as granular activated carbon for PFAS specifically, modified sepiolite is a promising low-cost option for pre-treatment stages."}},{"@type":"Question","name":"Is spent sepiolite classified as hazardous waste?","acceptedAnswer":{"@type":"Answer","text":"This depends on the concentration of adsorbed pollutants and local regulations. If the spent sepiolite passes TCLP leachate testing, it is typically classified as non-hazardous and can be landfilled. Heavily loaded material may require stabilisation before disposal."}},{"@type":"Question","name":"How do I size a sepiolite treatment system for my factory?","acceptedAnswer":{"@type":"Answer","text":"Contact our technical team with your waste stream composition, flow rate, and treatment targets. We provide isotherm testing on your actual effluent, kinetic modelling, and column design calculations. Typical contact times are 30–60 minutes for heavy metal removal."}},{"@type":"Question","name":"Can sepiolite be used for radioactive waste treatment?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite shows strong affinity for caesium and strontium ions, making it a candidate for low-level radioactive waste treatment. Several research programmes are evaluating sepiolite as a barrier material for nuclear waste repositories. Contact us for technical literature."}}]}
+];
+---
+
+<Layout
+  title="Sepiolite for Environmental Remediation – Applications"
+  description="Sepiolite adsorbs heavy metals, oils, and organic pollutants from water and soil. The natural, sustainable choice for wastewater treatment and spill cleanup."
+  locale="en"
+  alternates={{ en: "/applications/environmental-remediation/", tr: "/tr/applications/cevre-rehabilitasyon/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+    <a href="../../">Home</a><span class="sep">›</span>
+    <a href="../">Applications</a><span class="sep">›</span>
+    <span class="current">Environmental Remediation</span>
+  </div></div></div>
+
+  <section class="app-hero">
+    <div class="container">
+      <span class="section-tag">Environment</span>
+      <h1>Sepiolite for <span>Environmental Remediation</span></h1>
+      <p class="hero-subtitle">Nature&#x27;s Most Effective Pollution Cleanup Mineral</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">240</div>
+          <div class="hero-stat-label">m²/g Surface Area</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">95%</div>
+          <div class="hero-stat-label">Heavy Metal Removal</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">4x</div>
+          <div class="hero-stat-label">Oil Absorption</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Natural &amp; Non-Toxic</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="container">
+      <p class="intro-text">Sepiolite&#x27;s extraordinary adsorption capacity — among the highest of any natural mineral — makes it an invaluable tool for environmental protection and remediation. From treating industrial wastewater to cleaning up oil spills to remediating contaminated soils, sepiolite captures and immobilises a wide range of pollutants through physical adsorption, ion exchange, and surface complexation mechanisms.</p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Key Benefits</span>
+        <h2 class="section-title">Why Sepiolite for <span>Environmental Remediation</span></h2>
+      </div>
+      <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">💧</div>
+        <h3>Wastewater Treatment</h3>
+        <p>Sepiolite removes heavy metals (Pb, Cu, Zn, Cd, Cr, Ni), ammonium, phosphate, and organic dyes from industrial effluent. Its high surface area (240 m²/g) and cation exchange capacity enable efficient treatment at lower cost than synthetic resins or activated carbon.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🛢️</div>
+        <h3>Oil &amp; Chemical Spill Cleanup</h3>
+        <p>Granulated sepiolite absorbs 4 times its weight in hydrocarbons. Scattered over an oil, diesel, or chemical spill, it encapsulates the liquid within minutes, converting a hazardous puddle into a solid, sweepable mass that can be safely disposed of.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🏔️</div>
+        <h3>Contaminated Soil Remediation</h3>
+        <p>Sepiolite can be mixed into contaminated soil to immobilise heavy metals and organic pollutants. The mineral&#x27;s strong binding capacity reduces bioavailability and leachability, preventing contaminant migration into groundwater while the soil ecosystem recovers.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🏗️</div>
+        <h3>Landfill Liner &amp; Cover</h3>
+        <p>Sepiolite clay is used as a component in landfill liner systems and intermediate cover layers. It provides low permeability, good compaction characteristics, and metal-binding capacity that reduces leachate toxicity.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌬️</div>
+        <h3>Air Purification</h3>
+        <p>Sepiolite-based filter media adsorb volatile organic compounds (VOCs), ammonia, hydrogen sulphide, and other malodorous gases from industrial exhausts and building ventilation systems. It offers a natural alternative to activated carbon with lower cost and easier regeneration.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">♻️</div>
+        <h3>Sustainable &amp; Regenerable</h3>
+        <p>Unlike many synthetic treatment media, spent sepiolite can often be regenerated through thermal treatment at 250–400°C, restoring 80–90% of its original adsorption capacity. Even non-regenerated sepiolite can be safely landfilled as an inert mineral waste.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Our Process</span>
+      <h2 class="section-title">From Mine to <span>Your Application</span></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Grade Matching</h3>
+            <p>Different remediation applications require different particle sizes and surface treatments. We match the optimal sepiolite grade to each specific pollutant and treatment method.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Custom Activation</h3>
+            <p>For maximum adsorption, sepiolite can be acid-activated or thermally treated to increase surface area and pore volume. We offer both natural and activated grades.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Application Design</h3>
+            <p>Our environmental engineers help design treatment systems — from simple batch adsorption tanks to continuous packed-bed columns — tailored to your waste stream characteristics.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>Pilot Testing</h3>
+            <p>We provide sample quantities for laboratory and pilot-scale testing, along with isotherm and kinetic modelling support to predict full-scale performance.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">05</div>
+          <div class="process-content">
+            <h3>Supply &amp; Disposal Guidance</h3>
+            <p>We supply in 25kg bags or 1t big bags and can advise on spent media disposal regulations in your jurisdiction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Technical Data</span>
+      <h2 class="section-title">Typical <span>Specifications</span></h2>
+      <table class="specs-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Specific Surface Area</td><td>220–240 m²/g (BET)</td></tr>
+          <tr><td>Cation Exchange Capacity</td><td>20–30 meq/100g</td></tr>
+          <tr><td>Oil Absorption</td><td>≥ 400% by weight</td></tr>
+          <tr><td>Water Absorption</td><td>≥ 150% by weight</td></tr>
+          <tr><td>Heavy Metal Removal</td><td>Pb: &gt;95%, Cu: &gt;90%, Zn: &gt;85%</td></tr>
+          <tr><td>Particle Sizes</td><td>0.5–2mm / 2–5mm / powder</td></tr>
+          <tr><td>Packaging</td><td>25kg bags / 1t big bags</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>How does sepiolite compare to activated carbon for wastewater treatment?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>For heavy metal removal, sepiolite outperforms activated carbon because metals bind through ion exchange, not just surface adsorption. For organic pollutants, activated carbon generally has higher capacity, but sepiolite is 3–5 times cheaper per tonne and can handle mixed metal-organic waste streams effectively.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite remove PFAS (&#x27;forever chemicals&#x27;)?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Research shows sepiolite has moderate adsorption capacity for PFAS compounds, particularly when surface-modified with cationic surfactants. While not as effective as granular activated carbon for PFAS specifically, modified sepiolite is a promising low-cost option for pre-treatment stages.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Is spent sepiolite classified as hazardous waste?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>This depends on the concentration of adsorbed pollutants and local regulations. If the spent sepiolite passes TCLP leachate testing, it is typically classified as non-hazardous and can be landfilled. Heavily loaded material may require stabilisation before disposal.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>How do I size a sepiolite treatment system for my factory?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Contact our technical team with your waste stream composition, flow rate, and treatment targets. We provide isotherm testing on your actual effluent, kinetic modelling, and column design calculations. Typical contact times are 30–60 minutes for heavy metal removal.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite be used for radioactive waste treatment?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite shows strong affinity for caesium and strontium ions, making it a candidate for low-level radioactive waste treatment. Several research programmes are evaluating sepiolite as a barrier material for nuclear waste repositories. Contact us for technical literature.</p></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Explore <span>Sepiolite</span> for Your Application?</h2>
+      <p>Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.</p>
+      <div class="btn-group">
+        <a href="../../#contact" class="btn btn-primary">Request Samples</a>
+        <a href="../" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Explore More</span>
+        <h2 class="section-title">Related <span>Products</span></h2>
+      </div>
+      <div class="related-grid">
+      <a href="../../products/granulated-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granulated Sepiolite" loading="lazy"/></div>
+        <h4>Granulated Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/raw-sepiolite-ore/" class="related-card reveal">
+        <div class="related-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Raw Sepiolite Ore" loading="lazy"/></div>
+        <h4>Raw Sepiolite Ore</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/milled-sepiolite-powder/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy"/></div>
+        <h4>Milled Sepiolite Powder</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      </div>
+      <div style="text-align:center;margin-top:3.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--earth);margin-bottom:1.5rem">Related <span style="color:var(--gold)">Applications</span></h3>
+      </div>
+      <div class="related-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin:0 auto">
+      <a href="../agriculture/" class="related-app-card reveal">
+        <div class="related-app-icon">🌾</div>
+        <h4>Agriculture</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      <a href="../oil-gas-drilling/" class="related-app-card reveal">
+        <div class="related-app-icon">🛢️</div>
+        <h4>Oil &amp; Gas Drilling</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <script>
+  (function(){'use strict';
+    var nb=document.getElementById('navbar');if(nb)window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>30)});
+    var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+    if(hb&&mm)hb.addEventListener('click',function(){var e=hb.getAttribute('aria-expanded')==='true';hb.setAttribute('aria-expanded',String(!e));mm.classList.toggle('open')});
+    var ro=new IntersectionObserver(function(ent){ent.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  })();
+  function toggleFaq(btn){var a=btn.nextElementSibling;var exp=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!exp));a.style.maxHeight=exp?'0':a.scrollHeight+'px'}
+  </script>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4.5rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden}
+    .app-hero::before{content:'';position:absolute;inset:0;background:url('/images/mine/mine-landscape-05.webp') center/cover no-repeat;opacity:0.15}
+    .app-hero .container{position:relative;z-index:2}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:0.75rem;line-height:1.12}
+    .app-hero h1 span{color:var(--gold)}
+    .app-hero .hero-subtitle{font-size:1.15rem;color:rgba(255,255,255,0.7);max-width:640px;line-height:1.7;margin-bottom:2rem}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+    .hero-stat{text-align:center}.hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}.hero-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.3rem;letter-spacing:0.04em}
+    .intro-section{padding:4.5rem 0;background:var(--white)}
+    .intro-text{font-size:1.05rem;line-height:1.85;color:var(--text-mid);max-width:860px;margin:0 auto;text-align:center}
+    .benefits-section{padding:5rem 0;background:var(--cream)}
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+    .benefit-card{background:var(--white);border-radius:var(--radius-lg);padding:2.25rem;border:1px solid var(--cream-dark);transition:transform 0.4s ease,box-shadow 0.4s ease}
+    .benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+    .benefit-icon{font-size:2.2rem;margin-bottom:1.25rem}
+    .benefit-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:0.75rem}
+    .benefit-card p{font-size:0.87rem;line-height:1.75;color:var(--text-light)}
+    .process-section{padding:5rem 0;background:var(--white)}
+    .process-steps{max-width:780px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:0}
+    .process-step{display:flex;gap:1.75rem;padding:1.75rem 0;border-bottom:1px solid var(--cream-dark)}
+    .process-step:last-child{border-bottom:none}
+    .process-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold);opacity:0.4;line-height:1;flex-shrink:0;width:40px}
+    .process-content h3{font-size:1rem;font-weight:700;color:var(--earth);margin-bottom:0.4rem}
+    .process-content p{font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .specs-section{padding:5rem 0;background:var(--cream)}
+    .specs-table{max-width:700px;margin:2rem auto 0;border-collapse:collapse;width:100%}
+    .specs-table th,.specs-table td{padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--cream-dark);font-size:0.88rem}
+    .specs-table th{background:var(--earth);color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.75rem}
+    .specs-table td:first-child{font-weight:600;color:var(--earth);width:45%}
+    .specs-table td:last-child{color:var(--text-mid)}
+    .specs-table tr:hover td{background:rgba(201,146,42,0.05)}
+    .faq-section{padding:5rem 0;background:var(--white)}
+    .faq-list{max-width:780px;margin:2rem auto 0;display:flex;flex-direction:column;gap:0.75rem}
+    .faq-item{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:border-color 0.3s}
+    .faq-item:hover{border-color:var(--gold)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1.15rem 1.5rem;font-size:0.92rem;font-weight:600;color:var(--earth);text-align:left;gap:1rem;background:none;border:none;cursor:pointer;font-family:inherit}
+    .faq-q svg{flex-shrink:0;transition:transform 0.3s ease;color:var(--gold)}
+    .faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease}
+    .faq-a p{padding:0 1.5rem 1.25rem;font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .related-section{padding:5rem 0;background:var(--cream)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+    .related-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column}
+    .related-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-img{height:160px;overflow:hidden}.related-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}.related-card:hover .related-img img{transform:scale(1.06)}
+    .related-card h4{padding:1.25rem 1.25rem 0.35rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth)}
+    .related-link{padding:0 1.25rem 1.25rem;font-size:0.82rem;font-weight:600;color:var(--gold);display:block;margin-top:auto}
+    .related-app-card{background:var(--white);border-radius:var(--radius);padding:2rem;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .related-app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-app-icon{font-size:2.5rem;margin-bottom:1rem}
+    .related-app-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth);margin-bottom:0.5rem}
+    .cta-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem}.cta-section h2 span{color:var(--gold)}
+    .cta-section p{font-size:1rem;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+    .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    @media(max-width:1024px){.benefits-grid,.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.benefits-grid,.related-grid{grid-template-columns:1fr}.hero-stats{gap:2rem}.process-step{flex-direction:column;gap:0.5rem}}
+</style>

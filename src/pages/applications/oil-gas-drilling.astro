@@ -1,0 +1,329 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sepiolitemine.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://sepiolitemine.com/applications/"},{"@type":"ListItem","position":3,"name":"Oil &amp; Gas Drilling","item":"https://sepiolitemine.com/applications/oil-gas-drilling/"}]},
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why can&#x27;t I use bentonite instead of sepiolite?","acceptedAnswer":{"@type":"Answer","text":"Bentonite is an excellent viscosifier in freshwater mud systems but flocculates and loses all gel strength in salt concentrations above 5–10%. Sepiolite maintains full rheological performance even in fully saturated brine (26% NaCl). If your well encounters salt formations, sepiolite is your only option."}},{"@type":"Question","name":"Is sepiolite compatible with other drilling fluid additives?","acceptedAnswer":{"@type":"Answer","text":"Yes. Sepiolite is fully compatible with standard drilling fluid additives including barite, caustic soda, filtrate loss reducers (CMC, PAC, starch), deflocculants, lubricants, and most specialty chemicals. Consult our technical team for specific formulation guidance."}},{"@type":"Question","name":"What is the typical dosage per barrel of mud?","acceptedAnswer":{"@type":"Answer","text":"For a complete sepiolite-based mud system, typical dosage is 40–60 lb/bbl depending on required rheology. For supplementing an existing water-based mud system with salt tolerance, 15–25 lb/bbl is typical. Our field engineers can optimise dosage for your specific conditions."}},{"@type":"Question","name":"Do you supply to offshore operations?","acceptedAnswer":{"@type":"Answer","text":"Yes. We supply to offshore operators across the Mediterranean, Black Sea, Caspian, North Sea, and West Africa. Our packaging and documentation meet all offshore logistics requirements including IMO and MARPOL compliance."}},{"@type":"Question","name":"Can sepiolite be used in geothermal drilling?","acceptedAnswer":{"@type":"Answer","text":"Sepiolite is the preferred viscosifier for geothermal wells due to its combined salt tolerance and thermal stability. Many geothermal reservoirs produce highly mineralised brines at temperatures exceeding 200°C — conditions where only sepiolite provides reliable mud performance."}}]}
+];
+---
+
+<Layout
+  title="Sepiolite for Oil &amp; Gas Drilling – Applications"
+  description="API 13A compliant drilling-grade sepiolite for salt-saturated and high-temperature drilling fluid systems. Maintains stable rheology where bentonite fails."
+  locale="en"
+  alternates={{ en: "/applications/oil-gas-drilling/", tr: "/tr/applications/petrol-gaz-sondaj/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar"><div class="container"><div class="breadcrumb">
+    <a href="../../">Home</a><span class="sep">›</span>
+    <a href="../">Applications</a><span class="sep">›</span>
+    <span class="current">Oil &amp; Gas Drilling</span>
+  </div></div></div>
+
+  <section class="app-hero">
+    <div class="container">
+      <span class="section-tag">Oil &amp; Gas</span>
+      <h1>Sepiolite for <span>Oil &amp; Gas Drilling</span></h1>
+      <p class="hero-subtitle">The Only Mineral That Performs in Saturated Salt</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">300°C</div>
+          <div class="hero-stat-label">Thermal Stability</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">API</div>
+          <div class="hero-stat-label">13A Compliant</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">26%</div>
+          <div class="hero-stat-label">NaCl Tolerance</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">35+</div>
+          <div class="hero-stat-label">Years Proven</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro-section">
+    <div class="container">
+      <p class="intro-text">Sepiolite is the only clay mineral that maintains full rheological performance in saturated saltwater environments — a property that makes it irreplaceable for drilling through salt domes, evaporite sequences, and geothermal reservoirs. While bentonite flocculates and loses viscosity in brine, sepiolite&#x27;s unique fibrous crystal structure remains stable, providing consistent hole-cleaning and cuttings suspension.</p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Key Benefits</span>
+        <h2 class="section-title">Why Sepiolite for <span>Oil &amp; Gas Drilling</span></h2>
+      </div>
+      <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🧂</div>
+        <h3>Salt-Saturated Mud Performance</h3>
+        <p>Bentonite loses over 80% of its viscosity-building capacity in NaCl concentrations above 10%. Sepiolite, by contrast, maintains full rheological properties even in fully saturated brine (26% NaCl). This makes it the only viable viscosifier for salt dome and evaporite drilling.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌡️</div>
+        <h3>Extreme Temperature Stability</h3>
+        <p>Sepiolite retains its fibrous structure and viscosity-building properties at temperatures up to 300°C (572°F). This thermal resistance makes it ideal for deep wells, geothermal drilling, and HPHT (high-pressure high-temperature) applications.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🔧</div>
+        <h3>Excellent Hole Cleaning</h3>
+        <p>The fibrous morphology of sepiolite creates a highly shear-thinning fluid that flows easily during pumping but thickens instantly when circulation stops. This ensures effective cuttings transport to surface while preventing barite sag during connections.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🎯</div>
+        <h3>Low Formation Damage</h3>
+        <p>Sepiolite mud systems produce a thin, low-permeability filter cake on the wellbore wall. The fibrous particles bridge pore throats effectively without invading the formation, preserving reservoir permeability and enhancing production potential.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🌊</div>
+        <h3>Spill Absorbent &amp; Remediation</h3>
+        <p>Beyond drilling fluids, granulated sepiolite is widely used on drilling rigs and production platforms as a universal absorbent for oil, diesel, hydraulic fluid, and chemical spills. It is non-flammable, chemically inert, and approved for maritime disposal.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">📋</div>
+        <h3>API 13A Certified Supply</h3>
+        <p>Our drilling-grade sepiolite is manufactured, tested, and certified to API Specification 13A — the global standard for drilling fluid materials. Every shipment includes full test certificates for yield point, apparent viscosity, and filtrate loss.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Our Process</span>
+      <h2 class="section-title">From Mine to <span>Your Application</span></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Premium Ore Selection</h3>
+            <p>Only high-purity, high-fibre-length sepiolite seams are selected for drilling grade. These provide maximum viscosity yield per tonne, reducing total mud cost.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Controlled Drying</h3>
+            <p>The ore is dried in rotary kilns to precise moisture content. Over-drying damages the fibrous structure; under-drying causes lumping. Our process targets the optimal 8–10% moisture window.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Precision Milling</h3>
+            <p>Dried ore is milled to API-specified particle size distribution. The grind profile is engineered to maximise hydration speed and viscosity development in the mud system.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>API 13A Testing</h3>
+            <p>Every production batch is tested to the full API 13A specification: yield point, apparent viscosity, 600/300/200/100/6/3 RPM readings, filtrate loss, and moisture content.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-num">05</div>
+          <div class="process-content">
+            <h3>Certified Packaging</h3>
+            <p>Packaged in 50kg multi-wall paper bags, palletised and shrink-wrapped. Each pallet carries batch certificates. Shipped FOB Mersin or Samsun Port.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">Technical Data</span>
+      <h2 class="section-title">Typical <span>Specifications</span></h2>
+      <table class="specs-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Standard</td><td>API Specification 13A</td></tr>
+          <tr><td>Yield Point (Bingham)</td><td>≥ 15 lb/100ft² at 30 g/350ml</td></tr>
+          <tr><td>Apparent Viscosity</td><td>≥ 10 cP at 600 RPM</td></tr>
+          <tr><td>Moisture</td><td>8–12%</td></tr>
+          <tr><td>Filtrate Loss</td><td>≤ 15 ml / 30 min</td></tr>
+          <tr><td>Salt Tolerance</td><td>Full performance at 26% NaCl</td></tr>
+          <tr><td>Packaging</td><td>50kg bags / 1t big bags</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container" style="text-align:center">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Why can&#x27;t I use bentonite instead of sepiolite?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Bentonite is an excellent viscosifier in freshwater mud systems but flocculates and loses all gel strength in salt concentrations above 5–10%. Sepiolite maintains full rheological performance even in fully saturated brine (26% NaCl). If your well encounters salt formations, sepiolite is your only option.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Is sepiolite compatible with other drilling fluid additives?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Yes. Sepiolite is fully compatible with standard drilling fluid additives including barite, caustic soda, filtrate loss reducers (CMC, PAC, starch), deflocculants, lubricants, and most specialty chemicals. Consult our technical team for specific formulation guidance.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>What is the typical dosage per barrel of mud?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>For a complete sepiolite-based mud system, typical dosage is 40–60 lb/bbl depending on required rheology. For supplementing an existing water-based mud system with salt tolerance, 15–25 lb/bbl is typical. Our field engineers can optimise dosage for your specific conditions.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Do you supply to offshore operations?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Yes. We supply to offshore operators across the Mediterranean, Black Sea, Caspian, North Sea, and West Africa. Our packaging and documentation meet all offshore logistics requirements including IMO and MARPOL compliance.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          <span>Can sepiolite be used in geothermal drilling?</span>
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-a"><p>Sepiolite is the preferred viscosifier for geothermal wells due to its combined salt tolerance and thermal stability. Many geothermal reservoirs produce highly mineralised brines at temperatures exceeding 200°C — conditions where only sepiolite provides reliable mud performance.</p></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Explore <span>Sepiolite</span> for Your Application?</h2>
+      <p>Our technical team provides samples, specifications, and formulation guidance tailored to your industry needs.</p>
+      <div class="btn-group">
+        <a href="../../#contact" class="btn btn-primary">Request Samples</a>
+        <a href="../" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">All Applications</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:1rem">
+        <span class="section-tag">Explore More</span>
+        <h2 class="section-title">Related <span>Products</span></h2>
+      </div>
+      <div class="related-grid">
+      <a href="../../products/drilling-grade-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="1200" height="896" src="/images/products/product-drilling-grade.webp" alt="Drilling Grade Sepiolite" loading="lazy"/></div>
+        <h4>Drilling Grade Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/raw-sepiolite-ore/" class="related-card reveal">
+        <div class="related-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Raw Sepiolite Ore" loading="lazy"/></div>
+        <h4>Raw Sepiolite Ore</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      <a href="../../products/granulated-sepiolite/" class="related-card reveal">
+        <div class="related-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granulated Sepiolite" loading="lazy"/></div>
+        <h4>Granulated Sepiolite</h4>
+        <span class="related-link">View Product →</span>
+      </a>
+      </div>
+      <div style="text-align:center;margin-top:3.5rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--earth);margin-bottom:1.5rem">Related <span style="color:var(--gold)">Applications</span></h3>
+      </div>
+      <div class="related-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin:0 auto">
+      <a href="../construction/" class="related-app-card reveal">
+        <div class="related-app-icon">🏗️</div>
+        <h4>Construction</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      <a href="../environmental-remediation/" class="related-app-card reveal">
+        <div class="related-app-icon">🌿</div>
+        <h4>Environmental Remediation</h4>
+        <span class="related-link">Learn More →</span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <script>
+  (function(){'use strict';
+    var nb=document.getElementById('navbar');if(nb)window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>30)});
+    var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+    if(hb&&mm)hb.addEventListener('click',function(){var e=hb.getAttribute('aria-expanded')==='true';hb.setAttribute('aria-expanded',String(!e));mm.classList.toggle('open')});
+    var ro=new IntersectionObserver(function(ent){ent.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target)}})},{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  })();
+  function toggleFaq(btn){var a=btn.nextElementSibling;var exp=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!exp));a.style.maxHeight=exp?'0':a.scrollHeight+'px'}
+  </script>
+</Layout>
+
+<style is:global>
+.app-hero{position:relative;padding:5rem 0 4.5rem;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-mid) 50%,var(--earth-soft) 100%);overflow:hidden}
+    .app-hero::before{content:'';position:absolute;inset:0;background:url('/images/mine/mine-landscape-03.webp') center/cover no-repeat;opacity:0.15}
+    .app-hero .container{position:relative;z-index:2}
+    .app-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:0.75rem;line-height:1.12}
+    .app-hero h1 span{color:var(--gold)}
+    .app-hero .hero-subtitle{font-size:1.15rem;color:rgba(255,255,255,0.7);max-width:640px;line-height:1.7;margin-bottom:2rem}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+    .hero-stat{text-align:center}.hero-stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--gold);line-height:1}.hero-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.3rem;letter-spacing:0.04em}
+    .intro-section{padding:4.5rem 0;background:var(--white)}
+    .intro-text{font-size:1.05rem;line-height:1.85;color:var(--text-mid);max-width:860px;margin:0 auto;text-align:center}
+    .benefits-section{padding:5rem 0;background:var(--cream)}
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+    .benefit-card{background:var(--white);border-radius:var(--radius-lg);padding:2.25rem;border:1px solid var(--cream-dark);transition:transform 0.4s ease,box-shadow 0.4s ease}
+    .benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+    .benefit-icon{font-size:2.2rem;margin-bottom:1.25rem}
+    .benefit-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--earth);margin-bottom:0.75rem}
+    .benefit-card p{font-size:0.87rem;line-height:1.75;color:var(--text-light)}
+    .process-section{padding:5rem 0;background:var(--white)}
+    .process-steps{max-width:780px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:0}
+    .process-step{display:flex;gap:1.75rem;padding:1.75rem 0;border-bottom:1px solid var(--cream-dark)}
+    .process-step:last-child{border-bottom:none}
+    .process-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold);opacity:0.4;line-height:1;flex-shrink:0;width:40px}
+    .process-content h3{font-size:1rem;font-weight:700;color:var(--earth);margin-bottom:0.4rem}
+    .process-content p{font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .specs-section{padding:5rem 0;background:var(--cream)}
+    .specs-table{max-width:700px;margin:2rem auto 0;border-collapse:collapse;width:100%}
+    .specs-table th,.specs-table td{padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--cream-dark);font-size:0.88rem}
+    .specs-table th{background:var(--earth);color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.75rem}
+    .specs-table td:first-child{font-weight:600;color:var(--earth);width:45%}
+    .specs-table td:last-child{color:var(--text-mid)}
+    .specs-table tr:hover td{background:rgba(201,146,42,0.05)}
+    .faq-section{padding:5rem 0;background:var(--white)}
+    .faq-list{max-width:780px;margin:2rem auto 0;display:flex;flex-direction:column;gap:0.75rem}
+    .faq-item{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:border-color 0.3s}
+    .faq-item:hover{border-color:var(--gold)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;width:100%;padding:1.15rem 1.5rem;font-size:0.92rem;font-weight:600;color:var(--earth);text-align:left;gap:1rem;background:none;border:none;cursor:pointer;font-family:inherit}
+    .faq-q svg{flex-shrink:0;transition:transform 0.3s ease;color:var(--gold)}
+    .faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease}
+    .faq-a p{padding:0 1.5rem 1.25rem;font-size:0.88rem;line-height:1.75;color:var(--text-light)}
+    .related-section{padding:5rem 0;background:var(--cream)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
+    .related-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column}
+    .related-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-img{height:160px;overflow:hidden}.related-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}.related-card:hover .related-img img{transform:scale(1.06)}
+    .related-card h4{padding:1.25rem 1.25rem 0.35rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth)}
+    .related-link{padding:0 1.25rem 1.25rem;font-size:0.82rem;font-weight:600;color:var(--gold);display:block;margin-top:auto}
+    .related-app-card{background:var(--white);border-radius:var(--radius);padding:2rem;border:1px solid var(--cream-dark);transition:transform 0.35s,box-shadow 0.35s;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .related-app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--gold)}
+    .related-app-icon{font-size:2.5rem;margin-bottom:1rem}
+    .related-app-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--earth);margin-bottom:0.5rem}
+    .cta-section{padding:5rem 0;background:linear-gradient(135deg,var(--earth) 0%,var(--earth-soft) 100%);text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem}.cta-section h2 span{color:var(--gold)}
+    .cta-section p{font-size:1rem;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+    .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    @media(max-width:1024px){.benefits-grid,.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.benefits-grid,.related-grid{grid-template-columns:1fr}.hero-stats{gap:2rem}.process-step{flex-direction:column;gap:0.5rem}}
+</style>

@@ -26,7 +26,62 @@ export default defineConfig({
       changefreq: 'monthly',
       priority: 0.7,
       lastmod: new Date(),
-      // i18n locale map'leri Astro 4'ün built-in i18n'inden otomatik çekilir
+      // Sitemap-level hreflang: aynı slug bilingual sayfalar için otomatik
+      // (anasayfa, applications/, products/, contact/, markets/, sustainability/).
+      // Translated slug detay sayfaları için manuel serialize ile ekleniyor.
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en-US',
+          tr: 'tr-TR',
+        },
+      },
+      serialize(item) {
+        // Detail page slug mappings (EN ↔ TR)
+        const productMap = {
+          'raw-sepiolite-ore': 'ham-sepiyolit-cevheri',
+          'granulated-sepiolite': 'granule-sepiyolit',
+          'milled-sepiolite-powder': 'ogutulmus-sepiyolit-tozu',
+          'drilling-grade-sepiolite': 'sondaj-kalitesi-sepiyolit',
+          'agricultural-sepiolite': 'tarimsal-sepiyolit',
+          'construction-insulation-grade': 'insaat-yalitim-kalitesi',
+        };
+        const applicationMap = {
+          'pet-care-cat-litter': 'evcil-hayvan-kedi-kumu',
+          'agriculture': 'tarim',
+          'oil-gas-drilling': 'petrol-gaz-sondaj',
+          'construction': 'insaat',
+          'environmental-remediation': 'cevre-rehabilitasyon',
+          'paints-coatings': 'boya-kaplama',
+          'catalysis-chemical': 'kataliz-kimya',
+          'pharma-cosmetics': 'ilac-kozmetik',
+          'bioplastics': 'biyoplastik',
+        };
+        const url = item.url;
+        const site = 'https://sepiolitemine.com';
+
+        for (const [type, map] of [['products', productMap], ['applications', applicationMap]]) {
+          for (const [en, tr] of Object.entries(map)) {
+            if (url === `${site}/${type}/${en}/`) {
+              item.links = [
+                { url: `${site}/${type}/${en}/`, lang: 'en' },
+                { url: `${site}/tr/${type}/${tr}/`, lang: 'tr' },
+                { url: `${site}/${type}/${en}/`, lang: 'x-default' },
+              ];
+              return item;
+            }
+            if (url === `${site}/tr/${type}/${tr}/`) {
+              item.links = [
+                { url: `${site}/${type}/${en}/`, lang: 'en' },
+                { url: `${site}/tr/${type}/${tr}/`, lang: 'tr' },
+                { url: `${site}/${type}/${en}/`, lang: 'x-default' },
+              ];
+              return item;
+            }
+          }
+        }
+        return item;
+      },
     }),
   ],
   vite: {

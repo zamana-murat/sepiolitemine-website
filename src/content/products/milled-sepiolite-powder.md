@@ -67,7 +67,7 @@ advantages:
   - title: "Versatile Particle Grades"
     description: "From 5μm ultra-fine for pharma to 200μm coarse for construction — we produce the exact grade your application demands."
 advantageImage: /images/mine/landscape-06-800w.webp
-advantageImageAlt: Sepiolite mine, Akmin Mining Türkiye
+advantageImageAlt: Sepiolite mine, Zamana Türkiye
 
 faqs:
   - question: "What particle sizes are available for milled sepiolite?"

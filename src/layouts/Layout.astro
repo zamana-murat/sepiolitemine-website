@@ -51,7 +51,7 @@ const fullTitle = noSuffix ? title : `${title} | ${BRAND.name}`;
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
 const ogImageUrl = ogImage
   ? new URL(`/og/${ogImage}.png`, Astro.site).toString()
-  : new URL('/og/default.png', Astro.site).toString();
+  : new URL('/images/mine/aerial-02-1200w.webp', Astro.site).toString();
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
@@ -181,5 +181,27 @@ const baseSchema = [
       <slot />
     </main>
     <Footer locale={locale} />
+
+    {/* Global reveal-on-scroll observer — used by legacy-ported pages with .reveal class */}
+    <script>
+      (function () {
+        if (typeof IntersectionObserver === 'undefined') {
+          document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+          return;
+        }
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+      })();
+    </script>
   </body>
 </html>

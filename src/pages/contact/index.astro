@@ -3,404 +3,625 @@ import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-    { '@type': 'ListItem', position: 2, name: 'Contact', item: `${siteUrl}/contact/` },
-  ],
-};
-
-const phoneHref = `tel:${BRAND.contact.phone.replace(/\s/g, '')}`;
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://sepiolitemine.com/contact/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How quickly will I receive a response?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We respond to every enquiry within one business day (24 hours). Our sales team monitors all channels throughout business hours and processes urgent requests with priority. For matters outside business hours, expect a response first thing the next morning."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I request product samples?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, absolutely. We provide free product samples to qualified buyers. Simply specify which grade and form you'd like to evaluate (raw ore, granulated, powder, etc.), and we'll ship samples worldwide at no cost. Most samples arrive within 5–10 business days."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What information should I include in my enquiry?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To help us serve you faster, please provide: your company name and industry, the sepiolite grade and form you're interested in, estimated annual volume, target specifications (particle size, moisture, purity), preferred packaging, and any technical requirements. The more detail you provide, the more tailored our response."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you have sales representatives in my region?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We serve 45+ countries and work through a combination of direct sales, logistics partners, and regional distributors. For details on coverage in your area, use the contact form or call +90 530 490 4740 (WhatsApp available). We'll connect you with the right contact for your location."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are your business hours?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Factory (Production & Quality Control): Monday–Saturday, 08:00–18:00 (Istanbul/Turkey time). Head Office (Sales & Administration): Monday–Friday, 09:00–18:00 (Istanbul/Turkey time). Messages and inquiries received outside these hours will be processed the next business day."
+        }
+      }
+    ]
+  }
+];
 ---
 
 <Layout
-  title="Contact"
-  description="Request a quote, technical specs, or samples for Turkish sepiolite. B2B inquiries only. We respond within 24 hours."
+  title="Contact Us"
+  description="Get in touch with Sepiolite Mine for sourcing inquiries, technical support, and product samples. 24-hour response guarantee. Phone, email, and online contact form available."
   locale="en"
-  alternates={{ en: '/contact/', tr: '/tr/contact/' }}
-  schemaJson={[breadcrumbSchema]}
+  alternates={{ en: "/contact/", tr: "/tr/contact/" }}
+  schemaJson={schemaJson}
 >
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Contact</li>
-      </ol>
-    </div>
-  </nav>
+<!-- ===== HEADER ===== -->
+  
 
-  <section class="contact-hero section section--dark">
-    <div class="container container-narrow">
-      <span class="section-tag">Contact</span>
-      <h1>Let's talk sepiolite</h1>
-      <p class="lead">
-        Tell us your specification, target volume, and destination. We respond within
-        24 hours with pricing, lead time, and a Certificate of Analysis sample.
-      </p>
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Contact</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="contact-hero">
+    <div class="container">
+      <h1>Start Your Sourcing <span>Journey</span></h1>
+      <p>We respond to every enquiry within 24 hours. Whether you're a new buyer requesting samples, an established importer seeking volume pricing, or a technical specialist with specification questions — our team is ready to help.</p>
     </div>
   </section>
 
-  <section class="contact-section section">
+  <!-- ===== CONTACT FORM & INFO ===== -->
+  <section class="contact-main">
     <div class="container">
       <div class="contact-grid">
-        <div class="contact-info">
-          <h2>Quick Channels</h2>
-          <ul class="contact-list">
-            <li>
-              <span class="contact-label">Phone</span>
-              <a href={phoneHref} class="contact-value">{BRAND.contact.phone}</a>
-            </li>
-            <li>
-              <span class="contact-label">Office</span>
-              <span class="contact-value">{BRAND.address.city}, {BRAND.address.country}</span>
-            </li>
-            <li>
-              <span class="contact-label">Hours</span>
-              <span class="contact-value">Mon–Fri 09:00–18:00 (GMT+3)</span>
-            </li>
-            <li>
-              <span class="contact-label">Response time</span>
-              <span class="contact-value">Within 24 hours</span>
-            </li>
-          </ul>
 
-          <div class="contact-notes">
-            <h3>Before you submit</h3>
-            <ul>
-              <li>Specify the product grade you need (e.g. drilling-grade, milled powder, granulated).</li>
-              <li>Indicate target volume (in metric tons) and destination port.</li>
-              <li>Mention any spec requirements (mesh size, purity, packaging).</li>
-              <li>For samples, include shipping address and contact person.</li>
-            </ul>
+        <!-- Left Column: Contact Information -->
+        <div class="contact-info-column reveal">
+          <div class="info-block">
+            <h3>Company Information</h3>
+            <p><span class="info-label">Legal Entity</span>Zamana Danışmanlık</p>
+          </div>
+
+          <div class="info-block">
+            <h3>Factory & Production</h3>
+            <p><span class="info-label">Address</span>Başkent Organize Sanayi Atatürk Bulvarı No:48, Malıköy, Sincan / Ankara</p>
+          </div>
+
+          <div class="info-block">
+            <h3>Head Office</h3>
+            <p><span class="info-label">Address</span>Kızılay Mah. Fevziçakmak 1. Sokak No:15 D:7, Çankaya / Ankara</p>
+          </div>
+
+          <div class="info-block">
+            <div class="contact-methods">
+              <div class="contact-method">
+                <span class="contact-method-label">Phone &amp; WhatsApp</span>
+                <span class="contact-method-text">+90 530 490 4740</span>
+              </div>
+              <div class="contact-method">
+                <span class="contact-method-label">Enquiries</span>
+                <span class="contact-method-text">Use the form on this page — we respond within 24 hours</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="form-wrapper">
-          <h2>Send a Request</h2>
-          <form id="contact-form" action="/api/contact" method="POST" novalidate>
-            <div class="field">
-              <label for="name">Full name <span class="req">*</span></label>
-              <input id="name" name="name" type="text" required autocomplete="name" />
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="email">Business email <span class="req">*</span></label>
-                <input id="email" name="email" type="email" required autocomplete="email" />
+        <!-- Right Column: Contact Form -->
+        <div class="reveal">
+          <div class="contact-form-card">
+            <h2>Send Your Enquiry</h2>
+            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fullName">Full Name <span class="required">*</span></label>
+                  <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                  <label for="company">Company <span class="required">*</span></label>
+                  <input type="text" id="company" name="company" placeholder="Company name" required />
+                </div>
               </div>
-              <div class="field">
-                <label for="company">Company</label>
-                <input id="company" name="company" type="text" autocomplete="organization" />
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="country">Destination country</label>
-                <input id="country" name="country" type="text" autocomplete="country-name" />
-              </div>
-              <div class="field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" />
-              </div>
-            </div>
-            <div class="field">
-              <label for="subject">Subject</label>
-              <select id="subject" name="subject">
-                <option value="quote">Request a quote</option>
-                <option value="sample">Request a sample</option>
-                <option value="spec">Technical specification</option>
-                <option value="partnership">Distribution / partnership</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="message">Message <span class="req">*</span></label>
-              <textarea id="message" name="message" rows="6" required placeholder="Product, volume, destination, timeline..."></textarea>
-            </div>
 
-            {/* Honeypot — must remain empty */}
-            <div class="hp-field" aria-hidden="true">
-              <label for="website">Website (leave empty)</label>
-              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-            </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email <span class="required">*</span></label>
+                  <input type="email" id="email" name="email" placeholder="your@email.com" required />
+                </div>
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input type="text" id="country" name="country" placeholder="Country" />
+                </div>
+              </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Send Request</button>
-              <p class="form-note">By submitting, you agree to be contacted regarding your inquiry. See our <a href="/privacy/">privacy policy</a>.</p>
-            </div>
+              <div class="form-group">
+                <label for="product">Product of Interest <span class="required">*</span></label>
+                <select id="product" name="product" required>
+                  <option value="">— Select a product grade —</option>
+                  <option value="raw-ore">Raw Sepiolite Ore</option>
+                  <option value="granulated">Granulated Sepiolite</option>
+                  <option value="milled-powder">Milled Sepiolite Powder</option>
+                  <option value="drilling-grade">Drilling Grade</option>
+                  <option value="agricultural-grade">Agricultural Grade</option>
+                  <option value="construction-grade">Construction Grade</option>
+                  <option value="custom">Custom/Other</option>
+                </select>
+              </div>
 
-            <div id="form-success" class="form-success" hidden role="status">
-              Thank you. We received your request and will respond within 24 hours.
-            </div>
-            <div id="form-error" class="form-error" hidden role="alert">
-              Something went wrong. Please try again or reach us by phone at <a href={phoneHref}>{BRAND.contact.phone}</a>.
-            </div>
-          </form>
+              <div class="form-group">
+                <label for="volume">Estimated Annual Volume <span class="required">*</span></label>
+                <select id="volume" name="volume" required>
+                  <option value="">— Select volume range —</option>
+                  <option value="trial-5-10">Trial Order 5–10 MT</option>
+                  <option value="container-20">1 Container ~20 MT</option>
+                  <option value="containers-2-5">2–5 Containers</option>
+                  <option value="containers-5-10">5–10 Containers</option>
+                  <option value="bulk-vessel">Bulk Vessel 3000+ MT</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us about your project, specifications, timeline, or any questions..."></textarea>
+              </div>
+
+              <div class="form-privacy">
+                <strong>Privacy &amp; Response:</strong> We respond to every enquiry within 24 hours. Your contact details and company information are never shared with third parties and are used solely to serve your sourcing needs.
+              </div>
+
+              <button type="submit" class="form-submit">Send Enquiry →</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY CONTACT US ===== -->
+  <section class="why-contact-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Our Commitment</span>
+        <h2 class="section-title">Why Contact <span>Us</span></h2>
+      </div>
+
+      <div class="why-contact-grid">
+        <div class="why-card reveal">
+          <div class="why-icon">⏱️</div>
+          <h3>24-Hour Response</h3>
+          <p>We reply to every enquiry within one business day. Your time matters—we'll get back to you fast with answers and options.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-icon">📦</div>
+          <h3>Free Samples</h3>
+          <p>Request product samples from any grade. We ship worldwide at no cost for qualified buyers. Evaluate before committing.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-icon">🔬</div>
+          <h3>Technical Support</h3>
+          <p>Our engineers guide you through product selection, specifications, and custom requirements. We ensure you get the right fit.</p>
+        </div>
+
+        <div class="why-card reveal">
+          <div class="why-icon">⚙️</div>
+          <h3>Custom Solutions</h3>
+          <p>Bespoke particle sizes, moisture levels, packaging, and branding. We adapt our product to your exact needs.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ===== OFFICE LOCATIONS ===== -->
+  <section class="locations-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Our Locations</span>
+        <h2 class="section-title">Visit Us in <span>Ankara</span></h2>
+      </div>
+
+      <div class="locations-grid">
+        <div class="location-card reveal">
+          <div class="location-icon">🏭</div>
+          <h3>Factory &amp; Plant</h3>
+          <div class="location-subtitle">Production &amp; Quality Control</div>
+          <p class="location-address">Başkent Organize Sanayi Atatürk Bulvarı No:48, Malıköy, Sincan / Ankara, Turkey</p>
+          <div class="location-hours">
+            <span class="location-hours-label">Business Hours</span>
+            <span class="location-hours-text">Monday–Saturday, 08:00–18:00 (Istanbul Time)</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-icon">🏢</div>
+          <h3>Head Office</h3>
+          <div class="location-subtitle">Sales &amp; Administration</div>
+          <p class="location-address">Kızılay Mah. Fevziçakmak 1. Sokak No:15 D:7, Çankaya / Ankara, Turkey</p>
+          <div class="location-hours">
+            <span class="location-hours-label">Business Hours</span>
+            <span class="location-hours-text">Monday–Friday, 09:00–18:00 (Istanbul Time)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Common Questions</span>
+        <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>How quickly will I receive a response?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-a">
+            <p>We respond to every enquiry within one business day (24 hours). Our sales team monitors all channels throughout business hours and processes urgent requests with priority. For matters outside business hours, expect a response first thing the next morning.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Can I request product samples?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-a">
+            <p>Yes, absolutely. We provide free product samples to qualified buyers. Simply specify which grade and form you'd like to evaluate (raw ore, granulated, powder, etc.), and we'll ship samples worldwide at no cost. Most samples arrive within 5–10 business days.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>What information should I include in my enquiry?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-a">
+            <p>To help us serve you faster, please provide: your company name and industry, the sepiolite grade and form you're interested in, estimated annual volume, target specifications (particle size, moisture, purity), preferred packaging, and any technical requirements. The more detail you provide, the more tailored our response.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Do you have sales representatives in my region?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-a">
+            <p>We serve 45+ countries and work through a combination of direct sales, logistics partners, and regional distributors. For details on coverage in your area, use the contact form above or call +90 530 490 4740 (WhatsApp available). We'll connect you with the right contact for your location.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>What are your business hours?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="faq-a">
+            <p>Factory (Production & Quality Control): Monday–Saturday, 08:00–18:00 (Istanbul/Turkey time). Head Office (Sales & Administration): Monday–Friday, 09:00–18:00 (Istanbul/Turkey time). Messages and inquiries received outside these hours will be processed the next business day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="contact-cta">
+    <div class="container">
+      <h2>Ready to Source Premium <span>Sepiolite?</span></h2>
+      <p>Fill out our contact form above, and we'll provide a tailored quote, technical specifications, and sample options within 24 hours.</p>
+      <div class="btn-group">
+        <a href="#contactForm" class="btn btn-primary">Start Enquiry</a>
+        <a href="../markets/" class="btn btn-outline">Explore Markets</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  
+
+  <!-- ===== SCRIPTS ===== -->
+  
+
+  <script>
+    // ===== Scroll Reveal Animation =====
+    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ===== Form Handling =====
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      var form = event.target;
+      var card = form.closest('.contact-form-card');
+
+      // Show success message (in production, POST to backend here)
+      card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
+        '<div style="font-size:3rem;margin-bottom:1rem;">&#10003;</div>' +
+        '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Enquiry Received</h2>' +
+        '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you for your interest. Our sales team will review your enquiry and respond within 24 hours.</p>' +
+        '<p style="font-size:0.85rem;color:var(--stone);">You can also reach us at <strong>+90 530 490 4740</strong> (WhatsApp)</p>' +
+        '</div>';
+    }
+
+    // ===== FAQ Toggle =====
+    function toggleFaq(button) {
+      const faqItem = button.parentElement;
+      const answer = faqItem.querySelector('.faq-a');
+      const isOpen = answer.classList.contains('open');
+
+      // Close all other FAQs
+      document.querySelectorAll('.faq-a.open').forEach(a => {
+        a.classList.remove('open');
+        a.parentElement.querySelector('.faq-q').classList.remove('active');
+      });
+
+      // Toggle current FAQ
+      if (!isOpen) {
+        answer.classList.add('open');
+        button.classList.add('active');
+      }
+    }
+  </script>
 </Layout>
 
-<script>
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const success = document.getElementById('form-success');
-  const error = document.getElementById('form-error');
+<style is:global>
+/* ===== HERO ===== */
+    .contact-hero {
+      position: relative;
+      padding: 6rem 0 5rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+      overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('/images/mine/mine-aerial-02.webp') center/cover no-repeat;
+      opacity: 0.15;
+    }
+    .contact-hero .container { position: relative; z-index: 2; text-align: center; }
+    .contact-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); margin-bottom: 1.25rem; line-height: 1.12; }
+    .contact-hero h1 span { color: var(--gold); }
+    .contact-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 700px; margin: 0 auto; line-height: 1.7; }
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    success?.setAttribute('hidden', '');
-    error?.setAttribute('hidden', '');
+    /* ===== CONTACT FORM SECTION ===== */
+    .contact-main { padding: 5rem 0; background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: flex-start; }
 
-    const fd = new FormData(form);
-    const payload: Record<string, string> = {};
-    fd.forEach((v, k) => { payload[k] = String(v); });
+    /* Left Column - Contact Information */
+    .contact-info-column { display: flex; flex-direction: column; gap: 2rem; }
 
-    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
+    .info-block {
+      background: var(--cream);
+      border-left: 4px solid var(--gold);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .info-block h3 { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--earth); margin-bottom: 1.25rem; font-weight: 700; }
+    .info-block p { font-size: 0.85rem; line-height: 1.65; color: var(--text-light); margin-bottom: 0.75rem; }
+    .info-block p:last-child { margin-bottom: 0; }
+    .info-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.35rem; }
+
+    .contact-methods {
+      display: flex; flex-direction: column; gap: 1.5rem;
+      padding-top: 1rem; border-top: 1px solid var(--cream-dark);
+    }
+    .contact-method { display: flex; flex-direction: column; }
+    .contact-method-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .contact-method-text { font-size: 0.92rem; font-weight: 600; color: var(--earth); }
+    .contact-method-sub { font-size: 0.78rem; color: var(--stone); margin-top: 0.25rem; }
+
+    .email-svg {
+      max-height: 24px;
+      margin-top: 0.4rem;
     }
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) {
-        success?.removeAttribute('hidden');
-        form.reset();
-      } else {
-        error?.removeAttribute('hidden');
-      }
-    } catch {
-      error?.removeAttribute('hidden');
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Request';
-      }
+    /* Right Column - Contact Form */
+    .contact-form-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--cream-dark);
     }
-  });
-</script>
+    .contact-form-card h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--earth); margin-bottom: 2rem; }
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
+    .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--earth); margin-bottom: 0.5rem; }
+    .form-group label .required { color: var(--gold); }
 
-  .contact-hero {
-    text-align: center;
-    padding-block: var(--s-7);
-  }
-
-  .contact-hero h1 {
-    color: var(--c-white);
-    margin-bottom: var(--s-3);
-  }
-
-  .contact-hero .lead {
-    color: var(--c-text-light);
-    font-size: 1.1rem;
-    line-height: 1.7;
-  }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--s-6);
-    align-items: start;
-  }
-
-  .contact-info h2,
-  .form-wrapper h2 {
-    font-size: 1.4rem;
-    margin-bottom: var(--s-4);
-  }
-
-  .contact-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-
-  .contact-list li {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-    padding-bottom: var(--s-3);
-    border-bottom: 1px solid var(--c-cream-dark);
-  }
-
-  .contact-list li:last-child {
-    border-bottom: none;
-  }
-
-  .contact-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--c-stone);
-    font-weight: 600;
-  }
-
-  .contact-value {
-    font-size: 1rem;
-    color: var(--c-earth);
-    font-weight: 500;
-  }
-
-  a.contact-value:hover {
-    color: var(--c-gold-dark);
-  }
-
-  .contact-notes {
-    margin-top: var(--s-5);
-    background: var(--c-cream);
-    border-left: 3px solid var(--c-gold);
-    padding: var(--s-4);
-    border-radius: 0 var(--r-input) var(--r-input) 0;
-  }
-
-  .contact-notes h3 {
-    font-size: 1rem;
-    margin-bottom: var(--s-2);
-    color: var(--c-earth);
-  }
-
-  .contact-notes ul {
-    margin: 0;
-    padding-inline-start: var(--s-4);
-    color: var(--c-text-muted);
-    font-size: 0.92rem;
-    line-height: 1.7;
-  }
-
-  /* Form */
-  .form-wrapper {
-    background: var(--c-cream);
-    border: 1px solid var(--c-cream-dark);
-    border-radius: var(--r-card);
-    padding: var(--s-5);
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-    margin-bottom: var(--s-3);
-  }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s-3);
-  }
-
-  .field label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--c-earth);
-  }
-
-  .req {
-    color: var(--c-gold-dark);
-  }
-
-  .field input,
-  .field select,
-  .field textarea {
-    padding: var(--s-2) var(--s-3);
-    border: 1px solid var(--c-cream-dark);
-    border-radius: var(--r-input);
-    background: var(--c-white);
-    font-size: 0.95rem;
-    font-family: var(--font-sans);
-    color: var(--c-earth);
-    transition: border-color var(--t-fast), box-shadow var(--t-fast);
-  }
-
-  .field input:focus,
-  .field select:focus,
-  .field textarea:focus {
-    outline: none;
-    border-color: var(--c-gold);
-    box-shadow: 0 0 0 3px rgba(201, 146, 42, 0.18);
-  }
-
-  .field textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-
-  /* Honeypot — hidden from users + assistive tech */
-  .hp-field {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  .form-actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-    margin-top: var(--s-4);
-  }
-
-  .form-note {
-    font-size: 0.8rem;
-    color: var(--c-text-muted);
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  .form-note a {
-    color: var(--c-gold-dark);
-  }
-
-  .form-success,
-  .form-error {
-    margin-top: var(--s-4);
-    padding: var(--s-3) var(--s-4);
-    border-radius: var(--r-input);
-    font-size: 0.95rem;
-  }
-
-  .form-success {
-    background: rgba(44, 140, 122, 0.12);
-    border: 1px solid var(--c-accent-teal);
-    color: var(--c-accent-teal);
-  }
-
-  .form-error {
-    background: rgba(180, 50, 50, 0.1);
-    border: 1px solid #b43232;
-    color: #b43232;
-  }
-
-  .form-error a {
-    color: inherit;
-    font-weight: 600;
-  }
-
-  @media (max-width: 900px) {
-    .contact-grid {
-      grid-template-columns: 1fr;
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--cream-dark);
+      border-radius: 6px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: var(--earth);
+      background: var(--white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,146,42,0.1);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-family: 'Inter', system-ui, sans-serif;
     }
 
-    .field-row {
-      grid-template-columns: 1fr;
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-privacy {
+      font-size: 0.78rem;
+      color: var(--stone);
+      line-height: 1.6;
+      padding: 1rem;
+      background: rgba(201,146,42,0.05);
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
     }
-  }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      background: var(--gold);
+      color: var(--earth);
+      border: none;
+      border-radius: 6px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      justify-content: center;
+    }
+    .form-submit:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,146,42,0.38);
+    }
+
+    /* ===== WHY CONTACT US ===== */
+    .why-contact-section { padding: 5rem 0; background: var(--cream); }
+    .why-contact-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .why-contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+
+    .why-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--cream-dark);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .why-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .why-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.6rem; }
+    .why-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--earth); margin-bottom: 0.75rem; }
+    .why-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
+
+    /* ===== OFFICE LOCATIONS ===== */
+    .locations-section { padding: 5rem 0; background: var(--white); }
+    .locations-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .locations-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+
+    .location-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      border: 1px solid var(--cream-dark);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .location-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .location-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .location-card h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--earth); margin-bottom: 0.35rem; }
+    .location-subtitle { font-size: 0.78rem; font-weight: 600; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .location-address { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; margin-bottom: 1.5rem; }
+    .location-hours { padding-top: 1.5rem; border-top: 1px solid var(--cream-dark); }
+    .location-hours-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; display: block; }
+    .location-hours-text { font-size: 0.9rem; color: var(--earth); font-weight: 600; }
+
+    /* ===== FAQ ===== */
+    .faq-section { padding: 5rem 0; background: var(--white); }
+    .faq-section .section-header { text-align: center; margin-bottom: 3rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--cream-dark); }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.25rem 0; cursor: pointer; font-size: 1rem; font-weight: 600;
+      color: var(--earth); transition: color 0.2s ease; width: 100%;
+      text-align: left; background: none; border: none; font-family: inherit;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q svg { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--gold); }
+    .faq-q.active svg { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .faq-a.open { max-height: 400px; padding-bottom: 1.25rem; }
+    .faq-a p { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; }
+
+    /* ===== CTA ===== */
+    .contact-cta {
+      padding: 5rem 0;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%);
+      text-align: center;
+    }
+    .contact-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 1rem; }
+    .contact-cta h2 span { color: var(--gold); }
+    .contact-cta p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .contact-cta .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .why-contact-grid { grid-template-columns: repeat(2, 1fr); }
+      .locations-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .contact-hero { padding: 4rem 0 3.5rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .why-contact-grid { grid-template-columns: 1fr; }
+      .locations-grid { grid-template-columns: 1fr; }
+      .contact-form-card { padding: 1.75rem; }
+      .info-block { padding: 1.5rem; }
+    }
 </style>

@@ -1,0 +1,1048 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const schemaJson = [
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Products", "item": "https://sepiolitemine.com/products/"},
+    {"@type": "ListItem", "position": 3, "name": "Milled Sepiolite Powder", "item": "https://sepiolitemine.com/products/milled-sepiolite-powder/"}
+  ]
+},
+  {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Milled Sepiolite Powder",
+  "description": "Ultra-fine milled sepiolite powder from 5–200 microns. High surface area for paints, coatings, pharmaceuticals, cosmetics, and ceramics. FOB Mersin/Samsun.",
+  "image": ["https://sepiolitemine.com/images/products/product-milled-powder.webp"],
+  "sku": "SM-MILL-001",
+  "brand": {"@type": "Brand", "name": "Sepiolite Mine"},
+  "manufacturer": {"@type": "Organization", "name": "Zamana", "url": "https://zamana.com.tr"},
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "url": "https://sepiolitemine.com/products/milled-sepiolite-powder/",
+    "seller": {"@type": "Organization", "name": "Sepiolite Mine"}
+  },
+  "countryOfOrigin": {"@type": "Country", "name": "Turkey"}
+},
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What particle sizes are available for milled sepiolite?",
+      "acceptedAnswer": {"@type": "Answer", "text": "We offer grades ranging from 5 to 200 microns. Standard grades include ultra-fine (D50: 15μm), fine (D50: 25μm), medium (D50: 45μm), and coarse (D50: 100μm+). Custom milling is available."}
+    },    {
+      "@type": "Question",
+      "name": "Is milled sepiolite suitable for food-contact applications?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Sepiolite is approved for food-contact use in many jurisdictions. We can provide specific compliance documentation upon request for your target market."}
+    },    {
+      "@type": "Question",
+      "name": "How does sepiolite powder compare to fumed silica as a thickener?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Sepiolite provides similar thixotropic performance at lower cost. It offers better suspension of heavy pigments and is easier to disperse without specialized equipment."}
+    },    {
+      "@type": "Question",
+      "name": "What is the shelf life of milled sepiolite powder?",
+      "acceptedAnswer": {"@type": "Answer", "text": "When stored in sealed packaging in dry conditions, milled sepiolite has an indefinite shelf life. The mineral is chemically stable and does not degrade over time."}
+    },    {
+      "@type": "Question",
+      "name": "Can you provide samples for formulation testing?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes, we supply 1–5 kg samples of all powder grades with full technical data sheets. Contact our sales team to specify your required particle size."}
+    }
+  ]
+}
+];
+---
+
+<Layout
+  title="Milled Sepiolite Powder – Micronized Fine Grade"
+  description="Ultra-fine milled sepiolite powder from 5–200 microns. High surface area for paints, coatings, pharmaceuticals, cosmetics, and ceramics. FOB Mersin/Samsun."
+  locale="en"
+  alternates={{ en: "/products/milled-sepiolite-powder/", tr: "/tr/products/ogutulmus-sepiyolit-tozu/" }}
+  schemaJson={schemaJson}
+>
+<div class="breadcrumb-bar">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../">Home</a>
+      <span class="sep">›</span>
+      <a href="../">Products</a>
+      <span class="sep">›</span>
+      <span class="current">Milled Sepiolite Powder</span>
+    </nav>
+  </div>
+</div>
+
+<section class="product-hero">
+  <div class="container">
+    <div class="product-hero-grid">
+
+      <div class="product-gallery">
+        <div class="product-main-img" id="mainImg">
+          <img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled sepiolite powder – ultra-fine micronized mineral" id="mainImgSrc" />
+        </div>
+        <div class="product-thumbs">
+          <div class="product-thumb active" onclick="switchImage(this, '/images/products/product-milled-powder.webp', 'Milled Sepiolite Powder')">
+            <img width="1200" height="896" src="/images/products/product-milled-powder.webp" alt="Milled Sepiolite Powder" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/factory/factory-interior-02.webp', 'Sepiolite milling facility')">
+            <img width="808" height="380" src="/images/factory/factory-interior-02.webp" alt="Sepiolite milling facility" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-03.webp', 'Milled Sepiolite Powder sample')">
+            <img width="506" height="900" src="/images/products/product-sample-03.webp" alt="Milled Sepiolite Powder sample" loading="lazy" />
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-04.webp', 'Milled Sepiolite Powder detail')">
+            <img width="506" height="900" src="/images/products/product-sample-04.webp" alt="Milled Sepiolite Powder detail" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <div class="product-badge">Fine Grade</div>
+        <h1 class="product-h1">Milled Sepiolite <em>Powder</em></h1>
+        <p class="product-tagline">Ultra-fine micronized powder with precisely controlled particle distribution. Engineered for paints, coatings, pharmaceuticals, cosmetics, and advanced ceramic applications.</p>
+
+        <div class="key-specs">
+          <div class="key-spec">
+            <div class="key-spec-value">5–200μm</div>
+            <div class="key-spec-label">Particle Size</div>
+          </div>
+          <div class="key-spec">
+            <div class="key-spec-value">300m²/g</div>
+            <div class="key-spec-label">Surface Area</div>
+          </div>
+          <div class="key-spec">
+            <div class="key-spec-value">99.5%</div>
+            <div class="key-spec-label">Purity</div>
+          </div>
+        </div>
+
+        <div class="price-box">
+          <div class="price-box-header">
+            <span class="price-label">Bulk Pricing</span>
+            <span class="price-availability">In Stock</span>
+          </div>
+          <div class="price-value">TBD</div>
+          <div class="price-unit">Price per metric ton · FOB Port of Mersin or FOB Samsun Port, Turkey · Contact for CIF pricing</div>
+          <div class="price-features">
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Minimum order: 20 MT (one container)
+            </div>
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Certificate of Analysis included with every shipment
+            </div>
+            <div class="price-feature">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Free samples available for qualified buyers
+            </div>
+          </div>
+          <div class="price-actions">
+            <a href="../../#contact" class="btn btn-primary">Request a Quote</a>
+            <a href="../../#contact" class="btn btn-outline">Request Sample</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="product-desc-section">
+  <div class="container">
+    <div class="product-desc-grid">
+      <div class="product-desc">
+        <div class="section-tag">Product Overview</div>
+        <div class="divider"></div>
+        <h2>Precision-Milled for <span>Advanced</span> Applications</h2>
+        <p>Our milled sepiolite powder is produced through a controlled grinding and classification process that reduces raw ore to ultra-fine particles while preserving the mineral's unique fibrous nanostructure. This structure is key to its exceptional rheological and adsorptive properties.</p>
+        <p>Available in multiple grades from 5 to 200 microns, the powder exhibits remarkably high specific surface area (200–300 m²/g) that provides outstanding thixotropic behavior in liquid systems. This makes it indispensable as a rheology modifier in paints, coatings, and adhesives.</p>
+        <p>In pharmaceutical and cosmetic applications, milled sepiolite serves as an excipient, carrier, and stabilizer. Its natural origin, chemical inertness, and high purity make it suitable for sensitive formulations where synthetic alternatives are undesirable.</p>
+        <p>Our milling facility operates with precision air classifiers that ensure tight particle size distribution. D50 and D90 values are verified on every batch, giving formulators the consistency they need for reproducible end products.</p>
+      </div>
+      <div>
+        <div class="tech-specs-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            Technical Specifications
+          </h3>
+          <div class="spec-row">
+            <span class="spec-label">Product Form</span>
+            <span class="spec-value">Fine Powder</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Particle Size Range</span>
+            <span class="spec-value">5–200 μm</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">D50 (typical)</span>
+            <span class="spec-value">15–45 μm</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Specific Surface Area</span>
+            <span class="spec-value">200–300 m²/g</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">MgO</span>
+            <span class="spec-value">≥ 18%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">SiO₂</span>
+            <span class="spec-value">≥ 54%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Moisture</span>
+            <span class="spec-value">≤ 10%</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">pH (10% suspension)</span>
+            <span class="spec-value">8.0–9.5</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Color</span>
+            <span class="spec-value">White</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Oil Absorption</span>
+            <span class="spec-value">120–180 g/100g</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Packaging</span>
+            <span class="spec-value">25kg Bags / 1 MT Bags</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Delivery</span>
+            <span class="spec-value">FOB Mersin / Samsun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usage-section">
+  <div class="container">
+    <div class="usage-header">
+      <div class="section-tag" style="color:var(--gold-light);">Applications</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title" style="color:var(--white);">Where Milled Sepiolite Powder <span>Is Used</span></h2>
+    </div>
+    <div class="usage-grid">
+      <div class="usage-card reveal">
+        <div class="usage-icon">🎨</div>
+        <h3>Paints & Coatings</h3>
+        <p>Provides thixotropic behavior and anti-settling properties in water-based and solvent-based formulations. Prevents pigment sedimentation while maintaining easy brushability and spray application.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">💊</div>
+        <h3>Pharmaceuticals</h3>
+        <p>Used as an excipient, controlled-release carrier, and stabilizer in tablet and suspension formulations. Natural origin and chemical inertness meet pharmaceutical-grade requirements.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🧴</div>
+        <h3>Cosmetics & Personal Care</h3>
+        <p>Serves as a natural thickener, oil absorber, and texture enhancer in creams, lotions, masks, and powder foundations. Gentle on skin with no irritation profile.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏺</div>
+        <h3>Ceramics & Refractories</h3>
+        <p>Incorporated into ceramic bodies and glazes to improve green strength, reduce shrinkage, and enhance thermal shock resistance in kiln-fired products.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🧪</div>
+        <h3>Adhesives & Sealants</h3>
+        <p>Acts as a thixotropic agent in construction adhesives, tile mortars, and industrial sealants. Prevents sagging on vertical surfaces while maintaining workability.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🖌️</div>
+        <h3>Plastics & Polymers</h3>
+        <p>Used as a reinforcing filler in thermoplastics and thermosets. Improves dimensional stability, reduces warping, and can enhance flame retardancy in compound formulations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="advantages-section">
+  <div class="container">
+    <div class="advantages-grid">
+      <div>
+        <div class="section-tag">Why Choose Us</div>
+        <div class="divider"></div>
+        <h2 class="section-title">Key <span>Advantages</span></h2>
+        <div class="advantage-list">
+          <div class="advantage-item reveal">
+            <div class="advantage-num">01</div>
+            <div>
+              <strong>Controlled Particle Distribution</strong>
+              <p>Precision air classification ensures tight D50 and D90 values batch after batch, critical for reproducible formulations in paints and pharma.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">02</div>
+            <div>
+              <strong>Exceptional Surface Area</strong>
+              <p>At 200–300 m²/g, our milled powder offers one of the highest surface areas among natural minerals — essential for rheology modification.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">03</div>
+            <div>
+              <strong>Chemical Inertness</strong>
+              <p>Sepiolite powder is chemically stable across pH 3–11, compatible with most formulation systems, and does not react with active ingredients.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">04</div>
+            <div>
+              <strong>Natural & Sustainable</strong>
+              <p>A naturally occurring mineral requiring no chemical synthesis — meeting growing demand for clean-label and green-chemistry ingredients.</p>
+            </div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">05</div>
+            <div>
+              <strong>Versatile Particle Grades</strong>
+              <p>From 5μm ultra-fine for pharma to 200μm coarse for construction — we produce the exact grade your application demands.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="advantage-image">
+        <img width="787" height="1050" src="/images/factory/factory-interior-03.webp" alt="Sepiolite mine – Zamana Turkey" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <div class="section-tag">Common Questions</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What particle sizes are available for milled sepiolite?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          We offer grades ranging from 5 to 200 microns. Standard grades include ultra-fine (D50: 15μm), fine (D50: 25μm), medium (D50: 45μm), and coarse (D50: 100μm+). Custom milling is available.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is milled sepiolite suitable for food-contact applications?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Sepiolite is approved for food-contact use in many jurisdictions. We can provide specific compliance documentation upon request for your target market.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How does sepiolite powder compare to fumed silica as a thickener?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Sepiolite provides similar thixotropic performance at lower cost. It offers better suspension of heavy pigments and is easier to disperse without specialized equipment.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What is the shelf life of milled sepiolite powder?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          When stored in sealed packaging in dry conditions, milled sepiolite has an indefinite shelf life. The mineral is chemically stable and does not degrade over time.
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Can you provide samples for formulation testing?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          Yes, we supply 1–5 kg samples of all powder grades with full technical data sheets. Contact our sales team to specify your required particle size.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="related-section">
+  <div class="container">
+    <div class="related-header">
+      <div class="section-tag">More Products</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Explore Our Other <span>Grades</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Raw Sepiolite Ore" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Raw Sepiolite Ore</h3>
+          <p>Directly mined sepiolite in natural block form with natural fiber structure intact.</p>
+          <a href="../raw-sepiolite-ore/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granulated Sepiolite" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Granulated Sepiolite</h3>
+          <p>Precision-sized granules for cat litter, agriculture, and industrial absorbents.</p>
+          <a href="../granulated-sepiolite/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img">
+          <img width="1200" height="896" src="/images/products/product-drilling-grade.webp" alt="Drilling Grade Sepiolite" loading="lazy" />
+        </div>
+        <div class="related-card-body">
+          <h3>Drilling Grade Sepiolite</h3>
+          <p>Rheology modifier for oil and gas drilling fluids, stable up to 300°C.</p>
+          <a href="../drilling-grade-sepiolite/" class="related-link">View Product <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<script defer>
+  function switchImage(thumb, src, alt) {
+    document.getElementById('mainImgSrc').src = src;
+    document.getElementById('mainImgSrc').alt = alt;
+    document.querySelectorAll('.product-thumb').forEach(function(t) { t.classList.remove('active'); });
+    thumb.classList.add('active');
+  }
+  function toggleFaq(el) {
+    var item = el.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+    var navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    }
+    document.addEventListener('click', function(e) {
+      var ham = e.target.closest('#hamburger');
+      if (ham) {
+        var menu = document.getElementById('mobileMenu');
+        var isOpen = menu && menu.classList.toggle('open');
+        ham.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (menu) menu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      }
+      if (e.target.closest('#mobileMenu a')) {
+        var menu2 = document.getElementById('mobileMenu');
+        var ham2  = document.getElementById('hamburger');
+        if (menu2) { menu2.classList.remove('open'); menu2.setAttribute('aria-hidden','true'); }
+        if (ham2)  { ham2.setAttribute('aria-expanded','false'); }
+      }
+    });
+  });
+</script>
+</Layout>
+
+<style is:global>
+/* ===== PRODUCT HERO ===== */
+    .product-hero {
+      padding: 3.5rem 0 4rem;
+      background: var(--cream);
+    }
+    .product-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .product-gallery {
+      position: sticky;
+      top: 80px;
+    }
+    .product-main-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--cream-dark);
+    }
+    .product-main-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .product-thumb {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 1;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: var(--transition);
+      background: var(--white);
+    }
+    .product-thumb:hover,
+    .product-thumb.active {
+      border-color: var(--gold);
+      box-shadow: 0 4px 12px rgba(201,146,42,0.25);
+    }
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,146,42,0.14);
+      border: 1px solid rgba(201,146,42,0.35);
+      color: var(--gold-dark);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      width: fit-content;
+    }
+    .product-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .product-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.12;
+      color: var(--earth);
+      margin-bottom: 1rem;
+    }
+    .product-h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .product-tagline {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+
+    /* Key specs strip */
+    .key-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .key-spec {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .key-spec:hover {
+      border-color: var(--gold);
+      box-shadow: var(--shadow-sm);
+    }
+    .key-spec-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .key-spec-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-top: 0.35rem;
+    }
+
+    /* Price box */
+    .price-box {
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 100%);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(201,146,42,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .price-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .price-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .price-availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4ADE80;
+    }
+    .price-availability::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: #4ADE80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+    .price-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .price-unit {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+    }
+    .price-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .price-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+    }
+    .price-feature svg {
+      width: 16px;
+      height: 16px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .price-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .price-actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* ===== PRODUCT DESCRIPTION SECTION ===== */
+    .product-desc-section {
+      padding: 5rem 0;
+      background: var(--white);
+    }
+    .product-desc-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .product-desc h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .product-desc h2 span { color: var(--gold); }
+    .product-desc p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      margin-bottom: 1.25rem;
+      max-width: 680px;
+    }
+    .product-desc p:last-child { margin-bottom: 0; }
+
+    /* Technical specs sidebar */
+    .tech-specs-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--cream-dark);
+      position: sticky;
+      top: 80px;
+    }
+    .tech-specs-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--stone);
+    }
+    .spec-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--earth);
+      text-align: right;
+    }
+
+    /* ===== USAGE AREAS ===== */
+    .usage-section {
+      padding: 5rem 0;
+      background: var(--earth);
+    }
+    .usage-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .usage-header .section-title { color: var(--white); }
+    .usage-header .section-subtitle { color: rgba(255,255,255,0.65); margin: 0 auto; max-width: 600px; }
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .usage-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: var(--transition);
+    }
+    .usage-card:hover {
+      background: rgba(201,146,42,0.1);
+      border-color: rgba(201,146,42,0.35);
+      transform: translateY(-4px);
+    }
+    .usage-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(201,146,42,0.15);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .usage-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .usage-card p {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ===== ADVANTAGES ===== */
+    .advantages-section {
+      padding: 5rem 0;
+      background: var(--cream);
+    }
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .advantage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .advantage-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .advantage-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .advantage-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 32px;
+    }
+    .advantage-item strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--earth);
+      margin-bottom: 0.3rem;
+    }
+    .advantage-item p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      margin: 0;
+    }
+    .advantage-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: var(--shadow-md);
+    }
+    .advantage-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      padding: 5rem 0;
+      background: var(--white);
+    }
+    .faq-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .faq-item {
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .faq-item.open {
+      border-color: var(--gold);
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--earth);
+      gap: 1rem;
+      user-select: none;
+    }
+    .faq-question:hover {
+      color: var(--gold-dark);
+    }
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--gold);
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--text-light);
+    }
+
+    /* ===== RELATED PRODUCTS ===== */
+    .related-section {
+      padding: 5rem 0;
+      background: var(--cream);
+    }
+    .related-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .related-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .related-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .related-card-img {
+      height: 180px;
+      overflow: hidden;
+    }
+    .related-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .related-card:hover .related-card-img img {
+      transform: scale(1.07);
+    }
+    .related-card-body {
+      padding: 1.5rem;
+    }
+    .related-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--earth);
+      margin-bottom: 0.5rem;
+    }
+    .related-card-body p {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    .related-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gold);
+      transition: var(--transition);
+    }
+    .related-link svg {
+      width: 14px;
+      height: 14px;
+      transition: transform var(--transition);
+    }
+    .related-link:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .product-hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .product-gallery { position: static; }
+      .product-desc-grid { grid-template-columns: 1fr; }
+      .advantages-grid { grid-template-columns: 1fr; }
+      .usage-grid { grid-template-columns: 1fr 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .usage-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      .key-specs { grid-template-columns: 1fr; }
+      .price-actions { flex-direction: column; }
+      .product-thumbs { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+</style>

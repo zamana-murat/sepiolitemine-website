@@ -1,10 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
-
-const products = (await getCollection('products', (p) => p.data.locale === 'en' && !p.data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
@@ -20,256 +16,319 @@ const breadcrumbSchema = {
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  itemListElement: products.map((p, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    url: `${siteUrl}/products/${p.slug}/`,
-    name: p.data.title,
-  })),
+  name: 'Sepiolite Products',
+  numberOfItems: 6,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, url: `${siteUrl}/products/raw-sepiolite-ore/` },
+    { '@type': 'ListItem', position: 2, url: `${siteUrl}/products/granulated-sepiolite/` },
+    { '@type': 'ListItem', position: 3, url: `${siteUrl}/products/milled-sepiolite-powder/` },
+    { '@type': 'ListItem', position: 4, url: `${siteUrl}/products/drilling-grade-sepiolite/` },
+    { '@type': 'ListItem', position: 5, url: `${siteUrl}/products/agricultural-sepiolite/` },
+    { '@type': 'ListItem', position: 6, url: `${siteUrl}/products/construction-insulation-grade/` },
+  ],
 };
 ---
 
 <Layout
-  title="Sepiolite Products"
-  description={`Six grades of premium Turkish sepiolite for industrial B2B buyers: ${products.slice(0, 3).map(p => p.data.title).join(', ')}, and more. Request a quote today.`}
+  title="Sepiolite Products – Full Range of Turkish Sepiolite"
+  description="Explore our complete range of Turkish sepiolite products — raw ore, granulated, milled powder, drilling grade, agricultural, and construction grade. Direct from our mines to your industry."
   locale="en"
   alternates={{ en: '/products/', tr: '/tr/products/' }}
   schemaJson={[breadcrumbSchema, itemListSchema]}
 >
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Products</li>
-      </ol>
-    </div>
-  </nav>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
+  </Fragment>
 
-  <section class="hub-hero section section--dark">
-    <div class="container container-narrow">
-      <span class="section-tag">Products</span>
-      <h1>Sepiolite Grades for Every Application</h1>
-      <p class="lead">
-        Six precisely engineered sepiolite grades, mined and processed in Türkiye, serving
-        B2B industrial buyers in agriculture, oil &amp; gas drilling, construction, pet care,
-        and more across 50+ countries.
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
+  {/* ===== BREADCRUMB ===== */}
+  <div class="breadcrumb-bar">
     <div class="container">
-      <div class="products-grid">
-        {products.map((p) => (
-          <a href={`/products/${p.slug}/`} class="product-card">
-            <div class="card-img">
-              <img
-                src={p.data.heroImage}
-                alt={p.data.heroImageAlt}
-                width="400"
-                height="300"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body">
-              {p.data.badge && <span class="card-badge">{p.data.badge}</span>}
-              <h2>{p.data.title}</h2>
-              <p class="card-desc">{p.data.tagline}</p>
-              {p.data.keySpecs.length > 0 && (
-                <div class="card-specs">
-                  {p.data.keySpecs.slice(0, 3).map((s) => (
-                    <span class="spec-pill">
-                      <strong>{s.value}</strong> {s.label}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span class="card-link">View product details →</span>
-            </div>
-          </a>
-        ))}
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">›</span>
+        <span class="current">Products</span>
+      </div>
+    </div>
+  </div>
+
+  {/* ===== HERO ===== */}
+  <section class="products-hero">
+    <div class="container">
+      <span class="section-tag">Our Product Range</span>
+      <h1>Premium <span>Sepiolite</span> Products</h1>
+      <p>From raw ore to precision-processed grades — we supply the full spectrum of sepiolite products, mined and manufactured in Turkey for global industries.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-label">Product Lines</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">30+</div>
+          <div class="hero-stat-label">Years Experience</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">45+</div>
+          <div class="hero-stat-label">Countries Served</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">99%</div>
+          <div class="hero-stat-label">Mineral Purity</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cta-band section section--dark">
-    <div class="container container-narrow">
-      <h2>Looking for a custom grade or large-volume contract?</h2>
-      <p>Our technical team can advise on grade selection, spec customization, and supply agreements.</p>
-      <a href="/contact/" class="btn btn-primary">Request Quote</a>
+  {/* ===== PRODUCT GRID ===== */}
+  <section class="products-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Explore Our Range</span>
+        <h2 class="section-title">Sepiolite for <span>Every Industry</span></h2>
+      </div>
+
+      <div class="grid-3">
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/raw-ore-400w.webp" alt="Raw Sepiolite Ore" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Raw Material</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Raw Sepiolite Ore</h3>
+            <p>Unprocessed sepiolite directly from Turkey's richest deposits. Premium quality mineral chunks with 99%+ purity for industrial clients worldwide.</p>
+            <div class="product-specs">
+              <span class="product-spec">99%+ Purity</span>
+              <span class="product-spec">Bulk/Bags</span>
+              <span class="product-spec">Mine Direct</span>
+            </div>
+            <a href="/products/raw-sepiolite-ore/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/granulated-400w.webp" alt="Granulated Sepiolite" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Processed</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Granulated Sepiolite</h3>
+            <p>Precision-sized granules for cat litter, agriculture, and industrial absorbent markets. Available in 0–2mm, 2–4mm, and 4–8mm fractions with controlled moisture.</p>
+            <div class="product-specs">
+              <span class="product-spec">0–8mm</span>
+              <span class="product-spec">Low Dust</span>
+              <span class="product-spec">Custom Size</span>
+            </div>
+            <a href="/products/granulated-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/milled-powder-400w.webp" alt="Milled Sepiolite Powder" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Fine Grade</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Milled Sepiolite Powder</h3>
+            <p>Ultra-fine micronized powder for paints, coatings, pharmaceuticals, and cosmetics. Controlled particle distribution from 5–200 microns with high surface area.</p>
+            <div class="product-specs">
+              <span class="product-spec">5–200µm</span>
+              <span class="product-spec">High Surface</span>
+              <span class="product-spec">Bags/BigBag</span>
+            </div>
+            <a href="/products/milled-sepiolite-powder/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/drilling-grade-400w.webp" alt="Drilling Grade Sepiolite" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Oil &amp; Gas</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Drilling Grade Sepiolite</h3>
+            <p>API-compliant sepiolite for oil and gas drilling fluid applications. Provides stable rheology in saline and high-temperature environments where bentonite fails.</p>
+            <div class="product-specs">
+              <span class="product-spec">API Spec 13A</span>
+              <span class="product-spec">Salt Tolerant</span>
+              <span class="product-spec">50kg Bags</span>
+            </div>
+            <a href="/products/drilling-grade-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/agriculture-400w.webp" alt="Agricultural Sepiolite" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Agriculture</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Agricultural Sepiolite</h3>
+            <p>Soil amendment and carrier grade for fertilizers, pesticides, and seed coatings. Improves soil structure, water retention, and nutrient delivery for enhanced yields.</p>
+            <div class="product-specs">
+              <span class="product-spec">Soil Grade</span>
+              <span class="product-spec">Carrier</span>
+              <span class="product-spec">Eco Cert.</span>
+            </div>
+            <a href="/products/agricultural-sepiolite/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="/images/products/construction-400w.webp" alt="Construction & Insulation Grade Sepiolite" width="400" height="220" loading="lazy"/>
+            <span class="product-card-tag">Construction</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Construction &amp; Insulation Grade</h3>
+            <p>Low thermal conductivity sepiolite for insulating boards, mortars, and fireproof coatings. Enhances workability and durability in cement and lime-based products.</p>
+            <div class="product-specs">
+              <span class="product-spec">Low λ</span>
+              <span class="product-spec">Fireproof</span>
+              <span class="product-spec">Bulk Delivery</span>
+            </div>
+            <a href="/products/construction-insulation-grade/" class="product-link">View Details <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="products-cta">
+    <div class="container">
+      <h2>Need a <span>Custom Grade</span>?</h2>
+      <p>We can tailor particle size, moisture content, and packaging to your exact specifications. Talk to our technical team.</p>
+      <div class="btn-group">
+        <a href="/contact/" class="btn btn-primary">Contact Sales Team</a>
+        <a href="/#about" class="btn btn-outline-dark" style="border-color:rgba(255,255,255,0.4);color:#fff;">About Our Mine</a>
+      </div>
     </div>
   </section>
 </Layout>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  });
+</script>
+
 <style>
-  .breadcrumb-bar {
-    background: var(--c-cream);
-    border-bottom: 1px solid var(--c-cream-dark);
-    padding-block: var(--s-3);
+  /* ===== HERO ===== */
+  .products-hero {
+    position: relative;
+    padding: 6rem 0 5rem;
+    background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+    overflow: hidden;
   }
-
-  .breadcrumb {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: var(--s-2);
-    font-size: 0.85rem;
-    color: var(--c-text-muted);
+  .products-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('/images/mine/aerial-02-1200w.webp') center/cover no-repeat;
+    opacity: 0.18;
   }
-
-  .breadcrumb a {
-    color: var(--c-text-muted);
-    text-decoration: none;
+  .products-hero .container { position: relative; z-index: 2; text-align: center; }
+  .products-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    color: var(--white);
+    margin-bottom: 1.25rem;
+    line-height: 1.12;
   }
-
-  .breadcrumb a:hover {
-    color: var(--c-gold-dark);
-  }
-
-  .breadcrumb [aria-current='page'] {
-    color: var(--c-earth);
-    font-weight: 500;
-  }
-
-  .breadcrumb .sep {
-    color: var(--c-stone);
-  }
-
-  .hub-hero {
-    text-align: center;
-    padding-block: var(--s-7);
-  }
-
-  .hub-hero h1 {
-    color: var(--c-white);
-    margin-bottom: var(--s-3);
-  }
-
-  .hub-hero .lead {
-    color: var(--c-text-light);
+  .products-hero h1 span { color: var(--gold); }
+  .products-hero p {
     font-size: 1.1rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 640px;
+    margin: 0 auto 2rem;
     line-height: 1.7;
   }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1;
+  }
+  .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.35rem; letter-spacing: 0.04em; }
 
-  .products-grid {
+  /* ===== PRODUCT GRID ===== */
+  .products-section { padding: 5rem 0 6rem; background: var(--white); }
+  .products-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+  .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--s-4);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 
   .product-card {
-    background: var(--c-white);
-    border: 1px solid var(--c-cream-dark);
-    border-radius: var(--r-card);
+    background: var(--white);
+    border-radius: var(--radius);
     overflow: hidden;
-    text-decoration: none;
-    color: var(--c-text);
-    display: flex;
-    flex-direction: column;
-    transition: border-color var(--t), transform var(--t), box-shadow var(--t);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--cream-dark);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    display: flex; flex-direction: column;
   }
-
-  .product-card:hover {
-    border-color: var(--c-gold);
-    transform: translateY(-4px);
-    box-shadow: var(--sh-mid);
-    text-decoration: none;
+  .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+  .product-card-img {
+    position: relative; height: 220px; overflow: hidden;
   }
-
-  .card-img {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    background: var(--c-cream);
+  .product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .product-card:hover .product-card-img img { transform: scale(1.07); }
+  .product-card-tag {
+    position: absolute; top: 1rem; left: 1rem;
+    background: rgba(28,20,16,0.75); backdrop-filter: blur(6px);
+    color: var(--gold-light); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.35rem 0.85rem; border-radius: 4px;
   }
-
-  .card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--t-slow);
+  .product-card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+  .product-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--earth); margin-bottom: 0.75rem; }
+  .product-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-light); flex: 1; margin-bottom: 1.25rem; }
+  .product-specs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .product-spec { font-size: 0.72rem; font-weight: 600; color: var(--gold-dark); background: rgba(201,146,42,0.1); padding: 0.3rem 0.7rem; border-radius: 4px; letter-spacing: 0.02em; }
+  .product-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--gold);
+    transition: color 0.25s ease, gap 0.25s ease; margin-top: auto;
   }
+  .product-link svg { width: 16px; height: 16px; }
+  .product-link:hover { color: var(--gold-dark); gap: 0.75rem; }
 
-  .product-card:hover .card-img img {
-    transform: scale(1.05);
-  }
-
-  .card-body {
-    padding: var(--s-4);
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-    flex: 1;
-  }
-
-  .card-badge {
-    align-self: flex-start;
-    background: rgba(201, 146, 42, 0.14);
-    border: 1px solid rgba(201, 146, 42, 0.35);
-    color: var(--c-gold-dark);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    border-radius: 100px;
-  }
-
-  .card-body h2 {
-    font-size: 1.3rem;
-    margin: 0;
-    color: var(--c-earth);
-  }
-
-  .card-desc {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--c-text-muted);
-    margin: 0;
-    flex: 1;
-  }
-
-  .card-specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
-    margin-top: var(--s-2);
-  }
-
-  .spec-pill {
-    font-size: 0.78rem;
-    color: var(--c-text-muted);
-    background: var(--c-cream);
-    padding: 0.3rem 0.65rem;
-    border-radius: 100px;
-    border: 1px solid var(--c-cream-dark);
-  }
-
-  .spec-pill strong {
-    color: var(--c-gold-dark);
-    font-weight: 700;
-  }
-
-  .card-link {
-    color: var(--c-gold-dark);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-top: var(--s-2);
-  }
-
-  .cta-band {
+  /* ===== CTA SECTION ===== */
+  .products-cta {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%);
     text-align: center;
-    padding-block: var(--s-6);
   }
-
-  .cta-band h2 {
-    color: var(--c-white);
-    margin-bottom: var(--s-3);
+  .products-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--white); margin-bottom: 1rem;
   }
+  .products-cta h2 span { color: var(--gold); }
+  .products-cta p {
+    font-size: 1rem; color: rgba(255,255,255,0.7);
+    max-width: 560px; margin: 0 auto 2rem; line-height: 1.7;
+  }
+  .products-cta .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-  .cta-band p {
-    color: var(--c-text-light);
-    margin-bottom: var(--s-4);
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 768px) {
+    .products-hero { padding: 4rem 0 3.5rem; }
+    .hero-stats { gap: 2rem; }
+    .hero-stat-num { font-size: 1.8rem; }
+    .grid-3 { grid-template-columns: 1fr; }
   }
 </style>

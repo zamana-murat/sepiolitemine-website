@@ -1,548 +1,826 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: `${siteUrl}/tr/` },
-    { '@type': 'ListItem', position: 2, name: 'Küresel Pazarlar', item: `${siteUrl}/tr/markets/` },
-  ],
-};
-
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Sepiolite Mine, Akmin Mining',
-  url: siteUrl,
-  description:
-    "Türkiye'nin önde gelen sepiyolit üreticisi ve ihracatçısı, dünya genelinde 45'ten fazla ülkeye premium ham ve işlenmiş sepiyolit kademeleri sunmaktadır.",
-  areaServed: [
-    { '@type': 'Continent', name: 'Europe' },
-    { '@type': 'Continent', name: 'Asia' },
-    { '@type': 'Continent', name: 'Africa' },
-    { '@type': 'Continent', name: 'North America' },
-    { '@type': 'Continent', name: 'South America' },
-  ],
-};
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Sepiolite Mine hangi ülkelere ihracat yapmaktadır?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "Sepiolite Mine, Avrupa (Almanya, Hollanda, İspanya, İtalya, Fransa, Polonya, İngiltere), Orta Doğu ve Kuzey Afrika (BAE, Suudi Arabistan, Mısır, Fas), Asya Pasifik (Çin, Japonya, Güney Kore, Hindistan), Amerika (ABD, Kanada, Brezilya, Meksika) ve Sahra Altı Afrika (Güney Afrika, Nijerya, Kenya) dahil 45'ten fazla ülkeye ihracat yapmaktadır.",
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://sepiolitemine.com/tr/" },
+      { "@type": "ListItem", "position": 2, "name": "Küresel Pazarlar", "item": "https://sepiolitemine.com/tr/markets/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sepiolite Mine – Zamana",
+    "url": "https://sepiolitemine.com",
+    "description": "Türkiye'nin önde gelen sepiyolit üreticisi ve ihracatçısı, dünya genelinde 45'ten fazla ülkeye premium ham ve işlenmiş sepiyolit kademeleri sunmaktadır.",
+    "areaServed": [
+      { "@type": "Continent", "name": "Europe" },
+      { "@type": "Continent", "name": "Asia" },
+      { "@type": "Continent", "name": "Africa" },
+      { "@type": "Continent", "name": "North America" },
+      { "@type": "Continent", "name": "South America" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Sepiolite Mine hangi ülkelere ihracat yapmaktadır?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sepiolite Mine, Avrupa (Almanya, Hollanda, İspanya, İtalya, Fransa, Polonya, İngiltere), Orta Doğu ve Kuzey Afrika (BAE, Suudi Arabistan, Mısır, Fas), Asya Pasifik (Çin, Japonya, Güney Kore, Hindistan), Amerika (ABD, Kanada, Brezilya, Meksika) ve Sahra Altı Afrika (Güney Afrika, Nijerya, Kenya) dahil 45'ten fazla ülkeye ihracat yapmaktadır."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'Sepiolite Mine hangi nakliye yöntemlerini sunmaktadır?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: '20 ayak ve 40 ayak konteynerli sevkiyatlar, büyük siparişler için dökme gemi kiraları, büyük çuval (FIBC) seçenekleri ve paletlenmiş 25–50 kg çuvallar sunmaktayız. Tüm sevkiyatlar, tam dokümantasyon, analiz sertifikası ve gümrük takas desteğini kapsamaktadır.',
+      {
+        "@type": "Question",
+        "name": "Sepiolite Mine hangi nakliye yöntemlerini sunmaktadır?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "20 ayak ve 40 ayak konteynerli sevkiyatlar, büyük siparişler için dökme gemi kiraları, büyük çuval (FIBC) seçenekleri ve paletlenmiş 25–50 kg çuvallar sunmaktayız. Tüm sevkiyatlar, tam dokümantasyon, analiz sertifikası ve gümrük takas desteğini kapsamaktadır."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'Hangi Incoterms koşulları geçerlidir?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Incoterms 2020 kapsamında EXW, FCA, FOB, CFR, CIF ve DAP koşullarıyla işlem yapmaktayız. Türk limanı FOB en yaygın düzenlemedir; ancak lojistik ortaklarımız aracılığıyla rekabetçi navlun fiyatlarıyla dünyanın her limanına CIF/DAP olarak teslimat yapabiliriz.',
+      {
+        "@type": "Question",
+        "name": "Hangi Incoterms koşulları geçerlidir?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Incoterms 2020 kapsamında EXW, FCA, FOB, CFR, CIF ve DAP koşullarıyla işlem yapmaktayız. Türk limanı FOB en yaygın düzenlemedir; ancak lojistik ortaklarımız aracılığıyla rekabetçi navlun fiyatlarıyla dünyanın her limanına CIF/DAP olarak teslimat yapabiliriz."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'İhracat için minimum sipariş miktarı nedir?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Standart minimum sipariş, ürün yoğunluğuna bağlı olarak yaklaşık 18–22 ton kapasiteli bir 20 ayaklık konteynere karşılık gelmektedir. Yeni müşteriler veya deneme siparişleri için 5–10 ton gibi daha küçük miktarlara da uyum sağlayabiliriz. Dökme gemi siparişleri genellikle 3.000 tondan başlamaktadır.',
+      {
+        "@type": "Question",
+        "name": "İhracat için minimum sipariş miktarı nedir?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standart minimum sipariş, ürün yoğunluğuna bağlı olarak yaklaşık 18–22 ton kapasiteli bir 20 ayaklık konteynere karşılık gelmektedir. Yeni müşteriler veya deneme siparişleri için 5–10 ton gibi daha küçük miktarlara da uyum sağlayabiliriz. Dökme gemi siparişleri genellikle 3.000 tondan başlamaktadır."
+        }
       },
-    },
-    {
-      '@type': 'Question',
-      name: 'Özel etiketleme hizmeti sunuyor musunuz?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Evet. Tüm ürün hatları için tam özel etiket ve beyaz etiket ambalajlama sunuyoruz. Özel çuval tasarımları (25 kg, 50 kg, büyük çuval), markalı paletler ve müşteriye özel dokümantasyon bunların arasındadır. Özel baskılı ambalaj için minimum sipariş bir 20 ayaklık konteynere karşılık gelmektedir.',
-      },
-    },
-  ],
-};
-
-const regions = [
-  {
-    flag: '🇪🇺',
-    name: 'Avrupa',
-    subtitle: 'En büyük ihracat pazarımız',
-    desc: "Avrupa, ihracatımızın %45'ini oluşturmakta; başta evcil hayvan bakımı (kedi kumu), boya ve kaplama ile inşaat yalıtımı sektörlerindeki güçlü talep bu payı desteklemektedir. Tüm ürün hatları için REACH uyumlu kaliteler mevcuttur.",
-    countries: ['Almanya', 'Hollanda', 'İspanya', 'İtalya', 'Fransa', 'Polonya', 'İngiltere', 'Belçika'],
-    stats: [{ num: '%45', label: 'İhracat Payı' }, { num: '18', label: 'Ülke' }],
-  },
-  {
-    flag: '🇰🇼',
-    name: 'Orta Doğu & Kuzey Afrika',
-    subtitle: 'En hızlı büyüyen koridor',
-    desc: "Petrol ve gaz sondajı, inşaat patlaması ve büyüyen evcil hayvan bakımı pazarları, MENA'yı en hızlı büyüyen bölgemiz haline getirmektedir. Stratejik yakınlığımız sayesinde herhangi bir Körfez veya Kuzey Afrika limanına 5–10 günde teslimat yapılabilmektedir.",
-    countries: ['BAE', 'Suudi Arabistan', 'Mısır', 'Fas', 'İsrail', 'Katar', 'Tunus'],
-    stats: [{ num: '%25', label: 'İhracat Payı' }, { num: '12', label: 'Ülke' }],
-  },
-  {
-    flag: '🇯🇵',
-    name: 'Asya Pasifik',
-    subtitle: 'Yüksek büyümeli sanayi talebi',
-    desc: 'Hızla sanayileşen ekonomiler, sondaj kalitesi sepiyolit, kataliz destekleri ve tarımsal taşıyıcılara olan talebi artırmaktadır. Çin, Japonya ve Güney Kore, hacim bazında ilk üç Asya pazarımızdır.',
-    countries: ['Çin', 'Japonya', 'Güney Kore', 'Hindistan', 'Tayland', 'Vietnam'],
-    stats: [{ num: '%15', label: 'İhracat Payı' }, { num: '9', label: 'Ülke' }],
-  },
-  {
-    flag: '🇺🇸',
-    name: 'Amerika Kıtası',
-    subtitle: 'Premium kalite odağı',
-    desc: 'ABD ve Kanada yüksek saflıkta sondaj ve eczacılık kalitesi sepiyolit ithal ederken Brezilya ve Meksika, tarımsal ve çevresel uygulamalar için büyüyen pazarlar haline gelmektedir.',
-    countries: ['ABD', 'Kanada', 'Brezilya', 'Meksika', 'Arjantin', 'Kolombiya'],
-    stats: [{ num: '%10', label: 'İhracat Payı' }, { num: '8', label: 'Ülke' }],
-  },
-  {
-    flag: '🇿🇦',
-    name: 'Sahra Altı Afrika',
-    subtitle: 'Gelişen fırsat',
-    desc: "Toprak düzenleyicileri ve gübre taşıyıcılarına yönelik tarım kaynaklı talep, Doğu ve Güney Afrika'da yeni pazarlar açmaktadır. Çevre rehabilitasyon projeleri de ek fırsatlar yaratmaktadır.",
-    countries: ['Güney Afrika', 'Nijerya', 'Kenya', 'Etiyopya', 'Tanzanya'],
-    stats: [{ num: '%5', label: 'İhracat Payı' }, { num: '7', label: 'Ülke' }],
-  },
-  {
-    flag: '🇷🇺',
-    name: 'BDT & Orta Asya',
-    subtitle: 'Sondaj ve sanayi tabanı',
-    desc: "Hazar bölgesi ve Orta Asya'nın petrol ve gazca zengin ekonomileri, sondaj kalitesi sepiyolit ve endüstriyel absorbanların tutarlı ithalatçılarıdır. Gürcistan üzerinden kara güzergahları maliyet etkin taşıma imkânı sunmaktadır.",
-    countries: ['Rusya', 'Kazakistan', 'Azerbaycan', 'Gürcistan', 'Özbekistan'],
-    stats: [{ num: '~%5', label: 'İhracat Payı' }, { num: '6', label: 'Ülke' }],
-  },
-];
-
-const tradeRoutes = [
-  { port: 'Rotterdam, Hollanda', region: "Avrupa'nın en büyük mineral merkezi", time: '7 gün' },
-  { port: 'Jebel Ali, BAE', region: 'Orta Doğu ve yeniden ihracat kapısı', time: '10 gün' },
-  { port: 'Şanghay, Çin', region: 'Asya Pasifik ana limanı', time: '22 gün' },
-  { port: 'New York / Newark, ABD', region: 'Kuzey Amerika doğu yakası', time: '18 gün' },
-  { port: 'Kazablanka, Fas', region: 'Kuzey Afrika ve tarım koridoru', time: '5 gün' },
-  { port: 'Santos, Brezilya', region: 'Güney Amerika ana limanı', time: '24 gün' },
-];
-
-const incoterms = [
-  { code: 'EXW', name: 'İşyerinde Teslim', desc: 'Alıcı tesisimizin kapısından itibaren tüm taşıma işlemlerini düzenler. En düşük birim fiyat; köklü Türk nakliye acentesi olan müşteriler için idealdir.' },
-  { code: 'FCA', name: 'Taşıyıcıya Teslim', desc: 'Teslimatı belirlediğiniz taşıyıcı veya navlun şirketine yapıyoruz. Mallar ihracat için gümrüklenmiş ve tesisimizde yüklenmiş olarak teslim edilir. Esnek bir orta yol seçeneğidir.' },
-  { code: 'FOB', name: 'Gemiye Teslim', desc: 'En yaygın koşulumuz. Mallar Türk limanında gemiye yüklenene kadar tüm işlemleri biz üstleniriz; deniz nakliyesini siz yönetirsiniz.' },
-  { code: 'CFR', name: 'Navlun Dahil Teslim', desc: 'Varış limanına kadar taşıma masraflarını karşılıyoruz. Sigorta ve boşaltma sizin sorumluluğunuzdadır. Sigorta karmaşıklığı olmadan tek bir teslim maliyet teklifi isteyenler için uygundur.' },
-  { code: 'CIF', name: 'Navlun ve Sigorta Dahil', desc: 'Deniz sigortası dahil varış limanına kadar her şey dahil. Ton başına tek bir teslim fiyatı isteyen alıcılar için en basit seçenek.' },
-  { code: 'DAP', name: 'Belirlenen Yere Teslim', desc: 'Deponuza veya teslimat adresinize kapıya teslimat. Varış noktasındaki gümrük işlemleri dahil tüm lojistiği biz üstleniriz. Tam gönül rahatlığı.' },
-];
-
-const faqs = [
-  {
-    q: 'Sepiolite Mine hangi ülkelere ihracat yapmaktadır?',
-    a: "Beş kıtada 45'ten fazla ülkeye ihracat yapıyoruz. Başlıca pazarlarımız şunlardır: Avrupa'da Almanya, Hollanda, İspanya, İtalya ve Fransa; MENA'da BAE, Suudi Arabistan, Mısır ve Fas; Asya Pasifik'te Çin, Japonya, Güney Kore ve Hindistan; Amerika'da ABD, Kanada ve Brezilya; Afrika'da ise Güney Afrika, Nijerya ve Kenya. Her ülkeden gelen sorgulamaları memnuniyetle karşılıyoruz.",
-  },
-  {
-    q: 'Hangi nakliye yöntemlerini sunuyorsunuz?',
-    a: "Konteynerli sevkiyatlar (20 ve 40 ayak), 3.000 MT üzeri siparişler için dökme gemi kiraları ve büyük çuval (FIBC) seçenekleri sunmaktayız. Ürünler 25 kg veya 50 kg çuvallarda paletlenerek ya da 1–1,5 MT'lık büyük çuvallarla sevk edilebilir. Tüm sevkiyatlar, tam dokümantasyon, analiz sertifikası ve lojistik ekibimizden gümrük takas desteğini kapsar.",
-  },
-  {
-    q: 'Hangi Incoterms koşulları altında işlem yapıyorsunuz?',
-    a: 'Incoterms 2020 kapsamında EXW, FCA, FOB, CFR, CIF ve DAP koşullarıyla işlem yapıyoruz. FOB Türk limanı (Gemlik veya Mersin) en yaygın düzenlemedir; ancak tek bir teslim maliyet isteyen müşterilere CIF ve DAP olarak da düzenli sevkiyat yapıyoruz. Lojistik ortaklarımız tüm başlıca nakliye hatlarında rekabetçi navlun fiyatlarını korumaktadır.',
-  },
-  {
-    q: 'Minimum sipariş miktarı nedir?',
-    a: 'Standart minimum, ürün kalitesine ve ambalaj türüne bağlı olarak yaklaşık 18–22 ton kapasiteli bir 20 ayaklık konteynere karşılık gelmektedir. Yeni müşteriler veya deneme siparişleri için 5–10 tonluk daha küçük sevkiyatlara uyum sağlayabiliriz. Dökme gemi siparişleri genellikle Handy-size kiralamalar için 3.000 tondan başlamaktadır.',
-  },
-  {
-    q: 'Özel etiketli ambalaj sunuyor musunuz?',
-    a: 'Evet. Tüm ürün hatları için tam özel etiket ve beyaz etiket ambalajlama sunuyoruz. Özel çuval tasarımları (25 kg, 50 kg, büyük çuval), markalı paletler, müşteriye özel etiketler ve şirket adınız altında hazırlanan belgeler bunlara dahildir. Özel baskılı ambalaj için minimum sipariş bir 20 ayaklık konteynere karşılık gelmektedir. Yeni baskı onayı için bekleme süresi genellikle 2–3 haftadır.',
-  },
+      {
+        "@type": "Question",
+        "name": "Özel etiketleme hizmeti sunuyor musunuz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Evet. Tüm ürün hatları için tam özel etiket ve beyaz etiket ambalajlama sunuyoruz. Özel çuval tasarımları (25 kg, 50 kg, büyük çuval), markalı paletler ve müşteriye özel dokümantasyon bunların arasındadır. Özel baskılı ambalaj için minimum sipariş bir 20 ayaklık konteynere karşılık gelmektedir."
+        }
+      }
+    ]
+  }
 ];
 ---
 
 <Layout
-  title="Küresel Pazarlar, 45+ Ülkeye Sepiyolit İhracatı"
-  description="Sepiolite Mine, premium Türk sepiyolitini Avrupa, Orta Doğu, Asya Pasifik, Amerika ve Afrika dahil 45'ten fazla ülkeye ihraç etmektedir. Bölgesel varlığımızı, lojistik kapasitemizi ve pazar görüşlerimizi keşfedin."
+  title="Küresel Pazarlar – 45+ Ülkeye Sepiyolit İhracatı"
+  description="Sepiolite Mine, premium Türk sepiyolitini Avrupa, Orta Doğu, Asya Pasifik, Amerika ve Afrika dahil 45"
   locale="tr"
-  alternates={{ en: '/markets/', tr: '/tr/markets/' }}
-  schemaJson={[breadcrumbSchema, organizationSchema, faqSchema]}
+  alternates={{ en: "/markets/", tr: "/tr/markets/" }}
+  schemaJson={schemaJson}
 >
-  <nav class="breadcrumb-bar" aria-label="Kırıntı yolu">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/tr/">Ana Sayfa</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Küresel Pazarlar</li>
-      </ol>
-    </div>
-  </nav>
+<!-- ===== HEADER ===== -->
+  
 
-  <section class="hub-hero section section--dark">
-    <div class="container container-narrow">
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/tr/">Ana Sayfa</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Küresel Pazarlar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="markets-hero">
+    <div class="container">
       <span class="section-tag">Küresel Varlık</span>
-      <h1>Türkiye'den <span class="accent">Dünyaya</span></h1>
-      <p class="lead">
-        Üç kıtanın kesişme noktasında stratejik konumuyla Sepiolite Mine; güvenilirlik, hız ve
-        otuz yıllık itibarın simgesi olan kaliteyle 45'ten fazla ülkedeki sanayi ortaklarına
-        premium Türk sepiyoliti ulaştırmaktadır.
-      </p>
+      <h1>Türkiye'den <span>Dünyaya</span></h1>
+      <p>Üç kıtanın kesişme noktasında stratejik konumuyla Sepiolite Mine, güvenilirlik, hız ve otuz yıllık itibarın simgesi olan kaliteyle 45'ten fazla ülkedeki sanayi ortaklarına premium Türk sepiyoliti ulaştırmaktadır.</p>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="num">45+</div><div class="label">Hizmet Verilen Ülke</div></div>
-        <div class="hero-stat"><div class="num">300+</div><div class="label">Aktif Müşteri</div></div>
-        <div class="hero-stat"><div class="num">120K</div><div class="label">MT Yıllık Kapasite</div></div>
-        <div class="hero-stat"><div class="num">5</div><div class="label">Kıta</div></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">45+</div>
+          <div class="hero-stat-label">Hizmet Verilen Ülke</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">300+</div>
+          <div class="hero-stat-label">Aktif Müşteri</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">120K</div>
+          <div class="hero-stat-label">MT Yıllık Kapasite</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5</div>
+          <div class="hero-stat-label">Kıta</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section strategic-section">
+  <!-- ===== STRATEGIC POSITION ===== -->
+  <section class="strategic-section">
     <div class="container">
       <div class="strategic-grid">
-        <div class="strategic-text">
+        <div class="strategic-text reveal">
           <span class="section-tag">Stratejik Avantaj</span>
-          <h2>Türkiye: Dünyanın <span class="accent">Sepiyolit Başkenti</span></h2>
-          <p class="section-subtitle">
-            Türkiye, küresel sepiyolit rezervlerinin tahminen %70'ini barındırmakta ve bu
-            rezervler Eskişehir-Sivrihisar havzasında yoğunlaşmaktadır. Madenlerimiz bu
-            formasyonun tam merkezinde yer almakta; bize gezegenin en zengin yataklarına doğrudan
-            erişim ve çok az rakibin eşleşebileceği bir lojistik avantaj sunmaktadır.
-          </p>
+          <h2 class="section-title">Türkiye: Dünyanın <span>Sepiyolit Başkenti</span></h2>
+          <p class="section-subtitle">Türkiye, küresel sepiyolit rezervlerinin tahminen %70'ini barındırmakta ve bu rezervler Eskişehir-Sivrihisar havzasında yoğunlaşmaktadır. Madenlerimiz bu formasyonun tam merkezinde yer almakta; bize gezegenin en zengin yataklarına doğrudan erişim ve çok az rakibin eşleşebileceği bir lojistik avantaj sunmaktadır.</p>
           <div class="advantage-list">
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">⚓</div>
+              <div class="advantage-icon">&#9875;</div>
               <div>
                 <h4>Limana Yakınlık</h4>
-                <p>Gemlik limanına 200 km, Mersin'e 380 km mesafede; Türkiye'nin en işlek mineral ihracat terminalleri, tüm önemli güzergahlara günlük konteyner seferleriyle hizmet vermektedir.</p>
+                <p>Gemlik limanına 200 km, Mersin'e 380 km mesafede - Türkiye'nin en işlek mineral ihracat terminalleri, tüm önemli güzergahlara günlük konteyner seferleriyle hizmet vermektedir.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">🚀</div>
+              <div class="advantage-icon">&#128640;</div>
               <div>
                 <h4>Hızlı Transit Süreleri</h4>
                 <p>Avrupa limanlarına 7–10 gün, Amerika'ya 14–18 gün, Asya Pasifik'e 20–25 gün. Daha kısa transit süreleri, sizin için daha düşük stok maliyetleri anlamına gelir.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">🏭</div>
+              <div class="advantage-icon">&#127981;</div>
               <div>
                 <h4>Maden-Liman Entegrasyonu</h4>
                 <p>İşleme tesisimiz maden sahasıyla aynı konumdadır. Cevher, çıkarılmadan ihracata hazır ürüne 48 saat içinde ulaşır; bu da temin sürelerini en aza indirir.</p>
               </div>
             </div>
             <div class="advantage-item">
-              <div class="advantage-icon" aria-hidden="true">📈</div>
+              <div class="advantage-icon">&#128200;</div>
               <div>
-                <h4>Doğrudan Üreticiden</h4>
-                <p>Aracı yok. Çıkarımdan FOB'a kadar her adımı biz yönetiyoruz; bu da tüm kademelerde tutarlı ve şeffaf koşullara dönüşüyor.</p>
+                <h4>Rekabetçi Fiyatlandırma</h4>
+                <p>Aracı yok. Çıkarımdan FOB'a kadar her adımı biz yönetiyoruz; bu da tüm kademelerde tutarlı biçimde rekabetçi fiyatlandırmaya dönüşüyor.</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="map-visual">
+        <div class="map-visual reveal">
           <div class="map-header">
-            <div class="map-header-icon" aria-hidden="true">🌍</div>
+            <div class="map-header-icon">&#127758;</div>
             <h3>Türkiye'den Başlıca Ticaret Güzergahları</h3>
           </div>
           <div class="trade-routes">
-            {tradeRoutes.map((r) => (
-              <div class="trade-route">
-                <span class="route-dot" aria-hidden="true"></span>
-                <div class="route-info">
-                  <strong>{r.port}</strong>
-                  <span>{r.region}</span>
-                </div>
-                <span class="route-time">{r.time}</span>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Rotterdam, Hollanda</strong>
+                <span>Avrupa'nın en büyük mineral merkezi</span>
               </div>
-            ))}
+              <span class="route-time">7 gün</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Jebel Ali, BAE</strong>
+                <span>Orta Doğu ve yeniden ihracat kapısı</span>
+              </div>
+              <span class="route-time">10 gün</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Şanghay, Çin</strong>
+                <span>Asya Pasifik ana limanı</span>
+              </div>
+              <span class="route-time">22 gün</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>New York / Newark, ABD</strong>
+                <span>Kuzey Amerika doğu yakası</span>
+              </div>
+              <span class="route-time">18 gün</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Kazablanka, Fas</strong>
+                <span>Kuzey Afrika ve tarım koridoru</span>
+              </div>
+              <span class="route-time">5 gün</span>
+            </div>
+            <div class="trade-route">
+              <span class="route-dot"></span>
+              <div class="route-info">
+                <strong>Santos, Brezilya</strong>
+                <span>Güney Amerika ana limanı</span>
+              </div>
+              <span class="route-time">24 gün</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section regions-section">
+  <!-- ===== REGIONAL MARKETS ===== -->
+  <section class="regions-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Bölgesel Pazarlar</span>
-        <h2>Sepiyolitlerimizin <span class="accent">Ulaştığı Yerler</span></h2>
+        <h2 class="section-title">Sepiyolitlerimizin <span>Ulaştığı Yerler</span></h2>
         <p>Her bölgenin kendine özgü endüstriyel talepleri ve mevzuat gereksinimleri vardır. Ürün kalitelerimizi, ambalajlamamızı ve dokümantasyonumuzu her pazara mükemmel biçimde uyarlıyoruz.</p>
       </div>
 
       <div class="regions-grid">
-        {regions.map((region) => (
-          <div class="region-card">
-            <div class="region-card-header">
-              <div class="region-card-flag" aria-hidden="true">{region.flag}</div>
-              <h3>{region.name}</h3>
-              <div class="region-subtitle">{region.subtitle}</div>
+
+        <!-- Avrupa -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127466;&#127482;</div>
+            <h3>Avrupa</h3>
+            <div class="region-subtitle">En büyük ihracat pazarımız</div>
+          </div>
+          <div class="region-card-body">
+            <p>Avrupa, ihracatımızın %45'ini oluşturmakta; başta evcil hayvan bakımı (kedi kumu), boya ve kaplama ile inşaat yalıtımı sektörlerindeki güçlü talep bu payı desteklemektedir. Tüm ürün hatları için REACH uyumlu kaliteler mevcuttur.</p>
+            <div class="region-countries">
+              <span class="region-country">Almanya</span>
+              <span class="region-country">Hollanda</span>
+              <span class="region-country">İspanya</span>
+              <span class="region-country">İtalya</span>
+              <span class="region-country">Fransa</span>
+              <span class="region-country">Polonya</span>
+              <span class="region-country">İngiltere</span>
+              <span class="region-country">Belçika</span>
             </div>
-            <div class="region-card-body">
-              <p>{region.desc}</p>
-              <div class="region-countries">
-                {region.countries.map((c) => <span class="region-country">{c}</span>)}
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">45%</div>
+                <div class="region-stat-label">İhracat Payı</div>
               </div>
-              <div class="region-stats">
-                {region.stats.map((s) => (
-                  <div class="region-stat">
-                    <div class="region-stat-num">{s.num}</div>
-                    <div class="region-stat-label">{s.label}</div>
-                  </div>
-                ))}
+              <div class="region-stat">
+                <div class="region-stat-num">18</div>
+                <div class="region-stat-label">Ülke</div>
               </div>
             </div>
           </div>
-        ))}
+        </div>
+
+        <!-- MENA -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127472;&#127484;</div>
+            <h3>Orta Doğu &amp; Kuzey Afrika</h3>
+            <div class="region-subtitle">En hızlı büyüyen koridor</div>
+          </div>
+          <div class="region-card-body">
+            <p>Petrol ve gaz sondajı, inşaat patlaması ve büyüyen evcil hayvan bakımı pazarları, MENA'yı en hızlı büyüyen bölgemiz haline getirmektedir. Stratejik yakınlığımız sayesinde herhangi bir Körfez veya Kuzey Afrika limanına 5–10 günde teslimat yapılabilmektedir.</p>
+            <div class="region-countries">
+              <span class="region-country">BAE</span>
+              <span class="region-country">Suudi Arabistan</span>
+              <span class="region-country">Mısır</span>
+              <span class="region-country">Fas</span>
+              <span class="region-country">İsrail</span>
+              <span class="region-country">Katar</span>
+              <span class="region-country">Tunus</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">25%</div>
+                <div class="region-stat-label">İhracat Payı</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">12</div>
+                <div class="region-stat-label">Ülke</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asia Pacific -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127471;&#127477;</div>
+            <h3>Asya Pasifik</h3>
+            <div class="region-subtitle">Yüksek büyümeli sanayi talebi</div>
+          </div>
+          <div class="region-card-body">
+            <p>Hızla sanayileşen ekonomiler, sondaj kalitesi sepiyolit, kataliz destekleri ve tarımsal taşıyıcılara olan talebi artırmaktadır. Çin, Japonya ve Güney Kore, hacim bazında ilk üç Asya pazarımızdır.</p>
+            <div class="region-countries">
+              <span class="region-country">Çin</span>
+              <span class="region-country">Japonya</span>
+              <span class="region-country">Güney Kore</span>
+              <span class="region-country">Hindistan</span>
+              <span class="region-country">Tayland</span>
+              <span class="region-country">Vietnam</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">15%</div>
+                <div class="region-stat-label">İhracat Payı</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">9</div>
+                <div class="region-stat-label">Ülke</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Americas -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127482;&#127480;</div>
+            <h3>Amerika Kıtası</h3>
+            <div class="region-subtitle">Premium kalite odağı</div>
+          </div>
+          <div class="region-card-body">
+            <p>ABD ve Kanada yüksek saflıkta sondaj ve eczacılık kalitesi sepiyolit ithal ederken Brezilya ve Meksika, tarımsal ve çevresel uygulamalar için büyüyen pazarlar haline gelmektedir.</p>
+            <div class="region-countries">
+              <span class="region-country">ABD</span>
+              <span class="region-country">Kanada</span>
+              <span class="region-country">Brezilya</span>
+              <span class="region-country">Meksika</span>
+              <span class="region-country">Arjantin</span>
+              <span class="region-country">Kolombiya</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">10%</div>
+                <div class="region-stat-label">İhracat Payı</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">8</div>
+                <div class="region-stat-label">Ülke</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-Saharan Africa -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127487;&#127462;</div>
+            <h3>Sahra Altı Afrika</h3>
+            <div class="region-subtitle">Gelişen fırsat</div>
+          </div>
+          <div class="region-card-body">
+            <p>Toprak düzenleyicileri ve gübre taşıyıcılarına yönelik tarım kaynaklı talep, Doğu ve Güney Afrika'da yeni pazarlar açmaktadır. Çevre rehabilitasyon projeleri de ek fırsatlar yaratmaktadır.</p>
+            <div class="region-countries">
+              <span class="region-country">Güney Afrika</span>
+              <span class="region-country">Nijerya</span>
+              <span class="region-country">Kenya</span>
+              <span class="region-country">Etiyopya</span>
+              <span class="region-country">Tanzanya</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">5%</div>
+                <div class="region-stat-label">İhracat Payı</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">7</div>
+                <div class="region-stat-label">Ülke</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CIS / Central Asia -->
+        <div class="region-card reveal">
+          <div class="region-card-header">
+            <div class="region-card-flag">&#127479;&#127482;</div>
+            <h3>BDT &amp; Orta Asya</h3>
+            <div class="region-subtitle">Sondaj ve sanayi tabanı</div>
+          </div>
+          <div class="region-card-body">
+            <p>Hazar bölgesi ve Orta Asya'nın petrol ve gazca zengin ekonomileri, sondaj kalitesi sepiyolit ve endüstriyel absorbanların tutarlı ithalatçılarıdır. Gürcistan üzerinden kara güzergahları maliyet etkin taşıma imkânı sunmaktadır.</p>
+            <div class="region-countries">
+              <span class="region-country">Rusya</span>
+              <span class="region-country">Kazakistan</span>
+              <span class="region-country">Azerbaycan</span>
+              <span class="region-country">Gürcistan</span>
+              <span class="region-country">Özbekistan</span>
+            </div>
+            <div class="region-stats">
+              <div class="region-stat">
+                <div class="region-stat-num">~5%</div>
+                <div class="region-stat-label">İhracat Payı</div>
+              </div>
+              <div class="region-stat">
+                <div class="region-stat-num">6</div>
+                <div class="region-stat-label">Ülke</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section class="section logistics-section">
+  <!-- ===== LOGISTICS & SHIPPING ===== -->
+  <section class="logistics-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Lojistik</span>
-        <h2>Uçtan Uca <span class="accent">Nakliye</span> Çözümleri</h2>
+        <h2 class="section-title">Uçtan Uca <span>Nakliye</span> Çözümleri</h2>
       </div>
 
       <div class="logistics-grid">
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">📦</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128230;</div>
           <h3>Konteynerli Sevkiyat</h3>
           <p>Paletlenmiş çuvallar (25–50 kg) veya büyük çuvallar (1–1,5 MT) için standart 20 ayak ve 40 ayak konteynerler. Gemlik ve Mersin limanlarından tüm başlıca ticaret hatlarına haftalık seferler.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">🚢</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128674;</div>
           <h3>Dökme Gemi</h3>
           <p>3.000 MT'den başlayan büyük siparişler için Handy-size'dan Panamax'a gemi kiralama. Varış noktasında silo deposu olan kedi kumu ve inşaat kalitesi alıcılar için idealdir.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">📋</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128203;</div>
           <h3>Dokümantasyon</h3>
           <p>Tam ihracat belgesi: Konşimento, Menşe Sertifikası, Fitosanitasyon Sertifikası, Analiz Sertifikası, MSDS ve gümrük beyanları şirket bünyesinde hazırlanmaktadır.</p>
         </div>
-        <div class="logistics-card">
-          <div class="logistics-icon" aria-hidden="true">🏷️</div>
+        <div class="logistics-card reveal">
+          <div class="logistics-icon">&#128737;&#65039;</div>
           <h3>Özel Etiket</h3>
-          <p>Özel markalaşma, ambalaj tasarımı, çuval boyutları ve palet konfigürasyonları. Ürünleri kendi marka adınızla ve özelliklerinize göre sevk edebiliriz; anahtar teslim beyaz etiket hizmeti.</p>
+          <p>Özel markalaşma, ambalaj tasarımı, çuval boyutları ve palet konfigürasyonları. Ürünleri kendi marka adınızla ve özelliklerinize göre sevk edebiliriz - anahtar teslim beyaz etiket hizmeti.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section section--dark terms-section">
+  <!-- ===== TRADE TERMS ===== -->
+  <section class="terms-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Ticaret Koşulları</span>
-        <h2>Uyguladığımız <span class="accent">Incoterms 2020</span></h2>
+        <span class="section-tag" style="color:var(--gold-light);">Ticaret Koşulları</span>
+        <h2 class="section-title" style="color:var(--white);">Uyguladığımız <span>Incoterms 2020</span></h2>
       </div>
 
       <div class="terms-grid">
-        {incoterms.map((t) => (
-          <div class="term-card">
-            <div class="term-code">{t.code}</div>
-            <div class="term-name">{t.name}</div>
-            <div class="term-desc">{t.desc}</div>
-          </div>
-        ))}
+        <div class="term-card reveal">
+          <div class="term-code">EXW</div>
+          <div class="term-name">İşyerinde Teslim</div>
+          <div class="term-desc">Alıcı tesisimizin kapısından itibaren tüm taşıma işlemlerini düzenler. En düşük birim fiyat - köklü Türk nakliye acentesi olan müşteriler için idealdir.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">FCA</div>
+          <div class="term-name">Taşıyıcıya Teslim</div>
+          <div class="term-desc">Teslimatı belirlediğiniz taşıyıcı veya navlun şirketine yapıyoruz. Mallar ihracat için gümrüklenmiş ve tesisimizde yüklenmiş olarak teslim edilir. Esnek bir orta yol seçeneğidir.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">FOB</div>
+          <div class="term-name">Gemiye Teslim</div>
+          <div class="term-desc">En yaygın koşulumuz. Mallar Türk limanında gemiye yüklenene kadar tüm işlemleri biz üstleniriz; deniz nakliyesini siz yönetirsiniz.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">CFR</div>
+          <div class="term-name">Navlun Dahil Teslim</div>
+          <div class="term-desc">Varış limanına kadar taşıma masraflarını karşılıyoruz. Sigorta ve boşaltma sizin sorumluluğunuzdadır. Sigorta karmaşıklığı olmadan tek bir teslim maliyet teklifi isteyenler için uygundur.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">CIF</div>
+          <div class="term-name">Navlun ve Sigorta Dahil</div>
+          <div class="term-desc">Deniz sigortası dahil varış limanına kadar her şey dahil. Ton başına tek bir teslim fiyatı isteyen alıcılar için en basit seçenek.</div>
+        </div>
+        <div class="term-card reveal">
+          <div class="term-code">DAP</div>
+          <div class="term-name">Belirlenen Yere Teslim</div>
+          <div class="term-desc">Deponuza veya teslimat adresinize kapıya teslimat. Varış noktasındaki gümrük işlemleri dahil tüm lojistiği biz üstleniriz. Tam gönül rahatlığı.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section insights-section">
+  <!-- ===== MARKET INSIGHTS ===== -->
+  <section class="insights-section">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Pazar İstihbaratı</span>
-        <h2>Sepiyolit Pazarına <span class="accent">Genel Bakış</span></h2>
+        <h2 class="section-title">Sepiyolit Pazarına <span>Genel Bakış</span></h2>
       </div>
 
       <div class="insights-grid">
-        <div class="insight-card">
+        <div class="insight-card reveal">
           <div class="insight-num">$340M</div>
           <h3>Küresel Pazar Büyüklüğü (2025)</h3>
           <p>Küresel sepiyolit pazarı yaklaşık 340 milyon USD değerinde olup evcil hayvan bakımı, sondaj ve çevre sektörlerindeki genişleyen uygulamalar sayesinde istikrarlı bir büyüme göstermektedir.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:68%;"></div></div>
         </div>
-        <div class="insight-card">
-          <div class="insight-num">%4,8</div>
+        <div class="insight-card reveal">
+          <div class="insight-num">4,8%</div>
           <h3>Yıllık Büyüme Oranı (CAGR)</h3>
           <p>Gelişmekte olan pazarlarda artan evcil hayvan sahipliği, büyüyen çevre rehabilitasyon ihtiyaçları ve biyoplastik devrimiyle desteklenen 2030'a kadar %4,8 CAGR öngörülmektedir.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:48%;"></div></div>
         </div>
-        <div class="insight-card">
-          <div class="insight-num">%70</div>
+        <div class="insight-card reveal">
+          <div class="insight-num">70%</div>
           <h3>Türkiye'nin Rezerv Payı</h3>
           <p>Türkiye, başta Eskişehir ve Konya illeri olmak üzere dünyanın bilinen sepiyolit rezervlerinin yaklaşık %70'ini elinde bulundurmakta ve böylece tartışmasız küresel lider konumunda yer almaktadır.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:70%;"></div></div>
         </div>
-        <div class="insight-card">
-          <div class="insight-num">%38</div>
+        <div class="insight-card reveal">
+          <div class="insight-num">38%</div>
           <h3>Evcil Hayvan Bakımı Segment Payı</h3>
           <p>Kedi kumu ve evcil hayvan bakım ürünleri, Avrupa ve Asya'da kil bazlıdan mineral bazlı premium kedi kumuna geçiş eğilimiyle desteklenen en büyük tek uygulama segmentini oluşturmaktadır.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:38%;"></div></div>
         </div>
-        <div class="insight-card">
-          <div class="insight-num">%22</div>
+        <div class="insight-card reveal">
+          <div class="insight-num">22%</div>
           <h3>İnşaat ve Endüstriyel</h3>
           <p>İnşaat yalıtımı ve endüstriyel uygulamalar, hafif ve yangına dayanıklı mineral katkılar talep eden yeşil bina yönetmelikleriyle desteklenen ikinci en büyük segmenti oluşturmaktadır.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:22%;"></div></div>
         </div>
-        <div class="insight-card">
-          <div class="insight-num">+%15</div>
+        <div class="insight-card reveal">
+          <div class="insight-num">+15%</div>
           <h3>Biyoplastik Büyümesi (Yıllık)</h3>
           <p>En hızlı büyüyen uygulama. PLA/PHA takviyesi olarak sepiyolit nanolifler yeni bir talep ekseni oluşturmakta; 2023'ten bu yana yıllık büyüme oranı %15'i aşmaktadır.</p>
+          <div class="insight-bar"><div class="insight-bar-fill" style="width:15%;"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="container container-narrow">
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <div class="container">
       <div class="section-header">
         <span class="section-tag">Sık Sorulan Sorular</span>
-        <h2>Ticaret & İhracat <span class="accent">SSS</span></h2>
+        <h2 class="section-title">Ticaret &amp; İhracat <span>SSS</span></h2>
       </div>
 
       <div class="faq-list">
-        {faqs.map((item) => (
-          <details class="faq-item">
-            <summary class="faq-q">
-              <span>{item.q}</span>
-              <span class="faq-icon" aria-hidden="true">+</span>
-            </summary>
-            <div class="faq-a"><p>{item.a}</p></div>
-          </details>
-        ))}
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Sepiolite Mine hangi ülkelere ihracat yapmaktadır?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Beş kıtada 45'ten fazla ülkeye ihracat yapıyoruz. Başlıca pazarlarımız şunlardır: Avrupa'da Almanya, Hollanda, İspanya, İtalya ve Fransa; MENA'da BAE, Suudi Arabistan, Mısır ve Fas; Asya Pasifik'te Çin, Japonya, Güney Kore ve Hindistan; Amerika'da ABD, Kanada ve Brezilya; Afrika'da ise Güney Afrika, Nijerya ve Kenya. Her ülkeden gelen sorgulamaları memnuniyetle karşılıyoruz.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Hangi nakliye yöntemlerini sunuyorsunuz?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Konteynerli sevkiyatlar (20 ve 40 ayak), 3.000 MT üzeri siparişler için dökme gemi kiraları ve büyük çuval (FIBC) seçenekleri sunmaktayız. Ürünler 25 kg veya 50 kg çuvallarda paletlenerek ya da 1–1,5 MT'lık büyük çuvallarla sevk edilebilir. Tüm sevkiyatlar, tam dokümantasyon, analiz sertifikası ve lojistik ekibimizden gümrük takas desteğini kapsar.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Hangi Incoterms koşulları altında işlem yapıyorsunuz?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Incoterms 2020 kapsamında EXW, FCA, FOB, CFR, CIF ve DAP koşullarıyla işlem yapıyoruz. FOB Türk limanı (Gemlik veya Mersin) en yaygın düzenlemedir; ancak tek bir teslim maliyet isteyen müşterilere CIF ve DAP olarak da düzenli sevkiyat yapıyoruz. Lojistik ortaklarımız tüm başlıca nakliye hatlarında rekabetçi navlun fiyatlarını korumaktadır.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Minimum sipariş miktarı nedir?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Standart minimum, ürün kalitesine ve ambalaj türüne bağlı olarak yaklaşık 18–22 ton kapasiteli bir 20 ayaklık konteynere karşılık gelmektedir. Yeni müşteriler veya deneme siparişleri için 5–10 tonluk daha küçük sevkiyatlara uyum sağlayabiliriz. Dökme gemi siparişleri genellikle Handy-size kiralamalar için 3.000 tondan başlamaktadır.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Özel etiketli ambalaj sunuyor musunuz?
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Evet. Tüm ürün hatları için tam özel etiket ve beyaz etiket ambalajlama sunuyoruz. Özel çuval tasarımları (25 kg, 50 kg, büyük çuval), markalı paletler, müşteriye özel etiketler ve şirket adınız altında hazırlanan belgeler bunlara dahildir. Özel baskılı ambalaj için minimum sipariş bir 20 ayaklık konteynere karşılık gelmektedir. Yeni baskı onayı için bekleme süresi genellikle 2–3 haftadır.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cta-band section section--dark">
-    <div class="container container-narrow">
-      <h2>Ticarete Başlamaya Hazır mısınız?</h2>
+  <!-- ===== CTA ===== -->
+  <section class="markets-cta">
+    <div class="container">
+      <h2><span>Ticarete Başlamaya</span> Hazır mısınız?</h2>
       <p>Bir deneme konteyneri olsun ya da uzun vadeli tedarik sözleşmesi, ticari ekibimiz pazarınıza uygun bir ortaklık kurmaya hazırdır.</p>
-      <div class="cta-buttons">
+      <div class="btn-group">
         <a href="/tr/contact/" class="btn btn-primary">Teklif İsteyin</a>
-        <a href="/tr/products/" class="btn btn-outline">Ürünleri Görüntüleyin</a>
+        <a href="/tr/products/" class="btn btn-outline" style="border-color:rgba(255,255,255,0.4);color:#fff;">Ürünleri Görüntüleyin</a>
       </div>
     </div>
   </section>
+
+  <!-- ===== FOOTER ===== -->
+  
+
+  <!-- ===== SCRIPTS ===== -->
+  
+  <script>
+  (function() {
+    'use strict';
+
+    var navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', function() {
+        navbar.classList.toggle('scrolled', window.scrollY > 30);
+      });
+    }
+
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function() {
+        var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!expanded));
+        mobileMenu.classList.toggle('open');
+        mobileMenu.setAttribute('aria-hidden', String(expanded));
+      });
+    }
+
+    // Language dropdown
+    var langBtn = document.querySelector('.lang-btn');
+    var langDropdown = document.querySelector('.lang-dropdown');
+    if (langBtn && langDropdown) {
+      langBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var expanded = langBtn.getAttribute('aria-expanded') === 'true';
+        langBtn.setAttribute('aria-expanded', String(!expanded));
+        langDropdown.classList.toggle('open');
+      });
+      document.addEventListener('click', function() {
+        langBtn.setAttribute('aria-expanded', 'false');
+        langDropdown.classList.remove('open');
+      });
+    }
+
+    // Scroll reveal
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  })();
+
+  function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(function(a) { a.classList.remove('open'); });
+    document.querySelectorAll('.faq-q').forEach(function(q) { q.classList.remove('active'); });
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('active');
+    }
+  }
+  </script>
 </Layout>
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--c-gold-dark); }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
+<style is:global>
+/* ===== HERO ===== */
+    .markets-hero {
+      position: relative;
+      padding: 6rem 0 5rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+      overflow: hidden;
+    }
+    .markets-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('/images/mine/mine-aerial-02.webp') center/cover no-repeat;
+      opacity: 0.15;
+    }
+    .markets-hero .container { position: relative; z-index: 2; text-align: center; }
+    .markets-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); margin-bottom: 1.25rem; line-height: 1.12; }
+    .markets-hero h1 span { color: var(--gold); }
+    .markets-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 700px; margin: 0 auto 2rem; line-height: 1.7; }
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1; }
+    .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.35rem; letter-spacing: 0.04em; }
 
-  .hub-hero { text-align: center; padding-block: var(--s-7); }
-  .hub-hero h1 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .hub-hero .accent { color: var(--c-gold); }
-  .hub-hero .lead { color: var(--c-text-light); font-size: 1.1rem; line-height: 1.7; max-width: 720px; margin: 0 auto; }
+    /* ===== STRATEGIC POSITION ===== */
+    .strategic-section { padding: 5rem 0; background: var(--white); }
+    .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .strategic-text .section-subtitle { font-size: 1.05rem; color: var(--text-light); line-height: 1.75; margin-bottom: 2rem; }
+    .advantage-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .advantage-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .advantage-icon { width: 44px; height: 44px; background: rgba(201,146,42,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+    .advantage-item h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--earth); margin-bottom: 0.3rem; }
+    .advantage-item p { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+    .map-visual { background: var(--cream); border-radius: var(--radius-lg); padding: 2.5rem; border: 1px solid var(--cream-dark); position: relative; overflow: hidden; }
+    .map-visual::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; background: rgba(201,146,42,0.08); border-radius: 50%; }
+    .map-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+    .map-header-icon { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 1.1rem; }
+    .map-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--earth); }
+    .trade-routes { display: flex; flex-direction: column; gap: 1rem; }
+    .trade-route { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; background: var(--white); border-radius: 8px; border: 1px solid var(--cream-dark); transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+    .trade-route:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+    .route-dot { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(201,146,42,0.2); }
+    .route-info { flex: 1; }
+    .route-info strong { display: block; font-size: 0.88rem; color: var(--earth); margin-bottom: 0.15rem; }
+    .route-info span { font-size: 0.78rem; color: var(--stone); }
+    .route-time { font-size: 0.72rem; font-weight: 700; color: var(--gold-dark); background: rgba(201,146,42,0.1); padding: 0.3rem 0.6rem; border-radius: 4px; white-space: nowrap; }
 
-  .hero-stats { display: flex; justify-content: center; gap: var(--s-6); margin-top: var(--s-6); flex-wrap: wrap; }
-  .hero-stat { text-align: center; }
-  .hero-stat .num { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 800; color: var(--c-gold); line-height: 1; }
-  .hero-stat .label { font-size: 0.78rem; color: var(--c-text-light); margin-top: 0.35rem; letter-spacing: 0.04em; }
+    /* ===== REGIONS GRID ===== */
+    .regions-section { padding: 5rem 0; background: var(--cream); }
+    .regions-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .regions-section .section-header p { font-size: 1rem; color: var(--text-light); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+    .regions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .region-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--cream-dark); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; }
+    .region-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+    .region-card-header { padding: 2rem 1.75rem 1.25rem; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); position: relative; }
+    .region-card-flag { font-size: 2rem; margin-bottom: 0.75rem; }
+    .region-card-header h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--white); margin-bottom: 0.35rem; }
+    .region-card-header .region-subtitle { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+    .region-card-body { padding: 1.75rem; }
+    .region-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--text-light); margin-bottom: 1.25rem; }
+    .region-countries { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .region-country { font-size: 0.7rem; font-weight: 600; color: var(--gold-dark); background: rgba(201,146,42,0.1); padding: 0.25rem 0.6rem; border-radius: 4px; }
+    .region-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--cream-dark); }
+    .region-stat { text-align: center; }
+    .region-stat-num { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--gold); }
+    .region-stat-label { font-size: 0.68rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
 
-  .accent { color: var(--c-gold-dark); }
-  .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-gold-dark); margin-bottom: var(--s-2); }
-  .section-header { text-align: center; margin-bottom: var(--s-6); }
-  .section-header h2 { margin-bottom: var(--s-2); }
-  .section-header p { color: var(--c-text-muted); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+    /* ===== LOGISTICS ===== */
+    .logistics-section { padding: 5rem 0; background: var(--white); }
+    .logistics-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .logistics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.75rem; }
+    .logistics-card { background: var(--cream); border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center; border: 1px solid var(--cream-dark); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .logistics-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .logistics-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.5rem; }
+    .logistics-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--earth); margin-bottom: 0.75rem; }
+    .logistics-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
 
-  .strategic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: start; }
-  .section-subtitle { font-size: 1.02rem; color: var(--c-text-muted); line-height: 1.75; margin-bottom: var(--s-4); }
-  .advantage-list { display: flex; flex-direction: column; gap: var(--s-3); }
-  .advantage-item { display: flex; gap: var(--s-3); align-items: flex-start; }
-  .advantage-icon { width: 44px; height: 44px; background: rgba(201,146,42,0.14); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
-  .advantage-item h4 { font-family: var(--font-serif); font-size: 1rem; color: var(--c-earth); margin: 0 0 0.3rem; }
-  .advantage-item p { font-size: 0.88rem; color: var(--c-text-muted); line-height: 1.6; margin: 0; }
+    /* ===== TRADE TERMS ===== */
+    .terms-section { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); }
+    .terms-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .term-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center; transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+    .term-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.3); transform: translateY(-4px); }
+    .term-code { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold); margin-bottom: 0.5rem; }
+    .term-name { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 0.75rem; letter-spacing: 0.02em; }
+    .term-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
 
-  .map-visual { background: var(--c-cream); border-radius: var(--r-card); padding: var(--s-5); border: 1px solid var(--c-cream-dark); }
-  .map-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: var(--s-4); }
-  .map-header-icon { width: 40px; height: 40px; background: var(--c-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--c-white); font-size: 1.1rem; }
-  .map-header h3 { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-earth); margin: 0; }
-  .trade-routes { display: flex; flex-direction: column; gap: var(--s-2); }
-  .trade-route { display: flex; align-items: center; gap: var(--s-3); padding: 0.85rem 1rem; background: var(--c-white); border-radius: 8px; border: 1px solid var(--c-cream-dark); transition: border-color var(--t), box-shadow var(--t); }
-  .trade-route:hover { border-color: var(--c-gold); box-shadow: var(--sh-soft); }
-  .route-dot { width: 10px; height: 10px; background: var(--c-gold); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(201,146,42,0.2); }
-  .route-info { flex: 1; }
-  .route-info strong { display: block; font-size: 0.9rem; color: var(--c-earth); margin-bottom: 0.15rem; }
-  .route-info span { font-size: 0.78rem; color: var(--c-stone); }
-  .route-time { font-size: 0.74rem; font-weight: 700; color: var(--c-gold-dark); background: rgba(201,146,42,0.12); padding: 0.3rem 0.6rem; border-radius: 4px; white-space: nowrap; }
+    /* ===== MARKET INSIGHTS ===== */
+    .insights-section { padding: 5rem 0; background: var(--cream); }
+    .insights-section .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .insight-card { background: var(--white); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--cream-dark); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .insight-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .insight-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 0.75rem; }
+    .insight-card h3 { font-size: 1rem; font-weight: 700; color: var(--earth); margin-bottom: 0.65rem; }
+    .insight-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
+    .insight-bar { width: 100%; height: 6px; background: var(--cream); border-radius: 3px; margin-top: 1.25rem; overflow: hidden; }
+    .insight-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; transition: width 1s ease; }
 
-  .regions-section { background: var(--c-cream); }
-  .regions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
-  .region-card { background: var(--c-white); border-radius: var(--r-card); overflow: hidden; box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t), border-color var(--t); }
-  .region-card:hover { transform: translateY(-6px); box-shadow: var(--sh-mid); border-color: var(--c-gold); }
-  .region-card-header { padding: var(--s-4) var(--s-4) var(--s-3); background: var(--c-earth); }
-  .region-card-flag { font-size: 1.8rem; margin-bottom: 0.6rem; }
-  .region-card-header h3 { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-white); margin: 0 0 0.3rem; }
-  .region-subtitle { font-size: 0.78rem; color: var(--c-text-light); }
-  .region-card-body { padding: var(--s-4); }
-  .region-card-body p { font-size: 0.88rem; line-height: 1.7; color: var(--c-text-muted); margin-bottom: var(--s-3); }
-  .region-countries { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: var(--s-3); }
-  .region-country { font-size: 0.72rem; font-weight: 600; color: var(--c-gold-dark); background: rgba(201,146,42,0.1); padding: 0.25rem 0.6rem; border-radius: 4px; }
-  .region-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-2); padding-top: var(--s-3); border-top: 1px solid var(--c-cream-dark); }
-  .region-stat { text-align: center; }
-  .region-stat-num { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--c-gold-dark); }
-  .region-stat-label { font-size: 0.68rem; color: var(--c-stone); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
+    /* ===== FAQ ===== */
+    .faq-section { padding: 5rem 0; background: var(--white); }
+    .faq-section .section-header { text-align: center; margin-bottom: 3rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--cream-dark); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--earth); transition: color 0.2s ease; width: 100%; text-align: left; background: none; border: none; font-family: inherit; }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q svg { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--gold); }
+    .faq-q.active svg { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .faq-a.open { max-height: 300px; padding-bottom: 1.25rem; }
+    .faq-a p { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; }
 
-  .logistics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-3); }
-  .logistics-card { background: var(--c-cream); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
-  .logistics-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
-  .logistics-icon { width: 56px; height: 56px; background: rgba(201,146,42,0.14); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-3); font-size: 1.5rem; }
-  .logistics-card h3 { font-family: var(--font-serif); font-size: 1.05rem; color: var(--c-earth); margin: 0 0 0.6rem; }
-  .logistics-card p { font-size: 0.85rem; color: var(--c-text-muted); line-height: 1.65; margin: 0; }
+    /* ===== CTA ===== */
+    .markets-cta { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); text-align: center; }
+    .markets-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 1rem; }
+    .markets-cta h2 span { color: var(--gold); }
+    .markets-cta p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 2rem; line-height: 1.7; }
+    .markets-cta .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-  .terms-section .section-header h2,
-  .terms-section .section-tag,
-  .terms-section .section-header p { color: var(--c-white); }
-  .terms-section .section-tag { color: var(--c-gold); }
-  .terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); }
-  .term-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-card); padding: var(--s-4) var(--s-3); text-align: center; transition: background var(--t), border-color var(--t), transform var(--t); }
-  .term-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.3); transform: translateY(-4px); }
-  .term-code { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 800; color: var(--c-gold); margin-bottom: 0.5rem; }
-  .term-name { font-size: 0.84rem; font-weight: 600; color: var(--c-white); margin-bottom: 0.6rem; }
-  .term-desc { font-size: 0.82rem; color: var(--c-text-light); line-height: 1.6; }
+    /* ===== SCROLL REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  .insights-section { background: var(--c-cream); }
-  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
-  .insight-card { background: var(--c-white); border-radius: var(--r-card); padding: var(--s-4); box-shadow: var(--sh-soft); border: 1px solid var(--c-cream-dark); transition: transform var(--t), box-shadow var(--t); }
-  .insight-card:hover { transform: translateY(-4px); box-shadow: var(--sh-mid); }
-  .insight-num { font-family: var(--font-serif); font-size: 2.6rem; font-weight: 800; color: var(--c-gold-dark); line-height: 1; margin-bottom: 0.6rem; }
-  .insight-card h3 { font-size: 1rem; font-weight: 700; color: var(--c-earth); margin: 0 0 0.5rem; }
-  .insight-card p { font-size: 0.85rem; color: var(--c-text-muted); line-height: 1.65; margin: 0; }
-
-  .faq-list { margin-top: var(--s-4); }
-  .faq-item { border-bottom: 1px solid var(--c-cream-dark); }
-  .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: var(--s-3) 0; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--c-earth); list-style: none; }
-  .faq-q::-webkit-details-marker { display: none; }
-  .faq-q:hover { color: var(--c-gold-dark); }
-  .faq-icon { font-size: 1.4rem; color: var(--c-gold); transition: transform var(--t); flex-shrink: 0; }
-  details[open] .faq-icon { transform: rotate(45deg); }
-  .faq-a { padding-bottom: var(--s-3); }
-  .faq-a p { font-size: 0.9rem; color: var(--c-text-muted); line-height: 1.75; margin: 0; }
-
-  .cta-band { text-align: center; padding-block: var(--s-7); }
-  .cta-band h2 { color: var(--c-white); margin-bottom: var(--s-3); }
-  .cta-band p { color: var(--c-text-light); margin-bottom: var(--s-4); max-width: 560px; margin-left: auto; margin-right: auto; }
-  .cta-buttons { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; }
-
-  @media (max-width: 1024px) {
-    .strategic-grid { grid-template-columns: 1fr; gap: var(--s-5); }
-    .regions-grid { grid-template-columns: repeat(2, 1fr); }
-    .logistics-grid { grid-template-columns: repeat(2, 1fr); }
-    .terms-grid { grid-template-columns: repeat(2, 1fr); }
-    .insights-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 768px) {
-    .regions-grid, .logistics-grid, .terms-grid, .insights-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: var(--s-4); }
-    .hero-stat .num { font-size: 1.9rem; }
-  }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .strategic-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .regions-grid { grid-template-columns: repeat(2, 1fr); }
+      .logistics-grid { grid-template-columns: repeat(2, 1fr); }
+      .terms-grid { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .regions-grid { grid-template-columns: 1fr; }
+      .logistics-grid { grid-template-columns: 1fr; }
+      .terms-grid { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .markets-hero { padding: 4rem 0 3.5rem; }
+      .hero-stats { gap: 2rem; }
+      .hero-stat-num { font-size: 1.8rem; }
+    }
 </style>

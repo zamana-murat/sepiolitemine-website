@@ -17,12 +17,27 @@ const orgSchema = {
     addressLocality: 'Sincan / Ankara',
     addressCountry: 'TR',
   },
-  sameAs: ['https://www.linkedin.com/company/akmin'],
+  sameAs: ['https://www.linkedin.com/in/murat-%C3%B6zsayg%C4%B1l%C4%B1-59790865/?locale=en'],
   parentOrganization: {
     '@type': 'Organization',
-    name: 'Akmin Mining',
-    url: 'https://akmin.com.tr',
+    name: 'Zamana',
+    url: 'https://zamana.com.tr',
   },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}/#owner`,
+  name: 'Murat Özsaygılı',
+  jobTitle: 'Sahibi / Operatör',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Zamana',
+    url: 'https://zamana.com.tr',
+  },
+  url: 'https://zamana.com.tr',
+  sameAs: ['https://www.linkedin.com/in/murat-%C3%B6zsayg%C4%B1l%C4%B1-59790865/?locale=en'],
 };
 ---
 
@@ -32,7 +47,7 @@ const orgSchema = {
   alternates={{ en: '/', tr: '/tr/' }}
   locale="tr"
   noSuffix={true}
-  schemaJson={[orgSchema]}
+  schemaJson={[orgSchema, personSchema]}
 >
   <Fragment slot="head">
     <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
@@ -86,11 +101,11 @@ const orgSchema = {
       <span>Ham Sepiyolit</span><span>Granüle Sepiyolit</span><span>Öğütülmüş Toz</span>
       <span>Kedi Kumu Kalitesi</span><span>Sondaj Kalitesi</span><span>Tarım Kalitesi</span>
       <span>Endüstriyel Kalite</span><span>Farmasötik Kalite</span><span>Çevre Kalitesi</span>
-      <span>Sepiyolit Türkiye</span><span>Akmin Madencilik Grubu</span><span>sepiolitemine.com</span>
+      <span>Sepiyolit Türkiye</span><span>Zamana</span><span>sepiolitemine.com</span>
       <span>Ham Sepiyolit</span><span>Granüle Sepiyolit</span><span>Öğütülmüş Toz</span>
       <span>Kedi Kumu Kalitesi</span><span>Sondaj Kalitesi</span><span>Tarım Kalitesi</span>
       <span>Endüstriyel Kalite</span><span>Farmasötik Kalite</span><span>Çevre Kalitesi</span>
-      <span>Sepiyolit Türkiye</span><span>Akmin Madencilik Grubu</span><span>sepiolitemine.com</span>
+      <span>Sepiyolit Türkiye</span><span>Zamana</span><span>sepiolitemine.com</span>
     </div>
   </div>
 
@@ -102,7 +117,7 @@ const orgSchema = {
           <img src="/images/mine/cliff-1280w.webp" alt="Sepiyolit Madeni, Türkiye" width="1280" height="960" loading="lazy"/>
           <div class="about-visual-badge">
             <strong>Est. 1995</strong>
-            <span>Akmin Mining Co.</span>
+            <span>Zamana</span>
           </div>
         </div>
         <div>
@@ -110,7 +125,7 @@ const orgSchema = {
           <div class="divider"></div>
           <h2 class="section-title">Toprağa Köklenmiş,<br/>Dünyaya <span>Ulaşan</span></h2>
           <p class="section-subtitle">
-            Sepiolite Mine, Türkiye'nin en zengin mineral yataklarının kalbinde faaliyet gösteren <strong>Akmin Mining</strong>'in özel bir sepiyolit üretim ve ihracat bölümüdür. 50'den fazla ülkedeki müşterilerimize en yüksek kaliteli sepiyoliti maden, işleme ve teslimat zinciriyle sunuyoruz.
+            Sepiolite Mine, Türkiye'nin en zengin mineral yataklarının kalbinde faaliyet gösteren <strong>Zamana</strong>'in özel bir sepiyolit üretim ve ihracat bölümüdür. 50'den fazla ülkedeki müşterilerimize en yüksek kaliteli sepiyoliti maden, işleme ve teslimat zinciriyle sunuyoruz.
           </p>
           <p class="section-subtitle" style="margin-top:1rem;">
             Türkiye, dünyanın en büyük sepiyolit rezervlerine sahiptir; biz de bu kaynakların sorumlu koruyucuları olarak sürdürülebilir çıkarım, titiz kalite kontrol ve müşteri odaklı çözümler sunmaya kararlıyız.
@@ -147,7 +162,7 @@ const orgSchema = {
           </div>
           <div class="akmin-badge">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
-            <span>Akmin Mining</span> bünyesinde bir bölüm
+            <span>Zamana</span> bünyesinde bir bölüm
           </div>
         </div>
       </div>
@@ -550,7 +565,7 @@ const orgSchema = {
         <div>
           <div class="section-tag">İletişime Geçin</div>
           <div class="divider"></div>
-          <h2 class="section-title">Tedarik Yolculuğunuza<br/><span>Başlayın</span></h2>
+          <h2 class="section-title">Tedarik<br/><span>Yolculuğunuzu</span> Başlatın</h2>
           <p class="section-subtitle">
             Bir teknik veri sayfasına, numune sevkiyatına veya uzun vadeli tedarik sözleşmesine ihtiyacınız olsa da; ekibimiz 24 saat içinde yanıt verir.
           </p>

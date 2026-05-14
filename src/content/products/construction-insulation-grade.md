@@ -67,7 +67,7 @@ advantages:
   - title: "Asbestos-Free Alternative"
     description: "Sepiolite provides similar fibrous reinforcement and insulation properties as asbestos with none of the health risks — a safe, natural replacement."
 advantageImage: /images/mine/landscape-13-800w.webp
-advantageImageAlt: Sepiolite mine, Akmin Mining Türkiye
+advantageImageAlt: Sepiolite mine, Zamana Türkiye
 
 faqs:
   - question: "Is sepiolite a safe alternative to asbestos in construction?"

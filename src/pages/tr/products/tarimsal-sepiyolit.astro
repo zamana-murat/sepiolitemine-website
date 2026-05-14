@@ -1,0 +1,373 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { BRAND } from '@config/brand';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+---
+
+<Layout
+  title="Tarımsal Sepiyolit – Toprak Düzenleyici ve Gübre Taşıyıcı"
+  description="Gübre, pestisit ve tohum kaplamalar için toprak düzenleyici ve taşıyıcı kademe - gelişmiş verim için toprak yapısını, su tutma kapasitesini ve besin dağıtımını iyileştirir."
+  locale="tr"
+  alternates={{ en: "/products/agricultural-sepiolite/", tr: "/tr/products/tarimsal-sepiyolit/" }}
+>
+<div class="breadcrumb-bar">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/tr/">Ana Sayfa</a>
+      <span class="sep">›</span>
+      <a href="/tr/products/">Ürünler</a>
+      <span class="sep">›</span>
+      <span class="current">Tarımsal Sepiyolit</span>
+    </nav>
+  </div>
+</div>
+
+<section class="product-hero">
+  <div class="container">
+    <div class="product-hero-grid">
+      <div class="product-gallery">
+        <div class="product-main-img" id="mainImg">
+          <img width="1200" height="896" src="/images/products/product-agriculture.webp" alt="Tarımsal Sepiyolit" id="mainImgSrc"/>
+        </div>
+        <div class="product-thumbs">
+          <div class="product-thumb active" onclick="switchImage(this, '/images/products/product-agriculture.webp', 'Tarımsal Sepiyolit')">
+            <img width="1200" height="896" src="/images/products/product-agriculture.webp" alt="Tarımsal Sepiyolit" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/mine/mine-landscape-05.webp', 'Maden sahası')">
+            <img width="960" height="1280" src="/images/mine/mine-landscape-05.webp" alt="Maden sahası" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-01.webp', 'Tarımsal Sepiyolit örneği')">
+            <img width="675" height="900" src="/images/products/product-sample-01.webp" alt="Tarımsal Sepiyolit örneği" loading="lazy"/>
+          </div>
+          <div class="product-thumb" onclick="switchImage(this, '/images/products/product-sample-02.webp', 'Tarımsal Sepiyolit detay')">
+            <img width="675" height="900" src="/images/products/product-sample-02.webp" alt="Tarımsal Sepiyolit detay" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-badge">Tarım</div>
+        <h1 class="product-h1">Tarımsal <em>Sepiyolit</em></h1>
+        <p class="product-tagline">Gübre, pestisit ve tohum kaplamalar için toprak düzenleyici ve taşıyıcı kademe - gelişmiş verim için toprak yapısını, su tutma kapasitesini ve besin dağıtımını iyileştirir.</p>
+        <div class="key-specs">
+          <div class="key-spec"><div class="key-spec-value">0–2mm</div><div class="key-spec-label">Standart Boyut</div></div>
+          <div class="key-spec"><div class="key-spec-value">%200+</div><div class="key-spec-label">Su Tutma</div></div>
+          <div class="key-spec"><div class="key-spec-value">Eko</div><div class="key-spec-label">Sertifika</div></div>
+        </div>
+        <div class="price-box">
+          <div class="price-box-header">
+            <span class="price-label">Toplu Fiyatlandırma</span>
+            <span class="price-availability">Stokta Mevcut</span>
+          </div>
+          <div class="price-value">TBD</div>
+          <div class="price-unit">Metrik ton başına fiyat · FOB Mersin Limanı · Büyük hacimler için özel fiyatlandırma</div>
+          <div class="price-features"><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Minimum sipariş: 20 MT</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Ambalaj: 25 kg veya 50 kg çuval, BigBag</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Organik tarım uyumlu doğal mineral</div><div class="price-feature"><svg viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Her sevkiyatla birlikte Analiz Sertifikası verilir</div></div>
+          <div class="price-actions">
+            <a href="/tr/contact/" class="btn btn-primary">Teklif İste</a>
+            <a href="/tr/contact/" class="btn btn-outline">Numune İste</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="product-desc-section">
+  <div class="container">
+    <div class="product-desc-grid">
+      <div class="product-desc">
+        <div class="section-tag">Ürüne Genel Bakış</div>
+        <div class="divider"></div>
+        <h2>Toprak Sağlığını ve Mahsul <span>Verimini</span> Artırın</h2>
+        <p>Tarımsal sepiyolit, toprak sağlığını ve mahsul verimini iyileştirmek amacıyla agronomistler ve gübre üreticileri tarafından giderek daha fazla kullanılan doğal bir mineral katkısıdır. Benzersiz mikro gözenekli yapısı, gübre ve pestisit aktif maddelerini emmesine ve tarla koşullarına göre kontrollü biçimde serbest bırakmasına olanak tanır.</p>
+<p>Kümeleşen veya sertleşen verimli tarım topraklarında toprak düzenleyici olarak kullanıldığında sepiyolit, toprak parçacıkları arasında yumru yapısını iyileştirir, havalanmayı artırır ve birikmiş tuzların neden olduğu sıkışmayı azaltır. Sonuç; köklerin daha derin gelişebildiği, daha havalanmış ve geçirgen bir toprak profilidir.</p>
+<p>Su tutma kapasitesi açısından tarımsal sepiyolit, kendi ağırlığının iki katından fazla su tutabilir ve kurak dönemlerde veya düşük yağışlı arazilerde bu suyu yavaşça serbest bırakır. Bu özellik özellikle kumlu tekstürlü topraklarda sulama ihtiyacını ve tarım kimyasalı kayıplarını önemli ölçüde azaltır.</p>
+<p>Ürünümüz doğal bir mineral olup kimyasal katkı içermemektedir; bu özellik, organik tarım sertifikalı işletmeler ve kimyasal katkı kullanımını kısıtlayan GAP programları için uygundur.</p>
+      </div>
+      <div>
+        <div class="tech-specs-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 7V13L10 18L2 13V7L10 2Z" stroke="#C9922A" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" fill="#C9922A"/></svg>
+            Teknik Özellikler
+          </h3>
+          <div class="spec-row"><span class="spec-label">Tane Boyutu</span><span class="spec-value">0–2 mm</span></div><div class="spec-row"><span class="spec-label">Nem İçeriği</span><span class="spec-value">8–12%</span></div><div class="spec-row"><span class="spec-label">MgO</span><span class="spec-value">≥ 18%</span></div><div class="spec-row"><span class="spec-label">SiO₂</span><span class="spec-value">≥ 54%</span></div><div class="spec-row"><span class="spec-label">pH (süspansiyon)</span><span class="spec-value">7.5–8.5</span></div><div class="spec-row"><span class="spec-label">Su Tutma Kapasitesi</span><span class="spec-value">≥ 200% kendi ağırlığı</span></div><div class="spec-row"><span class="spec-label">Özgül Yüzey</span><span class="spec-value">200–300 m²/g</span></div><div class="spec-row"><span class="spec-label">Dökme Yoğunluk</span><span class="spec-value">0.45–0.65 g/cm³</span></div><div class="spec-row"><span class="spec-label">Ağır Metal İçeriği</span><span class="spec-value">Tarım standartlarına uygun</span></div><div class="spec-row"><span class="spec-label">Organik Madde</span><span class="spec-value">< 1%</span></div><div class="spec-row"><span class="spec-label">Ambalaj</span><span class="spec-value">25 kg / 50 kg Çuval</span></div><div class="spec-row"><span class="spec-label">Teslimat</span><span class="spec-value">FOB Mersin / Samsun</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usage-section">
+  <div class="container">
+    <div class="usage-header">
+      <div class="section-tag" style="color:var(--gold-light);">Uygulama Alanları</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title" style="color:var(--white);">Tarımsal Sepiyolit <span>Nerelerde Kullanılır?</span></h2>
+    </div>
+    <div class="usage-grid">
+      <div class="usage-card reveal">
+        <div class="usage-icon">🌱</div>
+        <h3>Toprak Düzenleyici</h3>
+        <p>Sıkışmış ve kümeleşen topraklarda havalanmayı ve geçirgenliği artırır. Kök gelişimini destekler, sulama suyunun derine inmesini kolaylaştırır ve yüzey akışını azaltır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">💧</div>
+        <h3>Su Tutma Kapasitesi</h3>
+        <p>Kendi ağırlığının %200'ünden fazla su tutabilir ve kurak dönemlerde bu suyu yavaşça serbest bırakır. Sulama aralıklarını uzatır ve kuraklık stresini azaltır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🧪</div>
+        <h3>Gübre Taşıyıcısı</h3>
+        <p>Granül gübre formülasyonlarında azot, fosfor ve potasyum taşıyıcısı. Kontrollü salınım özelliği, besin kaybını ve yıkanmasını azaltarak verimliliği artırır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🌾</div>
+        <h3>Pestisit Formülasyonu</h3>
+        <p>Toz ve granül pestisit formülasyonlarında aktif madde taşıyıcısı. Homojen dağılım sağlar ve aktif maddenin parçalanmasını yavaşlatarak etkisini uzatır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🌻</div>
+        <h3>Tohum Kaplama</h3>
+        <p>Tohum peletleme işlemlerinde bağlayıcı ve kaplama maddesi. Tohumların çimlenme döneminde nem ve besin ihtiyacını destekler, çimlenme oranını artırır.</p>
+      </div>
+      <div class="usage-card reveal">
+        <div class="usage-icon">🏡</div>
+        <h3>Bahçecilik ve Seracılık</h3>
+        <p>Saksı karışımlarında, büyüme ortamlarında ve hidroponik sistemlerde mineral destek maddesi. Organik sertifikalı üretim için uygun doğal mineral kaynağı.</p>
+      </div></div>
+  </div>
+</section>
+
+<section class="advantages-section">
+  <div class="container">
+    <div class="advantages-grid">
+      <div>
+        <div class="section-tag">Neden Tarımsal Sepiyolit</div>
+        <div class="divider"></div>
+        <h2 class="section-title">Tarımda <span>Doğal Çözüm</span></h2>
+        <div class="advantage-list">
+          <div class="advantage-item reveal">
+            <div class="advantage-num">01</div>
+            <div><strong>Organik Uyumluluk</strong><p>Tarımsal sepiyolit, kimyasal katkı veya işleme gerektirmeyen tamamen doğal bir mineraldir. IFOAM organik tarım standartlarına uygundur ve organik sertifikalı işletmelerde kullanılabilir.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">02</div>
+            <div><strong>Kontrolü Yavaş Salınım</strong><p>Mikro gözenekli yapı, aktif maddelerin aşırı sulama veya yağmur sırasında yıkanmasını önler. Bu özellik, gübre verimliliğini artırır ve tarım kimyasalı kullanımını %20–30 oranında azaltabilir.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">03</div>
+            <div><strong>Çok Yönlü Uygulama</strong><p>Toprak karıştırma, gübre granülasyon, tohum kaplama ve pestisit formülasyonu dahil pek çok tarımsal süreçte kullanılabilir. Tek ürün ile çoklu fayda sağlar.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">04</div>
+            <div><strong>Düşük Maliyetli Girdi</strong><p>Doğrudan maden işletmecisi olarak hammadde maliyetlerimiz düşüktür. Bu avantajı müşterilerimize rekabetçi fiyatlar olarak yansıtıyoruz ve büyük hacimli tarımsal tedarikler için esnek fiyatlandırma sunuyoruz.</p></div>
+          </div>
+          <div class="advantage-item reveal">
+            <div class="advantage-num">05</div>
+            <div><strong>Teknik Tarım Desteği</strong><p>Agronomistlerimiz, toprak tipi ve mahsul türüne göre optimum sepiyolit dozu ve uygulama yöntemi konusunda teknik tavsiye sunmaktadır.</p></div>
+          </div></div>
+      </div>
+      <div class="advantage-image">
+        <img width="1200" height="896" src="/images/mine/mine-aerial-02.webp" alt="Türkiye'de sepiyolit madeni" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <div class="section-tag">Sık Sorulan Sorular</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Sıkça Sorulan <span>Sorular</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Tarımsal sepiyolit toprak pH'ını etkiler mi? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Tarımsal sepiyolit hafif alkali bir mineraldir (pH 7.5–8.5). Asit topraklarda hafif pH yükseltici etki gösterebilir; bu durum kireçleme ihtiyacı olan asidik topraklar için avantajlıdır. Aşırı alkalin topraklarda dikkatli kullanılmalıdır.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Organik tarımda kullanılabilir mi? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Evet. Tarımsal sepiyolit, kimyasal katkı içermeyen doğal bir mineral olup IFOAM organik tarım standartlarına uygundur. Ancak spesifik organik sertifikasyon gereksinimleri ülkeden ülkeye değişebilir; ilgili sertifikasyon kuruluşunuzla doğrulama yapmanızı öneririz.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Hektar başına ne kadar uygulanmalıdır? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Uygulama dozu; toprak tipine, hedef kullanıma ve mahsüle göre farklılık gösterir. Toprak düzenleyici olarak genellikle 200–500 kg/ha önerilir. Gübre taşıyıcı olarak gübre formülasyonunun %5–15'i oranında kullanılır. Agronomistimizle iletişime geçin.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Minimum sipariş miktarı nedir? <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Tarımsal sepiyolit için minimum sipariş miktarı 20 metrik tondur. Deneme amaçlı küçük partiler için ekstra paketleme maliyetiyle birlikte daha düşük miktarlar da temin edilebilir.</div></div>
+      </div></div>
+  </div>
+</section>
+
+<section class="related-section">
+  <div class="container">
+    <div class="related-header">
+      <div class="section-tag">Diğer Ürünler</div>
+      <div class="divider divider--center"></div>
+      <h2 class="section-title">Diğer <span>Kademelerimiz</span></h2>
+    </div>
+    <div class="related-grid">
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="675" height="900" src="/images/products/product-granulated.webp" alt="Granül Sepiyolit" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>Granül Sepiyolit</h3>
+          <p>0–8mm fraksiyonlarda gübre ve kedi kumu uygulamalar için hassas granüller.</p>
+          <a href="/tr/products/granule-sepiyolit/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="506" height="900" src="/images/products/product-raw-ore.webp" alt="Ham Sepiyolit Cevheri" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>Ham Sepiyolit Cevheri</h3>
+          <p>Kendi işleme tesisleriniz için Türkiye'nin en saf ham sepiyoliti.</p>
+          <a href="/tr/products/ham-sepiyolit-cevheri/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div>
+      <div class="related-card reveal">
+        <div class="related-card-img"><img width="1200" height="896" src="/images/products/product-construction.webp" alt="İnşaat ve Yalıtım Kalitesi" loading="lazy"/></div>
+        <div class="related-card-body">
+          <h3>İnşaat ve Yalıtım Kalitesi</h3>
+          <p>Çimento ve harç uygulamaları için düşük ısıl iletkenlikli sepiyolit.</p>
+          <a href="/tr/products/insaat-yalitim-kalitesi/" class="related-link">Ürünü Görüntüle <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        </div>
+      </div></div>
+  </div>
+</section>
+
+
+  
+  <script>
+  function switchImage(thumb, src, alt) {
+    document.getElementById('mainImgSrc').src = src;
+    document.getElementById('mainImgSrc').alt = alt;
+    document.querySelectorAll('.product-thumb').forEach(function(t) { t.classList.remove('active'); });
+    thumb.classList.add('active');
+  }
+  function toggleFaq(el) {
+    var item = el.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var navbar = document.getElementById('navbar');
+    if (navbar) { window.addEventListener('scroll', function() { navbar.classList.toggle('scrolled', window.scrollY > 30); }); }
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function() {
+        var exp = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!exp));
+        mobileMenu.classList.toggle('open');
+        mobileMenu.setAttribute('aria-hidden', String(exp));
+      });
+    }
+    var langBtn = document.querySelector('.lang-btn');
+    var langDropdown = document.querySelector('.lang-dropdown');
+    if (langBtn && langDropdown) {
+      langBtn.addEventListener('click', function(e) { e.stopPropagation(); var isOpen = langDropdown.classList.contains('open'); langDropdown.classList.toggle('open', !isOpen); langBtn.setAttribute('aria-expanded', String(!isOpen)); });
+      document.addEventListener('click', function() { langDropdown.classList.remove('open'); langBtn.setAttribute('aria-expanded', 'false'); });
+    }
+    var obs = new IntersectionObserver(function(entries) { entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+  });
+  </script>
+</Layout>
+
+<style is:global>
+/* PRODUCT HERO */
+    .product-hero { padding: 4rem 0 5rem; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 40%, var(--earth-soft) 100%); }
+    .product-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .product-gallery { position: sticky; top: 80px; }
+    .product-main-img { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,146,42,0.2); }
+    .product-main-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .product-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.75rem; }
+    .product-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s ease; aspect-ratio: 1; }
+    .product-thumb.active { border-color: var(--gold); }
+    .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .product-info { padding-top: 0.5rem; }
+    .product-badge { display: inline-block; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(201,146,42,0.15); color: var(--gold-light); border: 1px solid rgba(201,146,42,0.3); margin-bottom: 1rem; }
+    .product-h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--white); line-height: 1.12; margin-bottom: 1rem; }
+    .product-h1 em { color: var(--gold); font-style: normal; }
+    .product-tagline { font-size: 1.05rem; color: rgba(255,255,255,0.7); line-height: 1.75; margin-bottom: 2rem; }
+    .key-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .key-spec { background: rgba(255,255,255,0.06); border: 1px solid rgba(201,146,42,0.2); border-radius: var(--radius); padding: 1rem; text-align: center; }
+    .key-spec-value { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .key-spec-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-top: 0.4rem; letter-spacing: 0.04em; }
+    .price-box { background: linear-gradient(135deg, rgba(28,20,16,0.9) 0%, rgba(62,46,30,0.9) 100%); border: 1px solid rgba(201,146,42,0.3); border-radius: var(--radius-lg); padding: 2rem; }
+    .price-box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .price-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+    .price-availability { font-size: 0.75rem; color: #4ade80; font-weight: 600; }
+    .price-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .price-unit { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; line-height: 1.6; }
+    .price-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .price-feature { display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+    .price-feature svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+    .price-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    /* PRODUCT DESC */
+    .product-desc-section { padding: 5rem 0; background: var(--white); }
+    .product-desc-grid { display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: start; }
+    .product-desc h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--earth); line-height: 1.2; margin-bottom: 1.5rem; }
+    .product-desc h2 span { color: var(--gold); }
+    .product-desc p { font-size: 0.92rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 1.25rem; }
+    .tech-specs-card { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: var(--radius-lg); padding: 1.75rem; position: sticky; top: 80px; }
+    .tech-specs-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--earth); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.65rem; }
+    .spec-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--cream-dark); }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { font-size: 0.8rem; color: var(--stone); font-weight: 500; }
+    .spec-value { font-size: 0.82rem; color: var(--earth); font-weight: 700; text-align: right; }
+    /* USAGE */
+    .usage-section { padding: 5rem 0; background: linear-gradient(135deg, var(--earth) 0%, var(--earth-soft) 100%); }
+    .usage-header { text-align: center; margin-bottom: 3.5rem; }
+    .usage-header .section-subtitle { color: rgba(255,255,255,0.65); font-size: 1.05rem; line-height: 1.75; margin-top: 1rem; }
+    .usage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .usage-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 2rem; transition: var(--transition); }
+    .usage-card:hover { background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.35); transform: translateY(-4px); }
+    .usage-icon { width: 52px; height: 52px; background: rgba(201,146,42,0.15); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; }
+    .usage-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.75rem; }
+    .usage-card p { font-size: 0.85rem; line-height: 1.75; color: rgba(255,255,255,0.6); }
+    /* ADVANTAGES */
+    .advantages-section { padding: 5rem 0; background: var(--cream); }
+    .advantages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .advantage-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .advantage-item { display: flex; gap: 1rem; align-items: flex-start; background: var(--white); border-radius: var(--radius); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .advantage-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .advantage-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--gold); opacity: 0.5; line-height: 1; flex-shrink: 0; width: 32px; }
+    .advantage-item strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--earth); margin-bottom: 0.3rem; }
+    .advantage-item p { font-size: 0.85rem; line-height: 1.7; color: var(--text-light); margin: 0; }
+    .advantage-image { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-md); }
+    .advantage-image img { width: 100%; height: 100%; object-fit: cover; }
+    /* FAQ */
+    .faq-section { padding: 5rem 0; background: var(--white); }
+    .faq-header { text-align: center; margin-bottom: 3rem; }
+    .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item { background: var(--cream); border: 1px solid var(--cream-dark); border-radius: var(--radius); overflow: hidden; transition: var(--transition); }
+    .faq-item.open { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--earth); gap: 1rem; user-select: none; }
+    .faq-question:hover { color: var(--gold-dark); }
+    .faq-chevron { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--gold); }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner { padding: 0 1.5rem 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text-light); }
+    /* RELATED */
+    .related-section { padding: 5rem 0; background: var(--cream); }
+    .related-header { text-align: center; margin-bottom: 3rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .related-card { border-radius: var(--radius-lg); overflow: hidden; background: var(--white); border: 1px solid var(--cream-dark); box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
+    .related-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+    .related-card-img { height: 180px; overflow: hidden; }
+    .related-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .related-card:hover .related-card-img img { transform: scale(1.07); }
+    .related-card-body { padding: 1.5rem; }
+    .related-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--earth); margin-bottom: 0.5rem; }
+    .related-card-body p { font-size: 0.82rem; line-height: 1.7; color: var(--text-light); margin-bottom: 1rem; }
+    .related-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--gold); transition: var(--transition); }
+    .related-link svg { width: 14px; height: 14px; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 1024px) { .product-hero-grid { grid-template-columns: 1fr; gap: 2.5rem; } .product-gallery { position: static; } .product-desc-grid { grid-template-columns: 1fr; } .advantages-grid { grid-template-columns: 1fr; } .usage-grid { grid-template-columns: 1fr 1fr; } .related-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .usage-grid { grid-template-columns: 1fr; } .related-grid { grid-template-columns: 1fr; } .key-specs { grid-template-columns: 1fr; } .price-actions { flex-direction: column; } }
+</style>

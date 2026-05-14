@@ -2,258 +2,239 @@
 import Layout from '@layouts/Layout.astro';
 import { BRAND } from '@config/brand';
 
-const lastUpdated = '2026-05-14';
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-    { '@type': 'ListItem', position: 2, name: 'Privacy Policy', item: `${siteUrl}/privacy/` },
-  ],
-};
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sepiolitemine.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://sepiolitemine.com/privacy.html" }
+    ]
+  }
+];
 ---
 
 <Layout
   title="Privacy Policy"
-  description="How Sepiolite Mine collects, uses, and protects personal data. GDPR, CCPA, PIPL, 152-FZ, PDPL, and DPL compliance disclosures."
+  description="Privacy Policy for Sepiolite Mine (sepiolitemine.com). Learn how we collect, use, and protect your personal information when you interact with our website and services."
   locale="en"
-  alternates={{ en: '/privacy/', tr: '/tr/privacy/' }}
-  schemaJson={[breadcrumbSchema]}
+  schemaJson={schemaJson}
 >
-  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+<!-- ===== HEADER ===== -->
+  
+
+  <!-- ===== BREADCRUMB ===== -->
+  <div class="breadcrumb-bar">
     <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="sep">›</li>
-        <li aria-current="page">Privacy Policy</li>
-      </ol>
-    </div>
-  </nav>
-
-  <article class="legal-page section">
-    <div class="container container-narrow">
-      <header class="legal-header">
-        <span class="section-tag">Legal</span>
-        <h1>Privacy Policy</h1>
-        <p class="last-updated">Last updated: {lastUpdated}</p>
-      </header>
-
-      <div class="legal-body">
-        <p>
-          {BRAND.name} ("we", "us", "our") respects your privacy and is committed to protecting
-          your personal data. This policy explains how we collect, use, store, and disclose
-          personal information when you visit <strong>sepiolitemine.com</strong> or contact us
-          for B2B inquiries.
-        </p>
-
-        <h2>1. Data Controller</h2>
-        <p>
-          The data controller for personal information collected through this website is
-          {BRAND.legalName}, based in {BRAND.address.city}, {BRAND.address.country}. For
-          privacy inquiries, please reach us via the <a href="/contact/">contact form</a>.
-        </p>
-
-        <h2>2. Information We Collect</h2>
-        <p>We collect personal information only when you provide it voluntarily, such as:</p>
-        <ul>
-          <li>Name, business email, company name, country, and phone (when submitting our contact form)</li>
-          <li>Subject and content of your inquiry message</li>
-          <li>Aggregate, anonymous traffic data via Cloudflare Web Analytics (no cookies, no tracking, no IP storage)</li>
-        </ul>
-        <p>
-          We do <strong>not</strong> use cookies, third-party tracking pixels, advertising
-          networks, or fingerprinting on this site.
-        </p>
-
-        <h2>3. How We Use Your Information</h2>
-        <p>Personal information you submit is used solely to:</p>
-        <ul>
-          <li>Respond to your B2B inquiry, quote request, or sample request</li>
-          <li>Maintain commercial correspondence regarding sepiolite supply</li>
-          <li>Comply with applicable export, customs, and trade documentation requirements</li>
-        </ul>
-        <p>
-          We do not sell, rent, or share your personal data with third parties for marketing
-          purposes.
-        </p>
-
-        <h2>4. Legal Bases (GDPR — EU/EEA visitors)</h2>
-        <p>For visitors in the European Economic Area, we process personal data under:</p>
-        <ul>
-          <li><strong>Article 6(1)(b)</strong> — performance of a contract or pre-contractual steps (responding to a quote request)</li>
-          <li><strong>Article 6(1)(f)</strong> — legitimate interests (handling B2B commercial correspondence)</li>
-          <li><strong>Article 6(1)(c)</strong> — legal compliance (export documentation)</li>
-        </ul>
-
-        <h2>5. Your Rights</h2>
-        <p>Depending on your jurisdiction, you may have rights to:</p>
-        <ul>
-          <li><strong>Access, rectify, or delete</strong> your personal data (GDPR Articles 15–17, CCPA §1798.100, PIPL Articles 44–47, KVKK Article 11)</li>
-          <li><strong>Object to or restrict processing</strong> (GDPR Article 21, PIPL Article 44)</li>
-          <li><strong>Data portability</strong> (GDPR Article 20)</li>
-          <li><strong>Opt out of "sale"</strong> (CCPA §1798.120) — note: we do not sell personal data</li>
-          <li><strong>Lodge a complaint</strong> with your local supervisory authority</li>
-        </ul>
-        <p>
-          To exercise any of these rights, contact us via the <a href="/contact/">contact form</a>.
-          We respond within 30 days.
-        </p>
-
-        <h2>6. International Data Transfers</h2>
-        <p>
-          Our servers are operated by Cloudflare on a global edge network. Email correspondence
-          is handled via Resend (EU region) and our hosting provider. By contacting us, you
-          consent to your data being processed in Türkiye and other jurisdictions where our
-          service providers operate, subject to appropriate safeguards (Standard Contractual
-          Clauses where applicable).
-        </p>
-
-        <h2>7. Jurisdiction-Specific Disclosures</h2>
-
-        <h3>7.1 California (CCPA / CPRA)</h3>
-        <p>
-          California residents have the right to know what personal information is collected,
-          to request deletion, to opt out of sale (we do not sell), and to non-discrimination
-          for exercising rights. We do not have actual knowledge of selling personal information
-          of consumers under 16.
-        </p>
-
-        <h3>7.2 China (PIPL)</h3>
-        <p>
-          For users in mainland China, we process personal information under Article 13(2) of
-          the Personal Information Protection Law (PIPL) for the necessary purposes of contract
-          performance. Cross-border transfers comply with PIPL Article 38 standards. You may
-          exercise PIPL rights via the contact form.
-        </p>
-
-        <h3>7.3 Russia (152-FZ)</h3>
-        <p>
-          For Russian Federation users, personal data submitted via this site is processed in
-          accordance with Federal Law 152-FZ. Russian residents' personal data is initially
-          recorded and stored on Russian-located servers where required, with subsequent
-          processing handled in accordance with applicable cross-border transfer rules.
-        </p>
-
-        <h3>7.4 Saudi Arabia (PDPL) and UAE (DPL)</h3>
-        <p>
-          For users in the Kingdom of Saudi Arabia and the United Arab Emirates, processing
-          complies with the Personal Data Protection Law (PDPL, Saudi) and the Federal Decree-Law
-          No. 45 of 2021 on Personal Data Protection (UAE DPL). Data subject rights apply as
-          prescribed by these laws.
-        </p>
-
-        <h3>7.5 Türkiye (KVKK)</h3>
-        <p>
-          For Turkish residents, we process personal data in accordance with Personal Data
-          Protection Law No. 6698 (KVKK). Data subjects may exercise rights under Article 11
-          via the contact form.
-        </p>
-
-        <h2>8. Data Retention</h2>
-        <p>
-          Inquiry messages and commercial correspondence are retained for the duration of the
-          business relationship plus a reasonable period for legal, tax, and audit obligations
-          (typically 5–10 years depending on applicable law). Anonymous analytics data is
-          aggregated and retained per Cloudflare's data policies.
-        </p>
-
-        <h2>9. Security</h2>
-        <p>
-          We use industry-standard measures (HTTPS/TLS encryption, restricted access controls,
-          and secure hosting) to protect personal information. No method of transmission or
-          storage is 100% secure; we cannot guarantee absolute security.
-        </p>
-
-        <h2>10. Children's Privacy</h2>
-        <p>
-          This is a B2B website not directed at children under 16. We do not knowingly collect
-          personal data from children.
-        </p>
-
-        <h2>11. Changes to This Policy</h2>
-        <p>
-          We may update this policy periodically. Material changes will be reflected by updating
-          the "Last updated" date at the top. Continued use of the site after changes constitutes
-          acceptance.
-        </p>
-
-        <h2>12. Contact</h2>
-        <p>
-          For privacy questions or to exercise your rights, please use the
-          <a href="/contact/">contact form</a> with subject "Privacy". We do not publish a direct
-          email address on this site to prevent automated abuse.
-        </p>
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Privacy Policy</span>
       </div>
     </div>
-  </article>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-tag">Legal</span>
+      <h1>Privacy <span>Policy</span></h1>
+      <p>How Sepiolite Mine collects, uses, and protects your personal information.</p>
+    </div>
+  </section>
+
+  <!-- ===== LEGAL CONTENT ===== -->
+  <section class="legal-section">
+    <div class="container">
+      <div class="legal-container">
+
+        <p class="legal-updated"><strong>Last Updated:</strong> April 2026</p>
+
+        <p>Sepiolite Mine, operated by Zamana ("we", "us", or "our"), is committed to protecting the privacy and security of your personal information. This Privacy Policy explains how we collect, use, store, and share information when you visit our website at <a href="https://sepiolitemine.com">sepiolitemine.com</a> or interact with our services.</p>
+
+        <p>By using our website, you acknowledge that you have read and understood this Privacy Policy. If you do not agree with our practices, please refrain from using our website.</p>
+
+        <h2>1. Information We Collect</h2>
+
+        <h3>Information You Provide Directly</h3>
+        <p>We collect personal information that you voluntarily provide when you:</p>
+        <ul>
+          <li>Submit a contact form, quote request, or inquiry</li>
+          <li>Request product samples or technical data sheets</li>
+          <li>Subscribe to our newsletter or sustainability reports</li>
+          <li>Communicate with us via email, phone, or WhatsApp</li>
+          <li>Enter into a commercial agreement or supply contract</li>
+        </ul>
+        <p>This information may include your name, email address, phone number, company name, job title, industry, country, and the content of your message.</p>
+
+        <h3>Information Collected Automatically</h3>
+        <p>When you visit our website, we automatically collect certain technical data, including:</p>
+        <ul>
+          <li>IP address and approximate geographic location</li>
+          <li>Browser type, version, and language settings</li>
+          <li>Operating system and device information</li>
+          <li>Pages visited, time spent, referring URLs, and navigation paths</li>
+          <li>Date and time of your visit</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the information we collect for the following purposes:</p>
+        <ul>
+          <li><strong>Responding to inquiries:</strong> To process your requests for quotes, samples, technical specifications, and general inquiries</li>
+          <li><strong>Business communications:</strong> To facilitate commercial discussions, supply agreements, and ongoing customer relationships</li>
+          <li><strong>Website improvement:</strong> To analyze usage patterns and optimize our website content, navigation, and performance</li>
+          <li><strong>Marketing:</strong> To send relevant product updates, industry insights, and company news (only with your consent)</li>
+          <li><strong>Legal compliance:</strong> To comply with applicable laws, regulations, and legal processes</li>
+          <li><strong>Security:</strong> To protect our website, systems, and users from fraud, abuse, and unauthorized access</li>
+        </ul>
+
+        <h2>3. Cookies and Tracking Technologies</h2>
+        <p>Our website uses cookies and similar tracking technologies to enhance your browsing experience and gather analytical data.</p>
+
+        <h3>Types of Cookies We Use</h3>
+        <ul>
+          <li><strong>Essential cookies:</strong> Necessary for the website to function properly (e.g., language preferences, session management)</li>
+          <li><strong>Analytics cookies:</strong> Help us understand how visitors interact with our website (e.g., Google Analytics)</li>
+          <li><strong>Performance cookies:</strong> Used to monitor website speed and optimize load times</li>
+        </ul>
+        <p>You can control cookie settings through your browser preferences. Disabling certain cookies may affect website functionality.</p>
+
+        <h2>4. Third-Party Sharing</h2>
+        <p>We do not sell, rent, or trade your personal information to third parties. We may share your data with:</p>
+        <ul>
+          <li><strong>Service providers:</strong> Trusted third-party vendors who assist with website hosting, analytics, email delivery, and IT support, bound by confidentiality agreements</li>
+          <li><strong>Logistics partners:</strong> Shipping and freight companies when processing sample deliveries or product shipments</li>
+          <li><strong>Legal authorities:</strong> When required by law, regulation, court order, or governmental request</li>
+          <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of company assets, your data may be transferred as part of that transaction</li>
+        </ul>
+
+        <h2>5. Data Retention</h2>
+        <p>We retain your personal information only for as long as necessary to fulfill the purposes described in this policy, unless a longer retention period is required or permitted by law. Specifically:</p>
+        <ul>
+          <li>Inquiry and contact data: Retained for up to 3 years after last interaction</li>
+          <li>Commercial and contractual data: Retained for 10 years as required by Turkish commercial law</li>
+          <li>Analytics data: Retained in anonymized form for up to 26 months</li>
+          <li>Marketing preferences: Retained until you withdraw consent</li>
+        </ul>
+
+        <h2>6. Data Security</h2>
+        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These measures include SSL/TLS encryption, access controls, regular security assessments, and secure hosting infrastructure.</p>
+        <p>While we strive to protect your data, no method of electronic transmission or storage is 100% secure. We cannot guarantee absolute security.</p>
+
+        <h2>7. Your Rights</h2>
+        <p>Depending on your location and applicable laws, you may have the following rights regarding your personal data:</p>
+        <ul>
+          <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
+          <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data</li>
+          <li><strong>Deletion:</strong> Request deletion of your personal data, subject to legal retention requirements</li>
+          <li><strong>Restriction:</strong> Request restriction of processing in certain circumstances</li>
+          <li><strong>Objection:</strong> Object to processing based on legitimate interests or for direct marketing</li>
+          <li><strong>Data portability:</strong> Request transfer of your data in a structured, machine-readable format</li>
+          <li><strong>Withdraw consent:</strong> Withdraw previously given consent at any time</li>
+        </ul>
+        <p>For users in Turkey, these rights are governed by the Turkish Personal Data Protection Law (KVKK, Law No. 6698). For users in the European Economic Area, GDPR provisions apply. To exercise any of these rights, please contact us using the details below.</p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>As an international mineral export company, we may transfer your data to recipients located outside of Turkey. When we do, we ensure appropriate safeguards are in place in accordance with applicable data protection legislation, including standard contractual clauses and adequacy assessments.</p>
+
+        <h2>9. Children's Privacy</h2>
+        <p>Our website and services are intended for business professionals and are not directed at individuals under the age of 18. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us immediately.</p>
+
+        <h2>10. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technologies, or legal requirements. The "Last Updated" date at the top of this page indicates when the policy was most recently revised. We encourage you to review this page periodically.</p>
+
+        <h2>11. Contact Us</h2>
+        <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+        <ul>
+          <li><strong>Company:</strong> Zamana (Sepiolite Mine)</li>
+          <li><strong>Contact:</strong> <a href="/contact/">sepiolitemine.com/contact</a> (form-based — no email obfuscation)</li>
+          <li><strong>Phone:</strong> <a href="tel:+905304904740">+90 530 490 4740</a></li>
+          <li><strong>Website:</strong> <a href="https://sepiolitemine.com/contact/">sepiolitemine.com/contact</a></li>
+          <li><strong>Address:</strong> Eskisehir, Turkey</li>
+        </ul>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  
+
+  <!-- ===== SCRIPTS ===== -->
+  
+  <script>
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (navbar) {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+      }
+    });
+  </script>
 </Layout>
 
-<style>
-  .breadcrumb-bar { background: var(--c-cream); border-bottom: 1px solid var(--c-cream-dark); padding-block: var(--s-3); }
-  .breadcrumb { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-2); font-size: 0.85rem; color: var(--c-text-muted); }
-  .breadcrumb a { color: var(--c-text-muted); text-decoration: none; }
-  .breadcrumb [aria-current='page'] { color: var(--c-earth); font-weight: 500; }
-  .breadcrumb .sep { color: var(--c-stone); }
+<style is:global>
+/* ===== HERO ===== */
+    .page-hero {
+      position: relative;
+      padding: 5rem 0 4rem;
+      background: linear-gradient(135deg, var(--earth) 0%, var(--earth-mid) 50%, var(--earth-soft) 100%);
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(201,146,42,0.08) 0%, transparent 70%);
+    }
+    .page-hero .container { position: relative; z-index: 2; text-align: center; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.2rem); color: var(--white); margin-bottom: 1rem; line-height: 1.12; }
+    .page-hero h1 span { color: var(--gold); }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.7); max-width: 640px; margin: 0 auto; line-height: 1.7; }
 
-  .legal-page {
-    padding-block: var(--s-7);
-  }
+    /* ===== LEGAL CONTENT ===== */
+    .legal-section { padding: 4rem 0 5rem; background: var(--white); }
+    .legal-container { max-width: 820px; margin: 0 auto; }
+    .legal-updated { font-size: 0.85rem; color: var(--stone); margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--cream-dark); }
+    .legal-container h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--earth);
+      margin: 2.5rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+    .legal-container h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .legal-container h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin: 1.5rem 0 0.75rem;
+    }
+    .legal-container p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .legal-container ul {
+      list-style: disc;
+      padding-left: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .legal-container li {
+      font-size: 0.93rem;
+      color: var(--text-light);
+      line-height: 1.75;
+      margin-bottom: 0.5rem;
+    }
+    .legal-container li::marker { color: var(--gold); }
+    .legal-container a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+    .legal-container a:hover { color: var(--gold-dark); }
+    .legal-container strong { color: var(--text-dark); }
 
-  .legal-header {
-    margin-bottom: var(--s-6);
-    padding-bottom: var(--s-5);
-    border-bottom: 1px solid var(--c-cream-dark);
-  }
-
-  .last-updated {
-    color: var(--c-text-muted);
-    font-size: 0.9rem;
-    margin-top: var(--s-2);
-  }
-
-  .legal-body {
-    line-height: 1.75;
-  }
-
-  .legal-body h2 {
-    font-size: 1.4rem;
-    margin-top: var(--s-6);
-    margin-bottom: var(--s-3);
-    color: var(--c-earth);
-  }
-
-  .legal-body h3 {
-    font-size: 1.1rem;
-    margin-top: var(--s-5);
-    margin-bottom: var(--s-2);
-    color: var(--c-earth);
-    font-family: var(--font-sans);
-    font-weight: 700;
-  }
-
-  .legal-body p {
-    color: var(--c-text);
-    margin-bottom: var(--s-3);
-  }
-
-  .legal-body ul {
-    color: var(--c-text);
-    margin-bottom: var(--s-4);
-    padding-inline-start: var(--s-5);
-  }
-
-  .legal-body li {
-    margin-bottom: var(--s-2);
-  }
-
-  .legal-body strong {
-    color: var(--c-earth);
-  }
-
-  .legal-body a {
-    color: var(--c-gold-dark);
-    font-weight: 600;
-  }
+    /* ===== RESPONSIVE (page-specific) ===== */
+    @media (max-width: 768px) {
+      .page-hero { padding: 4rem 0 3rem; }
+      .legal-container { padding: 0 0.5rem; }
+    }
 </style>
