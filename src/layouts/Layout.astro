@@ -176,7 +176,7 @@ const baseSchema = [
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>
-    <Header locale={locale} />
+    <Header locale={locale} langOtherHref={locale === 'tr' ? alternates?.en : alternates?.tr} />
     <main id="main">
       <slot />
     </main>

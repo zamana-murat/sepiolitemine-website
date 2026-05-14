@@ -9,11 +9,27 @@ import { BRAND } from '@config/brand';
 export interface Props {
   locale: 'en' | 'tr';
   currentPath?: string;
+  /**
+   * Sayfanın diğer dildeki muadilinin URL'i (Layout, sayfa frontmatter'ındaki
+   * alternates prop'undan hesaplar). Verilmezse naive `/tr` + currentPath
+   * fallback'i kullanılır — translated-slug sayfalarda hatalı olur, o yüzden
+   * her sayfa kendi `alternates`'ini Layout'a geçirmeli.
+   */
+  langOtherHref?: string;
 }
 
-const { locale, currentPath = Astro.url.pathname } = Astro.props;
+const { locale, currentPath = Astro.url.pathname, langOtherHref } = Astro.props;
 const isTr = locale === 'tr';
 const prefix = isTr ? '/tr' : '';
+
+// Fallback: alternates prop yoksa naive path map
+const fallbackOtherHref = isTr
+  ? currentPath.replace(/^\/tr\//, '/').replace(/^\/tr$/, '/')
+  : currentPath === '/'
+    ? '/tr/'
+    : `/tr${currentPath}`;
+
+const otherHref = langOtherHref || fallbackOtherHref;
 
 const labels = isTr
   ? {
@@ -26,7 +42,7 @@ const labels = isTr
       contact: 'İletişim',
       cta: 'Teklif Alın',
       langOther: 'EN',
-      langOtherHref: currentPath.replace(/^\/tr\//, '/').replace(/^\/tr$/, '/'),
+      langOtherHref: otherHref,
       langCurrent: 'TR',
       navAria: 'Ana gezinme',
       logoAria: 'Sepiolite Mine - Ana Sayfa',
@@ -42,7 +58,7 @@ const labels = isTr
       contact: 'Contact',
       cta: 'Get a Quote',
       langOther: 'TR',
-      langOtherHref: currentPath === '/' ? '/tr/' : `/tr${currentPath}`,
+      langOtherHref: otherHref,
       langCurrent: 'EN',
       navAria: 'Main navigation',
       logoAria: 'Sepiolite Mine — Home',

@@ -176,8 +176,9 @@ const year = new Date().getFullYear();
     <div class="footer-bottom">
       <p>© {year} {BRAND.name} {labels.copyright}</p>
       <div class="footer-legal">
-        <a href={`${prefix}/privacy/`}>{labels.privacy}</a>
-        <a href={`${prefix}/terms/`}>{labels.terms}</a>
+        {/* Privacy & Terms are EN-only legal pages — link there from both locales. */}
+        <a href="/privacy/">{labels.privacy}</a>
+        <a href="/terms/">{labels.terms}</a>
         <a href="/sitemap-index.xml">{labels.sitemap}</a>
       </div>
     </div>
