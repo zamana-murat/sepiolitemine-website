@@ -58,6 +58,46 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   --shadow-lg:   0 24px 64px rgba(28,20,16,0.20);
   --radius:      12px;
   --radius-lg:   24px;
+
+  /* ── B5 token aliases (geriye dönük uyum) ───────────────
+   * Phase 3 sırasında sayfalar B5 isimleriyle yazıldı, sonra
+   * anasayfa legacy isimlere döndürüldü. Diğer sayfalar
+   * kırılmasın diye eski isimleri buradan legacy değerlere
+   * bağlıyoruz. Yeni kod legacy isimleri kullanmalı. */
+  --c-gold:        var(--gold);
+  --c-gold-dark:   var(--gold-dark);
+  --c-earth:       var(--earth);
+  --c-earth-mid:   var(--earth-mid);
+  --c-cream:       var(--cream);
+  --c-cream-dark:  var(--cream-dark);
+  --c-stone:       var(--stone);
+  --c-white:       var(--white);
+  --c-text:        var(--text-dark);
+  --c-text-muted:  var(--text-light);   /* muted body text on light bg */
+  --c-text-light:  rgba(255,255,255,0.72);  /* light text on dark bg */
+  --c-accent-teal: var(--accent-teal);
+
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1.25rem;
+  --s-5: 2rem;
+  --s-6: 3rem;
+  --s-7: 4rem;
+  --s-8: 6rem;
+
+  --r-card:  16px;
+  --r-input: 8px;
+
+  --t:      var(--transition);
+  --t-fast: 0.2s cubic-bezier(0.4,0,0.2,1);
+  --t-slow: 0.55s cubic-bezier(0.4,0,0.2,1);
+
+  --sh-soft: var(--shadow-sm);
+  --sh-mid:  var(--shadow-md);
+
+  --font-sans:  'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
@@ -82,6 +122,20 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ── Utility ─────────────────────────────────────────────── */
 
 .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+.container-narrow { max-width: 880px; margin: 0 auto; padding: 0 2rem; }
+
+/* Section utilities (B5 ports) — works with --s-* aliases */
+.section { padding: 5rem 0; background: var(--white); }
+.section--dark { background: var(--earth); color: rgba(255,255,255,0.85); }
+.section--dark h1,
+.section--dark h2,
+.section--dark h3 { color: var(--white); }
+.section--dark p { color: rgba(255,255,255,0.78); }
+.section--dark a { color: var(--gold-light); }
+.section--dark a:hover { color: var(--white); }
+.section--cream { background: var(--cream); }
+.section--earth-mid { background: var(--earth-mid); color: rgba(255,255,255,0.85); }
+
 .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; color: var(--earth); margin-bottom: 1.25rem; }
 .section-title span { color: var(--gold); }
