@@ -95,7 +95,7 @@ const schemaJson = [
         <div class="reveal">
           <div class="contact-form-card">
             <h2>Sorgunuzu Gönderin</h2>
-            <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+            <form id="contactForm" novalidate>
               {/* Honeypot — bot tuzağı; insan görmez, backend bunun dolu olduğunu görünce sessizce reddeder. */}
               <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
                 <label for="website">Web sitesi (boş bırakın)</label>
@@ -244,7 +244,7 @@ const schemaJson = [
 
       <div class="faq-list">
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Ne kadar sürede yanıt alırım?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
@@ -253,7 +253,7 @@ const schemaJson = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Ürün numunesi talep edebilir miyim?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
@@ -262,7 +262,7 @@ const schemaJson = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Sorgu formunda hangi bilgileri belirtmeliyim?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
@@ -271,7 +271,7 @@ const schemaJson = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Bulunduğum bölgede satış temsilciniz var mı?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
@@ -280,7 +280,7 @@ const schemaJson = [
           </div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Çalışma saatleriniz nelerdir?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
@@ -308,126 +308,93 @@ const schemaJson = [
 
   
   <script>
-    var navbar = document.getElementById('navbar');
-    if (navbar) {
-      window.addEventListener('scroll', function() {
-        navbar.classList.toggle('scrolled', window.scrollY > 30);
-      });
-    }
+    // Astro <script> blocks are Vite-bundled (module-scoped). Inline onsubmit /
+    // onclick attributes would fail because they look up function names on the
+    // global window. We bind handlers via addEventListener instead.
 
-    var hamburger = document.getElementById('hamburger');
-    var mobileMenu = document.getElementById('mobileMenu');
-    if (hamburger && mobileMenu) {
-      hamburger.addEventListener('click', function() {
-        var expanded = hamburger.getAttribute('aria-expanded') === 'true';
-        hamburger.setAttribute('aria-expanded', String(!expanded));
-        mobileMenu.classList.toggle('open');
-        mobileMenu.setAttribute('aria-hidden', String(expanded));
-      });
-    }
-
-    // Language dropdown
-    var langBtn = document.querySelector('.lang-btn');
-    var langDropdown = document.querySelector('.lang-dropdown');
-    if (langBtn && langDropdown) {
-      langBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var expanded = langBtn.getAttribute('aria-expanded') === 'true';
-        langBtn.setAttribute('aria-expanded', String(!expanded));
-        langDropdown.classList.toggle('open');
-      });
-      document.addEventListener('click', function() {
-        langBtn.setAttribute('aria-expanded', 'false');
-        langDropdown.classList.remove('open');
-      });
-    }
-
-    // Scroll reveal
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
-
-    // Form submit — POST to /api/contact (Cloudflare Pages Function → Resend)
-    async function handleFormSubmit(event) {
-      event.preventDefault();
-      var form = event.target;
-      var card = form.closest('.contact-form-card');
-      var submitBtn = form.querySelector('.form-submit');
-      var data = new FormData(form);
-
-      var productLabel = form.querySelector('#product').selectedOptions[0]?.text || '';
-      var volumeLabel = form.querySelector('#volume').selectedOptions[0]?.text || '';
-
-      var payload = {
-        name: (data.get('fullName') || '').toString().trim(),
-        email: (data.get('email') || '').toString().trim(),
-        company: (data.get('company') || '').toString().trim(),
-        country: (data.get('country') || '').toString().trim(),
-        subject: productLabel || 'Sepiyolit sorgusu',
-        message: [
-          'Ürün:    ' + productLabel,
-          'Hacim:   ' + volumeLabel,
-          '',
-          (data.get('message') || '').toString().trim() || '(mesaj yok)',
-        ].join('\n'),
-        website: (data.get('website') || '').toString(), // honeypot
-        locale: 'tr',
-      };
-
-      submitBtn.disabled = true;
-      var originalLabel = submitBtn.textContent;
-      submitBtn.textContent = 'Gönderiliyor…';
-
-      try {
-        var r = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        var result = await r.json().catch(function () { return { ok: false }; });
-
-        if (r.ok && result.ok) {
-          card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
-            '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
-            '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Sorgunuz Alındı</h2>' +
-            '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">İlginiz için teşekkürler. Satış ekibimiz sorgunuzu inceleyecek ve 24 saat içinde yanıtlayacak.</p>' +
-            '<p style="font-size:0.85rem;color:var(--stone);">Ayrıca <strong>+90 530 490 4740</strong> (WhatsApp) numarasından da bize ulaşabilirsiniz.</p>' +
-            '</div>';
-        } else {
-          throw new Error(result.error || 'Gönderim başarısız');
-        }
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
-        var existingErr = form.querySelector('.form-error');
-        if (existingErr) existingErr.remove();
-        var errBox = document.createElement('div');
-        errBox.className = 'form-error';
-        errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
-        errBox.textContent = 'Gönderilemedi: ' + (err && err.message ? err.message : 'bilinmeyen hata') + '. Lütfen tekrar deneyin veya +90 530 490 4740 numarasını arayın.';
-        form.appendChild(errBox);
-      }
-    }
-
-    // FAQ toggle
-    function toggleFaq(button) {
-      var faqItem = button.parentElement;
-      var answer = faqItem.querySelector('.faq-a');
-      var isOpen = answer.classList.contains('open');
-      document.querySelectorAll('.faq-a.open').forEach(function(a) {
+    // FAQ accordion — event delegation
+    document.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.faq-q');
+      if (!btn) return;
+      const faqItem = btn.parentElement;
+      const answer = faqItem?.querySelector<HTMLElement>('.faq-a');
+      if (!faqItem || !answer) return;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll<HTMLElement>('.faq-a.open').forEach((a) => {
         a.classList.remove('open');
-        a.parentElement.querySelector('.faq-q').classList.remove('active');
+        a.parentElement?.querySelector('.faq-q')?.classList.remove('active');
       });
       if (!isOpen) {
         answer.classList.add('open');
-        button.classList.add('active');
+        btn.classList.add('active');
       }
+    });
+
+    // Contact form submission → POST /api/contact (Cloudflare Pages Function → Resend)
+    const form = document.getElementById('contactForm') as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const card = form.closest<HTMLElement>('.contact-form-card');
+        const submitBtn = form.querySelector<HTMLButtonElement>('.form-submit');
+        if (!card || !submitBtn) return;
+
+        const data = new FormData(form);
+        const productSelect = form.querySelector<HTMLSelectElement>('#product');
+        const volumeSelect = form.querySelector<HTMLSelectElement>('#volume');
+        const productLabel = productSelect?.selectedOptions[0]?.text || '';
+        const volumeLabel = volumeSelect?.selectedOptions[0]?.text || '';
+
+        const payload = {
+          name: ((data.get('fullName') as string) || '').trim(),
+          email: ((data.get('email') as string) || '').trim(),
+          company: ((data.get('company') as string) || '').trim(),
+          country: ((data.get('country') as string) || '').trim(),
+          subject: productLabel || "Sepiyolit sorgusu",
+          message: [
+            "Ürün:    " + productLabel,
+            "Hacim:   " + volumeLabel,
+            '',
+            ((data.get('message') as string) || '').trim() || "(mesaj yok)",
+          ].join('\n'),
+          website: (data.get('website') as string) || '', // honeypot
+          locale: "tr",
+        };
+
+        const originalLabel = submitBtn.textContent || '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Gönderiliyor…";
+        form.querySelector('.form-error')?.remove();
+
+        try {
+          const r = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const result = await r.json().catch(() => ({ ok: false, error: 'Bad response' }));
+
+          if (r.ok && result.ok) {
+            card.innerHTML =
+              '<div style="text-align:center;padding:3rem 1.5rem;">' +
+              '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
+              '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">' + "Sorgunuz Alındı" + '</h2>' +
+              '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">' + "İlginiz için teşekkürler. Satış ekibimiz sorgunuzu inceleyecek ve 24 saat içinde yanıtlayacak." + '</p>' +
+              '<p style="font-size:0.85rem;color:var(--stone);">' + "Ayrıca <strong>+90 530 490 4740</strong> (WhatsApp) numarasından da bize ulaşabilirsiniz." + '</p>' +
+              '</div>';
+            return;
+          }
+          throw new Error(result.error || ('HTTP ' + r.status));
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+          const errBox = document.createElement('div');
+          errBox.className = 'form-error';
+          errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
+          errBox.textContent = "Gönderilemedi: " + (err instanceof Error ? err.message : "bilinmeyen hata") + ". Lütfen tekrar deneyin veya +90 530 490 4740 numarasını arayın.";
+          form.appendChild(errBox);
+        }
+      });
     }
   </script>
 </Layout>

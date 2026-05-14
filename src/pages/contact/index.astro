@@ -130,7 +130,7 @@ const schemaJson = [
         <div class="reveal">
           <div class="contact-form-card">
             <h2>Send Your Enquiry</h2>
-            <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+            <form id="contactForm" novalidate>
               {/* Honeypot — hidden from humans, attractive to bots. Backend rejects any submission with this filled. */}
               <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
                 <label for="website">Website (leave blank)</label>
@@ -282,7 +282,7 @@ const schemaJson = [
 
       <div class="faq-list">
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>How quickly will I receive a response?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -295,7 +295,7 @@ const schemaJson = [
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Can I request product samples?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -308,7 +308,7 @@ const schemaJson = [
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>What information should I include in my enquiry?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -321,7 +321,7 @@ const schemaJson = [
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>Do you have sales representatives in my region?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -334,7 +334,7 @@ const schemaJson = [
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q">
             <span>What are your business hours?</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -368,98 +368,93 @@ const schemaJson = [
   
 
   <script>
-    // ===== Scroll Reveal Animation =====
-    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+    // Astro <script> blocks are Vite-bundled (module-scoped). Inline onsubmit /
+    // onclick attributes would fail because they look up function names on the
+    // global window. We bind handlers via addEventListener instead.
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ===== Form Handling — POST to /api/contact (Cloudflare Pages Function → Resend) =====
-    async function handleFormSubmit(event) {
-      event.preventDefault();
-      var form = event.target;
-      var card = form.closest('.contact-form-card');
-      var submitBtn = form.querySelector('.form-submit');
-      var data = new FormData(form);
-
-      var productLabel = form.querySelector('#product').selectedOptions[0]?.text || '';
-      var volumeLabel = form.querySelector('#volume').selectedOptions[0]?.text || '';
-
-      var payload = {
-        name: (data.get('fullName') || '').toString().trim(),
-        email: (data.get('email') || '').toString().trim(),
-        company: (data.get('company') || '').toString().trim(),
-        country: (data.get('country') || '').toString().trim(),
-        subject: productLabel || 'Sepiolite enquiry',
-        message: [
-          'Product:  ' + productLabel,
-          'Volume:   ' + volumeLabel,
-          '',
-          (data.get('message') || '').toString().trim() || '(no message)',
-        ].join('\n'),
-        website: (data.get('website') || '').toString(), // honeypot
-        locale: 'en',
-      };
-
-      submitBtn.disabled = true;
-      var originalLabel = submitBtn.textContent;
-      submitBtn.textContent = 'Sending…';
-
-      try {
-        var r = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        var result = await r.json().catch(function () { return { ok: false }; });
-
-        if (r.ok && result.ok) {
-          card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
-            '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
-            '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Enquiry Received</h2>' +
-            '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you for your interest. Our sales team will review your enquiry and respond within 24 hours.</p>' +
-            '<p style="font-size:0.85rem;color:var(--stone);">You can also reach us at <strong>+90 530 490 4740</strong> (WhatsApp)</p>' +
-            '</div>';
-        } else {
-          throw new Error(result.error || 'Submission failed');
-        }
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
-        var existingErr = form.querySelector('.form-error');
-        if (existingErr) existingErr.remove();
-        var errBox = document.createElement('div');
-        errBox.className = 'form-error';
-        errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
-        errBox.textContent = 'Could not send: ' + (err && err.message ? err.message : 'unknown error') + '. Please try again or call +90 530 490 4740.';
-        form.appendChild(errBox);
-      }
-    }
-
-    // ===== FAQ Toggle =====
-    function toggleFaq(button) {
-      const faqItem = button.parentElement;
-      const answer = faqItem.querySelector('.faq-a');
+    // FAQ accordion — event delegation
+    document.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.faq-q');
+      if (!btn) return;
+      const faqItem = btn.parentElement;
+      const answer = faqItem?.querySelector<HTMLElement>('.faq-a');
+      if (!faqItem || !answer) return;
       const isOpen = answer.classList.contains('open');
-
-      // Close all other FAQs
-      document.querySelectorAll('.faq-a.open').forEach(a => {
+      document.querySelectorAll<HTMLElement>('.faq-a.open').forEach((a) => {
         a.classList.remove('open');
-        a.parentElement.querySelector('.faq-q').classList.remove('active');
+        a.parentElement?.querySelector('.faq-q')?.classList.remove('active');
       });
-
-      // Toggle current FAQ
       if (!isOpen) {
         answer.classList.add('open');
-        button.classList.add('active');
+        btn.classList.add('active');
       }
+    });
+
+    // Contact form submission → POST /api/contact (Cloudflare Pages Function → Resend)
+    const form = document.getElementById('contactForm') as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const card = form.closest<HTMLElement>('.contact-form-card');
+        const submitBtn = form.querySelector<HTMLButtonElement>('.form-submit');
+        if (!card || !submitBtn) return;
+
+        const data = new FormData(form);
+        const productSelect = form.querySelector<HTMLSelectElement>('#product');
+        const volumeSelect = form.querySelector<HTMLSelectElement>('#volume');
+        const productLabel = productSelect?.selectedOptions[0]?.text || '';
+        const volumeLabel = volumeSelect?.selectedOptions[0]?.text || '';
+
+        const payload = {
+          name: ((data.get('fullName') as string) || '').trim(),
+          email: ((data.get('email') as string) || '').trim(),
+          company: ((data.get('company') as string) || '').trim(),
+          country: ((data.get('country') as string) || '').trim(),
+          subject: productLabel || "Sepiolite enquiry",
+          message: [
+            "Product:  " + productLabel,
+            "Volume:   " + volumeLabel,
+            '',
+            ((data.get('message') as string) || '').trim() || "(no message)",
+          ].join('\n'),
+          website: (data.get('website') as string) || '', // honeypot
+          locale: "en",
+        };
+
+        const originalLabel = submitBtn.textContent || '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+        form.querySelector('.form-error')?.remove();
+
+        try {
+          const r = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const result = await r.json().catch(() => ({ ok: false, error: 'Bad response' }));
+
+          if (r.ok && result.ok) {
+            card.innerHTML =
+              '<div style="text-align:center;padding:3rem 1.5rem;">' +
+              '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
+              '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">' + "Enquiry Received" + '</h2>' +
+              '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">' + "Thank you for your interest. Our sales team will review your enquiry and respond within 24 hours." + '</p>' +
+              '<p style="font-size:0.85rem;color:var(--stone);">' + "You can also reach us at <strong>+90 530 490 4740</strong> (WhatsApp)." + '</p>' +
+              '</div>';
+            return;
+          }
+          throw new Error(result.error || ('HTTP ' + r.status));
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+          const errBox = document.createElement('div');
+          errBox.className = 'form-error';
+          errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
+          errBox.textContent = "Could not send: " + (err instanceof Error ? err.message : "unknown error") + ". Please try again or call +90 530 490 4740.";
+          form.appendChild(errBox);
+        }
+      });
     }
   </script>
 </Layout>
