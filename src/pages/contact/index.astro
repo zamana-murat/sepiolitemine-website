@@ -130,7 +130,12 @@ const schemaJson = [
         <div class="reveal">
           <div class="contact-form-card">
             <h2>Send Your Enquiry</h2>
-            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+            <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+              {/* Honeypot — hidden from humans, attractive to bots. Backend rejects any submission with this filled. */}
+              <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+                <label for="website">Website (leave blank)</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
               <div class="form-row">
                 <div class="form-group">
                   <label for="fullName">Full Name <span class="required">*</span></label>
@@ -376,19 +381,66 @@ const schemaJson = [
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ===== Form Handling =====
-    function handleFormSubmit(event) {
+    // ===== Form Handling — POST to /api/contact (Cloudflare Pages Function → Resend) =====
+    async function handleFormSubmit(event) {
       event.preventDefault();
       var form = event.target;
       var card = form.closest('.contact-form-card');
+      var submitBtn = form.querySelector('.form-submit');
+      var data = new FormData(form);
 
-      // Show success message (in production, POST to backend here)
-      card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
-        '<div style="font-size:3rem;margin-bottom:1rem;">&#10003;</div>' +
-        '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Enquiry Received</h2>' +
-        '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you for your interest. Our sales team will review your enquiry and respond within 24 hours.</p>' +
-        '<p style="font-size:0.85rem;color:var(--stone);">You can also reach us at <strong>+90 530 490 4740</strong> (WhatsApp)</p>' +
-        '</div>';
+      var productLabel = form.querySelector('#product').selectedOptions[0]?.text || '';
+      var volumeLabel = form.querySelector('#volume').selectedOptions[0]?.text || '';
+
+      var payload = {
+        name: (data.get('fullName') || '').toString().trim(),
+        email: (data.get('email') || '').toString().trim(),
+        company: (data.get('company') || '').toString().trim(),
+        country: (data.get('country') || '').toString().trim(),
+        subject: productLabel || 'Sepiolite enquiry',
+        message: [
+          'Product:  ' + productLabel,
+          'Volume:   ' + volumeLabel,
+          '',
+          (data.get('message') || '').toString().trim() || '(no message)',
+        ].join('\n'),
+        website: (data.get('website') || '').toString(), // honeypot
+        locale: 'en',
+      };
+
+      submitBtn.disabled = true;
+      var originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        var r = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        var result = await r.json().catch(function () { return { ok: false }; });
+
+        if (r.ok && result.ok) {
+          card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
+            '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
+            '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Enquiry Received</h2>' +
+            '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you for your interest. Our sales team will review your enquiry and respond within 24 hours.</p>' +
+            '<p style="font-size:0.85rem;color:var(--stone);">You can also reach us at <strong>+90 530 490 4740</strong> (WhatsApp)</p>' +
+            '</div>';
+        } else {
+          throw new Error(result.error || 'Submission failed');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+        var existingErr = form.querySelector('.form-error');
+        if (existingErr) existingErr.remove();
+        var errBox = document.createElement('div');
+        errBox.className = 'form-error';
+        errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
+        errBox.textContent = 'Could not send: ' + (err && err.message ? err.message : 'unknown error') + '. Please try again or call +90 530 490 4740.';
+        form.appendChild(errBox);
+      }
     }
 
     // ===== FAQ Toggle =====

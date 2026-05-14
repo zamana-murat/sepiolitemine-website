@@ -95,7 +95,12 @@ const schemaJson = [
         <div class="reveal">
           <div class="contact-form-card">
             <h2>Sorgunuzu Gönderin</h2>
-            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+            <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+              {/* Honeypot — bot tuzağı; insan görmez, backend bunun dolu olduğunu görünce sessizce reddeder. */}
+              <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+                <label for="website">Web sitesi (boş bırakın)</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
               <div class="form-row">
                 <div class="form-group">
                   <label for="fullName">Ad Soyad <span class="required">*</span></label>
@@ -348,17 +353,66 @@ const schemaJson = [
     }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 
-    // Form submit
-    function handleFormSubmit(event) {
+    // Form submit — POST to /api/contact (Cloudflare Pages Function → Resend)
+    async function handleFormSubmit(event) {
       event.preventDefault();
       var form = event.target;
       var card = form.closest('.contact-form-card');
-      card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
-        '<div style="font-size:3rem;margin-bottom:1rem;">&#10003;</div>' +
-        '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Sorgunuz Alındı</h2>' +
-        '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">İlginiz için teşekkürler. Satış ekibimiz sorgunuzu inceleyecek ve 24 saat içinde yanıtlayacak.</p>' +
-        '<p style="font-size:0.85rem;color:var(--stone);">Ayrıca <strong>+90 530 490 4740</strong> (WhatsApp) numarasından da bize ulaşabilirsiniz.</p>' +
-        '</div>';
+      var submitBtn = form.querySelector('.form-submit');
+      var data = new FormData(form);
+
+      var productLabel = form.querySelector('#product').selectedOptions[0]?.text || '';
+      var volumeLabel = form.querySelector('#volume').selectedOptions[0]?.text || '';
+
+      var payload = {
+        name: (data.get('fullName') || '').toString().trim(),
+        email: (data.get('email') || '').toString().trim(),
+        company: (data.get('company') || '').toString().trim(),
+        country: (data.get('country') || '').toString().trim(),
+        subject: productLabel || 'Sepiyolit sorgusu',
+        message: [
+          'Ürün:    ' + productLabel,
+          'Hacim:   ' + volumeLabel,
+          '',
+          (data.get('message') || '').toString().trim() || '(mesaj yok)',
+        ].join('\n'),
+        website: (data.get('website') || '').toString(), // honeypot
+        locale: 'tr',
+      };
+
+      submitBtn.disabled = true;
+      var originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Gönderiliyor…';
+
+      try {
+        var r = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        var result = await r.json().catch(function () { return { ok: false }; });
+
+        if (r.ok && result.ok) {
+          card.innerHTML = '<div style="text-align:center;padding:3rem 1.5rem;">' +
+            '<div style="font-size:3rem;margin-bottom:1rem;color:var(--gold);">&#10003;</div>' +
+            '<h2 style="font-family:Playfair Display,serif;font-size:1.6rem;color:var(--earth);margin-bottom:1rem;">Sorgunuz Alındı</h2>' +
+            '<p style="font-size:0.95rem;color:var(--text-light);line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">İlginiz için teşekkürler. Satış ekibimiz sorgunuzu inceleyecek ve 24 saat içinde yanıtlayacak.</p>' +
+            '<p style="font-size:0.85rem;color:var(--stone);">Ayrıca <strong>+90 530 490 4740</strong> (WhatsApp) numarasından da bize ulaşabilirsiniz.</p>' +
+            '</div>';
+        } else {
+          throw new Error(result.error || 'Gönderim başarısız');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+        var existingErr = form.querySelector('.form-error');
+        if (existingErr) existingErr.remove();
+        var errBox = document.createElement('div');
+        errBox.className = 'form-error';
+        errBox.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;border-left:3px solid #b3261e;background:#fdecea;color:#5b1612;font-size:0.88rem;border-radius:0 6px 6px 0;';
+        errBox.textContent = 'Gönderilemedi: ' + (err && err.message ? err.message : 'bilinmeyen hata') + '. Lütfen tekrar deneyin veya +90 530 490 4740 numarasını arayın.';
+        form.appendChild(errBox);
+      }
     }
 
     // FAQ toggle
