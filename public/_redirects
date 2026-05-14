@@ -1,0 +1,20 @@
+# Cloudflare Pages _redirects — legacy .html URL'leri yeni Astro route'larına 301
+#
+# Phase 3 1:1 port'tan önce eski sepiolitemine.com şu URL'leri sunardı:
+#   /privacy.html, /terms.html, /index.html
+# Google bunları indekslemiş olabilir; DNS swap sonrası bu URL'leri yeniden
+# tararsa şimdi 404 dönerdi (Astro `/privacy/`, `/terms/` URL'lerinde sunuyor).
+#
+# Format: <source> <destination> [status]  — tek satır, tek hop.
+# Astro trailingSlash: 'always' + bu kurallar = sıfır redirect chain.
+
+/privacy.html      /privacy/   301
+/terms.html        /terms/     301
+/index.html        /           301
+/tr/index.html     /tr/        301
+
+# Eski section'ları zaten yeni karşılıkları doğal eşleşiyor:
+#   /products/...        → aynı slug (Astro detail pages)
+#   /applications/...    → aynı slug
+#   /markets/, /contact/, /sustainability/  → aynı path
+# Bu nedenle ek redirect gerekmiyor.
