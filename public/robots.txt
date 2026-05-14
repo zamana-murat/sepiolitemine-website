@@ -8,27 +8,31 @@ Allow: /
 User-agent: YandexBot
 Allow: /
 
-# ── AI training crawlers — DISALLOW (B3 brand-özgü locked rule) ──
+# ── AI training crawlers — ALLOW (S15 AI Overviews citation hedefi için)
+#    Marka kararı: Generative AI search era'da görünür olmak için içeriği
+#    AI training datasına dahil etmeyi tercih ediyoruz. Google-Extended
+#    AI Overviews citation için zorunlu; diğerleri Perplexity/ChatGPT/Claude
+#    search görünürlüğü için önemli.
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
 
 User-agent: anthropic-ai
-Disallow: /
+Allow: /
 
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 User-agent: PerplexityBot
-Disallow: /
+Allow: /
 
 User-agent: cohere-ai
-Disallow: /
+Allow: /
 
 # ── Commercial SEO bots: rate-limit ──
 User-agent: AhrefsBot
