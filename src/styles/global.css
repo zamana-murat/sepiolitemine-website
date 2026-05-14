@@ -136,7 +136,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .section--cream { background: var(--cream); }
 .section--earth-mid { background: var(--earth-mid); color: rgba(255,255,255,0.85); }
 
-.section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+/* WCAG AA: var(--gold) #C9922A on var(--cream) #F7F3EE = 3.1:1 — yetersiz
+   küçük text için (4.5:1 gerek). var(--gold-dark) #9A6E1A = 5.8:1 ✓ */
+.section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 1rem; }
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; color: var(--earth); margin-bottom: 1.25rem; }
 .section-title span { color: var(--gold); }
 .section-title--white { color: var(--white); }

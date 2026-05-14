@@ -11,7 +11,12 @@ export default defineConfig({
     defaultStrategy: 'hover',
   },
   build: {
-    inlineStylesheets: 'auto',
+    /* 'always': her sayfanın CSS'i HTML'e inline gömülür. Render-blocking
+       <link rel="stylesheet"> kaldırılır, LCP iyileşir. Trade-off: HTML +25KB
+       (brotli ile ~5KB). B2B single-page-visit profili için kazançlı.
+       Multi-page visitors için cache avantajı kaybedilir; cache'i Cloudflare
+       proxy katmanında kompanse ediyoruz. */
+    inlineStylesheets: 'always',
     assets: '_astro',
   },
   i18n: {
