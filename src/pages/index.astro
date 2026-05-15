@@ -648,11 +648,17 @@ const localBusinessSchema = {
 </Layout>
 
 <script>
-  // Particle generator (LCP-safe — runs after page load)
+  // Particle generator — skip on slow/mobile devices (reduces TBT + Style&Layout
+  // cost dramatically on throttled CPUs). 30 animated elements + IntersectionObserver
+  // + ken-Burns hero was pushing Style&Layout to 6s on Moto G Power Lighthouse runs.
   document.addEventListener('DOMContentLoaded', () => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const particleCount = (isMobile || reduceMotion) ? 0 : 30;
+
     const particlesEl = document.getElementById('particles');
-    if (particlesEl) {
-      for (let i = 0; i < 30; i++) {
+    if (particlesEl && particleCount > 0) {
+      for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('span');
         p.style.left = Math.random() * 100 + '%';
         p.style.animationDuration = (8 + Math.random() * 14) + 's';
@@ -774,8 +780,11 @@ const localBusinessSchema = {
   .hero-stat-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-top: 0.35rem; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
   .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 2; }
   .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
-  .hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent); animation: scrollLine 1.8s ease-in-out infinite; }
-  @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+  /* Compose-friendly scroll line: translateY + scaleY without transform-origin
+     mid-animation switches (which forced re-layouts and contributed to Style&Layout
+     blocking on slow mobile CPUs). */
+  .hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent); transform-origin: top; animation: scrollLine 1.8s ease-in-out infinite; will-change: transform; }
+  @keyframes scrollLine { 0%,100%{transform:scaleY(0) translateY(0)} 50%{transform:scaleY(1) translateY(0)} }
 
   /* ===== TICKER STRIP ===== */
   .ticker-strip {

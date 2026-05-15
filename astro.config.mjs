@@ -6,10 +6,11 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   compressHTML: true,
-  prefetch: {
-    prefetchAll: false,
-    defaultStrategy: 'hover',
-  },
+  /* Astro prefetch script (2.25 KB module) intermittent 5s fetch riski yaratıyor
+     ve CF Pages zaten edge-cached, pages anında yükleniyor — hover-prefetch
+     UX kazancı küçük, JS fetch failure mode ise PageSpeed Performance'a 50+
+     puanlık dalgalanma getiriyor. Tamamen kapatıyoruz. */
+  prefetch: false,
   build: {
     /* 'always': her sayfanın CSS'i HTML'e inline gömülür. Render-blocking
        <link rel="stylesheet"> kaldırılır, LCP iyileşir. Trade-off: HTML +25KB
