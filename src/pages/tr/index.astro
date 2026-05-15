@@ -50,7 +50,9 @@ const personSchema = {
   schemaJson={[orgSchema, personSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
+    {/* Responsive preload: mobil 800w (97 KB) vs masaüstü 1200w (220 KB) */}
+    <link rel="preload" as="image" href="/images/mine/aerial-02-800w.webp" media="(max-width: 1279px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" media="(min-width: 1280px)" fetchpriority="high" />
   </Fragment>
 
   {/* HERO */}
@@ -114,7 +116,11 @@ const personSchema = {
     <div class="container">
       <div class="grid-2">
         <div class="about-visual">
-          <img src="/images/mine/cliff-1280w.webp" alt="Sepiyolit Madeni, Türkiye" width="1280" height="960" loading="lazy"/>
+          <img
+            src="/images/mine/cliff-800w.webp"
+            srcset="/images/mine/cliff-400w.webp 400w, /images/mine/cliff-800w.webp 800w, /images/mine/cliff-1280w.webp 1280w"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="Sepiyolit Madeni, Türkiye" width="1280" height="960" loading="lazy"/>
           <div class="about-visual-badge">
             <strong>Est. 1995</strong>
             <span>Zamana</span>
@@ -653,7 +659,8 @@ const personSchema = {
 <style>
   /* Hero */
   #hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--earth); }
-  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-1200w.webp') center/cover no-repeat; opacity: 0.55; transform-origin: center center; animation: kenBurns 22s ease-in-out infinite; will-change: transform; }
+  .hero-bg { position: absolute; inset: 0; background: url('/images/mine/aerial-02-800w.webp') center/cover no-repeat; opacity: 0.55; transform-origin: center center; animation: kenBurns 22s ease-in-out infinite; will-change: transform; }
+  @media (min-width: 1280px) { .hero-bg { background-image: url('/images/mine/aerial-02-1200w.webp'); } }
   @keyframes kenBurns { 0%{transform:scale(1.05) translate(0%,0%)} 25%{transform:scale(1.10) translate(-1.2%,-0.6%)} 50%{transform:scale(1.14) translate(-0.5%,-1.2%)} 75%{transform:scale(1.10) translate(1.0%,-0.4%)} 100%{transform:scale(1.05) translate(0%,0%)} }
   .hero-overlay { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(28,20,16,0.93) 0%, rgba(28,20,16,0.78) 45%, rgba(28,20,16,0.35) 75%, rgba(14,10,6,0.55) 100%); }
   .hero-particles { position: absolute; inset: 0; overflow: hidden; }

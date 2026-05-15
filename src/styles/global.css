@@ -140,8 +140,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    küçük text için (4.5:1 gerek). var(--gold-dark) #9A6E1A = 5.8:1 ✓ */
 .section-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 1rem; }
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; color: var(--earth); margin-bottom: 1.25rem; }
-.section-title span { color: var(--gold); }
+/* WCAG AA: light bg → gold-dark (5.8:1); dark bg → gold-light (high contrast).
+   Pure --gold (#C9922A) on cream is only 2.9:1, fails even large-text 3:1. */
+.section-title span { color: var(--gold-dark); }
 .section-title--white { color: var(--white); }
+.section-title--white span { color: var(--gold-light); }
 .section-subtitle { font-size: 1.05rem; line-height: 1.75; color: var(--text-light); max-width: 640px; }
 .section-subtitle--white { color: rgba(255,255,255,0.72); }
 .btn { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; transition: var(--transition); font-family: 'Inter', system-ui, sans-serif; cursor: pointer; }

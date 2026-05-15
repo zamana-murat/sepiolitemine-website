@@ -73,7 +73,11 @@ const localBusinessSchema = {
   schemaJson={[orgSchema, personSchema, localBusinessSchema]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" fetchpriority="high" />
+    {/* Responsive preload: phone gets 800w (~97 KB) instead of 1200w (~220 KB),
+        saves ~123 KB on mobile critical path. CSS hero-bg matches breakpoints
+        so the preloaded resource hits cache by the time bg paints. */}
+    <link rel="preload" as="image" href="/images/mine/aerial-02-800w.webp" media="(max-width: 1279px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mine/aerial-02-1200w.webp" media="(min-width: 1280px)" fetchpriority="high" />
   </Fragment>
 
   {/* ===== HERO ===== */}
@@ -137,7 +141,11 @@ const localBusinessSchema = {
     <div class="container">
       <div class="grid-2">
         <div class="about-visual">
-          <img src="/images/mine/cliff-1280w.webp" alt="Sepiolite Mine — Turkey" width="1280" height="960" loading="lazy"/>
+          <img
+            src="/images/mine/cliff-800w.webp"
+            srcset="/images/mine/cliff-400w.webp 400w, /images/mine/cliff-800w.webp 800w, /images/mine/cliff-1280w.webp 1280w"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="Sepiolite Mine — Turkey" width="1280" height="960" loading="lazy"/>
           <div class="about-visual-badge">
             <strong>Est. 1995</strong>
             <span>Zamana</span>
@@ -687,11 +695,16 @@ const localBusinessSchema = {
   }
   .hero-bg {
     position: absolute; inset: 0;
-    background: url('/images/mine/aerial-02-1200w.webp') center/cover no-repeat;
+    /* Responsive bg: phone+tablet 800w (~97 KB), desktop 1200w (~220 KB).
+       Matches preload media queries in <head>. */
+    background: url('/images/mine/aerial-02-800w.webp') center/cover no-repeat;
     opacity: 0.55;
     transform-origin: center center;
     animation: kenBurns 22s ease-in-out infinite;
     will-change: transform;
+  }
+  @media (min-width: 1280px) {
+    .hero-bg { background-image: url('/images/mine/aerial-02-1200w.webp'); }
   }
   @keyframes kenBurns {
     0%   { transform: scale(1.05) translate(0%,    0%);    }
