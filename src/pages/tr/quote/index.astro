@@ -1,0 +1,81 @@
+---
+/**
+ * /tr/quote/: konteyner teklif konfigüratörü (TR). C8: em-dash yok.
+ * TODO(quote launch): gerçek ürünler girilip gizlilik metni güncellenince robots noindex + sitemap
+ *   filtresi kaldırılacak (docs/INFRASTRUCTURE.md → Teklif Modülü → Yayına alma).
+ */
+import Layout from '@layouts/Layout.astro';
+import Configurator from '../../../quote/Configurator';
+import '../../../quote/quote.css';
+
+const schemaJson = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: 'https://sepiolitemine.com/tr/' },
+      { '@type': 'ListItem', position: 2, name: 'Konteyner Teklifi', item: 'https://sepiolitemine.com/tr/quote/' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Konteyner Teklif Hazırlayıcı"
+  description="Sepiyolit siparişinizi konteyner konteyner planlayın: bigbag ya da palet seçin, 20'lik ve 40'lık konteynerde ağırlık ve taban kullanımını görün, fiyatı anında alın."
+  locale="tr"
+  alternates={{ en: '/quote/', tr: '/tr/quote/' }}
+  schemaJson={schemaJson}
+  robots="noindex, follow"
+>
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/tr/">Ana Sayfa</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Konteyner Teklifi</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="q-hero">
+    <div class="container">
+      <span class="section-tag">Çevrim İçi Teklif</span>
+      <h1>Konteyner <span>Siparişinizi</span> Oluşturun</h1>
+      <p>
+        Sepiyolit ürünlerini bigbag ya da palet olarak ekleyin; bir konteynerde birden fazla ürünü, bir siparişte
+        birden fazla konteyneri birleştirin. Ağırlık, taban kullanımı ve fiyat siz seçtikçe güncellenir.
+      </p>
+    </div>
+  </section>
+
+  <section class="q-main">
+    <div class="container">
+      <Configurator client:load locale="tr" />
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <span class="section-tag">Nasıl Çalışır</span>
+      <h2 class="section-title">Seçimden <span>Soft Offer'a</span></h2>
+      <div class="q-steps">
+        <div class="q-step">
+          <h3>1. Ürünleri seçin</h3>
+          <p>Kaliteyi ve ambalajını seçin. Teknik özellikler ve belgeler her ürünün yanında yer alır.</p>
+        </div>
+        <div class="q-step">
+          <h3>2. Konteynerleri yükleyin</h3>
+          <p>
+            20'lik ya da 40'lık konteyner seçin. Yükleme planı her konteyner için ağırlığı, taban alanını, istif
+            yüksekliğini ve kapı ölçüsünü kontrol eder.
+          </p>
+        </div>
+        <div class="q-step">
+          <h3>3. Fiyatı inceleyin</h3>
+          <p>Ürün, konteyner ve sipariş hizmetleri ayrı ayrı eklenir; her tutarın nereden geldiği görünür.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

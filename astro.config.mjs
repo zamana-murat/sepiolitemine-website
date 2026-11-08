@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import preact from '@astrojs/preact';
 
 export default defineConfig({
   site: 'https://sepiolitemine.com',
@@ -28,7 +29,12 @@ export default defineConfig({
     },
   },
   integrations: [
+    // Preact only hydrates explicit islands (admin panel, quote configurator); other pages stay 0 JS (T6).
+    preact(),
     sitemap({
+      // Internal admin panel (Cloudflare Access protected) never goes into the sitemap.
+      // TODO(quote launch): drop the /quote/ exclusion once real products are in the catalog.
+      filter: (page) => !page.includes('/admin/') && !page.includes('/quote/'),
       changefreq: 'monthly',
       priority: 0.7,
       lastmod: new Date(),
@@ -91,6 +97,10 @@ export default defineConfig({
     }),
   ],
   vite: {
+    server: {
+      // Local dev: `astro dev` + `npm run dev:api` (wrangler pages dev on 8788) — Functions + local D1/R2.
+      proxy: { '/api': 'http://127.0.0.1:8788' },
+    },
     build: {
       cssCodeSplit: true,
     },

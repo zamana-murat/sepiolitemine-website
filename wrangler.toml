@@ -1,0 +1,24 @@
+# Cloudflare Pages config — source of truth for Functions bindings.
+# NOTE: once this file is deployed, Pages bindings are managed here, not in the dashboard.
+# Secrets (RESEND_API_KEY, ...) stay in the dashboard as encrypted variables.
+name = "sepiolitemine-website"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-01"
+
+# Non-secret config. Cloudflare Access app "sepiolitemine-admin" protects /admin and /api/admin
+# (all hosts incl. *.pages.dev previews); server/access.ts verifies its JWT against these.
+[vars]
+ACCESS_TEAM_DOMAIN = "otpos-kurucu-pano-pages.cloudflareaccess.com"
+ACCESS_AUD = "59fc5f98067a8664beab26a6264d6db9225fb29fa8139719b63d02621c20d0e3"
+# Turnstile widget "sepiolitemine.com soft offer form" (public site key; the secret is a Pages secret).
+TURNSTILE_SITE_KEY = "0x4AAAAAAF4_IkCEA2MquTNb"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sepiolitemine-quotes"
+database_id = "13c80998-899b-4f41-9b53-4e51dd99f677"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "sepiolitemine-files"

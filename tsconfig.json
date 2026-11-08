@@ -3,16 +3,38 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@config/*": ["./src/config/*"],
-      "@data/*": ["./src/data/*"],
-      "@styles/*": ["./src/styles/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@data/*": [
+        "./src/data/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ]
     },
-    "jsx": "preserve",
-    "verbatimModuleSyntax": true
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "jsxImportSource": "preact"
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "functions",
+    "server",
+    "migrations"
+  ]
 }

@@ -1,0 +1,81 @@
+---
+/**
+ * /quote/ — container quote configurator (EN).
+ * TODO(quote launch): remove robots noindex + sitemap filter once real products are in the catalog
+ *   and the privacy policy covers offer data (docs/INFRASTRUCTURE.md → Teklif Modülü → Yayına alma).
+ */
+import Layout from '@layouts/Layout.astro';
+import Configurator from '../../quote/Configurator';
+import '../../quote/quote.css';
+
+const schemaJson = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sepiolitemine.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Container Quote', item: 'https://sepiolitemine.com/quote/' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Container Quote Builder"
+  description="Plan your sepiolite order container by container: choose big bags or pallets, see weight and floor use in 20' and 40' containers, and get an indicative price."
+  locale="en"
+  alternates={{ en: '/quote/', tr: '/tr/quote/' }}
+  schemaJson={schemaJson}
+  robots="noindex, follow"
+>
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">&#8250;</span>
+        <span class="current">Container Quote</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="q-hero">
+    <div class="container">
+      <span class="section-tag">Online Quote</span>
+      <h1>Build Your <span>Container</span> Order</h1>
+      <p>
+        Add sepiolite products in big bags or on pallets, combine several products in one container and several
+        containers in one order. Weight, floor space and price update as you go.
+      </p>
+    </div>
+  </section>
+
+  <section class="q-main">
+    <div class="container">
+      <Configurator client:load locale="en" />
+    </div>
+  </section>
+
+  <section class="section section--cream">
+    <div class="container">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title">From Selection to <span>Soft Offer</span></h2>
+      <div class="q-steps">
+        <div class="q-step">
+          <h3>1. Choose products</h3>
+          <p>Pick a grade and its packaging. Specifications and technical documents are listed with each product.</p>
+        </div>
+        <div class="q-step">
+          <h3>2. Load containers</h3>
+          <p>
+            Choose 20' or 40' containers. The loading plan checks weight, floor space, stacking height and the door
+            opening for every container.
+          </p>
+        </div>
+        <div class="q-step">
+          <h3>3. Review the price</h3>
+          <p>Product, container and order services are added at each level, so every amount is traceable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

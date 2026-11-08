@@ -10,3 +10,8 @@ dist/
 .cache/
 .vscode/
 .idea/
+
+# Cloudflare / wrangler
+.wrangler/
+.dev.vars
+.env.cloudflare

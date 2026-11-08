@@ -1,0 +1,23 @@
+---
+/**
+ * /admin/ — Quote module admin panel (Cloudflare Access protected, never indexed).
+ * Client-only Preact app; talks to /api/admin/* (server/admin/app.ts).
+ */
+import AdminApp from '../../admin/AdminApp';
+import '../../admin/admin.css';
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Teklif yönetimi · Sepiolite Mine</title>
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <AdminApp client:only="preact" />
+    <noscript>Yönetim paneli için JavaScript gerekli.</noscript>
+  </body>
+</html>
