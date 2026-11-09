@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildScene } from './scene3d';
+import { buildScene, paintOrder } from './scene3d';
 import type { CatalogContainer, CatalogPackaging } from './types';
 
 const C20: CatalogContainer = {
@@ -51,3 +51,31 @@ describe('buildScene', () => {
     expect(s.overflow).toBe(true);
   });
 });
+
+describe('paintOrder', () => {
+  // Camera as in the vertical view: left, door side, above.
+  const c = [-0.3, -0.84, 0.8];
+  const l = Math.hypot(...c);
+  const toCamera = c.map((v) => v / l) as [number, number, number];
+  const up = (() => {
+    const v = [-toCamera[2] * toCamera[0], -toCamera[2] * toCamera[1], 1 - toCamera[2] * toCamera[2]];
+    const m = Math.hypot(...v);
+    return v.map((x) => x / m);
+  })();
+  const right = [up[1] * toCamera[2] - up[2] * toCamera[1], up[2] * toCamera[0] - up[0] * toCamera[2], up[0] * toCamera[1] - up[1] * toCamera[0]];
+  const project = (p: [number, number, number]): [number, number] => [
+    p[0] * right[0] + p[1] * right[1] + p[2] * right[2],
+    -(p[0] * up[0] + p[1] * up[1] + p[2] * up[2]),
+  ];
+
+  it('paints a low pallet in front of a two-high bigbag stack after both bigbags', () => {
+    const lower = { x0: 0, x1: 950, y0: 1200, y1: 2150, z0: 0, z1: 1150 };
+    const upper = { x0: 0, x1: 950, y0: 1200, y1: 2150, z0: 1150, z1: 2300 };
+    const pallet = { x0: 0, x1: 1000, y0: 0, y1: 1200, z0: 0, z1: 1400 };
+    const order = paintOrder([pallet, upper, lower], toCamera, project);
+    expect(order.indexOf(0)).toBeGreaterThan(order.indexOf(1));
+    expect(order.indexOf(0)).toBeGreaterThan(order.indexOf(2));
+    expect(order.indexOf(1)).toBeGreaterThan(order.indexOf(2));
+  });
+});
+

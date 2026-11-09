@@ -114,7 +114,7 @@ function softPoly(ps: P2[], round = 0.16, bulge = 0.05): string {
 
 /* ───────────── Scene ───────────── */
 
-interface Box {
+export interface Box {
   x0: number;
   x1: number;
   y0: number;
@@ -238,6 +238,75 @@ function pallet(out: ScenePath[], b: Box, colour: string, over: boolean, project
   if (over) out.push({ d: poly(fb.front), stroke: RED, strokeWidth: 30 });
 }
 
+/**
+ * Drawing order (painter's algorithm) for non-overlapping boxes. Sorting by centre distance fails
+ * when heights differ (the top of a two-high bigbag stack would be painted over the low pallet in
+ * front of it). Instead: for every pair whose screen outlines overlap, the axis that separates the
+ * two boxes says which one is nearer (smaller x: left side, smaller y: door side, higher z: above —
+ * for overlapping outlines these never disagree), then a topological sort paints far before near.
+ * Exported for tests.
+ */
+export function paintOrder(boxes: Box[], toCamera: V3, project: Project): number[] {
+  const n = boxes.length;
+  const rect = boxes.map((b) => {
+    let x0 = Infinity;
+    let y0 = Infinity;
+    let x1 = -Infinity;
+    let y1 = -Infinity;
+    for (const x of [b.x0, b.x1])
+      for (const y of [b.y0, b.y1])
+        for (const z of [b.z0, b.z1]) {
+          const [px, py] = project([x, y, z]);
+          x0 = Math.min(x0, px);
+          x1 = Math.max(x1, px);
+          y0 = Math.min(y0, py);
+          y1 = Math.max(y1, py);
+        }
+    return { x0, y0, x1, y1 };
+  });
+  const depth = boxes.map((b) => dot([(b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, (b.z0 + b.z1) / 2], toCamera));
+  /** 1: a is in front of b, -1: b in front of a, 0: unknown (intersecting). */
+  const front = (a: Box, b: Box) => {
+    if (a.x1 <= b.x0) return 1;
+    if (b.x1 <= a.x0) return -1;
+    if (a.y1 <= b.y0) return 1;
+    if (b.y1 <= a.y0) return -1;
+    if (a.z0 >= b.z1) return 1;
+    if (b.z0 >= a.z1) return -1;
+    return 0;
+  };
+  const after: number[][] = Array.from({ length: n }, () => []); // i must be painted before after[i]
+  const pending = new Array<number>(n).fill(0);
+  for (let i = 0; i < n; i++)
+    for (let j = i + 1; j < n; j++) {
+      const a = rect[i];
+      const b = rect[j];
+      if (a.x1 <= b.x0 || b.x1 <= a.x0 || a.y1 <= b.y0 || b.y1 <= a.y0) continue;
+      const f = front(boxes[i], boxes[j]);
+      if (f === 0) continue;
+      const [back, near] = f === 1 ? [j, i] : [i, j];
+      after[back].push(near);
+      pending[near]++;
+    }
+  const order: number[] = [];
+  const ready = new Set<number>();
+  for (let i = 0; i < n; i++) if (pending[i] === 0) ready.add(i);
+  const done = new Array<boolean>(n).fill(false);
+  while (order.length < n) {
+    let pick = -1;
+    for (const i of ready) if (pick < 0 || depth[i] < depth[pick]) pick = i;
+    if (pick < 0) {
+      // Should not happen for non-overlapping boxes; fall back to the farthest remaining one.
+      for (let i = 0; i < n; i++) if (!done[i] && (pick < 0 || depth[i] < depth[pick])) pick = i;
+    }
+    ready.delete(pick);
+    done[pick] = true;
+    order.push(pick);
+    for (const k of after[pick]) if (--pending[k] === 0 && !done[k]) ready.add(k);
+  }
+  return order;
+}
+
 /** Builds the 3D loading view of one container. `colorOf(productId)` gives each product's colour. */
 export function buildScene(
   c: CatalogContainer,
@@ -293,8 +362,10 @@ export function buildScene(
       }
     }
   }
-  units.sort((a, b) => a.depth - b.depth);
-  for (const u of units) (u.kind === 'bigbag' ? bigbag : pallet)(paths, u.box, u.colour, u.over, project);
+  for (const i of paintOrder(units.map((u) => u.box), toCamera, project)) {
+    const u = units[i];
+    (u.kind === 'bigbag' ? bigbag : pallet)(paths, u.box, u.colour, u.over, project);
+  }
 
   /* front: transparent roof, left wall and door face, then the frame */
   const glass = { fill: '#e8f1f5', fillOpacity: 0.12, stroke: FRAME, strokeWidth: 10, strokeOpacity: 0.35 };
