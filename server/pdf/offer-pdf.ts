@@ -4,10 +4,11 @@
  * embedded whole, so Turkish glyphs and kerning-free metrics are predictable.
  */
 import fontkit from '@pdf-lib/fontkit';
-import { PDFDocument, rgb, type PDFFont, type PDFImage, type PDFPage, type RGB } from 'pdf-lib';
-import { planLoad, type LoadItem } from '../../src/lib/quote/loading';
+import { LineCapStyle, PDFDocument, rgb, type PDFFont, type PDFImage, type PDFPage, type RGB } from 'pdf-lib';
+import type { LoadItem } from '../../src/lib/quote/loading';
+import { buildScene } from '../../src/lib/quote/scene3d';
 import type { AppliedOption, Catalog, CatalogPackaging, ContainerResult, QuoteResult } from '../../src/lib/quote/types';
-import { productColors, textOn } from '../../src/quote/colors';
+import { productColors } from '../../src/quote/colors';
 import { STRINGS, deliveryLabel, formatters, optionPriceLabel, type Locale } from '../../src/quote/i18n';
 import type { OfferTerms } from '../db/schema';
 
@@ -53,7 +54,7 @@ const L = {
     cols: ['Product', 'Qty', 'Net t', 'Unit price', 'Amount'],
     containerServices: 'Container services',
     containerSubtotal: 'Container subtotal',
-    plan: 'Loading plan, top view (door on the right). ×2 means stacked two high.',
+    plan: 'Loading plan, 3D view: door on the right; roof, left wall and doors drawn see-through.',
     overflow: 'Does not fit',
     door: 'Door',
     summary: 'Offer summary',
@@ -85,7 +86,7 @@ const L = {
     cols: ['Ürün', 'Adet', 'Net ton', 'Birim fiyat', 'Tutar'],
     containerServices: 'Konteyner hizmetleri',
     containerSubtotal: 'Konteyner ara toplamı',
-    plan: 'Yükleme planı, üstten görünüm (kapı sağda). ×2: iki kat istif.',
+    plan: 'Yükleme planı, 3B görünüm: kapı sağda; tavan, sol duvar ve kapılar saydam çizilmiştir.',
     overflow: 'Sığmıyor',
     door: 'Kapı',
     summary: 'Teklif özeti',
@@ -325,6 +326,7 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
     y -= 13;
   };
 
+  /** 3D loading view (same scene as the configurator, laid out horizontally with the door on the right). */
   const drawPlan = (cr: ContainerResult) => {
     const ct = catalog.containers.find((x) => x.id === cr.containerTypeId);
     if (!ct) return;
@@ -332,55 +334,27 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
       const p = packagings.get(l.packagingId);
       return p ? [{ packaging: p, quantity: l.quantity }] : [];
     });
-    const plan = planLoad(ct, items);
-    const drawn = Math.max(ct.innerLengthMm, plan.usedLengthMm);
-    // Fit the width; cap the height so a 20' plan does not dominate the page.
-    const scale = Math.min((CONTENT_W - 30) / drawn, 96 / ct.innerWidthMm);
-    const h = ct.innerWidthMm * scale;
-    ensure(h + 34);
-    const x0 = M;
-    const y0 = y - 8 - h; // bottom of the floor rectangle
-    // PDF y grows upwards; plan y = 0 is the left wall → draw from the top edge down.
-    const X = (mm: number) => x0 + mm * scale;
-    const Y = (mm: number, size: number) => y0 + h - (mm + size) * scale;
-    if (plan.usedLengthMm > ct.innerLengthMm) {
-      page.drawRectangle({ x: X(ct.innerLengthMm), y: y0, width: (plan.usedLengthMm - ct.innerLengthMm) * scale, height: h, color: C.redSoft });
-      text(t.overflow, X(ct.innerLengthMm) + 3, y0 + h + 3, { size: 7, color: C.red });
+    const scene = buildScene(ct, items, colorOf, 'horizontal');
+    const scale = Math.min((CONTENT_W - 10) / scene.width, 104 / scene.height);
+    const h = scene.height * scale;
+    ensure(h + 26);
+    const left = M + (CONTENT_W - scene.width * scale) / 2;
+    const top = y - 4;
+    for (const sp of scene.paths) {
+      page.drawSvgPath(sp.d, {
+        x: left,
+        y: top,
+        scale,
+        color: sp.fill ? hex(sp.fill) : undefined,
+        opacity: sp.fill ? (sp.fillOpacity ?? 1) : undefined,
+        borderColor: sp.stroke ? hex(sp.stroke) : undefined,
+        borderWidth: sp.stroke ? (sp.strokeWidth ?? 1) : 0,
+        borderOpacity: sp.stroke ? (sp.strokeOpacity ?? 1) : undefined,
+        borderLineCap: LineCapStyle.Round,
+      });
     }
-    page.drawRectangle({ x: x0, y: y0, width: ct.innerLengthMm * scale, height: h, color: C.cream, borderColor: C.stone, borderWidth: 0.8 });
-    const inset = Math.min(18 * scale, 1);
-    for (const st of plan.placements) {
-      let cursor = st.x;
-      for (const u of st.units) {
-        const w = (st.depth * u.count) / st.height;
-        page.drawRectangle({
-          x: X(cursor) + inset,
-          y: Y(st.y, st.across) + inset,
-          width: Math.max(w * scale - 2 * inset, 0.5),
-          height: Math.max(st.across * scale - 2 * inset, 0.5),
-          color: hex(colorOf(u.productId)),
-          borderColor: st.overflow ? C.red : undefined,
-          borderWidth: st.overflow ? 0.8 : 0,
-        });
-        cursor += w;
-      }
-      if (st.height > 1) {
-        const label = `×${st.height}`;
-        const size = Math.min(7, st.across * scale * 0.35);
-        const fill = hex(textOn(colorOf(st.units[0]?.productId ?? 0)));
-        text(label, X(st.x + st.depth / 2) + width(label, fonts.semibold, size) / 2, Y(st.y, st.across / 2) - size / 3, {
-          font: fonts.semibold,
-          size,
-          color: fill,
-          align: 'right',
-        });
-      }
-    }
-    // Door marker on the right end of the container.
-    const dx = X(ct.innerLengthMm);
-    page.drawLine({ start: { x: dx, y: y0 }, end: { x: dx, y: y0 + h }, thickness: 2.2, color: C.gold });
-    text(t.door, dx + 4, y0 + h / 2 - 3, { size: 7, color: C.stone });
-    y = y0 - 6;
+    text(t.door, left + scene.door.x * scale, top - scene.door.y * scale - 3, { size: 8, color: C.stone });
+    y = top - h - 4;
     paragraph(t.plan, { size: 7.5, color: C.stone });
   };
 

@@ -188,29 +188,62 @@ export function ContainerPanel(props: {
         {type && (
           <section class="q-plan" aria-label={t.loadingPlan}>
             <h3 class="q-plan__title">{t.loadingPlan}</h3>
-            <div class="q-gauges">
-              <Gauge
-                label={t.weight}
-                ratio={r?.load?.weightUtilization ?? 0}
-                detail={t.ofLimit(fmt.tons(r?.load?.grossKg ?? 0), fmt.tons(type.payloadLimitKg))}
-                locale={locale}
-                fmt={fmt}
-              />
-              <Gauge
-                label={t.floor}
-                ratio={r?.load?.floorUtilization ?? 0}
-                detail={t.floorOf(fmt.meters(r?.load?.floorLengthUsedMm ?? 0), fmt.meters(type.innerLengthMm))}
-                locale={locale}
-                fmt={fmt}
-              />
+            <div class="q-plan__body">
+              <div class="q-plan__view">
+                <ContainerView
+                  container={type}
+                  items={items}
+                  colorOf={props.colorOf}
+                  index={props.index}
+                  locale={locale}
+                />
+              </div>
+              <div class="q-plan__info">
+                <div class="q-gauges">
+                  <Gauge
+                    label={t.weight}
+                    ratio={r?.load?.weightUtilization ?? 0}
+                    detail={t.ofLimit(fmt.tons(r?.load?.grossKg ?? 0), fmt.tons(type.payloadLimitKg))}
+                    locale={locale}
+                    fmt={fmt}
+                  />
+                  <Gauge
+                    label={t.floor}
+                    ratio={r?.load?.floorUtilization ?? 0}
+                    detail={t.floorOf(fmt.meters(r?.load?.floorLengthUsedMm ?? 0), fmt.meters(type.innerLengthMm))}
+                    locale={locale}
+                    fmt={fmt}
+                  />
+                </div>
+                {d.lines.length > 0 && (
+                  <ul class="q-legend" aria-label={t.inContainer}>
+                    {d.lines.map((l) => {
+                      const e = props.packs.get(l.packagingId);
+                      if (!e) return null;
+                      return (
+                        <li key={l.uid}>
+                          <span
+                            class="q-swatch"
+                            style={{ background: props.colorOf(e.product.id) }}
+                            aria-hidden="true"
+                          />
+                          <span class="q-legend__name">{locale === 'tr' ? e.product.nameTr : e.product.nameEn}</span>
+                          <span class="q-legend__qty">
+                            {fmt.kg(l.quantity)} × {e.packaging.type === 'bigbag' ? t.bigbag : t.pallet}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                <p class="q-caption">
+                  {t.innerSize(fmt.mm(type.innerLengthMm), fmt.mm(type.innerWidthMm), fmt.mm(type.innerHeightMm))}.{' '}
+                  {t.stackLegend}
+                </p>
+                <Issues list={own(props.errors)} tone="error" locale={locale} />
+                <Issues list={own(props.warnings)} tone="warn" locale={locale} />
+              </div>
             </div>
-            <ContainerView container={type} items={items} colorOf={props.colorOf} index={props.index} locale={locale} />
-            <p class="q-caption">
-              {t.innerSize(fmt.mm(type.innerLengthMm), fmt.mm(type.innerWidthMm), fmt.mm(type.innerHeightMm))} ·{' '}
-              {t.stackLegend}
-            </p>
-            <Issues list={own(props.errors)} tone="error" locale={locale} />
-            <Issues list={own(props.warnings)} tone="warn" locale={locale} />
           </section>
         )}
 
@@ -292,10 +325,18 @@ export function ContainerPanel(props: {
                         const p = e.packaging;
                         const here = effectiveTiers(p, type.innerHeightMm);
                         if (here === 0 || here >= p.maxTiers) return null;
-                        const alt = props.catalog.containers.find((c) => effectiveTiers(p, c.innerHeightMm) >= p.maxTiers);
+                        const alt = props.catalog.containers.find(
+                          (c) => effectiveTiers(p, c.innerHeightMm) >= p.maxTiers,
+                        );
                         return (
                           <p class="q-line__note" role="note">
-                            {t.stackLimited(here, p.maxTiers, fmt.mm(p.heightMm), fmt.mm(type.innerHeightMm), alt?.code)}
+                            {t.stackLimited(
+                              here,
+                              p.maxTiers,
+                              fmt.mm(p.heightMm),
+                              fmt.mm(type.innerHeightMm),
+                              alt?.code,
+                            )}
                           </p>
                         );
                       })()}
