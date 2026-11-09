@@ -21,11 +21,18 @@ export const DOC_TYPES = ['tds', 'msds', 'coa', 'certificate', 'other'] as const
 export const QUOTE_STATUSES = ['new', 'contacted', 'won', 'lost'] as const;
 export const EMAIL_STATUSES = ['sent', 'failed', 'skipped'] as const;
 export const INCOTERMS = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'] as const;
+export const DELIVERY_PRICE_TYPES = ['fixed', 'per_container', 'per_ton', 'percent'] as const;
 
-/** Commercial terms printed on the soft offer (snapshot of settings at request time). */
+/**
+ * Commercial terms printed on the soft offer: snapshot of the chosen delivery term + settings at
+ * request time. Offers issued before delivery terms existed have no incotermPlaceTr / deliveryTermId.
+ */
 export type OfferTerms = {
-  incoterm: (typeof INCOTERMS)[number];
+  incoterm: (typeof INCOTERMS)[number] | null;
+  /** English place name (also the fallback for Turkish). */
   incotermPlace: string;
+  incotermPlaceTr?: string;
+  deliveryTermId?: number | null;
   paymentTermsEn: string;
   paymentTermsTr: string;
   notesEn: string;
@@ -45,8 +52,12 @@ const optionColumns = () => ({
   id: integer('id').primaryKey({ autoIncrement: true }),
   nameEn: text('name_en').notNull(),
   nameTr: text('name_tr').notNull(),
+  /** Short description: tooltip on hover in the configurator. */
   descriptionEn: text('description_en').notNull().default(''),
   descriptionTr: text('description_tr').notNull().default(''),
+  /** Long description: opened in a centred panel when the option name is clicked. Plain text, blank line = paragraph. */
+  longDescriptionEn: text('long_description_en').notNull().default(''),
+  longDescriptionTr: text('long_description_tr').notNull().default(''),
   /** Options sharing a groupName are mutually exclusive (radio); null = independent checkbox. */
   groupName: text('group_name'),
   priceType: text('price_type', { enum: PRICE_TYPES }).notNull(),
@@ -166,7 +177,27 @@ export const containerOptions = sqliteTable(
 
 export const orderOptions = sqliteTable('order_options', optionColumns());
 
-/** Key/value settings (currency, quote validity, numbering). Value is JSON. */
+/**
+ * Delivery terms the customer chooses from, e.g. FOB Mersin, FOB İzmir: each with its own payment
+ * terms, notes and an optional order-level price adjustment (amount semantics as order options).
+ */
+export const deliveryTerms = sqliteTable('delivery_terms', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  incoterm: text('incoterm', { enum: INCOTERMS }).notNull(),
+  placeEn: text('place_en').notNull(),
+  placeTr: text('place_tr').notNull(),
+  paymentTermsEn: text('payment_terms_en').notNull().default(''),
+  paymentTermsTr: text('payment_terms_tr').notNull().default(''),
+  notesEn: text('notes_en').notNull().default(''),
+  notesTr: text('notes_tr').notNull().default(''),
+  priceType: text('price_type', { enum: DELIVERY_PRICE_TYPES }).notNull().default('fixed'),
+  amount: integer('amount').notNull().default(0),
+  active: integer('active', { mode: 'boolean' }).notNull().default(true),
+  sortOrder: integer('sort_order').notNull().default(0),
+  ...timestamps(),
+});
+
+/** Key/value settings (currency, quote validity, numbering, general offer notes). Value is JSON. */
 export const settings = sqliteTable('settings', {
   key: text('key').primaryKey(),
   value: text('value', { mode: 'json' }).notNull(),

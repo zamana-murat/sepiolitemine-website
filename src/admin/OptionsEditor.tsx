@@ -50,6 +50,8 @@ const emptyDraft = (scope: OptionScope): Draft => ({
   nameTr: '',
   descriptionEn: '',
   descriptionTr: '',
+  longDescriptionEn: '',
+  longDescriptionTr: '',
   groupName: null,
   priceType: PRICE_TYPES[scope][0],
   amount: 0,
@@ -87,11 +89,17 @@ function OptionForm(props: {
         <Field label="Ad (EN)">
           <TextInput value={v.nameEn} onChange={(x) => set('nameEn', x)} required />
         </Field>
-        <Field label="Açıklama (TR)">
-          <TextInput value={v.descriptionTr} onChange={(x) => set('descriptionTr', x)} />
+        <Field label="Kısa açıklama (TR)" hint="Müşteri seçeneğin adının üzerine gelince balonda görür. Bir cümle, en fazla 300 karakter.">
+          <TextInput value={v.descriptionTr} onChange={(x) => set('descriptionTr', x)} maxLength={300} />
         </Field>
-        <Field label="Açıklama (EN)">
-          <TextInput value={v.descriptionEn} onChange={(x) => set('descriptionEn', x)} />
+        <Field label="Kısa açıklama (EN)">
+          <TextInput value={v.descriptionEn} onChange={(x) => set('descriptionEn', x)} maxLength={300} />
+        </Field>
+        <Field label="Uzun açıklama (TR)" hint="Seçeneğin adına tıklanınca ekranın ortasında açılan panelde görünür. Boş satır yeni paragraf başlatır.">
+          <TextInput value={v.longDescriptionTr} onChange={(x) => set('longDescriptionTr', x)} maxLength={5000} multiline />
+        </Field>
+        <Field label="Uzun açıklama (EN)">
+          <TextInput value={v.longDescriptionEn} onChange={(x) => set('longDescriptionEn', x)} maxLength={5000} multiline />
         </Field>
         <Field label="Fiyatlandırma">
           <Select

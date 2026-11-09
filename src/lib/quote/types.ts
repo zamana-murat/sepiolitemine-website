@@ -10,6 +10,9 @@ export type PriceType = 'fixed' | 'per_unit' | 'per_ton' | 'per_container' | 'pe
 export type PackagingType = 'bigbag' | 'pallet';
 export type PriceBasis = 'per_unit' | 'per_ton';
 export type DocType = 'tds' | 'msds' | 'coa' | 'certificate' | 'other';
+export type Incoterm = 'EXW' | 'FCA' | 'FAS' | 'FOB' | 'CFR' | 'CIF' | 'CPT' | 'CIP' | 'DAP' | 'DPU' | 'DDP';
+/** Price adjustment of a delivery term (order level, like an order option). */
+export type DeliveryPriceType = 'fixed' | 'per_container' | 'per_ton' | 'percent';
 
 /* ───────────── Catalog (GET /api/quote/catalog) ───────────── */
 
@@ -17,8 +20,12 @@ export interface CatalogOption {
   id: number;
   nameEn: string;
   nameTr: string;
+  /** Short description (tooltip). */
   descriptionEn: string;
   descriptionTr: string;
+  /** Long description (centred panel); plain text, blank line = paragraph. */
+  longDescriptionEn: string;
+  longDescriptionTr: string;
   /** Options sharing a group are mutually exclusive. */
   groupName: string | null;
   priceType: PriceType;
@@ -100,12 +107,33 @@ export interface CatalogContainer {
   options: CatalogOption[];
 }
 
+/**
+ * A delivery term the admin offers, e.g. "FOB Mersin" or "FOB İzmir": Incoterm + place + its own
+ * payment terms, notes and an optional price adjustment on the whole order.
+ */
+export interface CatalogDeliveryTerm {
+  id: number;
+  incoterm: Incoterm;
+  placeEn: string;
+  placeTr: string;
+  paymentTermsEn: string;
+  paymentTermsTr: string;
+  notesEn: string;
+  notesTr: string;
+  priceType: DeliveryPriceType;
+  /** Cents, or basis points when priceType = 'percent'. 0 = prices already include this delivery. */
+  amount: number;
+  sortOrder: number;
+}
+
 export interface Catalog {
   currency: Currency;
   quoteValidityDays: number;
   products: CatalogProduct[];
   containers: CatalogContainer[];
   orderOptions: CatalogOption[];
+  /** Ordered; the first one is the default choice. Empty → no delivery term on the offer. */
+  deliveryTerms: CatalogDeliveryTerm[];
 }
 
 /** GET /api/quote/catalog response: the catalog plus public form config. */
@@ -125,6 +153,8 @@ export interface LineRequest {
 
 export interface ContainerRequest {
   containerTypeId: number;
+  /** How many identical containers of this configuration (default 1). */
+  count?: number;
   optionIds: number[];
   lines: LineRequest[];
 }
@@ -132,6 +162,8 @@ export interface ContainerRequest {
 export interface OrderRequest {
   containers: ContainerRequest[];
   optionIds: number[];
+  /** Required when the catalog offers delivery terms. */
+  deliveryTermId?: number | null;
 }
 
 /* ───────────── Result ───────────── */
@@ -139,6 +171,9 @@ export interface OrderRequest {
 export type IssueCode =
   | 'no_containers'
   | 'too_many_containers'
+  | 'invalid_container_count'
+  | 'no_delivery_term'
+  | 'unknown_delivery_term'
   | 'too_many_lines'
   | 'unknown_container'
   | 'empty_container'
@@ -221,16 +256,33 @@ export interface LoadResult {
   fits: boolean;
 }
 
+/**
+ * One container configuration. `lines`, `options`, `linesTotalCents`, `unitTotalCents` and `load`
+ * describe a single container; `totalCents` = unitTotalCents × count.
+ * Snapshots issued before `count` existed lack count/unitTotalCents (read them as 1 / totalCents).
+ */
 export interface ContainerResult {
   containerTypeId: number;
   code: string;
   nameEn: string;
   nameTr: string;
+  count: number;
   lines: LineResult[];
   linesTotalCents: number;
   options: AppliedOption[];
+  unitTotalCents: number;
   totalCents: number;
   load: LoadResult | null;
+}
+
+export interface AppliedDeliveryTerm {
+  deliveryTermId: number;
+  incoterm: Incoterm;
+  placeEn: string;
+  placeTr: string;
+  priceType: DeliveryPriceType;
+  amount: number;
+  cents: number;
 }
 
 export interface QuoteResult {
@@ -242,6 +294,8 @@ export interface QuoteResult {
   containers: ContainerResult[];
   containersTotalCents: number;
   orderOptions: AppliedOption[];
+  deliveryTerm: AppliedDeliveryTerm | null;
   totalCents: number;
+  /** Physical totals: containers = Σ count; units and weights include every copy. */
   totals: { containers: number; units: number; netKg: number; grossKg: number };
 }

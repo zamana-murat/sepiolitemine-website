@@ -14,7 +14,7 @@ const assets = {
   logo: read('images/logo/logo-primary-400w.png'),
 };
 
-const opt = { descriptionEn: '', descriptionTr: '', groupName: null, isDefault: false, sortOrder: 0 };
+const opt = { descriptionEn: '', descriptionTr: '', longDescriptionEn: '', longDescriptionTr: '', groupName: null, isDefault: false, sortOrder: 0 };
 const catalog: Catalog = {
   currency: 'USD',
   quoteValidityDays: 30,
@@ -49,11 +49,13 @@ const catalog: Catalog = {
     },
   ],
   orderOptions: [{ ...opt, id: 3, nameEn: 'Advance payment discount', nameTr: 'Peşin ödeme indirimi', priceType: 'percent', amount: -200, isMandatory: false }],
+  deliveryTerms: [],
 };
 
-const order = (containers: number): OrderRequest => ({
+const order = (containers: number, count = 1): OrderRequest => ({
   containers: Array.from({ length: containers }, () => ({
     containerTypeId: 1,
+    count,
     optionIds: [],
     lines: [{ packagingId: 11, quantity: 24, optionIds: [] }],
   })),
@@ -69,7 +71,7 @@ const input = (over: Partial<OfferPdfInput> & { containers?: number } = {}): Off
     validUntil: new Date('2026-12-08T10:00:00Z'),
     customer: { name: 'Ayşe Yılmaz', company: 'Örnek İhracat Şti.', email: 'a@example.com', country: 'Türkiye', phone: '' },
     seller: { name: 'Sepiolite Mine', city: 'Ankara', country: 'Türkiye', phone: '+90 530 490 4740', website: 'sepiolitemine.com' },
-    terms: { incoterm: 'FOB', incotermPlace: 'Mersin', paymentTermsEn: '30% advance', paymentTermsTr: '%30 peşin', notesEn: '', notesTr: '', validityDays: 30 },
+    terms: { incoterm: 'FOB', incotermPlace: 'Izmir Port', incotermPlaceTr: 'İzmir Limanı', paymentTermsEn: '30% advance', paymentTermsTr: '%30 peşin', notesEn: '', notesTr: '', validityDays: 30 },
     catalog,
     result,
     ...over,
@@ -102,6 +104,34 @@ describe('renderOfferPdf', () => {
   it('survives characters outside the embedded fonts', async () => {
     const odd = input({ customer: { ...input().customer, company: 'Emoji 🚢 Ltd · 中文 · Ω x' } });
     await expect(renderOfferPdf(odd, assets)).resolves.toBeInstanceOf(Uint8Array);
+  });
+
+  it('renders container counts and a delivery term adjustment', async () => {
+    const withTerm: Catalog = {
+      ...catalog,
+      deliveryTerms: [{
+        id: 7, incoterm: 'FOB', placeEn: 'Izmir Port', placeTr: 'İzmir Limanı', paymentTermsEn: '', paymentTermsTr: '',
+        notesEn: '', notesTr: '', priceType: 'per_container', amount: 15000, sortOrder: 0,
+      }],
+    };
+    const result = computeQuote(withTerm, { ...order(2, 3), deliveryTermId: 7 });
+    expect(result.ok).toBe(true);
+    expect(result.totals.containers).toBe(6);
+    for (const locale of ['en', 'tr'] as const) {
+      const bytes = await renderOfferPdf(input({ locale, catalog: withTerm, result }), assets);
+      expect((await PDFDocument.load(bytes)).getPageCount()).toBeGreaterThan(0);
+    }
+  });
+
+  it('renders a pre-count snapshot (no count / unitTotalCents / deliveryTerm)', async () => {
+    const r = computeQuote(catalog, order(1));
+    const legacy = {
+      ...r,
+      deliveryTerm: undefined,
+      containers: r.containers.map(({ count: _c, unitTotalCents: _u, ...rest }) => rest),
+    } as unknown as typeof r;
+    const legacyTerms = { incoterm: 'FOB', incotermPlace: 'Mersin', paymentTermsEn: '', paymentTermsTr: '', notesEn: '', notesTr: '', validityDays: 30 } as const;
+    await expect(renderOfferPdf(input({ result: legacy, terms: { ...legacyTerms } }), assets)).resolves.toBeInstanceOf(Uint8Array);
   });
 
   it('works without a logo', async () => {

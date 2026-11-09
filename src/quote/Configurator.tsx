@@ -1,14 +1,16 @@
 /**
- * Container quote configurator (public island on /quote/ and /tr/quote/).
+ * Container quote configurator (island on /quote/ and /tr/quote/).
  * Catalog comes from /api/quote/catalog; prices and loading are computed in the browser
  * with the same engine the server will use to issue the offer.
+ * Layout: containers as tabs (full width) → summary (full width). Product choice and product
+ * details open in their own dialog.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { LIMITS, computeQuote } from '../lib/quote/pricing';
 import type { CatalogPackaging, CatalogResponse } from '../lib/quote/types';
-import { ContainerCard } from './ContainerCard';
+import { ContainerPanel } from './ContainerCard';
 import { STRINGS, formatters, type Locale } from './i18n';
-import { ProductPicker } from './ProductPicker';
+import { ProductDetailsDialog, ProductPickerDialog } from './ProductPicker';
 import {
   clearDraft,
   defaultOptionIds,
@@ -17,6 +19,7 @@ import {
   loadDraft,
   newContainer,
   packagingIndex,
+  physicalCount,
   sanitize,
   saveDraft,
   toRequest,
@@ -28,6 +31,7 @@ import { Summary } from './Summary';
 import { productColors } from './colors';
 
 type LoadState = { status: 'loading' } | { status: 'error' } | { status: 'ready'; catalog: CatalogResponse };
+type Dialog = { kind: 'picker' } | { kind: 'details'; productId: number } | null;
 
 export default function Configurator(props: { locale: Locale }) {
   const { locale } = props;
@@ -35,6 +39,7 @@ export default function Configurator(props: { locale: Locale }) {
   const [load, setLoad] = useState<LoadState>({ status: 'loading' });
   const [draft, setDraft] = useState<Draft | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [dialog, setDialog] = useState<Dialog>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
   /** silent: keep the page as is while refreshing (after the server reported a price change). */
@@ -120,60 +125,122 @@ export default function Configurator(props: { locale: Locale }) {
     setDraft(emptyDraft(catalog));
   };
 
-  const canAdd = draft.containers.length < LIMITS.maxContainers;
+  const total = physicalCount(draft);
+  const canAdd = total < LIMITS.maxContainers;
+  const active = draft.containers[activeIndex];
+  const hasErrors = (i: number) =>
+    result.errors.some((e) => e.path === `containers.${i}` || e.path.startsWith(`containers.${i}.`));
+  const select = (i: number) => update((d) => ({ ...d, activeUid: d.containers[i]?.uid ?? d.activeUid }));
+  const detailsProduct = dialog?.kind === 'details' ? catalog.products.find((p) => p.id === dialog.productId) : undefined;
+
+  /** Arrow keys move between tabs (WAI-ARIA tabs pattern). */
+  const onTabKey = (e: KeyboardEvent) => {
+    const n = draft.containers.length;
+    let next = -1;
+    if (e.key === 'ArrowRight') next = (activeIndex + 1) % n;
+    else if (e.key === 'ArrowLeft') next = (activeIndex - 1 + n) % n;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = n - 1;
+    if (next < 0) return;
+    e.preventDefault();
+    select(next);
+    const id = `q-tab-${draft.containers[next].uid}`;
+    window.requestAnimationFrame(() => document.getElementById(id)?.focus());
+  };
 
   return (
     <div class="q-layout">
-      <ProductPicker
-        catalog={catalog}
-        colorOf={colorOf}
-        activeIndex={activeIndex}
-        onAdd={addPackaging}
-        fmt={fmt}
-        locale={locale}
-      />
+      <section class="q-panel q-containers" aria-labelledby="q-containers-title">
+        <div class="q-containers__head">
+          <div>
+            <h2 id="q-containers-title" class="q-panel__title">
+              {t.containers}
+            </h2>
+            <p class="q-hint">{t.containersHint}</p>
+          </div>
+          <a class="q-jump" href="#q-summary-title">
+            <span class="q-jump__label">
+              {t.orderTotal} · {t.containerTotalCount(total)}
+            </span>
+            <strong class="q-jump__value">{fmt.money(result.totalCents)}</strong>
+            <span class="q-jump__link">{t.toSummary} ↓</span>
+          </a>
+        </div>
 
-      <section class="q-containers" aria-labelledby="q-containers-title">
-        <h2 id="q-containers-title" class="q-panel__title q-panel__title--bare">
-          {t.containers}
-        </h2>
-        {draft.containers.map((c, i) => (
-          <ContainerCard
-            key={c.uid}
-            index={i}
-            draft={c}
-            result={result.containers[i]}
-            catalog={catalog}
-            packs={packs}
-            active={i === activeIndex}
-            errors={result.errors}
-            warnings={result.warnings}
-            onChange={(next) => setContainer(c.uid, next)}
-            onRemove={() =>
-              update((d) => {
-                const containers = d.containers.filter((x) => x.uid !== c.uid);
-                return { ...d, containers, activeUid: d.activeUid === c.uid ? (containers[0]?.uid ?? null) : d.activeUid };
-              })
-            }
-            onDuplicate={() =>
-              update((d) => {
-                const copy = duplicateContainer(c);
-                const containers = [...d.containers];
-                containers.splice(i + 1, 0, copy);
-                return { ...d, containers, activeUid: copy.uid };
-              })
-            }
-            onActivate={() => update((d) => ({ ...d, activeUid: c.uid }))}
-            canRemove={draft.containers.length > 1}
-            canDuplicate={canAdd}
-            colorOf={colorOf}
-            fmt={fmt}
-            locale={locale}
-          />
-        ))}
-        <button type="button" class="btn btn-outline-dark q-add-container" onClick={addContainer} disabled={!canAdd}>
-          {t.addContainer}
-        </button>
+        <div class="q-tabs">
+          <div class="q-tabs__list" role="tablist" aria-labelledby="q-containers-title" onKeyDown={onTabKey}>
+            {draft.containers.map((c, i) => {
+              const type = catalog.containers.find((x) => x.id === c.containerTypeId);
+              const selected = i === activeIndex;
+              return (
+                <button
+                  key={c.uid}
+                  id={`q-tab-${c.uid}`}
+                  type="button"
+                  role="tab"
+                  class={`q-tab${selected ? ' q-tab--active' : ''}${hasErrors(i) ? ' q-tab--error' : ''}`}
+                  aria-selected={selected}
+                  aria-controls={`q-tabpanel-${c.uid}`}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => select(i)}
+                >
+                  <span class="q-tab__title">{t.container(i + 1)}</span>
+                  <span class="q-tab__meta">
+                    {type?.code ?? '?'}
+                    {c.count > 1 ? ` × ${c.count}` : ''} · {fmt.money(result.containers[i]?.totalCents ?? 0)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <button type="button" class="q-btn q-tabs__add" onClick={addContainer} disabled={!canAdd}>
+            {t.addContainer}
+          </button>
+        </div>
+
+        {active && (
+          <div
+            class="q-tabpanel"
+            role="tabpanel"
+            id={`q-tabpanel-${active.uid}`}
+            aria-labelledby={`q-tab-${active.uid}`}
+          >
+            <ContainerPanel
+              key={active.uid}
+              index={activeIndex}
+              draft={active}
+              result={result.containers[activeIndex]}
+              catalog={catalog}
+              packs={packs}
+              errors={result.errors}
+              warnings={result.warnings}
+              onChange={(next) => setContainer(active.uid, next)}
+              onRemove={() =>
+                update((d) => {
+                  const containers = d.containers.filter((x) => x.uid !== active.uid);
+                  const nextActive = containers[Math.min(activeIndex, containers.length - 1)];
+                  return { ...d, containers, activeUid: nextActive?.uid ?? null };
+                })
+              }
+              onDuplicate={() =>
+                update((d) => {
+                  const copy = duplicateContainer(active);
+                  const containers = [...d.containers];
+                  containers.splice(activeIndex + 1, 0, copy);
+                  return { ...d, containers, activeUid: copy.uid };
+                })
+              }
+              onAddProduct={() => setDialog({ kind: 'picker' })}
+              onDetails={(productId) => setDialog({ kind: 'details', productId })}
+              canRemove={draft.containers.length > 1}
+              canDuplicate={total + active.count <= LIMITS.maxContainers}
+              maxCount={LIMITS.maxContainers - (total - active.count)}
+              colorOf={colorOf}
+              fmt={fmt}
+              locale={locale}
+            />
+          </div>
+        )}
       </section>
 
       <Summary
@@ -181,6 +248,8 @@ export default function Configurator(props: { locale: Locale }) {
         result={result}
         orderOptionIds={draft.optionIds}
         onOrderOptions={(ids) => update((d) => ({ ...d, optionIds: ids }))}
+        deliveryTermId={draft.deliveryTermId}
+        onDeliveryTerm={(id) => update((d) => ({ ...d, deliveryTermId: id }))}
         onReset={reset}
         siteKey={catalog.turnstileSiteKey}
         request={toRequest(draft)}
@@ -188,6 +257,24 @@ export default function Configurator(props: { locale: Locale }) {
         fmt={fmt}
         locale={locale}
       />
+
+      {dialog?.kind === 'picker' && (
+        <ProductPickerDialog
+          catalog={catalog}
+          containerIndex={activeIndex}
+          colorOf={colorOf}
+          onAdd={(p) => {
+            addPackaging(p);
+            setDialog(null);
+          }}
+          onClose={() => setDialog(null)}
+          fmt={fmt}
+          locale={locale}
+        />
+      )}
+      {detailsProduct && (
+        <ProductDetailsDialog product={detailsProduct} onClose={() => setDialog(null)} fmt={fmt} locale={locale} />
+      )}
 
       <div class={`q-toast${toast ? ' q-toast--show' : ''}`} role="status" aria-live="polite">
         {toast}

@@ -1,5 +1,5 @@
 /**
- * Builds the public quote catalog from D1. Used by GET /api/quote/catalog and (Phase 4)
+ * Builds the public quote catalog from D1. Used by GET /api/quote/catalog and
  * by the server-side recalculation before a soft offer PDF — both see the same data.
  * Mapping is explicit so the shape is checked against src/lib/quote/types.ts.
  */
@@ -11,6 +11,7 @@ import * as schema from './db/schema';
 const {
   containerOptions,
   containerTypes,
+  deliveryTerms,
   orderOptions,
   productDocuments,
   productOptions,
@@ -27,6 +28,8 @@ const toOption = (o: OptionRow): CatalogOption => ({
   nameTr: o.nameTr,
   descriptionEn: o.descriptionEn,
   descriptionTr: o.descriptionTr,
+  longDescriptionEn: o.longDescriptionEn,
+  longDescriptionTr: o.longDescriptionTr,
   groupName: o.groupName,
   priceType: o.priceType,
   amount: o.amount,
@@ -36,7 +39,7 @@ const toOption = (o: OptionRow): CatalogOption => ({
 });
 
 export async function loadCatalog(d: DrizzleD1Database<typeof schema>): Promise<Catalog> {
-  const [prods, packs, docs, pOpts, cTypes, cOpts, oOpts, sets] = await Promise.all([
+  const [prods, packs, docs, pOpts, cTypes, cOpts, oOpts, terms, sets] = await Promise.all([
     d.select().from(products).where(eq(products.active, true))
       .orderBy(asc(products.sortOrder), asc(products.id)),
     d.select().from(productPackagings).where(eq(productPackagings.active, true))
@@ -51,6 +54,8 @@ export async function loadCatalog(d: DrizzleD1Database<typeof schema>): Promise<
       .orderBy(asc(containerOptions.sortOrder), asc(containerOptions.id)),
     d.select().from(orderOptions).where(eq(orderOptions.active, true))
       .orderBy(asc(orderOptions.sortOrder), asc(orderOptions.id)),
+    d.select().from(deliveryTerms).where(eq(deliveryTerms.active, true))
+      .orderBy(asc(deliveryTerms.sortOrder), asc(deliveryTerms.id)),
     d.select().from(settings),
   ]);
 
@@ -123,5 +128,18 @@ export async function loadCatalog(d: DrizzleD1Database<typeof schema>): Promise<
       options: cOpts.filter((o) => o.containerTypeId === null || o.containerTypeId === t.id).map(toOption),
     })),
     orderOptions: oOpts.map(toOption),
+    deliveryTerms: terms.map((x) => ({
+      id: x.id,
+      incoterm: x.incoterm,
+      placeEn: x.placeEn,
+      placeTr: x.placeTr,
+      paymentTermsEn: x.paymentTermsEn,
+      paymentTermsTr: x.paymentTermsTr,
+      notesEn: x.notesEn,
+      notesTr: x.notesTr,
+      priceType: x.priceType,
+      amount: x.amount,
+      sortOrder: x.sortOrder,
+    })),
   };
 }

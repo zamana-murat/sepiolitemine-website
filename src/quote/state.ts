@@ -2,6 +2,7 @@
  * Configurator draft state. Kept in localStorage as a per-viewer convenience only
  * (the server never trusts it; the offer is recalculated server-side).
  */
+import { LIMITS } from '../lib/quote/pricing';
 import type { Catalog, CatalogContainer, CatalogOption, CatalogPackaging, CatalogProduct, OrderRequest } from '../lib/quote/types';
 
 export interface DraftLine {
@@ -14,6 +15,8 @@ export interface DraftLine {
 export interface DraftContainer {
   uid: string;
   containerTypeId: number;
+  /** Identical containers of this configuration. */
+  count: number;
   optionIds: number[];
   lines: DraftLine[];
 }
@@ -23,6 +26,7 @@ export interface Draft {
   containers: DraftContainer[];
   optionIds: number[];
   activeUid: string | null;
+  deliveryTermId: number | null;
 }
 
 const STORAGE_KEY = 'sm-quote-draft-v1';
@@ -50,12 +54,18 @@ const keepSelectable = (ids: number[], options: CatalogOption[]) =>
 
 export function newContainer(catalog: Catalog, typeId?: number): DraftContainer {
   const type = catalog.containers.find((c) => c.id === typeId) ?? catalog.containers[0];
-  return { uid: uid(), containerTypeId: type.id, optionIds: defaultOptionIds(type.options), lines: [] };
+  return { uid: uid(), containerTypeId: type.id, count: 1, optionIds: defaultOptionIds(type.options), lines: [] };
 }
 
 export function emptyDraft(catalog: Catalog): Draft {
   const first = newContainer(catalog);
-  return { v: 1, containers: [first], optionIds: defaultOptionIds(catalog.orderOptions), activeUid: first.uid };
+  return {
+    v: 1,
+    containers: [first],
+    optionIds: defaultOptionIds(catalog.orderOptions),
+    activeUid: first.uid,
+    deliveryTermId: catalog.deliveryTerms[0]?.id ?? null,
+  };
 }
 
 export function packagingIndex(catalog: Catalog) {
@@ -75,6 +85,7 @@ export function sanitize(draft: Draft | null, catalog: Catalog): Draft {
     return {
       uid: typeof c.uid === 'string' ? c.uid : uid(),
       containerTypeId: type.id,
+      count: Number.isInteger(c.count) && c.count >= 1 && c.count <= LIMITS.maxContainers ? c.count : 1,
       optionIds: keepSelectable(c.optionIds ?? [], type.options),
       lines: (c.lines ?? [])
         .filter((l) => packs.has(l.packagingId) && Number.isInteger(l.quantity) && l.quantity > 0)
@@ -88,7 +99,16 @@ export function sanitize(draft: Draft | null, catalog: Catalog): Draft {
   });
   if (containers.length === 0) return emptyDraft(catalog);
   const activeUid = containers.some((c) => c.uid === draft.activeUid) ? draft.activeUid : containers[0].uid;
-  return { v: 1, containers, optionIds: keepSelectable(draft.optionIds ?? [], catalog.orderOptions), activeUid };
+  const deliveryTermId = catalog.deliveryTerms.some((d) => d.id === draft.deliveryTermId)
+    ? draft.deliveryTermId
+    : (catalog.deliveryTerms[0]?.id ?? null);
+  return {
+    v: 1,
+    containers,
+    optionIds: keepSelectable(draft.optionIds ?? [], catalog.orderOptions),
+    activeUid,
+    deliveryTermId,
+  };
 }
 
 export function changeContainerType(c: DraftContainer, catalog: Catalog, typeId: number): DraftContainer {
@@ -108,12 +128,17 @@ export function toRequest(draft: Draft): OrderRequest {
   return {
     containers: draft.containers.map((c) => ({
       containerTypeId: c.containerTypeId,
+      count: c.count,
       optionIds: c.optionIds,
       lines: c.lines.map((l) => ({ packagingId: l.packagingId, quantity: l.quantity, optionIds: l.optionIds })),
     })),
     optionIds: draft.optionIds,
+    deliveryTermId: draft.deliveryTermId,
   };
 }
+
+/** Physical containers in the draft (Σ count). */
+export const physicalCount = (draft: Draft) => draft.containers.reduce((a, c) => a + c.count, 0);
 
 /** Selecting an option clears the other members of its group. */
 export function toggleOption(selected: number[], options: CatalogOption[], id: number, on: boolean): number[] {

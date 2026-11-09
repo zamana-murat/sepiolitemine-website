@@ -7,14 +7,17 @@
  *              + product options     — percent of goods
  *   container  lines  = Σ line totals
  *              + container options   — percent of lines
+ *   container  × count               — identical copies of one configuration
  *   order      containers = Σ container totals
  *              + order options       — percent of containers; per_container × container count
+ *              + delivery term       — same price types as order options (e.g. FOB İzmir surcharge)
  *
  * Mandatory options are always applied. Options sharing a groupName are mutually exclusive.
  * All money is integer cents; rounding happens once per amount (half away from zero).
  */
 import { computeLoad, unitIssues, type LoadItem } from './loading';
 import type {
+  AppliedDeliveryTerm,
   AppliedOption,
   Catalog,
   CatalogContainer,
@@ -110,13 +113,21 @@ export function computeQuote(catalog: Catalog, req: OrderRequest): QuoteResult {
   const containerTypes = new Map<number, CatalogContainer>(catalog.containers.map((c) => [c.id, c]));
 
   if (req.containers.length === 0) errors.push({ code: 'no_containers', path: 'containers' });
-  if (req.containers.length > LIMITS.maxContainers) {
+  const countOf = (c: { count?: number }) => c.count ?? 1;
+  const validCount = (n: number) => Number.isInteger(n) && n >= 1 && n <= LIMITS.maxContainers;
+  const physical = req.containers.reduce((a, c) => a + (validCount(countOf(c)) ? countOf(c) : 1), 0);
+  if (req.containers.length > LIMITS.maxContainers || physical > LIMITS.maxContainers) {
     errors.push({ code: 'too_many_containers', path: 'containers', params: { max: LIMITS.maxContainers } });
   }
 
   const containers: ContainerResult[] = req.containers.slice(0, LIMITS.maxContainers).map((creq, ci) => {
     const cpath = `containers.${ci}`;
     const ctype = containerTypes.get(creq.containerTypeId);
+    let count = countOf(creq);
+    if (!validCount(count)) {
+      errors.push({ code: 'invalid_container_count', path: cpath, params: { max: LIMITS.maxContainers } });
+      count = 1;
+    }
     if (!ctype) errors.push({ code: 'unknown_container', path: cpath, params: { containerTypeId: creq.containerTypeId } });
     if (creq.lines.length === 0) errors.push({ code: 'empty_container', path: cpath });
     if (creq.lines.length > LIMITS.maxLinesPerContainer) {
@@ -202,27 +213,50 @@ export function computeQuote(catalog: Catalog, req: OrderRequest): QuoteResult {
       }
     }
 
+    const unitTotalCents = linesTotalCents + sum(options.map((o) => o.cents));
     return {
       containerTypeId: creq.containerTypeId,
       code: ctype?.code ?? '',
       nameEn: ctype?.nameEn ?? '',
       nameTr: ctype?.nameTr ?? '',
+      count,
       lines,
       linesTotalCents,
       options,
-      totalCents: linesTotalCents + sum(options.map((o) => o.cents)),
+      unitTotalCents,
+      totalCents: unitTotalCents * count,
       load,
     };
   });
 
   const containersTotalCents = sum(containers.map((c) => c.totalCents));
-  const allLines = containers.flatMap((c) => c.lines);
-  const netKg = sum(allLines.map((l) => l.netKg));
-  const orderOptions = apply(resolveOptions(catalog.orderOptions, req.optionIds, 'order', errors), {
-    base: containersTotalCents,
-    netTons: netKg / 1000,
-    containers: containers.length,
-  });
+  /** Σ over containers of (per-container value × count). */
+  const physicalSum = (f: (l: LineResult) => number) =>
+    sum(containers.map((c) => c.count * sum(c.lines.map(f))));
+  const netKg = physicalSum((l) => l.netKg);
+  const containerCount = sum(containers.map((c) => c.count));
+  const ctx = { base: containersTotalCents, netTons: netKg / 1000, containers: containerCount };
+  const orderOptions = apply(resolveOptions(catalog.orderOptions, req.optionIds, 'order', errors), ctx);
+
+  let deliveryTerm: AppliedDeliveryTerm | null = null;
+  const terms = catalog.deliveryTerms ?? [];
+  if (req.deliveryTermId != null) {
+    const dt = terms.find((x) => x.id === req.deliveryTermId);
+    if (!dt) errors.push({ code: 'unknown_delivery_term', path: 'deliveryTerm', params: { deliveryTermId: req.deliveryTermId } });
+    else {
+      deliveryTerm = {
+        deliveryTermId: dt.id,
+        incoterm: dt.incoterm,
+        placeEn: dt.placeEn,
+        placeTr: dt.placeTr,
+        priceType: dt.priceType,
+        amount: dt.amount,
+        cents: optionCents(dt, ctx),
+      };
+    }
+  } else if (terms.length > 0) {
+    errors.push({ code: 'no_delivery_term', path: 'deliveryTerm' });
+  }
 
   return {
     ok: errors.length === 0,
@@ -232,12 +266,13 @@ export function computeQuote(catalog: Catalog, req: OrderRequest): QuoteResult {
     containers,
     containersTotalCents,
     orderOptions,
-    totalCents: containersTotalCents + sum(orderOptions.map((o) => o.cents)),
+    deliveryTerm,
+    totalCents: containersTotalCents + sum(orderOptions.map((o) => o.cents)) + (deliveryTerm?.cents ?? 0),
     totals: {
-      containers: containers.length,
-      units: sum(allLines.map((l) => l.quantity)),
+      containers: containerCount,
+      units: physicalSum((l) => l.quantity),
       netKg,
-      grossKg: sum(allLines.map((l) => l.grossKg)),
+      grossKg: physicalSum((l) => l.grossKg),
     },
   };
 }

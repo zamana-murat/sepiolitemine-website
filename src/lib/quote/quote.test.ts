@@ -238,6 +238,8 @@ const opt = (over: Partial<CatalogOption> & Pick<CatalogOption, 'id' | 'priceTyp
   nameTr: `secenek-${over.id}`,
   descriptionEn: '',
   descriptionTr: '',
+  longDescriptionEn: '',
+  longDescriptionTr: '',
   groupName: null,
   isMandatory: false,
   isDefault: false,
@@ -299,6 +301,7 @@ const catalog: Catalog = {
     opt({ id: 302, priceType: 'per_container', amount: 2500, isMandatory: true }),
     opt({ id: 303, priceType: 'percent', amount: -200 }),
   ],
+  deliveryTerms: [],
 };
 
 describe('roundCents', () => {
@@ -457,5 +460,91 @@ describe('computeQuote — validation', () => {
       optionIds: [],
     });
     expect(codes(r)).toEqual(['unit_door@containers.0.lines.0']);
+  });
+});
+
+describe('computeQuote — container count', () => {
+  const base = {
+    containerTypeId: 1,
+    optionIds: [201],
+    lines: [{ packagingId: 11, quantity: 20, optionIds: [] }],
+  };
+  const single = computeQuote(catalog, { containers: [base], optionIds: [] });
+  const triple = computeQuote(catalog, { containers: [{ ...base, count: 3 }], optionIds: [] });
+
+  it('multiplies one configuration by its count', () => {
+    expect(triple.errors).toEqual([]);
+    const c = triple.containers[0];
+    expect(c.count).toBe(3);
+    expect(c.unitTotalCents).toBe(single.containers[0].totalCents);
+    expect(c.totalCents).toBe(3 * c.unitTotalCents);
+    expect(c.load?.netKg).toBe(20000); // the load describes one container
+  });
+
+  it('counts physical containers in totals and per-container order options', () => {
+    expect(triple.totals).toEqual({ containers: 3, units: 60, netKg: 60000, grossKg: 3 * single.totals.grossKg });
+    expect(triple.orderOptions.find((o) => o.optionId === 302)?.cents).toBe(3 * 2500);
+  });
+
+  it('treats a missing count as 1 (older snapshots)', () => {
+    expect(single.containers[0].count).toBe(1);
+    expect(single.totals.containers).toBe(1);
+  });
+
+  it('rejects invalid counts and more than the container limit in total', () => {
+    const codes = (count: number) =>
+      computeQuote(catalog, { containers: [{ ...base, count }], optionIds: [] }).errors.map((e) => `${e.code}@${e.path}`);
+    expect(codes(0)).toEqual(['invalid_container_count@containers.0']);
+    expect(codes(2.5)).toEqual(['invalid_container_count@containers.0']);
+    const many = computeQuote(catalog, { containers: [{ ...base, count: 30 }, { ...base, count: 21 }], optionIds: [] });
+    expect(many.errors.map((e) => e.code)).toEqual(['too_many_containers']);
+  });
+});
+
+describe('computeQuote — delivery terms', () => {
+  const term = (over: Partial<Catalog['deliveryTerms'][number]>): Catalog['deliveryTerms'][number] => ({
+    id: 1,
+    incoterm: 'FOB',
+    placeEn: 'Mersin',
+    placeTr: 'Mersin',
+    paymentTermsEn: '',
+    paymentTermsTr: '',
+    notesEn: '',
+    notesTr: '',
+    priceType: 'fixed',
+    amount: 0,
+    sortOrder: 0,
+    ...over,
+  });
+  const withTerms: Catalog = {
+    ...catalog,
+    orderOptions: [],
+    deliveryTerms: [term({}), term({ id: 2, placeEn: 'Izmir', placeTr: 'İzmir', priceType: 'per_container', amount: 15000 })],
+  };
+  const order = (deliveryTermId?: number | null) =>
+    computeQuote(withTerms, {
+      containers: [{ containerTypeId: 1, count: 2, optionIds: [], lines: [{ packagingId: 11, quantity: 20, optionIds: [] }] }],
+      optionIds: [],
+      deliveryTermId,
+    });
+
+  it('requires a term when the catalog offers some', () => {
+    expect(order().errors.map((e) => e.code)).toEqual(['no_delivery_term']);
+    expect(order(99).errors.map((e) => e.code)).toEqual(['unknown_delivery_term']);
+  });
+
+  it('adds the term adjustment to the total (per container × count)', () => {
+    const fob = order(1);
+    const izmir = order(2);
+    expect(fob.ok && izmir.ok).toBe(true);
+    expect(fob.deliveryTerm).toMatchObject({ deliveryTermId: 1, incoterm: 'FOB', cents: 0 });
+    expect(izmir.deliveryTerm?.cents).toBe(2 * 15000);
+    expect(izmir.totalCents - fob.totalCents).toBe(30000);
+  });
+
+  it('needs no term when the catalog has none', () => {
+    const r = computeQuote(catalog, { containers: [{ containerTypeId: 1, optionIds: [], lines: [{ packagingId: 11, quantity: 20, optionIds: [] }] }], optionIds: [] });
+    expect(r.deliveryTerm).toBeNull();
+    expect(r.errors.filter((e) => e.path === 'deliveryTerm')).toEqual([]);
   });
 });

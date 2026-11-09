@@ -29,6 +29,20 @@
       "when": 1794162992390,
       "tag": "0003_quote_counters",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1794204276364,
+      "tag": "0004_delivery_terms",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1794209565382,
+      "tag": "0005_option_long_descriptions",
+      "breakpoints": true
     }
   ]
 }

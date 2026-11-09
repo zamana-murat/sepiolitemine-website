@@ -8,6 +8,7 @@ import { requireAccess } from '../access';
 import {
   containerOptions,
   containerTypes,
+  deliveryTerms,
   orderOptions,
   productDocuments,
   productOptions,
@@ -22,6 +23,7 @@ import { ApiError, body, db, found, idParam, ok, onError, validate } from '../ht
 import {
   containerOptionInput,
   containerTypeUpdate,
+  deliveryTermInput,
   documentMeta,
   orderOptionInput,
   packagingInput,
@@ -297,6 +299,36 @@ adminApp.delete('/order-options/:id', async (c) => {
   return ok(c, found(row, 'Order option'));
 });
 
+/* ───────────── Delivery terms ───────────── */
+
+adminApp.get('/delivery-terms', async (c) => {
+  const rows = await db(c).select().from(deliveryTerms)
+    .orderBy(asc(deliveryTerms.sortOrder), asc(deliveryTerms.id));
+  return ok(c, rows);
+});
+
+adminApp.post('/delivery-terms', async (c) => {
+  const data = await body(c, deliveryTermInput);
+  const [row] = await db(c).insert(deliveryTerms).values(data).returning();
+  return ok(c, row, 201);
+});
+
+adminApp.put('/delivery-terms/:id', async (c) => {
+  const id = idParam(c);
+  const data = await body(c, deliveryTermInput);
+  const [row] = await db(c).update(deliveryTerms).set({ ...data, updatedAt: now() })
+    .where(eq(deliveryTerms.id, id)).returning();
+  return ok(c, found(row, 'Delivery term'));
+});
+
+/** Issued offers keep their own snapshot of the term, so deleting never changes them. */
+adminApp.delete('/delivery-terms/:id', async (c) => {
+  const id = idParam(c);
+  const [row] = await db(c).delete(deliveryTerms).where(eq(deliveryTerms.id, id))
+    .returning({ id: deliveryTerms.id });
+  return ok(c, found(row, 'Delivery term'));
+});
+
 /* ───────────── Settings ───────────── */
 
 adminApp.get('/settings', async (c) => {
@@ -359,7 +391,8 @@ adminApp.get('/quotes', async (c) => {
       customerCountry: quotes.customerCountry,
       status: quotes.status,
       emailStatus: quotes.emailStatus,
-      containers: sql<number>`json_array_length(${quotes.request}, '$.containers')`,
+      // Physical containers (Σ count); older snapshots without totals fall back to the configuration count.
+      containers: sql<number>`coalesce(json_extract(${quotes.result}, '$.totals.containers'), json_array_length(${quotes.request}, '$.containers'))`,
     })
       .from(quotes)
       .where(where)

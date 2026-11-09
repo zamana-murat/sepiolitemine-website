@@ -64,6 +64,8 @@ export interface OptionRow {
   nameTr: string;
   descriptionEn: string;
   descriptionTr: string;
+  longDescriptionEn: string;
+  longDescriptionTr: string;
   groupName: string | null;
   priceType: PriceType;
   amount: number;
@@ -105,12 +107,25 @@ export interface Settings {
   currency: Currency;
   quote_validity_days: number;
   quote_number_prefix: string;
-  incoterm: Incoterm;
-  incoterm_place: string;
-  payment_terms_en: string;
-  payment_terms_tr: string;
   offer_notes_en: string;
   offer_notes_tr: string;
+}
+
+export type DeliveryPriceType = 'fixed' | 'per_container' | 'per_ton' | 'percent';
+
+export interface DeliveryTerm {
+  id: number;
+  incoterm: Incoterm;
+  placeEn: string;
+  placeTr: string;
+  paymentTermsEn: string;
+  paymentTermsTr: string;
+  notesEn: string;
+  notesTr: string;
+  priceType: DeliveryPriceType;
+  amount: number;
+  active: boolean;
+  sortOrder: number;
 }
 
 export type QuoteStatus = 'new' | 'contacted' | 'won' | 'lost';

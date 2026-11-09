@@ -4,6 +4,7 @@ import { api, onSessionExpired } from './api';
 import type { Settings } from './types';
 import { AdminContext, Button, ErrorBox, Loading, useAsync } from './ui';
 import { Containers } from './views/Containers';
+import { DeliveryTerms } from './views/DeliveryTerms';
 import { OrderOptions } from './views/OrderOptions';
 import { ProductDetail } from './views/ProductDetail';
 import { Products } from './views/Products';
@@ -15,6 +16,7 @@ const NAV = [
   { hash: '#/products', label: 'Ürünler' },
   { hash: '#/containers', label: 'Konteynerler' },
   { hash: '#/order-options', label: 'Sipariş seçenekleri' },
+  { hash: '#/delivery-terms', label: 'Teslim şekilleri' },
   { hash: '#/settings', label: 'Ayarlar' },
 ];
 
@@ -58,6 +60,7 @@ export default function AdminApp() {
   else if (hash === '#/quotes') view = <Quotes navigate={navigate} />;
   else if (hash === '#/containers') view = <Containers />;
   else if (hash === '#/order-options') view = <OrderOptions />;
+  else if (hash === '#/delivery-terms') view = <DeliveryTerms />;
   else if (hash === '#/settings') view = <SettingsView />;
   else view = <Products navigate={navigate} />;
 

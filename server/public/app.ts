@@ -17,7 +17,7 @@ import { loadCatalog } from '../catalog';
 import { productDocuments, products, quotes } from '../db/schema';
 import type { AppEnv } from '../env';
 import { ApiError, body, db, found, idParam, ok, onError } from '../http';
-import { loadOfferSettings } from '../offer-settings';
+import { loadOfferSettings, offerTerms } from '../offer-settings';
 import { loadPdfAssets } from '../offers/assets';
 import { sendOfferMails } from '../offers/email';
 import { verifyTurnstile } from '../offers/turnstile';
@@ -113,7 +113,9 @@ publicApp.post('/requests', async (c) => {
   }
 
   const year = istanbulYear(issuedAt);
-  const validUntil = new Date(issuedAt.getTime() + offer.terms.validityDays * 86400_000);
+  const term = catalog.deliveryTerms.find((x) => x.id === result.deliveryTerm?.deliveryTermId) ?? null;
+  const terms = offerTerms(offer, term);
+  const validUntil = new Date(issuedAt.getTime() + terms.validityDays * 86400_000);
   const publicId = crypto.randomUUID();
   const cu = input.customer;
 
@@ -132,7 +134,7 @@ publicApp.post('/requests', async (c) => {
        RETURNING id, number`,
     ).bind(
       year, offer.prefix, publicId, input.locale, result.currency, cu.name, cu.company, cu.email, cu.country,
-      cu.phone, cu.note, JSON.stringify(input.order), JSON.stringify(result), JSON.stringify(offer.terms),
+      cu.phone, cu.note, JSON.stringify(input.order), JSON.stringify(result), JSON.stringify(terms),
       result.totalCents, Math.floor(validUntil.getTime() / 1000), ipHash, nowSec,
     ),
   ]);
@@ -157,7 +159,7 @@ publicApp.post('/requests', async (c) => {
           phone: BRAND.contact.phone,
           website: new URL(origin).hostname === 'localhost' ? 'sepiolitemine.com' : new URL(origin).hostname,
         },
-        terms: offer.terms,
+        terms,
         catalog,
         result,
       },
@@ -192,7 +194,7 @@ publicApp.post('/requests', async (c) => {
         quoteId: inserted.id,
         total: fmt.money(result.totalCents),
         validUntil: validText,
-        containers: result.containers.length,
+        containers: result.totals.containers,
         netTons: fmt.tons(result.totals.netKg),
         customer: cu,
         pdf,

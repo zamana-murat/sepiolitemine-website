@@ -2,7 +2,7 @@
  * Zod schemas for admin input. Shared with the admin UI (Phase Q1) for client-side checks.
  */
 import { z } from 'zod';
-import { DOC_TYPES, INCOTERMS, PACKAGING_TYPES, PRICE_BASES, QUOTE_STATUSES } from './db/schema';
+import { DELIVERY_PRICE_TYPES, DOC_TYPES, INCOTERMS, PACKAGING_TYPES, PRICE_BASES, QUOTE_STATUSES } from './db/schema';
 
 const name = z.string().trim().min(1).max(200);
 const longText = z.string().trim().max(5000).default('');
@@ -65,8 +65,10 @@ const optionBase = <T extends readonly [string, ...string[]]>(priceTypes: T) =>
     .object({
       nameEn: name,
       nameTr: name,
-      descriptionEn: longText,
-      descriptionTr: longText,
+      descriptionEn: z.string().trim().max(300).default(''),
+      descriptionTr: z.string().trim().max(300).default(''),
+      longDescriptionEn: longText,
+      longDescriptionTr: longText,
       groupName: z.string().trim().min(1).max(100).nullable().default(null),
       priceType: z.enum(priceTypes),
       amount: z.number().int().min(-1_000_000_000).max(1_000_000_000),
@@ -116,14 +118,30 @@ export const settingsInput = z
     currency: z.enum(['USD', 'EUR']),
     quote_validity_days: z.number().int().min(1).max(365),
     quote_number_prefix: z.string().trim().regex(/^[A-Z]{1,6}$/),
-    incoterm: z.enum(INCOTERMS),
-    incoterm_place: z.string().trim().max(120),
-    payment_terms_en: z.string().trim().max(500),
-    payment_terms_tr: z.string().trim().max(500),
     offer_notes_en: z.string().trim().max(2000),
     offer_notes_tr: z.string().trim().max(2000),
   })
   .partial();
+
+/** Delivery term (Incoterm + place) with its own payment terms and optional price adjustment. */
+export const deliveryTermInput = z
+  .object({
+    incoterm: z.enum(INCOTERMS),
+    placeEn: z.string().trim().min(1).max(120),
+    placeTr: z.string().trim().min(1).max(120),
+    paymentTermsEn: z.string().trim().max(500).default(''),
+    paymentTermsTr: z.string().trim().max(500).default(''),
+    notesEn: z.string().trim().max(2000).default(''),
+    notesTr: z.string().trim().max(2000).default(''),
+    priceType: z.enum(DELIVERY_PRICE_TYPES).default('fixed'),
+    amount: z.number().int().min(-1_000_000_000).max(1_000_000_000).default(0),
+    active: z.boolean().default(true),
+    sortOrder,
+  })
+  .refine((o) => o.priceType !== 'percent' || (o.amount >= -10000 && o.amount <= 10000), {
+    message: 'percent amount is basis points, range -10000..10000',
+    path: ['amount'],
+  });
 
 /* ───────────── Public soft offer request ───────────── */
 
@@ -136,12 +154,14 @@ export const orderRequestInput = z.object({
     .array(
       z.object({
         containerTypeId: id,
+        count: z.number().int().optional(),
         optionIds: ids,
         lines: z.array(z.object({ packagingId: id, quantity: z.number().int(), optionIds: ids })).max(100),
       }),
     )
     .max(100),
   optionIds: ids,
+  deliveryTermId: id.nullable().optional(),
 });
 
 const field = (min: number, max: number) => z.string().trim().min(min).max(max);

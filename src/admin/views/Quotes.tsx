@@ -132,7 +132,7 @@ interface QuoteDetailData extends Omit<QuoteListRow, 'containers'> {
   customerNote: string;
   adminNote: string;
   result: QuoteResult;
-  terms: { incoterm: string; incotermPlace: string; validityDays: number };
+  terms: { incoterm: string | null; incotermPlace: string; incotermPlaceTr?: string; paymentTermsTr?: string; validityDays: number };
   hasPdf: boolean;
 }
 
@@ -189,9 +189,15 @@ export function QuoteDetail(props: { id: number; navigate: (h: string) => void }
           <dd>{day(d.validUntil)}</dd>
           <dt>Toplam</dt>
           <dd>
-            <strong>{money(d.totalCents)}</strong> · {d.terms.incoterm}
-            {d.terms.incotermPlace && ` ${d.terms.incotermPlace}`}
+            <strong>{money(d.totalCents)}</strong>
+            {d.terms.incoterm && ` · ${d.terms.incoterm} ${d.terms.incotermPlaceTr || d.terms.incotermPlace}`.trimEnd()}
           </dd>
+          {d.terms.paymentTermsTr && (
+            <>
+              <dt>Ödeme</dt>
+              <dd>{d.terms.paymentTermsTr}</dd>
+            </>
+          )}
           <dt>Müşteri</dt>
           <dd>
             {d.customerName} · {d.customerEmail}
@@ -214,7 +220,9 @@ export function QuoteDetail(props: { id: number; navigate: (h: string) => void }
         {r.containers.map((c, i) => (
           <div key={i} class="adm-quote-container">
             <h3 class="adm-subhead">
-              {i + 1}. konteyner · {c.code} · {money(c.totalCents)}
+              {i + 1}. konteyner · {c.code}
+              {(c.count ?? 1) > 1 && ` × ${c.count} adet (konteyner başına ${money(c.unitTotalCents ?? c.totalCents)})`} ·{' '}
+              {money(c.totalCents)}
             </h3>
             <table class="adm-table">
               <thead>
@@ -261,9 +269,18 @@ export function QuoteDetail(props: { id: number; navigate: (h: string) => void }
               <dd>{money(o.cents)}</dd>
             </Fragment>
           ))}
+          {r.deliveryTerm && r.deliveryTerm.cents !== 0 && (
+            <>
+              <dt>
+                {r.deliveryTerm.incoterm} {r.deliveryTerm.placeTr}
+              </dt>
+              <dd>{money(r.deliveryTerm.cents)}</dd>
+            </>
+          )}
           <dt>Toplam</dt>
           <dd>
-            <strong>{money(r.totalCents)}</strong> · net {formatNumber(r.totals.netKg / 1000, 2)} ton
+            <strong>{money(r.totalCents)}</strong> · {formatNumber(r.totals.containers)} konteyner · net{' '}
+            {formatNumber(r.totals.netKg / 1000, 2)} ton
           </dd>
         </dl>
       </Card>

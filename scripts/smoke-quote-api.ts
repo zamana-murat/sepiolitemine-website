@@ -128,6 +128,25 @@ check('PUT settings', r.status === 200, r);
 r = await call(adminApp, `${A}/settings`, undefined, dev);
 check('settings persisted', r.body.data?.quote_validity_days === 15 && r.body.data?.currency === 'USD', r);
 
+/* ── Delivery terms ── */
+r = await call(adminApp, `${A}/delivery-terms`, json('POST', {
+  incoterm: 'FOB', placeEn: 'Izmir Port', placeTr: 'İzmir Limanı', paymentTermsEn: '30% advance', paymentTermsTr: '%30 peşin',
+  notesTr: 'İzmir çıkışı', priceType: 'per_container', amount: 15000, sortOrder: 2,
+}), dev);
+check('POST delivery term 201', r.status === 201, r);
+const dtIzmir = r.body.data?.id;
+r = await call(adminApp, `${A}/delivery-terms`, json('POST', { incoterm: 'FOB', placeEn: 'Mersin Port', placeTr: 'Mersin Limanı', sortOrder: 1 }), dev);
+check('POST delivery term with defaults 201', r.status === 201 && r.body.data?.amount === 0 && r.body.data?.priceType === 'fixed', r);
+const dtMersin = r.body.data?.id;
+r = await call(adminApp, `${A}/delivery-terms`, json('POST', { incoterm: 'XYZ', placeEn: 'a', placeTr: 'a' }), dev);
+check('unknown Incoterm → 400', r.status === 400, r.status);
+r = await call(adminApp, `${A}/delivery-terms`, json('POST', { incoterm: 'CIF', placeEn: 'a', placeTr: 'a', priceType: 'percent', amount: 20000 }), dev);
+check('percent over 100 % → 400', r.status === 400, r.status);
+r = await call(adminApp, `${A}/delivery-terms`, json('POST', { incoterm: 'EXW', placeEn: 'Mine', placeTr: 'Maden', active: false }), dev);
+const dtOff = r.body.data?.id;
+r = await call(adminApp, `${A}/delivery-terms`, undefined, dev);
+check('admin lists 3 terms', r.body.data?.filter((x: any) => [dtIzmir, dtMersin, dtOff].includes(x.id)).length === 3, r.body);
+
 r = await call(publicApp, 'http://localhost/api/quote/catalog', undefined, base);
 const cat = r.body.data;
 const prod = cat?.products?.find((p: any) => p.id === pid);
@@ -137,6 +156,8 @@ check('catalog payloadLimit uses practical', cat.containers.find((c: any) => c.c
 check('catalog product has packaging + doc url', prod?.packagings?.length === 1 && prod?.documents?.[0]?.url === `/api/quote/documents/${docId}`, prod);
 check('catalog never leaks r2Key', !JSON.stringify(cat).includes('r2Key'));
 check('catalog 20DV includes all-type option', cat.containers.find((c: any) => c.code === '20DV')?.options?.some((o: any) => o.id === coId));
+const catTerms = cat.deliveryTerms.filter((x: any) => [dtIzmir, dtMersin, dtOff].includes(x.id)).map((x: any) => x.id);
+check('catalog: active terms only, in sort order', JSON.stringify(catTerms) === JSON.stringify([dtMersin, dtIzmir]), catTerms);
 
 r = await call(publicApp, `http://localhost/api/quote/documents/${docId}`, undefined, base);
 check('public doc download', r.status === 200 && String(r.body).startsWith('%PDF'), r.status);
@@ -151,11 +172,13 @@ check('catalog exposes Turnstile site key', r.body.data?.turnstileSiteKey === TS
 
 const c20 = cat.containers.find((c: any) => c.code === '20DV');
 const order = {
-  containers: [{ containerTypeId: c20.id, optionIds: [], lines: [{ packagingId: prod.packagings[0].id, quantity: 20, optionIds: [] }] }],
+  containers: [{ containerTypeId: c20.id, count: 2, optionIds: [], lines: [{ packagingId: prod.packagings[0].id, quantity: 20, optionIds: [] }] }],
   optionIds: [],
+  deliveryTermId: dtIzmir,
 };
 const expected = computeQuote(cat, order);
 check('engine: test order valid in the browser model', expected.ok, expected.errors);
+check('engine: İzmir surcharge 150.00 × 2 containers', expected.deliveryTerm?.cents === 30000 && expected.totals.containers === 2, expected.deliveryTerm);
 const stamp = Date.now();
 const email = `smoke-${stamp}@example.com`;
 const ipA = `198.51.100.${stamp % 250}`;
@@ -189,6 +212,12 @@ r = await post(offer(), offerEnv, ipA, 'https://evil.example');
 check('cross-origin request → 403 (csrf)', r.status === 403, r.status);
 r = await post(offer({ expectedTotalCents: expected.totalCents + 1 }), offerEnv);
 check('stale total → 409 with server total', r.status === 409 && r.body.details?.totalCents === expected.totalCents, r.body);
+r = await post(offer({ order: { ...order, deliveryTermId: undefined } }), offerEnv);
+check('no delivery term → 422 no_delivery_term', r.status === 422 && r.body.details?.some((e: any) => e.code === 'no_delivery_term'), r.body);
+r = await post(offer({ order: { ...order, deliveryTermId: dtOff } }), offerEnv);
+check('inactive delivery term → 422', r.status === 422 && r.body.details?.some((e: any) => e.code === 'unknown_delivery_term'), r.body);
+r = await post(offer({ order: { ...order, containers: [{ ...order.containers[0], count: 51 }] } }), offerEnv);
+check('container count over limit → 422', r.status === 422, r.body);
 r = await post(offer({ order: { ...order, containers: [{ ...order.containers[0], lines: [{ ...order.containers[0].lines[0], quantity: 30 }] }] } }), offerEnv);
 check('overloaded container → 422 with engine errors', r.status === 422 && r.body.details?.some((e: any) => e.code === 'container_overweight'), r.body);
 
@@ -215,7 +244,7 @@ const seqOf = (n: string) => Number(n.split('-')[2]);
 check('second offer gets the next number', r.status === 201 && seqOf(second.number) === seqOf(first.number) + 1, [first?.number, second?.number]);
 
 r = await call(adminApp, `${A}/quotes?q=${encodeURIComponent(email)}`, undefined, dev);
-check('admin list finds both offers by e-mail', r.body.data?.rows?.length === 2 && r.body.data.rows[0].containers === 1, r.body);
+check('admin list finds both offers by e-mail', r.body.data?.rows?.length === 2 && r.body.data.rows[0].containers === 2, r.body);
 const qid = r.body.data.rows.find((x: any) => x.number === second.number)?.id;
 r = await call(adminApp, `${A}/quotes/${qid}`, undefined, dev);
 check(
@@ -223,6 +252,14 @@ check(
   r.body.data?.result?.totalCents === expected.totalCents && !('ipHash' in r.body.data) && !('publicId' in r.body.data) && r.body.data.hasPdf === true,
   Object.keys(r.body.data ?? {}),
 );
+check(
+  'admin detail: delivery term snapshot',
+  r.body.data?.terms?.incoterm === 'FOB' && r.body.data?.terms?.incotermPlaceTr === 'İzmir Limanı' &&
+    r.body.data?.terms?.paymentTermsTr === '%30 peşin' && r.body.data?.terms?.deliveryTermId === dtIzmir &&
+    String(r.body.data?.terms?.notesTr).startsWith('İzmir çıkışı'),
+  r.body.data?.terms,
+);
+check('admin detail: count snapshot', r.body.data?.result?.containers?.[0]?.count === 2, r.body.data?.result?.containers?.[0]?.count);
 check('admin detail keeps customer note + TR chars', r.body.data?.customerNote === 'Ölçü notu' && r.body.data?.customerCompany === 'Smoke Test Ltd. Şti.');
 r = await call(adminApp, `${A}/quotes/${qid}`, json('PUT', { status: 'contacted', adminNote: 'Arandı' }), dev);
 check('admin status update', r.body.data?.status === 'contacted' && r.body.data?.adminNote === 'Arandı', r.body);
@@ -273,6 +310,10 @@ r = await call(adminApp, `${A}/products/${pid}`, undefined, dev);
 check('product gone → 404', r.status === 404, r);
 await call(adminApp, `${A}/container-options/${coId}`, { method: 'DELETE', headers: { Origin: 'http://localhost' } }, dev);
 await call(adminApp, `${A}/order-options/${ooId}`, { method: 'DELETE', headers: { Origin: 'http://localhost' } }, dev);
+for (const id of [dtIzmir, dtMersin, dtOff]) {
+  r = await call(adminApp, `${A}/delivery-terms/${id}`, { method: 'DELETE', headers: { Origin: 'http://localhost' } }, dev);
+  check(`DELETE delivery term ${id}`, r.status === 200, r.status);
+}
 await call(adminApp, `${A}/containers/${types['40DV'].id}`, json('PUT', { enabled: true }), dev);
 await call(adminApp, `${A}/containers/${types['20DV'].id}`, json('PUT', { practicalPayloadKg: null }), dev);
 await call(adminApp, `${A}/settings`, json('PUT', { quote_validity_days: 30 }), dev);

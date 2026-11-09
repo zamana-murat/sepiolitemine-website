@@ -8,7 +8,7 @@ import { PDFDocument, rgb, type PDFFont, type PDFImage, type PDFPage, type RGB }
 import { planLoad, type LoadItem } from '../../src/lib/quote/loading';
 import type { AppliedOption, Catalog, CatalogPackaging, ContainerResult, QuoteResult } from '../../src/lib/quote/types';
 import { productColors, textOn } from '../../src/quote/colors';
-import { STRINGS, formatters, optionPriceLabel, type Locale } from '../../src/quote/i18n';
+import { STRINGS, deliveryLabel, formatters, optionPriceLabel, type Locale } from '../../src/quote/i18n';
 import type { OfferTerms } from '../db/schema';
 
 export interface OfferPdfAssets {
@@ -45,6 +45,9 @@ const L = {
     payment: 'Payment',
     validity: (d: number) => `${d} days from the offer date`,
     container: (n: number, code: string, name: string) => `Container ${n} · ${code} · ${name}`,
+    times: (n: number) => `× ${n} containers`,
+    perContainerSubtotal: 'Per container',
+    containersSubtotal: (n: number) => `${n} containers`,
     loadLine: (units: string, net: string, gross: string, w: string, f: string) =>
       `${units} units · net ${net} t · gross ${gross} t · weight ${w} · floor ${f}`,
     cols: ['Product', 'Qty', 'Net t', 'Unit price', 'Amount'],
@@ -74,6 +77,9 @@ const L = {
     payment: 'Ödeme',
     validity: (d: number) => `Teklif tarihinden itibaren ${d} gün`,
     container: (n: number, code: string, name: string) => `${n}. konteyner · ${code} · ${name}`,
+    times: (n: number) => `× ${n} konteyner`,
+    perContainerSubtotal: 'Konteyner başına',
+    containersSubtotal: (n: number) => `${n} konteyner`,
     loadLine: (units: string, net: string, gross: string, w: string, f: string) =>
       `${units} adet · net ${net} ton · brüt ${gross} ton · ağırlık ${w} · taban ${f}`,
     cols: ['Ürün', 'Adet', 'Net ton', 'Birim fiyat', 'Tutar'],
@@ -269,7 +275,9 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
   const terms = input.terms;
   const payment = locale === 'tr' ? terms.paymentTermsTr : terms.paymentTermsEn;
   const termRows: [string, string][] = [
-    [t.incoterm, [terms.incoterm, terms.incotermPlace].filter(Boolean).join(' · ')],
+    ...(terms.incoterm
+      ? [[t.incoterm, deliveryLabel({ incoterm: terms.incoterm, placeEn: terms.incotermPlace, placeTr: terms.incotermPlaceTr }, locale)] as [string, string]]
+      : []),
     [t.currency, result.currency],
     [t.validUntil, t.validity(terms.validityDays)],
     ...(payment ? [[t.payment, payment] as [string, string]] : []),
@@ -379,7 +387,12 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
   result.containers.forEach((cr, ci) => {
     ensure(70);
     const name = locale === 'tr' ? cr.nameTr : cr.nameEn;
-    text(t.container(ci + 1, cr.code, name), M, y - 12, { font: fonts.display, size: 13 });
+    const count = cr.count ?? 1;
+    const title = t.container(ci + 1, cr.code, name);
+    text(title, M, y - 12, { font: fonts.display, size: 13 });
+    if (count > 1) {
+      text(t.times(count), M + width(title, fonts.display, 13) + 8, y - 12, { font: fonts.semibold, size: 11, color: C.gold });
+    }
     y -= 18;
     if (cr.load) {
       const ld = cr.load;
@@ -425,7 +438,15 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
     ensure(20);
     y -= 3;
     rule(y, C.stone, 0.8);
-    text(t.containerSubtotal, colX(4) - 4, y - 12, { font: fonts.semibold, size: 9.5, align: 'right' });
+    if (count > 1) {
+      const unit = cr.unitTotalCents ?? cr.totalCents / count;
+      text(t.perContainerSubtotal, colX(4) - 4, y - 12, { size: 9, color: C.stone, align: 'right' });
+      text(fmt.money(unit), colX(5) - 4, y - 12, { size: 9, color: C.stone, align: 'right' });
+      y -= 14;
+      text(`${t.containerSubtotal} (${t.times(count)})`, colX(4) - 4, y - 12, { font: fonts.semibold, size: 9.5, align: 'right' });
+    } else {
+      text(t.containerSubtotal, colX(4) - 4, y - 12, { font: fonts.semibold, size: 9.5, align: 'right' });
+    }
     text(fmt.money(cr.totalCents), colX(5) - 4, y - 12, { font: fonts.semibold, size: 9.5, align: 'right' });
     y -= 22;
     drawPlan(cr);
@@ -435,10 +456,17 @@ export async function renderOfferPdf(input: OfferPdfInput, assets: OfferPdfAsset
   /* ── summary ── */
 
   const sumRows: [string, string][] = [
-    [t.containers(result.containers.length), fmt.money(result.containersTotalCents)],
+    [t.containers(result.totals.containers), fmt.money(result.containersTotalCents)],
     ...result.orderOptions.map(
       (o) => [`${locale === 'tr' ? o.nameTr : o.nameEn}  (${optionPriceLabel(o, fmt, locale)})`, fmt.signedMoney(o.cents)] as [string, string],
     ),
+    // A delivery term with a price adjustment (e.g. FOB İzmir surcharge) shows as its own row.
+    ...(result.deliveryTerm && result.deliveryTerm.cents !== 0
+      ? [[
+          `${deliveryLabel(result.deliveryTerm, locale)}  (${optionPriceLabel(result.deliveryTerm, fmt, locale)})`,
+          fmt.signedMoney(result.deliveryTerm.cents),
+        ] as [string, string]]
+      : []),
   ];
   const sumH = 30 + sumRows.length * 15 + 40;
   ensure(sumH);
