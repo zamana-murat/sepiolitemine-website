@@ -114,12 +114,12 @@
 .q-tabs {
   display: flex; align-items: flex-end; gap: 0.5rem; border-bottom: 2px solid var(--cream-dark); margin: 0 0 1.1rem;
 }
-.q-tabs__list { display: flex; gap: 0.25rem; overflow-x: auto; min-width: 0; scrollbar-width: thin; }
+.q-tabs__list { display: flex; gap: 0.25rem; overflow-x: auto; overflow-y: hidden; min-width: 0; margin-bottom: -2px; scrollbar-width: thin; }
 .q-tab {
   font: inherit; display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem;
   padding: 0.6rem 1.1rem 0.65rem; min-width: 9.5rem; border: 1px solid var(--cream-dark); border-bottom: 2px solid transparent;
   border-radius: 8px 8px 0 0; background: var(--cream); color: var(--text-mid); cursor: pointer;
-  white-space: nowrap; margin-bottom: -2px; transition: var(--transition);
+  white-space: nowrap; transition: var(--transition);
 }
 .q-tab:hover { color: var(--earth); background: #fbf4e6; }
 .q-tab--active {
@@ -221,6 +221,10 @@
 .q-line__name span { font-size: 0.78rem; color: var(--text-light); }
 .q-line__total { grid-area: total; font-weight: 700; color: var(--earth); text-align: right; font-variant-numeric: tabular-nums; }
 .q-line__opts { margin: 0.4rem 0 0 1.4rem; }
+.q-line__note {
+  margin: 0.45rem 0 0 1.4rem; padding: 0.4rem 0.65rem; border-radius: 6px; font-size: 0.8rem; line-height: 1.45;
+  background: #fdf4e3; color: #6b4610; border: 1px solid #f1d7a6;
+}
 .q-qty { display: inline-flex; align-items: stretch; border: 1px solid var(--stone-light); border-radius: 6px; overflow: hidden; }
 .q-qty__btn { border: 0; background: var(--cream); width: 2rem; font-size: 1rem; cursor: pointer; color: var(--earth); }
 .q-qty__btn:disabled { opacity: 0.4; cursor: not-allowed; }

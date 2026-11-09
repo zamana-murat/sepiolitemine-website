@@ -117,13 +117,14 @@ describe('stacking height', () => {
 });
 
 describe('computeLoad', () => {
-  it('fits 10 bigbags + 4 Euro pallets in a 20DV (2700 + 1200 mm of floor)', () => {
+  it('fits 10 bigbags + 4 Euro pallets in a 20DV: pallets use the free side of the half row (3400 mm)', () => {
     const load = computeLoad(C20, [
       { packaging: BB, quantity: 10 },
       { packaging: EUR, quantity: 4 },
     ]);
     expect(load.fits).toBe(true);
-    expect(load.floorLengthUsedMm).toBe(3900);
+    // Loaded one after another it would be 2700 + 1200 mm.
+    expect(load.floorLengthUsedMm).toBe(3400);
     expect(load.grossKg).toBe(14150);
     expect(load.groups).toHaveLength(2);
   });
@@ -188,7 +189,7 @@ describe('layoutRects / planLoad', () => {
       for (let j = i + 1; j < rects.length; j++) expect(overlaps(rects[i], rects[j])).toBe(false);
   });
 
-  it('places groups in consecutive segments and agrees with computeLoad', () => {
+  it('loads groups from the front wall without gaps and agrees with computeLoad', () => {
     const items = [
       { packaging: BB, quantity: 10 },
       { packaging: EUR, quantity: 4 },
@@ -197,7 +198,8 @@ describe('layoutRects / planLoad', () => {
     const load = computeLoad(C20, items);
     expect(plan.usedLengthMm).toBe(load.floorLengthUsedMm);
     expect(plan.placements).toHaveLength(5 + 2);
-    expect(plan.placements.filter((p) => p.packagingType === 'pallet').every((p) => p.x >= 2700)).toBe(true);
+    // The first pallet stands beside the last, half-filled bigbag row (x 1800-2700), not behind it.
+    expect(Math.min(...plan.placements.filter((p) => p.packagingType === 'pallet').map((p) => p.x))).toBe(1800);
     expect(plan.placements.reduce((s, p) => s + p.height, 0)).toBe(14);
     expect(plan.placements.some((p) => p.overflow)).toBe(false);
   });
@@ -546,5 +548,54 @@ describe('computeQuote — delivery terms', () => {
     const r = computeQuote(catalog, { containers: [{ containerTypeId: 1, optionIds: [], lines: [{ packagingId: 11, quantity: 20, optionIds: [] }] }], optionIds: [] });
     expect(r.deliveryTerm).toBeNull();
     expect(r.errors.filter((e) => e.path === 'deliveryTerm')).toEqual([]);
+  });
+});
+
+describe('packing mixed loads from the front wall', () => {
+  const B95 = packaging({ id: 51, productId: 5, lengthMm: 950, widthMm: 950, heightMm: 1150 });
+  const B90 = packaging({ id: 61, productId: 6, heightMm: 1150 });
+
+  it('fills the free half of the last row of the first product (6 × 90 cm + 10 × 95 cm bigbags)', () => {
+    const items = [
+      { packaging: B90, quantity: 6 },
+      { packaging: B95, quantity: 10 },
+    ];
+    const plan = planLoad(C20, items);
+    const load = computeLoad(C20, items);
+    // One after another: 2 rows of 90 (1800) + 3 rows of 95 (2850) = 4650 mm.
+    expect(load.floorLengthUsedMm).toBe(3750);
+    expect(plan.usedLengthMm).toBe(3750);
+    const first95 = plan.placements.find((p) => p.units[0]?.packagingId === 51)!;
+    expect(first95.x).toBe(900);
+    expect(plan.placements.reduce((n, p) => n + p.height, 0)).toBe(16);
+  });
+
+  const mixes: [string, CatalogContainer, { packaging: CatalogPackaging; quantity: number }[]][] = [
+    ['bigbags + Euro pallets', C20, [{ packaging: BB, quantity: 7 }, { packaging: EUR, quantity: 5 }]],
+    ['three footprints', C40, [{ packaging: B95, quantity: 9 }, { packaging: STD, quantity: 7 }, { packaging: BB, quantity: 5 }]],
+    ['pallets first', C40HC, [{ packaging: EUR, quantity: 9 }, { packaging: B95, quantity: 11 }, { packaging: TALL, quantity: 3 }]],
+    ['overloaded', C20, [{ packaging: STD, quantity: 12 }, { packaging: B95, quantity: 20 }]],
+  ];
+
+  it.each(mixes)('%s: no overlaps, inside the width, never longer than loading one after another', (_n, c, items) => {
+    const plan = planLoad(c, items);
+    const load = computeLoad(c, items);
+    expect(plan.usedLengthMm).toBe(load.floorLengthUsedMm);
+    for (const r of plan.placements) {
+      expect(r.x).toBeGreaterThanOrEqual(0);
+      expect(r.y).toBeGreaterThanOrEqual(0);
+      expect(r.y + r.across).toBeLessThanOrEqual(c.innerWidthMm);
+    }
+    for (let i = 0; i < plan.placements.length; i++)
+      for (let j = i + 1; j < plan.placements.length; j++) expect(overlaps(plan.placements[i], plan.placements[j])).toBe(false);
+    const sequential = load.groups.reduce((sum, g) => sum + (g.floorLengthMm ?? 0), 0);
+    expect(load.floorLengthUsedMm).toBeLessThanOrEqual(sequential);
+  });
+
+  it('keeps single-product loads exactly as before', () => {
+    for (const [c, p, n] of [[C20, EUR, 11], [C40, EUR, 25], [C20, STD, 9], [C20, BB, 24]] as const) {
+      const load = computeLoad(c, [{ packaging: p, quantity: n }]);
+      expect(load.floorLengthUsedMm).toBe(load.groups[0].floorLengthMm);
+    }
   });
 });

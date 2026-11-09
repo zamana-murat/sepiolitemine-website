@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { maxAdditionalUnits, type LoadItem } from '../lib/quote/loading';
+import { effectiveTiers, maxAdditionalUnits, type LoadItem } from '../lib/quote/loading';
 import type { Catalog, CatalogPackaging, CatalogProduct, ContainerResult, QuoteIssue } from '../lib/quote/types';
 import { ContainerView } from './ContainerView';
 import type { Formatters, Locale } from './i18n';
@@ -286,6 +286,19 @@ export function ContainerPanel(props: {
                       </button>
                     </div>
                     <Issues list={ofLine(props.errors, j)} tone="error" locale={locale} />
+                    {type &&
+                      (() => {
+                        // Stackable unit that this container's height does not allow to stack fully.
+                        const p = e.packaging;
+                        const here = effectiveTiers(p, type.innerHeightMm);
+                        if (here === 0 || here >= p.maxTiers) return null;
+                        const alt = props.catalog.containers.find((c) => effectiveTiers(p, c.innerHeightMm) >= p.maxTiers);
+                        return (
+                          <p class="q-line__note" role="note">
+                            {t.stackLimited(here, p.maxTiers, fmt.mm(p.heightMm), fmt.mm(type.innerHeightMm), alt?.code)}
+                          </p>
+                        );
+                      })()}
                     {e.product.options.length > 0 && (
                       <details class="q-details q-line__opts" open={l.optionIds.length > 0}>
                         <summary>

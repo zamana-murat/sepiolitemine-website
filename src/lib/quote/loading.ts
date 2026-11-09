@@ -5,12 +5,16 @@
  *  - Units with identical footprint, height and tier limit form one stack group, even across
  *    products (two grades in the same 1 t bigbag can share a stack).
  *  - tiers = min(maxTiers, floor(innerHeight / unitHeight)).
- *  - Each group occupies its own full-width segment of the container floor. The segment is the
- *    shortest length that holds the group's stacks, using the best of two layout families:
+ *  - A group's own layout is the shortest full-width segment that holds its stacks, using the best
+ *    of two layout families:
  *      lanes: parallel lanes along the length, mixing both orientations across the width
  *             (e.g. 11 Euro pallets in a 20' = one 7-pallet lane + one 4-pallet lane);
  *      rows:  full-width rows of one orientation, then rows of the other in the remaining length.
- *    Segments are summed, so mixed loads are estimated conservatively (no mixed rows).
+ *  - Groups are loaded from the front wall towards the door, in item order (packFloor). Each group
+ *    either continues behind everything loaded so far (its own segment) or, when that ends nearer
+ *    the front wall, drops its stacks one by one into the free places left by earlier groups (the
+ *    half-empty last row of a bigbag group, say). The shorter of the two is used, so mixing never
+ *    needs more floor than loading the groups one after another.
  *  - Weight uses gross weight against the container's payload limit (practical limit if set).
  *  - A unit must pass the door: height ≤ door height, narrow side ≤ door width.
  */
@@ -167,6 +171,81 @@ export function unitIssues(c: CatalogContainer, p: CatalogPackaging): Omit<Quote
 
 const ratio = (a: number, b: number) => (b > 0 ? a / b : 0);
 
+/* ───────────── Floor packing (shared by computeLoad and planLoad) ───────────── */
+
+interface PackGroup {
+  packaging: CatalogPackaging;
+  stacks: number;
+}
+
+/** Distance from the front wall reached by `placed` within the width band [y0, y1). */
+function skyline(placed: FloorRect[], y0: number, y1: number): number {
+  let x = 0;
+  for (const r of placed) if (r.y < y1 && r.y + r.across > y0) x = Math.max(x, r.x + r.depth);
+  return x;
+}
+
+const frontier = (rects: FloorRect[]) => rects.reduce((m, r) => Math.max(m, r.x + r.depth), 0);
+
+/**
+ * Positions of every group's stacks, front wall first. Per group the shorter of:
+ *   appended: the group's own segment layout behind everything placed so far;
+ *   dropped:  stack by stack into the place that ends nearest the front wall, using the group's
+ *             orientations aligned to either side wall (keeps lanes tidy, fills partial rows).
+ * A group whose footprint does not fit the width gets no positions.
+ */
+function packFloor(c: CatalogContainer, groups: PackGroup[]): FloorRect[][] {
+  const W = c.innerWidthMm;
+  const placed: FloorRect[] = [];
+  return groups.map(({ packaging: p, stacks }) => {
+    if (stacks <= 0) return [];
+    // Laid out past the door when needed, so overloads stay visible (and measurable) beyond it.
+    const reach = Math.max(c.innerLengthMm, stacks * Math.max(p.lengthMm, p.widthMm));
+    const segment = floorLengthFor(p, W, reach, stacks);
+    if (segment === null) return [];
+    const pattern = layoutRects(p, W, segment).slice(0, stacks);
+
+    const base = frontier(placed);
+    const appended = pattern.map((r) => ({ ...r, x: r.x + base }));
+
+    const shapes = new Map<string, { depth: number; across: number }>();
+    for (const r of pattern) shapes.set(`${r.depth}x${r.across}`, { depth: r.depth, across: r.across });
+    const spots: { y: number; depth: number; across: number }[] = [];
+    for (const o of shapes.values()) {
+      const lanes = Math.floor(W / o.across);
+      const ys = new Set<number>();
+      for (let k = 0; k < lanes; k++) {
+        ys.add(k * o.across);
+        ys.add(W - (k + 1) * o.across);
+      }
+      for (const y of ys) spots.push({ y, ...o });
+    }
+    const work = [...placed];
+    const dropped: FloorRect[] = [];
+    for (let i = 0; i < stacks; i++) {
+      let best: FloorRect | null = null;
+      for (const sp of spots) {
+        const x = skyline(work, sp.y, sp.y + sp.across);
+        const end = x + sp.depth;
+        const bestEnd = best ? best.x + best.depth : Infinity;
+        if (end < bestEnd || (end === bestEnd && best && (x < best.x || (x === best.x && sp.y < best.y)))) {
+          best = { x, y: sp.y, depth: sp.depth, across: sp.across };
+        }
+      }
+      work.push(best!);
+      dropped.push(best!);
+    }
+
+    // Equal length: behind other goods prefer filling the gaps (front to back, no holes); on an empty
+    // floor keep the group's own proven layout.
+    const fd = frontier(dropped);
+    const fa = frontier(appended);
+    const chosen = fd < fa || (fd === fa && placed.length > 0) ? dropped : appended;
+    placed.push(...chosen);
+    return chosen;
+  });
+}
+
 export function computeLoad(c: CatalogContainer, items: LoadItem[]): LoadResult {
   let netKg = 0;
   let grossKg = 0;
@@ -185,17 +264,17 @@ export function computeLoad(c: CatalogContainer, items: LoadItem[]): LoadResult 
     else groups.set(key, { packaging: p, tiers, units: quantity });
   }
 
-  let floorLengthUsedMm = 0;
   let floorFeasible = true;
   const stackGroups: StackGroup[] = [];
+  const toPack: PackGroup[] = [];
   for (const [key, g] of groups) {
     const p = g.packaging;
-    const stacks = g.tiers > 0 ? Math.ceil(g.units / g.tiers) : Infinity;
-    // Measured past the door when needed, so floor utilization reports >100 % instead of hiding the group.
-    const reach = Number.isFinite(stacks) ? Math.max(c.innerLengthMm, stacks * Math.max(p.lengthMm, p.widthMm)) : 0;
-    const len = Number.isFinite(stacks) ? floorLengthFor(p, c.innerWidthMm, reach, stacks) : null;
+    const stacks = g.tiers > 0 ? Math.ceil(g.units / g.tiers) : 0;
+    const reach = Math.max(c.innerLengthMm, stacks * Math.max(p.lengthMm, p.widthMm));
+    // The group's own segment length (informational; the floor total comes from packFloor).
+    const len = g.tiers > 0 ? floorLengthFor(p, c.innerWidthMm, reach, stacks) : null;
     if (len === null) floorFeasible = false;
-    else floorLengthUsedMm += len;
+    toPack.push({ packaging: p, stacks: len === null ? 0 : stacks });
     stackGroups.push({
       key,
       packagingType: p.type,
@@ -204,10 +283,11 @@ export function computeLoad(c: CatalogContainer, items: LoadItem[]): LoadResult 
       heightMm: p.heightMm,
       tiers: g.tiers,
       units: g.units,
-      stacks: Number.isFinite(stacks) ? stacks : 0,
+      stacks,
       floorLengthMm: len,
     });
   }
+  const floorLengthUsedMm = frontier(packFloor(c, toPack).flat());
 
   const fitsWeight = grossKg <= c.payloadLimitKg + 1e-9;
   const fitsFloor = floorFeasible && floorLengthUsedMm <= c.innerLengthMm;
@@ -272,8 +352,8 @@ export interface LoadPlan {
 }
 
 /**
- * Same model as computeLoad, with positions: each stack group gets its full-width segment in
- * order, stacks are filled front to back in item order. Drawing and capacity always agree.
+ * Same model as computeLoad (packFloor), with positions: stacks are filled front to back in item
+ * order. Drawing and capacity always agree.
  */
 export function planLoad(c: CatalogContainer, items: LoadItem[]): LoadPlan {
   const groups = new Map<string, { packaging: CatalogPackaging; tiers: number; items: LoadItem[] }>();
@@ -286,30 +366,28 @@ export function planLoad(c: CatalogContainer, items: LoadItem[]): LoadPlan {
     else groups.set(key, { packaging: item.packaging, tiers, items: [item] });
   }
 
-  const placements: StackPlacement[] = [];
-  let offset = 0;
-  let unplacedStacks = 0;
-  for (const [key, g] of groups) {
+  const list = [...groups].map(([key, g]) => {
     const total = g.items.reduce((s, i) => s + i.quantity, 0);
-    if (g.tiers === 0) {
-      unplacedStacks += total;
-      continue;
-    }
-    const stacks = Math.ceil(total / g.tiers);
-    // Lay out past the door if needed, so the drawing shows what does not fit (overflow zone).
-    const reach = Math.max(c.innerLengthMm, stacks * Math.max(g.packaging.lengthMm, g.packaging.widthMm));
-    const segment = floorLengthFor(g.packaging, c.innerWidthMm, reach, stacks) ?? c.innerLengthMm;
-    const rects = layoutRects(g.packaging, c.innerWidthMm, segment).slice(0, stacks);
-    unplacedStacks += stacks - rects.length;
+    return { key, ...g, total, stacks: g.tiers > 0 ? Math.ceil(total / g.tiers) : 0 };
+  });
+  const packed = packFloor(c, list.map((g) => ({ packaging: g.packaging, stacks: g.stacks })));
 
+  const placements: StackPlacement[] = [];
+  let unplacedStacks = 0;
+  list.forEach((g, gi) => {
+    if (g.tiers === 0) {
+      unplacedStacks += g.total;
+      return;
+    }
+    const rects = packed[gi];
+    unplacedStacks += g.stacks - rects.length;
     const slots: StackPlacement[] = rects.map((r) => ({
       ...r,
-      x: r.x + offset,
-      groupKey: key,
+      groupKey: g.key,
       packagingType: g.packaging.type,
       units: [],
       height: 0,
-      overflow: r.x + offset + r.depth > c.innerLengthMm,
+      overflow: r.x + r.depth > c.innerLengthMm,
     }));
     let si = 0;
     for (const item of g.items) {
@@ -326,7 +404,6 @@ export function planLoad(c: CatalogContainer, items: LoadItem[]): LoadPlan {
       }
     }
     placements.push(...slots);
-    offset += segment;
-  }
-  return { placements, usedLengthMm: offset, unplacedStacks };
+  });
+  return { placements, usedLengthMm: frontier(placements), unplacedStacks };
 }

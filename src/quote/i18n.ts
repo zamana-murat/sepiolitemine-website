@@ -60,6 +60,9 @@ const en = {
   toSummary: 'Summary',
   hideDetails: 'Hide details',
   moreInfo: 'Click for details',
+  stackLimited: (here: number, max: number, h: string, inner: string, alt?: string) =>
+    `Stacked ${here} high in this container: ${max} × ${h} mm is above the inner height of ${inner} mm.` +
+    (alt ? ` In a ${alt} it stacks ${max} high.` : ''),
   clickForMore: 'Click for more',
   weight: 'Weight',
   floor: 'Floor',
@@ -189,6 +192,9 @@ const tr: Strings = {
   toSummary: 'Özet',
   hideDetails: 'Detayları gizle',
   moreInfo: 'Ayrıntılar için tıklayın',
+  stackLimited: (here: number, max: number, h: string, inner: string, alt?: string) =>
+    `Bu konteynerde ${here} kat istiflenir: ${max} × ${h} mm, ${inner} mm iç yüksekliği aşıyor.` +
+    (alt ? ` ${alt} konteynerde ${max} kat istiflenir.` : ''),
   clickForMore: 'Devamı için tıklayın',
   weight: 'Ağırlık',
   floor: 'Taban',
